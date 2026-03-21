@@ -65,7 +65,7 @@ export default function HakkimdaPage() {
               <div className="relative">
                 <div className="absolute -inset-4 bg-gradient-to-br from-blue-100 to-teal-50/50 rounded-[3rem] rotate-3 scale-105 -z-10 blur-sm" />
                 <img
-                  src="http://www.nurullahermis.com/assets/uploads/hakk%C4%B1mda/5f50b2218201e.jpg"
+                  src="/nurullah-hoca3.avif"
                   alt="Prof. Dr. M. Nurullah Ermiş"
                   className="relative rounded-3xl shadow-2xl w-full object-cover aspect-[4/5] object-top border-4 border-white"
                 />
@@ -327,12 +327,12 @@ export default function HakkimdaPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link href="/iletisim"
-                    className="inline-flex items-center justify-center bg-white hover:bg-sky-50 text-sky-900 font-bold text-lg py-5 px-12 rounded-2xl shadow-xl hover:scale-[1.02] transition-all gap-2">
+                    className="inline-flex items-center justify-center bg-white hover:bg-sky-50 text-sky-900 font-bold text-sm py-4 px-8 rounded-2xl shadow-xl hover:scale-[1.02] transition-all gap-2">
                     Muayene Randevusu Al <ChevronRight className="w-5 h-5" />
                   </Link>
-                  <a href="tel:+904447799"
-                    className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 font-bold text-lg py-5 px-12 rounded-2xl transition-all gap-2">
-                    <Phone className="w-5 h-5 text-sky-300" /> 444 77 99
+                  <a href="tel:+905322051637"
+                    className="inline-flex items-center justify-center bg-white/10 hover:bg-white/20 text-white border border-white/20 hover:border-white/40 font-bold text-sm py-4 px-8 rounded-2xl transition-all gap-2">
+                    <Phone className="w-5 h-5 text-sky-300" /> 0532 205 16 37
                   </a>
                 </div>
               </div>
