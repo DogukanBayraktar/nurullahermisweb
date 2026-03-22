@@ -39,7 +39,10 @@ function ResultsSlider({ items }: { items: typeof BEFORE_AFTER }) {
       {/* Kart sırası */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {visibleItems.map((item, i) => (
-          <div key={`${current}-${i}`} className="bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300">
+          <div
+            key={`${current}-${i}`}
+            className={`bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 ${i > 0 ? 'hidden md:block' : ''}`}
+          >
             <div className="h-60 relative overflow-hidden">
               <img src={item.img} alt={item.label} className="w-full h-full object-cover" />
               <div className="absolute top-4 left-4 bg-blue-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-md">
@@ -162,14 +165,14 @@ export default function Home() {
             </div>
 
             {/* Sağ — fotoğraf */}
-            <div className="w-full lg:w-1/2 relative flex justify-center lg:justify-end">
-              <FadeIn delay={0.35} direction="left">
-                <div className="relative">
+            <div className="w-full lg:w-1/2 relative pb-12 sm:pb-16 lg:pb-0 -mx-4 sm:mx-0">
+              <FadeIn delay={0.35} direction="left" className="w-full lg:flex lg:justify-end">
+                <div className="relative mt-2 sm:mt-0 w-full sm:w-auto">
                   <div className="absolute -inset-4 rounded-[3rem] opacity-30 blur-2xl pointer-events-none" style={{ background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)' }} />
                   <img
                     src="/nurullah-hoca3.avif"
                     alt="Prof. Dr. M. Nurullah Ermiş"
-                    className="relative rounded-3xl shadow-2xl shadow-black/30 object-cover w-full max-w-md lg:max-w-lg aspect-[3/4] object-top border-2 border-white/20"
+                    className="relative rounded-3xl shadow-2xl shadow-black/30 object-cover w-full sm:w-full sm:max-w-sm lg:max-w-md aspect-[3/4] object-top border-2 border-white/20"
                   />
                 </div>
               </FadeIn>

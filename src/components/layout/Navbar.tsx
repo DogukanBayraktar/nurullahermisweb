@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Menu, X, Calendar, Phone, ArrowRight } from 'lucide-react';
+import { Menu, X, Calendar, Phone, ArrowRight, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Navbar() {
@@ -32,7 +32,7 @@ export default function Navbar() {
   ];
 
   return (
-    <header className="sticky top-9 z-50 w-full border-b bg-white/95 backdrop-blur-md">
+    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-md md:top-9">
       <div className="container mx-auto flex h-20 items-center justify-between px-4">
 
         {/* Logo */}
@@ -85,7 +85,7 @@ export default function Navbar() {
             animate={{ opacity: 1, height: '100vh' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3, ease: 'easeInOut' }}
-            className="fixed inset-0 top-[116px] md:hidden bg-white z-[49] overflow-hidden border-t border-slate-100 flex flex-col"
+            className="fixed inset-x-0 bottom-0 top-20 md:hidden bg-white z-[49] overflow-hidden border-t border-slate-100 flex flex-col"
           >
             <div className="flex-1 overflow-y-auto px-6 py-10 space-y-8">
               {/* Links */}
@@ -124,6 +124,14 @@ export default function Navbar() {
                       <p className="text-sm font-bold text-slate-900">0216 362 14 15</p>
                     </div>
                   </a>
+                </div>
+
+                <div className="flex items-center justify-between rounded-2xl bg-slate-50 border border-slate-100 p-4">
+                  <p className="text-sm font-bold text-slate-900">Dil Seçimi</p>
+                  <button className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-blue-300 hover:text-blue-700">
+                    <Globe className="w-4 h-4" />
+                    TR
+                  </button>
                 </div>
 
                 <Link 

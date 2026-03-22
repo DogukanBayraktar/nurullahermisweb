@@ -3,26 +3,26 @@ import { Phone, Mail, Globe } from 'lucide-react';
 
 export default function Topline() {
   return (
-    <div className="fixed top-0 left-0 right-0 z-[60] w-full bg-blue-900 text-white text-xs shadow-sm">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-9 gap-4">
+    <div className="fixed top-0 left-0 right-0 z-[60] hidden w-full bg-blue-900 text-white text-xs shadow-sm md:block">
+      <div className="container mx-auto overflow-x-auto px-4 scrollbar-none">
+        <div className="flex h-9 w-max min-w-full items-center gap-4 whitespace-nowrap lg:w-auto lg:justify-between">
 
           {/* Sol — randevu metni + telefon */}
-          <div className="flex items-center gap-3 overflow-x-auto scrollbar-none whitespace-nowrap">
+          <div className="flex items-center gap-3 whitespace-nowrap [&>span:first-child]:inline-flex">
             <span className="text-blue-300 font-medium shrink-0 hidden sm:block">Randevu Bilgileri İçin:</span>
             <a href="tel:+905322051637" className="flex items-center gap-1.5 hover:text-blue-200 transition-colors font-bold shrink-0">
               <Phone className="w-3 h-3" />
               0532 205 16 37
             </a>
-            <span className="text-blue-700 hidden md:block">|</span>
-            <span className="hidden md:flex items-center gap-1.5 text-blue-200 shrink-0">
+            <span className="text-blue-700">|</span>
+            <span className="flex items-center gap-1.5 text-blue-200 shrink-0">
               <span className="font-medium text-blue-300">Uluslararası:</span>
               <a href="tel:00905446773566" className="hover:text-white transition-colors">00 90 544 677 35 66</a>
               <span className="text-blue-700">·</span>
               <a href="tel:+2130675004735" className="hover:text-white transition-colors">+213 0675 004 735</a>
             </span>
-            <span className="text-blue-700 hidden lg:block">|</span>
-            <a href="mailto:nurullahermis@erenhastanesi.com" className="hidden lg:flex items-center gap-1.5 hover:text-blue-200 transition-colors shrink-0">
+            <span className="text-blue-700">|</span>
+            <a href="mailto:nurullahermis@erenhastanesi.com" className="flex items-center gap-1.5 hover:text-blue-200 transition-colors shrink-0">
               <Mail className="w-3 h-3" />
               nurullahermis@erenhastanesi.com
             </a>
@@ -30,7 +30,7 @@ export default function Topline() {
 
           {/* Sağ — sosyal + dil */}
           <div className="flex items-center gap-3 shrink-0">
-            <div className="hidden sm:flex items-center gap-1">
+            <div className="flex items-center gap-1">
               <a href="https://instagram.com/eren_orthospine" target="_blank" rel="noopener noreferrer"
                 className="p-1.5 hover:text-blue-200 transition-colors">
                 <svg className="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
@@ -50,7 +50,7 @@ export default function Topline() {
                 </svg>
               </a>
             </div>
-            <span className="text-blue-700 hidden sm:block">|</span>
+            <span className="text-blue-700">|</span>
             <button className="flex items-center gap-1 hover:text-blue-200 transition-colors font-semibold border border-blue-700 hover:border-blue-400 rounded px-2 py-0.5">
               <Globe className="w-3 h-3" />
               TR
