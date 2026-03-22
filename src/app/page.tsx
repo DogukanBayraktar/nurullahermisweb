@@ -200,8 +200,8 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-8">
                     <h3 className="text-2xl font-extrabold text-white mb-2">Skolyoz & Kifoz</h3>
-                    <p className="text-sm text-white/65 leading-relaxed mb-4">VBT dahil en güncel omurga eğriliği düzeltme cerrahileri.</p>
-                    <span className="text-blue-300 font-semibold text-sm flex items-center gap-1.5 group-hover:gap-3 transition-all">Detaylı Bilgi <ArrowRight className="w-4 h-4" /></span>
+                    <p className="text-sm text-white/65 leading-relaxed">VBT dahil en güncel omurga eğriliği düzeltme cerrahileri.</p>
+                
                   </div>
                 </div>
               </Link>
