@@ -1,9 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
-import { FadeIn } from "@/components/ui/fade-in";
+import { FadeIn } from '@/components/ui/fade-in';
 
 interface Treatment {
   _id: string;
@@ -14,89 +13,61 @@ interface Treatment {
   description?: string[];
 }
 
+function getBentoClass(slug: string) {
+  const bentoClasses: Record<string, string> = {
+    'skolyoz-kifoz-cerrahisi': 'md:col-span-7 md:row-span-2 md:col-start-1 md:row-start-1',
+    'bel-fitigi-tedavisi': 'md:col-span-5 md:col-start-8 md:row-start-1',
+    'boyun-fitigi-cerrahisi': 'md:col-span-5 md:col-start-8 md:row-start-2',
+    'cocuk-ortopedisi': 'md:col-span-5 md:col-start-1 md:row-start-3',
+    'artroskopik-cerrahi': 'md:col-span-5 md:col-start-1 md:row-start-4',
+    'diz-kalca-protezi': 'md:col-span-7 md:row-span-2 md:col-start-6 md:row-start-3',
+  };
+
+  return bentoClasses[slug] ?? 'md:col-span-4 md:row-span-1';
+}
+
 export default function TedavilerList({ initialTreatments }: { initialTreatments: Treatment[] }) {
-  const [activeCategory, setActiveCategory] = useState('Tümü');
-
-  const categories = ['Tümü', ...Array.from(new Set(initialTreatments.map(t => t.category).filter(Boolean)))];
-
-  const filtered = activeCategory === 'Tümü' 
-    ? initialTreatments 
-    : initialTreatments.filter(t => t.category === activeCategory);
-
   return (
     <>
-      <FadeIn direction="up" delay={0.1}>
-        <div className="mb-16">
-          <div className="overflow-hidden rounded-[28px]">
-          <div className="flex w-max min-w-full gap-2.5 overflow-x-auto px-4 py-2.5 md:px-1 md:justify-center [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
-          {categories.map((cat) => (
-            <button
-              key={cat}
-              onClick={() => setActiveCategory(cat)}
-              className={`shrink-0 whitespace-nowrap rounded-full border px-6 py-3 text-sm font-bold transition-all duration-300 ${
-                activeCategory === cat
-                  ? 'border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-600/20'
-                  : 'border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50'
-              }`}
-            >
-              {cat}
-              {cat !== 'Tümü' && (
-                <span className={`ml-2 text-[10px] font-bold px-2 py-0.5 rounded-full ${activeCategory === cat ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400'}`}>
-                  {initialTreatments.filter(t => t.category === cat).length}
-                </span>
-              )}
-            </button>
-          ))}
-          </div>
-          </div>
-        </div>
-      </FadeIn>
-
-      {filtered.length === 0 ? (
-        <div className="text-center py-20 text-slate-400">
+      {initialTreatments.length === 0 ? (
+        <div className="py-20 text-center text-slate-400">
           <p className="text-lg font-medium">Bu kategoride henüz tedavi bilgisi bulunmuyor.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[220px] md:auto-rows-[250px]">
-          {filtered.map((item, i) => {
-            let gridClass = "md:col-span-4";
-            
-            if (activeCategory === 'Tümü') {
-              if (i === 0) gridClass = "md:col-span-7 md:row-span-2";
-              else if (i === 1) gridClass = "md:col-span-5 md:row-span-1";
-              else if (i === 2) gridClass = "md:col-span-5 md:row-span-1";
-              else if (i === 3) gridClass = "md:col-span-4 md:row-span-1";
-              else if (i === 4) gridClass = "md:col-span-4 md:row-span-1";
-              else gridClass = "md:col-span-4 md:row-span-1";
-            }
+        <div className="grid auto-rows-[220px] grid-cols-1 gap-6 md:auto-rows-[250px] md:grid-cols-12">
+          {initialTreatments.map((item, i) => {
+            const gridClass = getBentoClass(item.slug);
 
             return (
               <FadeIn key={item._id} delay={0.05 + i * 0.08} direction="up" className={gridClass}>
                 <Link href={`/tedaviler/${item.slug}`} className="group block h-full">
-                  <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500 bg-white">
+                  <div className="relative h-full overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all duration-500 hover:shadow-2xl hover:shadow-blue-900/10">
                     {item.coverImage ? (
-                      <img src={item.coverImage} alt={item.title} className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                      <img
+                        src={item.coverImage}
+                        alt={item.title}
+                        className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                      />
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-800 to-blue-600" />
                     )}
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
-                    
+
                     <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
-                      {item.category && (
-                        <span className="inline-block text-[10px] font-bold px-2.5 py-1 bg-blue-500/30 border border-blue-400/30 text-blue-200 rounded-full uppercase tracking-widest mb-3 backdrop-blur-sm">
-                          {item.category}
-                        </span>
-                      )}
-                      <h3 className={`font-extrabold text-white mb-2 leading-tight ${gridClass.includes('col-span-7') ? 'text-2xl md:text-3xl' : 'text-xl'}`}>
+                      <h3
+                        className={`mb-2 font-extrabold leading-tight text-white ${
+                          gridClass.includes('col-span-7') ? 'text-2xl md:text-3xl' : 'text-xl'
+                        }`}
+                      >
                         {item.title}
                       </h3>
                       {item.description?.[0] && (
-                        <p className="text-sm text-white/80 line-clamp-2 leading-relaxed mb-4 max-w-md">
+                        <p className="mb-4 max-w-md line-clamp-2 text-sm leading-relaxed text-white/80">
                           {item.description[0]}
                         </p>
                       )}
-                      <span className="text-blue-300 font-bold text-sm flex items-center gap-1.5 group-hover:gap-3 transition-all shrink-0">
-                        Detaylı Bilgi <ChevronRight className="w-4 h-4" />
+                      <span className="flex shrink-0 items-center gap-1.5 text-sm font-bold text-blue-300 transition-all group-hover:gap-3">
+                        Detaylı Bilgi <ChevronRight className="h-4 w-4" />
                       </span>
                     </div>
                   </div>

@@ -9,10 +9,37 @@ import { articles as localArticles } from '@/lib/articles';
 
 export const revalidate = 60;
 
-export default async function BlogDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+type RelatedArticle = {
+  title: string;
+  slug: string;
+  category: string;
+  publishedAt: string;
+  coverImage?: string;
+};
+
+type LocalSection = {
+  h2: string;
+  content: string;
+};
+
+type LocalArticle = (typeof localArticles)[number];
+
+type ArticleDetail = {
+  title: string;
+  slug: string;
+  category: string;
+  summary: string;
+  content: unknown;
+  readTime: string | number;
+  publishedAt: string;
+  coverImage?: string;
+  _localContent?: LocalArticle;
+};
+
+export default async function HealthGuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  let article = await getArticleBySlug(slug);
+  let article = (await getArticleBySlug(slug)) as ArticleDetail | null;
   let isLocal = false;
 
   if (!article) {
@@ -36,8 +63,8 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
   if (!article) notFound();
 
-  const sanityArticles = (await getAllArticles()) ?? [];
-  const localRelated = localArticles
+  const sanityArticles = ((await getAllArticles()) ?? []) as RelatedArticle[];
+  const localRelated: RelatedArticle[] = localArticles
     .filter((item) => item.slug !== slug)
     .map((item) => ({
       title: item.title,
@@ -47,9 +74,9 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
       coverImage: item.img,
     }));
 
-  const sanityRelated = sanityArticles
-    .filter((item: any) => item.slug !== slug)
-    .map((item: any) => ({
+  const sanityRelated: RelatedArticle[] = sanityArticles
+    .filter((item) => item.slug !== slug)
+    .map((item) => ({
       title: item.title,
       slug: item.slug,
       category: item.category,
@@ -65,10 +92,10 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
     <div className="min-h-screen bg-slate-50 py-24">
       <div className="container mx-auto max-w-6xl px-4">
         <Link
-          href="/blog"
+          href="/saglik-rehberi"
           className="mb-8 inline-flex items-center rounded-lg border border-transparent px-4 py-2 font-semibold text-blue-600 transition-colors hover:border-blue-100 hover:bg-blue-50"
         >
-          <ArrowLeft className="mr-2 h-4 w-4" /> Tum Makalelere Don
+          <ArrowLeft className="mr-2 h-4 w-4" /> Tüm Yazılara Dön
         </Link>
 
         {!isLocal && (
@@ -77,7 +104,7 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
               href="/studio"
               className="rounded bg-slate-200 px-3 py-1 text-xs italic text-slate-600 transition-colors hover:bg-blue-100"
             >
-              Studio'da Duzenle
+              Studio&apos;da Düzenle
             </Link>
           </div>
         )}
@@ -117,9 +144,9 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                   {article.summary}
                 </div>
 
-                {isLocal ? (
+                {isLocal && article._localContent ? (
                   <div className="space-y-10">
-                    {article._localContent.sections.map((section: any, i: number) => (
+                    {article._localContent.sections.map((section: LocalSection, i: number) => (
                       <section key={i}>
                         <h2 className="mb-4 border-b-2 border-blue-50 pb-2 text-xl font-bold text-slate-900 md:text-2xl">
                           {section.h2}
@@ -135,25 +162,27 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
                 ) : (
                   <div className="prose prose-slate max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-li:text-slate-600 prose-p:leading-relaxed prose-p:text-slate-600">
                     <PortableText
-                      value={article.content}
+                      value={article.content as never}
                       components={{
                         types: {
-                          image: ({ value }) => (
+                          image: ({ value }: { value: unknown }) => (
                             <div className="my-10 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-lg">
                               <img src={urlFor(value).url()} alt="Gorsel" className="h-auto w-full" />
                             </div>
                           ),
                         },
                         block: {
-                          h2: ({ children }) => (
+                          h2: ({ children }: { children?: React.ReactNode }) => (
                             <h2 className="mt-14 mb-6 border-b-2 border-blue-50 pb-2 text-2xl font-extrabold text-slate-900 md:text-3xl">
                               {children}
                             </h2>
                           ),
-                          h3: ({ children }) => (
+                          h3: ({ children }: { children?: React.ReactNode }) => (
                             <h3 className="mt-10 mb-4 text-xl font-bold text-slate-900 md:text-2xl">{children}</h3>
                           ),
-                          normal: ({ children }) => <p className="mb-5 text-[1.1rem] leading-relaxed">{children}</p>,
+                          normal: ({ children }: { children?: React.ReactNode }) => (
+                            <p className="mb-5 text-[1.1rem] leading-relaxed">{children}</p>
+                          ),
                         },
                       }}
                     />
@@ -205,12 +234,12 @@ export default async function BlogDetailPage({ params }: { params: Promise<{ slu
 
               {otherArticles.length > 0 && (
                 <div className="rounded-3xl border border-slate-100 bg-white p-6 shadow-sm">
-                  <h4 className="mb-4 text-lg font-extrabold text-slate-900">Diger Makaleler</h4>
+                  <h4 className="mb-4 text-lg font-extrabold text-slate-900">Diger Yazilar</h4>
                   <div className="space-y-3">
                     {otherArticles.map((related) => (
                       <Link
                         key={related.slug}
-                        href={`/blog/${related.slug}`}
+                        href={`/saglik-rehberi/${related.slug}`}
                         className="group flex items-stretch gap-3 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 p-3 transition-all hover:border-blue-200 hover:bg-blue-50/70"
                       >
                         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-slate-200">

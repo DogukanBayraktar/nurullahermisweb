@@ -4,7 +4,7 @@ import { MapPin, Phone, Mail, Instagram, Facebook, Youtube, ChevronRight } from 
 const pages = [
   { href: '/hakkimda', label: 'Prof. Dr. Nurullah Ermiş' },
   { href: '/tedaviler', label: 'Tedavi Alanları' },
-  { href: '/blog', label: 'Makaleler' },
+  { href: '/saglik-rehberi', label: 'Sağlık Rehberi' },
   { href: '/iletisim', label: 'İletişim & Randevu' },
 ];
 

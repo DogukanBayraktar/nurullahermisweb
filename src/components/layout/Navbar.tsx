@@ -27,7 +27,7 @@ export default function Navbar() {
     { name: 'Ana Sayfa', href: '/' },
     { name: 'Hakkımda', href: '/hakkimda' },
     { name: 'Tedaviler', href: '/tedaviler' },
-    { name: 'Makaleler', href: '/blog' },
+    { name: 'Sağlık Rehberi', href: '/saglik-rehberi' },
     { name: 'İletişim', href: '/iletisim' },
   ];
 

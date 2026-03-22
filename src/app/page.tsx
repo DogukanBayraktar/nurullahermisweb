@@ -199,7 +199,6 @@ export default function Home() {
                   <img src="/images/skolyoz-kifoz.png" alt="Skolyoz" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-8">
-                    <span className="inline-block text-[10px] font-bold px-2.5 py-1 bg-blue-500/30 border border-blue-400/30 text-blue-200 rounded-full uppercase tracking-widest mb-3 backdrop-blur-sm">Omurga</span>
                     <h3 className="text-2xl font-extrabold text-white mb-2">Skolyoz & Kifoz</h3>
                     <p className="text-sm text-white/65 leading-relaxed mb-4">VBT dahil en güncel omurga eğriliği düzeltme cerrahileri.</p>
                     <span className="text-blue-300 font-semibold text-sm flex items-center gap-1.5 group-hover:gap-3 transition-all">Detaylı Bilgi <ArrowRight className="w-4 h-4" /></span>
@@ -225,7 +224,6 @@ export default function Home() {
                   <img src="/images/diz-kalca-protezi.png" alt="Diz Kalça Protezi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <span className="inline-block text-[10px] font-bold px-2.5 py-1 bg-white/20 text-white rounded-full uppercase tracking-widest mb-3 backdrop-blur-sm">Protez</span>
                     <h3 className="text-lg font-extrabold text-white mb-1">Diz & Kalça Protezi</h3>
                     <p className="text-xs text-white/60">Robotik navigasyon destekli.</p>
                   </div>
@@ -250,7 +248,6 @@ export default function Home() {
                   <img src="/images/artroskopik-cerrahi.png" alt="Artroskopik Cerrahi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <span className="inline-block text-[10px] font-bold px-2.5 py-1 bg-white/20 text-white rounded-full uppercase tracking-widest mb-3 backdrop-blur-sm">Artroskopi</span>
                     <h3 className="text-lg font-extrabold text-white mb-1">Artroskopik Cerrahi</h3>
                     <p className="text-xs text-white/60">Menisküs, ACL, kapalı cerrahi.</p>
                   </div>
