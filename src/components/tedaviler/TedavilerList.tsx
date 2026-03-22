@@ -26,15 +26,17 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
   return (
     <>
       <FadeIn direction="up" delay={0.1}>
-        <div className="flex flex-wrap gap-2.5 justify-center mb-16">
+        <div className="mb-16">
+          <div className="overflow-hidden rounded-[28px]">
+          <div className="flex w-max min-w-full gap-2.5 overflow-x-auto px-4 py-2.5 md:px-1 md:justify-center [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-6 py-3 rounded-full text-sm font-bold transition-all duration-300 ${
+              className={`shrink-0 whitespace-nowrap rounded-full border px-6 py-3 text-sm font-bold transition-all duration-300 ${
                 activeCategory === cat
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25 scale-[1.05]'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50'
+                  ? 'border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                  : 'border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50'
               }`}
             >
               {cat}
@@ -45,6 +47,8 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
               )}
             </button>
           ))}
+          </div>
+          </div>
         </div>
       </FadeIn>
 
@@ -75,7 +79,7 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
                     ) : (
                       <div className="absolute inset-0 bg-gradient-to-br from-blue-800 to-blue-600" />
                     )}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/95 via-slate-900/30 to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                     
                     <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8">
                       {item.category && (
@@ -87,7 +91,7 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
                         {item.title}
                       </h3>
                       {item.description?.[0] && (
-                        <p className="text-sm text-white/70 line-clamp-2 leading-relaxed mb-4 max-w-md">
+                        <p className="text-sm text-white/80 line-clamp-2 leading-relaxed mb-4 max-w-md">
                           {item.description[0]}
                         </p>
                       )}

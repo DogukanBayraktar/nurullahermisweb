@@ -61,8 +61,9 @@ export default function Navbar() {
         {/* Sağ - Masaüstü Randevu & Mobil Hamburger */}
         <div className="flex items-center gap-4">
           <Link href="/iletisim" className="hidden md:block">
-            <span className="inline-flex items-center gap-2 bg-blue-700 hover:bg-blue-800 active:bg-blue-900 text-white text-sm font-extrabold px-6 py-3 rounded-xl transition-all duration-200 hover:shadow-xl hover:shadow-blue-700/20 hover:scale-[1.03]">
-              Randevu Al <Calendar className="w-4 h-4" />
+            <span className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-gradient-to-r from-sky-900 via-sky-800 to-cyan-700 px-5 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-sky-900/20 transition-all duration-200 hover:-translate-y-0.5 hover:from-sky-800 hover:via-sky-700 hover:to-cyan-600 hover:shadow-xl hover:shadow-cyan-700/20">
+              <Calendar className="w-4 h-4" />
+              <span>Randevu Al</span>
             </span>
           </Link>
 
@@ -137,9 +138,12 @@ export default function Navbar() {
                 <Link 
                   href="/iletisim" 
                   onClick={closeMenu}
-                  className="w-full flex items-center justify-center gap-3 bg-blue-700 text-white font-extrabold py-5 rounded-2xl shadow-xl shadow-blue-700/20 active:scale-95 transition-all text-lg"
+                  className="w-full"
                 >
-                  Randevu Al <Calendar className="w-5 h-5" />
+                  <span className="flex w-full items-center justify-center gap-3 rounded-2xl border border-sky-400/30 bg-gradient-to-r from-sky-900 via-sky-800 to-cyan-700 py-5 text-lg font-extrabold text-white shadow-xl shadow-sky-900/20 transition-all duration-200 active:scale-95">
+                    <Calendar className="w-5 h-5" />
+                    <span>Randevu Al</span>
+                  </span>
                 </Link>
               </div>
             </div>

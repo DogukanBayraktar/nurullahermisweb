@@ -14,9 +14,11 @@ const TESTIMONIALS = [
 ];
 
 const BEFORE_AFTER = [
-  { img: "/images/skolyoz-kifoz.png", label: "Skolyoz Düzeltme", desc: "14 yaşında hasta, ameliyat sonrası tam düzeltme sağlandı." },
-  { img: "/images/diz-kalca-protezi.png", label: "Diz Protezi", desc: "68 yaşında hasta, protez sonrası tam hareket açıklığı." },
-  { img: "/images/bel-fitigi.png", label: "Bel Fıtığı", desc: "45 yaşında hasta, mikrocerrahi sonrası tam iyileşme." },
+  { img: "/images/69b7fcf232c107d58afb5fbe_skolyoz-3.jpg.avif", label: "Skolyoz Düzeltme", desc: "Skolyoz cerrahisi sonrası omurga diziliminde belirgin düzelme." },
+  { img: "/images/69b7fcf298c193a1b456984e_skolyoz-2.jpg.avif", label: "Skolyoz Sonucu", desc: "Cerrahi sonrası daha dengeli omurga hattı ve radyolojik iyileşme." },
+  { img: "/images/69b80d3d2324c321ba53cae5_Kyphosis-before-after-1.jpg.avif", label: "Kifoz Sonucu", desc: "Kifoz tedavisi sonrası duruş ve açılanmada görünür toparlanma." },
+  { img: "/images/69b803d47b548c348c11664f_diz-protezi-before-after-1.jpg.avif", label: "Diz Protezi", desc: "Diz protezi sonrası eklem hizalanması ve hareket açıklığında iyileşme." },
+  { img: "/images/69b8010e9d8850fbd786d629_kyphoscoliosis-2.jpg.avif", label: "Kifoskolyoz", desc: "Kifoskolyoz vakasında ameliyat sonrası daha dengeli omurga yapısı." },
 ];
 
 const YOUTUBE_VIDEOS = [
@@ -35,23 +37,23 @@ function ResultsSlider({ items }: { items: typeof BEFORE_AFTER }) {
   const visibleItems = [0, 1, 2].map(offset => items[(current + offset) % total]);
 
   return (
-    <div className="relative max-w-5xl mx-auto px-2">
+    <div className="relative w-full">
       {/* Kart sırası */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-7 md:grid-cols-3">
         {visibleItems.map((item, i) => (
           <div
             key={`${current}-${i}`}
-            className={`bg-slate-50 rounded-2xl overflow-hidden border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 ${i > 0 ? 'hidden md:block' : ''}`}
+            className={`overflow-hidden rounded-[2rem] border border-slate-100 bg-slate-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl ${i > 0 ? 'hidden md:block' : ''}`}
           >
-            <div className="h-60 relative overflow-hidden">
+            <div className="relative h-80 overflow-hidden lg:h-[23rem]">
               <img src={item.img} alt={item.label} className="w-full h-full object-cover" />
-              <div className="absolute top-4 left-4 bg-blue-600 text-white text-[10px] font-bold px-3 py-1.5 rounded-full uppercase tracking-wider shadow-md">
+              <div className="absolute left-5 top-5 rounded-full bg-blue-600 px-3.5 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white shadow-md">
                 {item.label}
               </div>
             </div>
-            <div className="p-5">
-              <h3 className="font-bold text-slate-900 text-base mb-1.5">{item.label}</h3>
-              <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+            <div className="p-6 lg:p-7">
+              <h3 className="mb-2 text-lg font-bold text-slate-900 lg:text-xl">{item.label}</h3>
+              <p className="text-sm leading-relaxed text-slate-500 lg:text-[15px]">{item.desc}</p>
             </div>
           </div>
         ))}
@@ -195,7 +197,7 @@ export default function Home() {
               <Link href="/tedaviler/skolyoz-kifoz-cerrahisi" className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/skolyoz-kifoz.png" alt="Skolyoz" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/90 via-slate-900/30 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-8">
                     <span className="inline-block text-[10px] font-bold px-2.5 py-1 bg-blue-500/30 border border-blue-400/30 text-blue-200 rounded-full uppercase tracking-widest mb-3 backdrop-blur-sm">Omurga</span>
                     <h3 className="text-2xl font-extrabold text-white mb-2">Skolyoz & Kifoz</h3>
@@ -209,7 +211,7 @@ export default function Home() {
               <Link href="/tedaviler/bel-fitigi-tedavisi" className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/bel-fitigi.png" alt="Bel Fıtığı" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <h3 className="text-lg font-extrabold text-white mb-1">Bel & Boyun Fıtığı</h3>
                     <p className="text-xs text-white/60">Mikrocerrahi, aynı gün mobilizasyon.</p>
@@ -221,7 +223,7 @@ export default function Home() {
               <Link href="/tedaviler/diz-kalca-protezi" className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/diz-kalca-protezi.png" alt="Diz Kalça Protezi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <span className="inline-block text-[10px] font-bold px-2.5 py-1 bg-white/20 text-white rounded-full uppercase tracking-widest mb-3 backdrop-blur-sm">Protez</span>
                     <h3 className="text-lg font-extrabold text-white mb-1">Diz & Kalça Protezi</h3>
@@ -234,7 +236,7 @@ export default function Home() {
               <Link href="/tedaviler/cocuk-ortopedisi" className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/cocuk-ortopedisi.png" alt="Çocuk Ortopedisi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <h3 className="text-lg font-extrabold text-white mb-1">Çocuk Ortopedisi</h3>
                     <p className="text-xs text-white/60">Kalça çıkığı, çarpık ayak, deformite.</p>
@@ -246,7 +248,7 @@ export default function Home() {
               <Link href="/tedaviler/artroskopik-cerrahi" className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/artroskopik-cerrahi.png" alt="Artroskopik Cerrahi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/85 via-slate-900/20 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
                   <div className="absolute bottom-0 left-0 right-0 p-6">
                     <span className="inline-block text-[10px] font-bold px-2.5 py-1 bg-white/20 text-white rounded-full uppercase tracking-widest mb-3 backdrop-blur-sm">Artroskopi</span>
                     <h3 className="text-lg font-extrabold text-white mb-1">Artroskopik Cerrahi</h3>

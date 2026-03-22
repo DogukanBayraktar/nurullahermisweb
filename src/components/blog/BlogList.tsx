@@ -31,15 +31,17 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
   return (
     <>
       <FadeIn direction="up" delay={0.1}>
-        <div className="flex flex-wrap gap-2.5 justify-center mb-12">
+        <div className="mb-12">
+          <div className="overflow-hidden rounded-[28px]">
+          <div className="flex w-max min-w-full gap-2.5 overflow-x-auto px-4 py-2.5 md:px-1 md:justify-center [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => setActiveCategory(cat)}
-              className={`px-5 py-2.5 rounded-full text-sm font-bold transition-all duration-200 ${
+              className={`shrink-0 whitespace-nowrap rounded-full border px-5 py-2.5 text-sm font-bold transition-all duration-200 ${
                 activeCategory === cat
-                  ? 'bg-blue-600 text-white shadow-md shadow-blue-600/25 scale-[1.03]'
-                  : 'bg-white text-slate-600 border border-slate-200 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50'
+                  ? 'border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-600/20'
+                  : 'border-slate-200 bg-white text-slate-600 hover:border-blue-300 hover:text-blue-600 hover:bg-blue-50'
               }`}
             >
               {cat}
@@ -50,6 +52,8 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
               )}
             </button>
           ))}
+          </div>
+          </div>
         </div>
       </FadeIn>
 

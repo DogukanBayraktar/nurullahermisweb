@@ -19,8 +19,8 @@ const LOCATIONS = [
     phoneHref: "tel:4447799",
     hours: "Pzt – Cuma: 08:00 – 20:00",
     saturday: "Cumartesi: Randevu ile",
-    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3011.8!2d29.1272!3d40.9784!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac5e0b9378d23%3A0x2d83e4e17eb8e236!2sCentral%20Hospital%20Ata%C5%9Fehir!5e0!3m2!1str!2str!4v1716942691560!5m2!1str!2str",
-    mapLink: "https://maps.google.com/?q=Kayışdağı+Cd+No+57A+Ataşehir+İstanbul",
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5118.220238154112!2d29.108239877284667!3d40.97924672121005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac63eda655555%3A0x81aef318ad174a80!2sCentral%20Hospital%20Ata%C5%9Fehir!5e1!3m2!1str!2str!4v1774208748265!5m2!1str!2str",
+    mapLink: "https://maps.google.com/?q=Central+Hospital+Ata%C5%9Fehir",
   },
   {
     name: "Etiler",
@@ -31,8 +31,8 @@ const LOCATIONS = [
     phoneHref: "tel:4447799",
     hours: "Pzt – Cuma: 08:00 – 20:00",
     saturday: "Cumartesi: Randevu ile",
-    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d752.0!2d29.0275!3d41.0788!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cab7175d5d7d89%3A0x5b1e6e7d8f3a1234!2sCentral%20Hospital%20Etiler!5e0!3m2!1str!2str!4v1716942691561!5m2!1str!2str",
-    mapLink: "https://maps.google.com/?q=Nispetiye+Cad+Aydın+Sok+No+1+Beşiktaş+İstanbul",
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5110.973726942936!2d29.018440700000003!3d41.0725465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac9ffdb70bec1%3A0x6feb6bf513363f5d!2sCentral%20Hospital%20Etiler!5e1!3m2!1str!2str!4v1774208693916!5m2!1str!2str",
+    mapLink: "https://maps.google.com/?q=Central+Hospital+Etiler",
   },
   {
     name: "Kozyatağı",
@@ -43,8 +43,8 @@ const LOCATIONS = [
     phoneHref: "tel:4447799",
     hours: "Pzt – Cuma: 08:00 – 20:00",
     saturday: "Cumartesi: Randevu ile",
-    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3012.2!2d29.0750!3d40.9870!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac793e9e76f7f%3A0x3c9ac7fa3e7b1e3e!2sCentral%20Hospital%20Kozya%C4%B1ta%C4%9F%C4%B1!5e0!3m2!1str!2str!4v1716942691562!5m2!1str!2str",
-    mapLink: "https://maps.google.com/?q=Kozyatağı+Sk+No+5+Kadıköy+İstanbul",
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d5119.247640900299!2d29.097647377284336!3d40.96600462202482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x14cac655d269c4e7%3A0x6cd24ca540cbe444!2sCentral%20Hospital!5e1!3m2!1str!2str!4v1774208725692!5m2!1str!2str",
+    mapLink: "https://maps.google.com/?q=Central+Hospital+Kozyata%C4%9F%C4%B1",
   },
 ];
 
@@ -335,7 +335,7 @@ export default function IletisimPage() {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
 
               {/* Harita */}
-              <div className="lg:col-span-2 h-80 lg:h-[400px] rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100">
+              <div className="lg:col-span-2 h-80 lg:h-[100%] rounded-3xl overflow-hidden border border-slate-200 shadow-sm bg-slate-100">
                 <iframe
                   key={activeLocation}
                   src={loc.mapSrc}
