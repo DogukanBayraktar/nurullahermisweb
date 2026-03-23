@@ -57,7 +57,7 @@ export default function HakkimdaPage() {
 
       {/* HERO */}
       <section className="relative bg-slate-50 py-20 overflow-hidden border-b border-slate-100">
-        <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, black 1px, transparent 0)', backgroundSize: '40px 40px' }} />
+        <div className="absolute inset-0 opacity-[0.03] dotted-bg" />
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
 
@@ -315,10 +315,9 @@ export default function HakkimdaPage() {
       <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-5xl">
           <FadeIn direction="up">
-            <div className="rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden"
-              style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #075985 40%, #0e7490 100%)' }}>
+            <div className="rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden cta-bg">
               <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-sky-400/40 to-transparent" />
-              <div className="absolute -top-40 -right-40 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none" style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 65%)' }} />
+              <div className="absolute -top-40 -right-40 w-[400px] h-[400px] rounded-full opacity-10 pointer-events-none hero-glow-1" />
               <div className="relative z-10">
                 <p className="text-sky-300 font-bold uppercase tracking-[0.18em] text-xs mb-6">İletişime Geçin</p>
                 <h2 className="text-3xl md:text-5xl font-extrabold text-white mb-6">Muayene Randevusu Alın</h2>

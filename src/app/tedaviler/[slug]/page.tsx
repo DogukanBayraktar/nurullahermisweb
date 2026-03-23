@@ -155,8 +155,7 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
             )}
 
             <div
-              className="relative flex flex-col items-center justify-between gap-6 overflow-hidden rounded-[2rem] border border-white/10 p-8 shadow-2xl shadow-sky-950/20 md:flex-row md:p-10"
-              style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #075985 35%, #0e7490 65%, #0891b2 100%)' }}
+              className="relative flex flex-col items-center justify-between gap-6 overflow-hidden rounded-[2rem] border border-white/10 p-8 shadow-2xl shadow-sky-950/20 md:flex-row md:p-10 hero-bg"
             >
               <div className="pointer-events-none absolute -top-16 -right-16 h-36 w-36 rounded-full bg-white/10 blur-2xl" />
               <div className="pointer-events-none absolute -bottom-12 -left-12 h-28 w-28 rounded-full bg-cyan-300/15 blur-2xl" />

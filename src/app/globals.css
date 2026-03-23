@@ -48,6 +48,36 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* Custom gradients for accessibility compliance */
+.hero-bg {
+  background: linear-gradient(135deg, #0c4a6e 0%, #075985 35%, #0e7490 65%, #0891b2 100%);
+}
+
+.hero-glow-1 {
+  background: radial-gradient(circle, #38bdf8 0%, transparent 65%);
+}
+
+.hero-glow-2 {
+  background: radial-gradient(circle, #22d3ee 0%, transparent 65%);
+}
+
+.photo-glow {
+  background: linear-gradient(135deg, #0ea5e9, #14b8a6);
+}
+
+.online-randevu-bg {
+  background: linear-gradient(135deg, #0c4a6e 0%, #0e7490 100%);
+}
+
+.cta-bg {
+  background: linear-gradient(135deg, #0c4a6e 0%, #075985 40%, #0e7490 100%);
+}
+
+.dotted-bg {
+  background-image: radial-gradient(circle at 1px 1px, black 1px, transparent 0);
+  background-size: 40px 40px;
+}
+
 :root {
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);

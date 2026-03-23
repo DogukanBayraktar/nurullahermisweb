@@ -34,6 +34,7 @@ export default function Footer() {
                 href="https://www.instagram.com/prof.dr.nurullah.ermis/"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Instagram'da Prof. Dr. Nurullah Ermiş'i takip edin"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-400 transition-all hover:border-blue-600 hover:bg-blue-600 hover:text-white"
               >
                 <Instagram className="h-4 w-4" />
@@ -42,6 +43,7 @@ export default function Footer() {
                 href="https://facebook.com/ortopediveomurga"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="Facebook'ta takip edin"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-400 transition-all hover:border-blue-600 hover:bg-blue-600 hover:text-white"
               >
                 <Facebook className="h-4 w-4" />
@@ -50,6 +52,7 @@ export default function Footer() {
                 href="https://www.youtube.com/@centralhospitaltr"
                 target="_blank"
                 rel="noopener noreferrer"
+                aria-label="YouTube kanalımızı ziyaret edin"
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-400 transition-all hover:border-red-600 hover:bg-red-600 hover:text-white"
               >
                 <Youtube className="h-4 w-4" />

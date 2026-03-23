@@ -357,6 +357,7 @@ export default function IletisimPage() {
                 <iframe
                   key={activeLocation}
                   src={loc.mapSrc}
+                  title={`${loc.name} konum haritası`}
                   className="w-full h-full border-0"
                   allowFullScreen
                   loading="lazy"

@@ -57,14 +57,6 @@ const PATIENT_STORIES = [
   },
 ];
 
-const GOOGLE_REVIEWS = [
-  { name: "Selin A.", stars: 5, time: "2 ay önce", text: "Prof. Dr. Ermiş gerçekten hasta odaklı bir hekim. Her sorumuzu sabırla yanıtladı, hiç acele ettirmedi. Ameliyat sonrası takip süreci de çok düzenliydi." },
-  { name: "Tarık B.", stars: 5, time: "3 ay önce", text: "Bel fıtığı ameliyatından sonra aynı gün ayağa kalktım. Yıllarca çektiğim ağrı bir günde bitti. Herkese tavsiye ederim." },
-  { name: "Nermin K.", stars: 5, time: "1 ay önce", text: "Çocuğumun skolyoz tedavisinde en doğru adresi bulduk. Ameliyat öncesi ve sonrası iletişim mükemmeldi, hiçbir zaman yalnız hissetmedik." },
-  { name: "Osman D.", stars: 5, time: "4 ay önce", text: "Diz protezi sonrası 3 ayda yürüyüşe çıktım. Ekip çok profesyonel, hastane süreci son derece düzenliydi." },
-  { name: "Elif M.", stars: 5, time: "2 hafta önce", text: "Boyun fıtığı için geldim, mikrocerrahi ile ameliyat oldum. Sabah ameliyat, öğlen yürüyordum. Hayat kurtaran bir operasyon." },
-  { name: "Cengiz Y.", stars: 5, time: "5 ay önce", text: "Yıllarca ortopedi korkusu yaşadım ama Prof. Ermiş'in yaklaşımı beni rahatlattı. Sonuçlar inanılmazdı, teşekkürler." },
-];
 
 const YOUTUBE_VIDEOS = [
   { title: "Skolyoz Cerrahisi", videoId: "gryuYiNd6WI", isShort: false, thumb: "https://img.youtube.com/vi/gryuYiNd6WI/maxresdefault.jpg" },
@@ -119,6 +111,106 @@ function ResultsSlider({ items }: { items: typeof BEFORE_AFTER }) {
         <button onClick={next} className="cursor-pointer w-11 h-11 rounded-xl bg-white border border-slate-200 hover:border-blue-300 hover:bg-blue-50 flex items-center justify-center transition-all shadow-sm">
           <ChevronRight className="w-5 h-5 text-slate-600" />
         </button>
+      </div>
+    </div>
+  );
+}
+
+
+function PatientStoriesSlider({ items }: { items: typeof PATIENT_STORIES }) {
+  const [current, setCurrent] = useState(0);
+  const total = items.length;
+
+  const prev = () => setCurrent((c) => (c - 1 + total) % total);
+  const next = () => setCurrent((c) => (c + 1) % total);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrent((c) => (c + 1) % total);
+    }, 6000);
+
+    return () => clearInterval(interval);
+  }, [total]);
+
+  const story = items[current];
+
+  return (
+    <div className="relative">
+      <div className="rounded-[2rem] overflow-hidden border border-slate-100 shadow-md hover:shadow-xl transition-all duration-300 bg-white">
+        <div className="flex flex-col lg:flex-row min-h-[520px]">
+          <div className="w-full lg:w-2/5 relative min-h-[280px] lg:min-h-full">
+            <img
+              src={story.img}
+              alt={story.name}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent" />
+            <div className="absolute bottom-5 left-5 right-5">
+              <span className={`inline-block text-[10px] font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full mb-3 ${story.tagColor}`}>
+                {story.tag}
+              </span>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-extrabold text-white text-sm">
+                  {story.name.charAt(0)}
+                </div>
+                <div>
+                  <p className="text-white font-bold text-base">{story.name}</p>
+                  <p className="text-white/70 text-sm">{story.age} Yaşında · {story.date}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="w-full lg:w-3/5 p-8 lg:p-12 flex flex-col justify-center">
+            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">
+              Hasta Hikayesi
+            </p>
+
+            <h3 className="text-2xl md:text-3xl font-extrabold text-slate-900 mb-5 leading-snug">
+              &ldquo;{story.summary}&rdquo;
+            </h3>
+
+            <p className="text-slate-500 leading-relaxed mb-8 text-base md:text-lg">
+              {story.story}
+            </p>
+
+            <div className="flex items-center gap-3 mb-8">
+              <div className="h-px flex-1 bg-slate-100" />
+              <span className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 font-bold text-sm px-4 py-2 rounded-xl whitespace-nowrap">
+                <Star className="w-3.5 h-3.5 fill-blue-600 text-blue-600" />
+                {story.result}
+              </span>
+            </div>
+
+            <div className="flex items-center justify-between gap-4">
+              <button
+                onClick={prev}
+                className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+
+              <div className="flex gap-2">
+                {items.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => setCurrent(i)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${
+                      i === current ? "w-10 bg-blue-600" : "w-2 bg-blue-100 hover:bg-blue-200"
+                    }`}
+                  />
+                ))}
+              </div>
+
+              <button
+                onClick={next}
+                className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -343,40 +435,6 @@ export default function Home() {
               </button>
             </div>
           </div>
-
-          {/* Google Yorumları Grid */}
-          <div className="mt-16">
-            <div className="flex items-center gap-3 mb-8 justify-center">
-              <div className="flex gap-1">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
-              </div>
-              <span className="font-extrabold text-slate-900 text-lg">4.9</span>
-              <span className="text-slate-400 text-sm font-medium">· Google Yorumları</span>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {GOOGLE_REVIEWS.map((review, i) => (
-                <FadeIn key={i} delay={0.05 + i * 0.07} direction="up">
-                  <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 p-6">
-                    <div className="flex items-center justify-between mb-3">
-                      <div className="flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center font-extrabold text-blue-600 text-sm">
-                          {review.name.charAt(0)}
-                        </div>
-                        <div>
-                          <p className="font-bold text-slate-900 text-sm">{review.name}</p>
-                          <p className="text-slate-400 text-xs">{review.time}</p>
-                        </div>
-                      </div>
-                      <div className="flex gap-0.5">
-                        {[...Array(review.stars)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />)}
-                      </div>
-                    </div>
-                    <p className="text-slate-600 text-sm leading-relaxed">{review.text}</p>
-                  </div>
-                </FadeIn>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 
@@ -398,50 +456,12 @@ export default function Home() {
       <section className="py-20 bg-white overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Hasta Hikayeleri</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Gerçek Hikayeler, Gerçek Sonuçlar</h2>
-            <p className="text-slate-500 text-lg">Hastalarımızın kendi sözleriyle tedavi yolculukları.</p>
+            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Hasta Deneyimleri</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Gerçek Hikayelerle Tedavi Yolculuğu</h2>
+            <p className="text-slate-500 text-lg">Hastalarımızın yaşadığı süreci daha akıcı ve sade bir yapıda keşfedin.</p>
           </FadeIn>
 
-          <div className="flex flex-col gap-8">
-            {PATIENT_STORIES.map((story, i) => (
-              <FadeIn key={i} delay={0.1 + i * 0.1} direction="up">
-                <div className={`flex flex-col ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-0 rounded-[2rem] overflow-hidden border border-slate-100 shadow-md hover:shadow-xl transition-all duration-400 bg-white`}>
-                  {/* Görsel */}
-                  <div className="w-full lg:w-2/5 relative min-h-[260px]">
-                    <img src={story.img} alt={story.name} className="absolute inset-0 w-full h-full object-cover" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
-                    <div className="absolute bottom-5 left-5 right-5">
-                      <span className={`inline-block text-[10px] font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full mb-2 ${story.tagColor}`}>{story.tag}</span>
-                      <div className="flex items-center gap-2">
-                        <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-extrabold text-white text-xs">
-                          {story.name.charAt(0)}
-                        </div>
-                        <div>
-                          <p className="text-white font-bold text-sm">{story.name}</p>
-                          <p className="text-white/60 text-xs">{story.age} Yaşında · {story.date}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  {/* Metin */}
-                  <div className="w-full lg:w-3/5 p-8 lg:p-12 flex flex-col justify-center">
-                    <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 mb-4 leading-snug">
-                      &ldquo;{story.summary}&rdquo;
-                    </h3>
-                    <p className="text-slate-500 leading-relaxed mb-6 text-base">{story.story}</p>
-                    <div className="flex items-center gap-3">
-                      <div className="h-px flex-1 bg-slate-100" />
-                      <span className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 font-bold text-sm px-4 py-2 rounded-xl">
-                        <Star className="w-3.5 h-3.5 fill-blue-600 text-blue-600" />
-                        {story.result}
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
+          <PatientStoriesSlider items={PATIENT_STORIES} />
         </div>
       </section>
 
