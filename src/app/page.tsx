@@ -34,12 +34,12 @@ function ResultsSlider({ items }: { items: typeof BEFORE_AFTER }) {
   const next = () => setCurrent(c => (c + 1) % total);
 
   // 3 kart göster, current indeksten başlayarak
-  const visibleItems = [0, 1, 2].map(offset => items[(current + offset) % total]);
+  const visibleItems = [0, 1].map(offset => items[(current + offset) % total]);
 
   return (
     <div className="relative w-full">
       {/* Kart sırası */}
-      <div className="grid grid-cols-1 gap-7 md:grid-cols-3">
+      <div className="grid grid-cols-1 gap-7 md:grid-cols-2">
         {visibleItems.map((item, i) => (
           <div
             key={`${current}-${i}`}
