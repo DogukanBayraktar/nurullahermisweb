@@ -30,7 +30,7 @@ const PATIENT_STORIES = [
     summary: "Oğlumuzun omurgası 58 derece eğriydi",
     story: "Oğlumuz Kerem, 12 yaşında okul taramasında skolyoz teşhisi aldı. Başka iki hastanede 'bekleyelim' dediler; ama eğrilik hızla ilerliyordu. Prof. Dr. Ermiş bizi ilk muayenede detaylıca dinledi, MR görüntülerini tek tek anlattı. Ameliyattan 2 gün sonra Kerem kendi ayakları üstünde yürüdü. Şimdi 16 yaşında, basketbol oynuyor.",
     result: "58° → 9° düzelme",
-    img: "/images/skolyoz-kifoz.png",
+    img: "/images/mehmet.png",
     date: "Mart 2024",
   },
   {
@@ -41,7 +41,8 @@ const PATIENT_STORIES = [
     summary: "3 yıl boyunca sağ bacağıma yayılan ağrıyla yaşadım",
     story: "Üç yıl boyunca sağ bacağıma vuran ağrıyla uyuyamaz oldum. Ağrı kesiciler işe yaramıyordu, işe gidemez hale geldim. Prof. Dr. Ermiş ameliyat öncesi her adımı anlattı, sorularımı hiç atlamamıştı. Ameliyat sonrası ertesi sabah ağrı sıfırdı — o anı tarif edemem. Aynı gün koridorda yürüdüm.",
     result: "Ameliyat sonrası ertesi gün taburcu",
-    img: "/images/bel-fitigi.png",
+    img: "/images/ayse.png",
+    imagePosition: "70% center",
     date: "Ocak 2024",
   },
   {
@@ -52,8 +53,9 @@ const PATIENT_STORIES = [
     summary: "Yıllardır merdivenden çıkmaktan korkuyordum",
     story: "Sağ dizim yıllardır beni zorladı; artık merdivenden bile çıkamaz olmuştum. Robotik navigasyonlu diz protezi hakkında araştırırken Prof. Dr. Ermiş'e ulaştım. Ameliyat sonrası fizyoterapi süreci çok düzenliydi, her kontrolde ilerlememizi gördük. 3 ay sonra eşimle yürüyüşe çıktım.",
     result: "6 haftada tam yük bindirme",
-    img: "/images/diz-kalca-protezi.png",
-    date: "Kasım 2023",
+    img: "/images/huseyin-toprak.png",
+    imagePosition: "74% center",
+    date: "Kas?m 2023",
   },
 ];
 
@@ -143,6 +145,7 @@ function PatientStoriesSlider({ items }: { items: typeof PATIENT_STORIES }) {
               src={story.img}
               alt={story.name}
               className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: story.imagePosition ?? "center center" }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent" />
             <div className="absolute bottom-5 left-5 right-5">
@@ -509,15 +512,15 @@ export default function Home() {
                 </Link>
               </div>
 
-              <div className="mt-10 grid grid-cols-3 gap-0 border border-slate-100 rounded-2xl overflow-hidden bg-slate-50">
+              <div className="mt-10 grid grid-cols-3 gap-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm shadow-slate-200/80">
                 {[
                   { val: "5000+", label: "Başarılı Operasyon" },
                   { val: "20+", label: "Yıl Deneyim" },
                   { val: "3", label: "Hastane Kampüsü" },
                 ].map((s, i) => (
-                  <div key={i} className={`text-center py-5 px-3 ${i === 1 ? 'border-x border-slate-100' : ''}`}>
-                    <div className="text-2xl font-extrabold text-blue-600 mb-1">{s.val}</div>
-                    <div className="text-[11px] text-slate-400 font-medium">{s.label}</div>
+                  <div key={i} className={`bg-white/60 px-3 py-5 text-center ${i === 1 ? 'border-x border-slate-200' : ''}`}>
+                    <div className="mb-1 text-2xl font-extrabold text-blue-600">{s.val}</div>
+                    <div className="text-[11px] font-semibold text-slate-500">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -538,9 +541,13 @@ export default function Home() {
                 </div>
 
                 {/* Stat kartı — üst sağ */}
-                <div className="rounded-3xl bg-blue-50 border border-blue-100 flex flex-col items-center justify-center p-5">
-                  <span className="text-4xl font-extrabold text-blue-600 leading-none">5000<span className="text-2xl">+</span></span>
-                  <span className="text-xs font-bold text-blue-500/70 mt-2 text-center">Sağlıklı, Mutlu Hasta</span>
+                <div className="flex flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-7 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)]">
+                  <span className="text-5xl font-extrabold leading-none text-blue-600 md:text-4xl">
+                    5000<span className="text-3xl md:text-4xl">+</span>
+                  </span>
+                  <span className="mt-3 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 bg-clip-text text-sm font-extrabold tracking-[0.08em] text-transparent">
+                    Saglikli, Mutlu Hasta
+                  </span>
                 </div>
 
                 {/* Küçük görsel — orta sağ */}
