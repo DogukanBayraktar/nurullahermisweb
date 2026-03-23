@@ -275,14 +275,14 @@ export default function IletisimPage() {
                   </a>
 
                   {/* E-posta */}
-                  <a href="mailto:nurullahermis@erenhastanesi.com"
+                  <a href="mailto:nurullahermis@central.com.tr"
                     className="group flex items-center gap-4 px-8 py-5 hover:bg-slate-50 transition-colors">
                     <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-colors">
                       <Mail className="w-[18px] h-[18px] text-blue-600 group-hover:text-white transition-colors" />
                     </div>
                     <div className="min-w-0 overflow-hidden">
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">E-posta</p>
-                      <p className="text-sm font-extrabold text-slate-900 leading-tight truncate">nurullahermis@erenhastanesi.com</p>
+                      <p className="text-sm font-extrabold text-slate-900 leading-tight truncate">nurullahermis@central.com.tr</p>
                     </div>
                   </a>
 
