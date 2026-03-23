@@ -518,9 +518,9 @@ export default function Home() {
                   { val: "20+", label: "Yıl Deneyim" },
                   { val: "3", label: "Hastane Kampüsü" },
                 ].map((s, i) => (
-                  <div key={i} className={`bg-white/60 px-3 py-5 text-center ${i === 1 ? 'border-x border-slate-200' : ''}`}>
-                    <div className="mb-1 text-2xl font-extrabold text-blue-600">{s.val}</div>
-                    <div className="text-[11px] font-semibold text-slate-500">{s.label}</div>
+                  <div key={i} className={`bg-white/60 px-2 py-4 text-center sm:px-3 sm:py-5 ${i === 1 ? 'border-x border-slate-200' : ''}`}>
+                    <div className="mb-1 text-xl font-extrabold text-blue-600 sm:text-2xl">{s.val}</div>
+                    <div className="text-[10px] font-semibold leading-tight text-slate-500 sm:text-[11px]">{s.label}</div>
                   </div>
                 ))}
               </div>
@@ -528,10 +528,10 @@ export default function Home() {
 
             {/* SAĞ — Bento Grid */}
             <FadeIn direction="left" delay={0.15}>
-              <div className="grid grid-cols-2 gap-3" style={{ gridTemplateRows: '160px 160px 160px' }}>
+              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2" style={{ gridTemplateRows: 'repeat(5, minmax(150px, auto))' }}>
 
                 {/* Büyük görsel — üst sol, 2 satır */}
-                <div className="row-span-2 rounded-3xl overflow-hidden relative">
+                <div className="relative min-h-[220px] overflow-hidden rounded-3xl sm:row-span-2">
                   <img src="/images/skolyoz-kifoz.png" alt="Merkez" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                   <div className="absolute bottom-5 left-5">
@@ -541,17 +541,17 @@ export default function Home() {
                 </div>
 
                 {/* Stat kartı — üst sağ */}
-                <div className="flex flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-7 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)]">
-                  <span className="text-5xl font-extrabold leading-none text-blue-600 md:text-4xl">
-                    5000<span className="text-3xl md:text-4xl">+</span>
+                <div className="flex min-h-[170px] flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)] sm:min-h-0 sm:p-7">
+                  <span className="text-4xl font-extrabold leading-none text-blue-600 sm:text-5xl">
+                    5000<span className="text-2xl sm:text-3xl">+</span>
                   </span>
-                  <span className="mt-3 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 bg-clip-text text-sm font-extrabold tracking-[0.08em] text-transparent">
+                  <span className="mt-3 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 bg-clip-text text-xs font-extrabold tracking-[0.08em] text-transparent sm:text-sm">
                     Saglikli, Mutlu Hasta
                   </span>
                 </div>
 
                 {/* Küçük görsel — orta sağ */}
-                <div className="rounded-3xl overflow-hidden relative">
+                <div className="relative min-h-[170px] overflow-hidden rounded-3xl">
                   <img src="/images/diz-kalca-protezi.png" alt="Teknoloji" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                   <div className="absolute bottom-4 left-4">
@@ -561,14 +561,13 @@ export default function Home() {
                 </div>
 
                 {/* Alt sol */}
-                <div className="rounded-3xl overflow-hidden relative">
+                <div className="relative min-h-[170px] overflow-hidden rounded-3xl">
                   <img src="/images/bel-fitigi.png" alt="Hastane" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
                 </div>
 
                 {/* Online Randevu kartı — alt sağ */}
-                <div className="rounded-3xl overflow-hidden relative" style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #0e7490 100%)' }}>
-                  <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-white/10 blur-xl" />
+                <div className="relative min-h-[170px] overflow-hidden rounded-3xl" style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #0e7490 100%)' }}>
                   <div className="relative z-10 h-full flex flex-col justify-between p-5">
                     <div>
                       <span className="text-[10px] font-bold uppercase tracking-widest text-sky-300 block mb-1">Hızlı Erişim</span>
@@ -595,11 +594,11 @@ export default function Home() {
         <div className="container relative z-10 mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-24">
             <FadeIn direction="right" delay={0.2} className="w-full lg:w-5/12 relative">
-              <div className="absolute -inset-3 bg-white rounded-[2.5rem] -z-10 rotate-2 opacity-60 scale-[1.03] shadow-xl shadow-slate-200/50" />
               <img
                 src="/nurullah-hoca1.avif"
                 alt="Prof. Dr. Nurullah Ermiş"
                 className="rounded-3xl shadow-2xl shadow-slate-200/80 object-cover w-full aspect-[4/5] z-10 relative object-top"
+                style={{ objectPosition: "center 70%" }}
               />
             </FadeIn>
             <div className="w-full lg:w-7/12">

@@ -63,7 +63,6 @@ export default function HakkimdaPage() {
 
             <FadeIn direction="right" delay={0.1} className="w-full lg:w-5/12">
               <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-br from-blue-100 to-teal-50/50 rounded-[3rem] rotate-3 scale-105 -z-10 blur-sm" />
                 <img
                   src="/nurullah-hoca3.avif"
                   alt="Prof. Dr. M. Nurullah Ermiş"
