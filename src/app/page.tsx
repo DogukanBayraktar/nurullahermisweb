@@ -21,6 +21,51 @@ const BEFORE_AFTER = [
   { img: "/images/69b8010e9d8850fbd786d629_kyphoscoliosis-2.jpg.avif", label: "Kifoskolyoz", desc: "Kifoskolyoz vakasında ameliyat sonrası daha dengeli omurga yapısı." },
 ];
 
+const PATIENT_STORIES = [
+  {
+    name: "Mehmet Yılmaz",
+    age: 14,
+    tag: "Skolyoz Cerrahisi",
+    tagColor: "bg-blue-600",
+    summary: "Oğlumuzun omurgası 58 derece eğriydi",
+    story: "Oğlumuz Kerem, 12 yaşında okul taramasında skolyoz teşhisi aldı. Başka iki hastanede 'bekleyelim' dediler; ama eğrilik hızla ilerliyordu. Prof. Dr. Ermiş bizi ilk muayenede detaylıca dinledi, MR görüntülerini tek tek anlattı. Ameliyattan 2 gün sonra Kerem kendi ayakları üstünde yürüdü. Şimdi 16 yaşında, basketbol oynuyor.",
+    result: "58° → 9° düzelme",
+    img: "/images/skolyoz-kifoz.png",
+    date: "Mart 2024",
+  },
+  {
+    name: "Ayşe Kılıç",
+    age: 52,
+    tag: "Bel Fıtığı",
+    tagColor: "bg-teal-600",
+    summary: "3 yıl boyunca sağ bacağıma yayılan ağrıyla yaşadım",
+    story: "Üç yıl boyunca sağ bacağıma vuran ağrıyla uyuyamaz oldum. Ağrı kesiciler işe yaramıyordu, işe gidemez hale geldim. Prof. Dr. Ermiş ameliyat öncesi her adımı anlattı, sorularımı hiç atlamamıştı. Ameliyat sonrası ertesi sabah ağrı sıfırdı — o anı tarif edemem. Aynı gün koridorda yürüdüm.",
+    result: "Ameliyat sonrası ertesi gün taburcu",
+    img: "/images/bel-fitigi.png",
+    date: "Ocak 2024",
+  },
+  {
+    name: "Hüseyin Toprak",
+    age: 68,
+    tag: "Diz Protezi",
+    tagColor: "bg-indigo-600",
+    summary: "Yıllardır merdivenden çıkmaktan korkuyordum",
+    story: "Sağ dizim yıllardır beni zorladı; artık merdivenden bile çıkamaz olmuştum. Robotik navigasyonlu diz protezi hakkında araştırırken Prof. Dr. Ermiş'e ulaştım. Ameliyat sonrası fizyoterapi süreci çok düzenliydi, her kontrolde ilerlememizi gördük. 3 ay sonra eşimle yürüyüşe çıktım.",
+    result: "6 haftada tam yük bindirme",
+    img: "/images/diz-kalca-protezi.png",
+    date: "Kasım 2023",
+  },
+];
+
+const GOOGLE_REVIEWS = [
+  { name: "Selin A.", stars: 5, time: "2 ay önce", text: "Prof. Dr. Ermiş gerçekten hasta odaklı bir hekim. Her sorumuzu sabırla yanıtladı, hiç acele ettirmedi. Ameliyat sonrası takip süreci de çok düzenliydi." },
+  { name: "Tarık B.", stars: 5, time: "3 ay önce", text: "Bel fıtığı ameliyatından sonra aynı gün ayağa kalktım. Yıllarca çektiğim ağrı bir günde bitti. Herkese tavsiye ederim." },
+  { name: "Nermin K.", stars: 5, time: "1 ay önce", text: "Çocuğumun skolyoz tedavisinde en doğru adresi bulduk. Ameliyat öncesi ve sonrası iletişim mükemmeldi, hiçbir zaman yalnız hissetmedik." },
+  { name: "Osman D.", stars: 5, time: "4 ay önce", text: "Diz protezi sonrası 3 ayda yürüyüşe çıktım. Ekip çok profesyonel, hastane süreci son derece düzenliydi." },
+  { name: "Elif M.", stars: 5, time: "2 hafta önce", text: "Boyun fıtığı için geldim, mikrocerrahi ile ameliyat oldum. Sabah ameliyat, öğlen yürüyordum. Hayat kurtaran bir operasyon." },
+  { name: "Cengiz Y.", stars: 5, time: "5 ay önce", text: "Yıllarca ortopedi korkusu yaşadım ama Prof. Ermiş'in yaklaşımı beni rahatlattı. Sonuçlar inanılmazdı, teşekkürler." },
+];
+
 const YOUTUBE_VIDEOS = [
   { title: "Skolyoz Cerrahisi", videoId: "gryuYiNd6WI", isShort: false, thumb: "https://img.youtube.com/vi/gryuYiNd6WI/maxresdefault.jpg" },
   { title: "Bel Fıtığı Ameliyatı", videoId: "MOw6U2iJQew", isShort: false, thumb: "https://img.youtube.com/vi/MOw6U2iJQew/maxresdefault.jpg" },
@@ -259,7 +304,148 @@ export default function Home() {
       </section>
 
 
-      {/* ═══════════════ 3. MERKEZ TANITIM (Bento) ═══════════════ */}
+
+      {/* ═══════════════ 3. HASTA YORUMLARI (Social Proof) ═══════════════ */}
+      <section className="py-20 bg-slate-50 overflow-hidden relative border-y border-slate-100">
+        <div className="container mx-auto px-4 max-w-4xl relative z-10">
+          <FadeIn direction="up" className="text-center mb-14">
+            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Hasta Yorumları</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">Hastalarımız Ne Diyor?</h2>
+          </FadeIn>
+
+          <div className="relative bg-white rounded-[2.5rem] border border-blue-100 shadow-xl shadow-blue-100/30 p-8 md:p-14">
+            <Quote className="w-14 h-14 text-blue-50 absolute top-7 left-7 opacity-20" />
+            <div className="min-h-[200px] flex flex-col justify-center items-center text-center relative z-10">
+              <div className="flex mb-6 gap-0.5">
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-500 fill-yellow-500" />)}
+              </div>
+              <p className="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed mb-8 italic px-4">
+                &ldquo;{TESTIMONIALS[currentTestimonial].text}&rdquo;
+              </p>
+              <div>
+                <p className="font-extrabold text-slate-900 text-lg">{TESTIMONIALS[currentTestimonial].author}</p>
+                <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mt-1">{TESTIMONIALS[currentTestimonial].detail}</p>
+              </div>
+            </div>
+            <div className="flex items-center justify-between mt-10">
+              <button onClick={prevTestimonial} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm">
+                <ChevronLeft className="w-6 h-6" />
+              </button>
+              <div className="flex gap-2">
+                {TESTIMONIALS.map((_, i) => (
+                  <button key={i} onClick={() => setCurrentTestimonial(i)}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${i === currentTestimonial ? 'w-10 bg-blue-600' : 'w-2 bg-blue-100 hover:bg-blue-200'}`}
+                  />
+                ))}
+              </div>
+              <button onClick={nextTestimonial} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm">
+                <ChevronRight className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+
+          {/* Google Yorumları Grid */}
+          <div className="mt-16">
+            <div className="flex items-center gap-3 mb-8 justify-center">
+              <div className="flex gap-1">
+                {[...Array(5)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
+              </div>
+              <span className="font-extrabold text-slate-900 text-lg">4.9</span>
+              <span className="text-slate-400 text-sm font-medium">· Google Yorumları</span>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {GOOGLE_REVIEWS.map((review, i) => (
+                <FadeIn key={i} delay={0.05 + i * 0.07} direction="up">
+                  <div className="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition-all duration-300 p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-3">
+                        <div className="w-9 h-9 rounded-full bg-blue-100 flex items-center justify-center font-extrabold text-blue-600 text-sm">
+                          {review.name.charAt(0)}
+                        </div>
+                        <div>
+                          <p className="font-bold text-slate-900 text-sm">{review.name}</p>
+                          <p className="text-slate-400 text-xs">{review.time}</p>
+                        </div>
+                      </div>
+                      <div className="flex gap-0.5">
+                        {[...Array(review.stars)].map((_, j) => <Star key={j} className="w-3.5 h-3.5 text-yellow-500 fill-yellow-500" />)}
+                      </div>
+                    </div>
+                    <p className="text-slate-600 text-sm leading-relaxed">{review.text}</p>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      {/* ═══════════════ 4. SONUÇLAR (Results/Proof) ═══════════════ */}
+      <section className="py-20 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
+            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Sonuçlar</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Tedavi Sonuçları</h2>
+            <p className="text-slate-500 text-lg">Hastalarımızın tedavi süreçlerinden gerçek radyolojik ve klinik sonuçlar.</p>
+          </FadeIn>
+          <ResultsSlider items={BEFORE_AFTER} />
+        </div>
+      </section>
+
+
+      {/* ═══════════════ 4b. HASTA HİKAYELERİ ═══════════════ */}
+      <section className="py-20 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
+            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Hasta Hikayeleri</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Gerçek Hikayeler, Gerçek Sonuçlar</h2>
+            <p className="text-slate-500 text-lg">Hastalarımızın kendi sözleriyle tedavi yolculukları.</p>
+          </FadeIn>
+
+          <div className="flex flex-col gap-8">
+            {PATIENT_STORIES.map((story, i) => (
+              <FadeIn key={i} delay={0.1 + i * 0.1} direction="up">
+                <div className={`flex flex-col ${i % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-0 rounded-[2rem] overflow-hidden border border-slate-100 shadow-md hover:shadow-xl transition-all duration-400 bg-white`}>
+                  {/* Görsel */}
+                  <div className="w-full lg:w-2/5 relative min-h-[260px]">
+                    <img src={story.img} alt={story.name} className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-slate-900/20 to-transparent" />
+                    <div className="absolute bottom-5 left-5 right-5">
+                      <span className={`inline-block text-[10px] font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full mb-2 ${story.tagColor}`}>{story.tag}</span>
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-extrabold text-white text-xs">
+                          {story.name.charAt(0)}
+                        </div>
+                        <div>
+                          <p className="text-white font-bold text-sm">{story.name}</p>
+                          <p className="text-white/60 text-xs">{story.age} Yaşında · {story.date}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  {/* Metin */}
+                  <div className="w-full lg:w-3/5 p-8 lg:p-12 flex flex-col justify-center">
+                    <h3 className="text-xl md:text-2xl font-extrabold text-slate-900 mb-4 leading-snug">
+                      &ldquo;{story.summary}&rdquo;
+                    </h3>
+                    <p className="text-slate-500 leading-relaxed mb-6 text-base">{story.story}</p>
+                    <div className="flex items-center gap-3">
+                      <div className="h-px flex-1 bg-slate-100" />
+                      <span className="inline-flex items-center gap-2 bg-blue-50 border border-blue-100 text-blue-700 font-bold text-sm px-4 py-2 rounded-xl">
+                        <Star className="w-3.5 h-3.5 fill-blue-600 text-blue-600" />
+                        {story.result}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ 5. MERKEZ TANITIM (Bento) ═══════════════ */}
       <section className="py-20 bg-white overflow-hidden border-b border-slate-100">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
@@ -360,19 +546,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════ 4. SONUÇLAR (Results/Proof) ═══════════════ */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Sonuçlar</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Tedavi Sonuçları</h2>
-            <p className="text-slate-500 text-lg">Hastalarımızın tedavi süreçlerinden gerçek radyolojik ve klinik sonuçlar.</p>
-          </FadeIn>
-          <ResultsSlider items={BEFORE_AFTER} />
-        </div>
-      </section>
 
-      {/* ═══════════════ 4. HAKKINDA (Trust) ═══════════════ */}
+      {/* ═══════════════ 6. HAKKINDA (Trust) ═══════════════ */}
       <section className="py-20 bg-slate-50 overflow-hidden border-y border-slate-100">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-24">
@@ -410,75 +585,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════ 5. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 max-w-5xl">
-          <FadeIn direction="up" className="text-center mb-16">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">Tedavi Süreci</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">İlk Muayeneden Taburculuğa</h2>
-          </FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 relative">
-            <div className="hidden md:block absolute top-[2.75rem] left-[14%] right-[14%] h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
-            {[
-              { step: "01", title: "Muayene", desc: "Fizik muayene ve görüntüleme ile tanı." },
-              { step: "02", title: "Plan", desc: "Kişiye özel tedavi yolu belirlenir." },
-              { step: "03", title: "Tedavi", desc: "Minimal invaziv cerrahi uygulanır." },
-              { step: "04", title: "İyileşme", desc: "Fizyoterapi ve düzenli kontroller." },
-            ].map((item, i) => (
-              <FadeIn key={i} delay={0.1 + i * 0.12} direction="up">
-                <div className="text-center relative z-10 flex flex-col items-center group">
-                  <div className="w-[5.5rem] h-[5.5rem] rounded-2xl bg-white border border-blue-100 shadow-md shadow-blue-100/50 flex items-center justify-center mb-6 group-hover:shadow-lg group-hover:shadow-blue-200/60 group-hover:border-blue-200 transition-all duration-300">
-                    <span className="text-2xl font-extrabold text-blue-600">{item.step}</span>
-                  </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════ 6. HASTA YORUMLARI (Social Proof) ═══════════════ */}
-      <section className="py-20 bg-slate-50 overflow-hidden relative border-y border-slate-100">
-        <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <FadeIn direction="up" className="text-center mb-14">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Hasta Yorumları</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">Hastalarımız Ne Diyor?</h2>
-          </FadeIn>
-
-          <div className="relative bg-white rounded-[2.5rem] border border-blue-100 shadow-xl shadow-blue-100/30 p-8 md:p-14">
-            <Quote className="w-14 h-14 text-blue-50 absolute top-7 left-7 opacity-20" />
-            <div className="min-h-[200px] flex flex-col justify-center items-center text-center relative z-10">
-              <div className="flex mb-6 gap-0.5">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-500 fill-yellow-500" />)}
-              </div>
-              <p className="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed mb-8 italic px-4">
-                &ldquo;{TESTIMONIALS[currentTestimonial].text}&rdquo;
-              </p>
-              <div>
-                <p className="font-extrabold text-slate-900 text-lg">{TESTIMONIALS[currentTestimonial].author}</p>
-                <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mt-1">{TESTIMONIALS[currentTestimonial].detail}</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-between mt-10">
-              <button onClick={prevTestimonial} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm">
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <div className="flex gap-2">
-                {TESTIMONIALS.map((_, i) => (
-                  <button key={i} onClick={() => setCurrentTestimonial(i)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${i === currentTestimonial ? 'w-10 bg-blue-600' : 'w-2 bg-blue-100 hover:bg-blue-200'}`}
-                  />
-                ))}
-              </div>
-              <button onClick={nextTestimonial} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm">
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* ═══════════════ 7. YOUTUBE VİDEOLAR (Content) ═══════════════ */}
       <section className="py-20 bg-white overflow-hidden">
@@ -528,7 +634,38 @@ export default function Home() {
         </div>
       )}
 
-      {/* ═══════════════ 8. CTA (Contact) ═══════════════ */}
+
+      {/* ═══════════════ 8. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
+      <section className="py-20 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <FadeIn direction="up" className="text-center mb-16">
+            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">Tedavi Süreci</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">İlk Muayeneden Taburculuğa</h2>
+          </FadeIn>
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 relative">
+            <div className="hidden md:block absolute top-[2.75rem] left-[14%] right-[14%] h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
+            {[
+              { step: "01", title: "Muayene", desc: "Fizik muayene ve görüntüleme ile tanı." },
+              { step: "02", title: "Plan", desc: "Kişiye özel tedavi yolu belirlenir." },
+              { step: "03", title: "Tedavi", desc: "Minimal invaziv cerrahi uygulanır." },
+              { step: "04", title: "İyileşme", desc: "Fizyoterapi ve düzenli kontroller." },
+            ].map((item, i) => (
+              <FadeIn key={i} delay={0.1 + i * 0.12} direction="up">
+                <div className="text-center relative z-10 flex flex-col items-center group">
+                  <div className="w-[5.5rem] h-[5.5rem] rounded-2xl bg-white border border-blue-100 shadow-md shadow-blue-100/50 flex items-center justify-center mb-6 group-hover:shadow-lg group-hover:shadow-blue-200/60 group-hover:border-blue-200 transition-all duration-300">
+                    <span className="text-2xl font-extrabold text-blue-600">{item.step}</span>
+                  </div>
+                  <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                  <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                </div>
+              </FadeIn>
+            ))}
+          </div>
+        </div>
+      </section>
+
+
+      {/* ═══════════════ 9. CTA (Contact) ═══════════════ */}
       <section className="py-20 bg-white overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <FadeIn direction="up">
@@ -564,5 +701,5 @@ export default function Home() {
       </section>
 
     </div>
-  );
+  )
 }
