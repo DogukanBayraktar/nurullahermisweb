@@ -73,6 +73,87 @@
   background: linear-gradient(135deg, #0c4a6e 0%, #075985 40%, #0e7490 100%);
 }
 
+.hero-section-blend {
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(248, 251, 255, 0.92) 0%,
+      rgba(248, 251, 255, 0.68) 22%,
+      rgba(248, 251, 255, 0.34) 44%,
+      rgba(248, 251, 255, 0.12) 60%,
+      rgba(248, 251, 255, 0.03) 72%,
+      transparent 84%
+    );
+  filter: blur(42px);
+}
+
+.page-flow {
+  background:
+    radial-gradient(circle at 10% 12%, rgba(186, 230, 253, 0.62), transparent 24%),
+    radial-gradient(circle at 86% 28%, rgba(125, 211, 252, 0.34), transparent 26%),
+    radial-gradient(circle at 16% 60%, rgba(207, 250, 254, 0.56), transparent 23%),
+    radial-gradient(circle at 82% 78%, rgba(219, 234, 254, 0.62), transparent 24%),
+    linear-gradient(180deg, #f7fbff 0%, #ffffff 20%, #f5faff 48%, #ffffff 72%, #f6fafe 100%);
+}
+
+.section-tint {
+  background:
+    radial-gradient(circle at top left, rgba(125, 211, 252, 0.28), transparent 38%),
+    linear-gradient(
+      180deg,
+      rgba(248, 251, 255, 0) 0%,
+      rgba(248, 251, 255, 0.95) 14%,
+      rgba(233, 244, 255, 0.98) 50%,
+      rgba(248, 251, 255, 0.95) 86%,
+      rgba(248, 251, 255, 0) 100%
+    );
+}
+
+.section-mist {
+  background:
+    radial-gradient(circle at top right, rgba(186, 230, 253, 0.36), transparent 38%),
+    radial-gradient(circle at bottom left, rgba(207, 250, 254, 0.54), transparent 32%),
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.93) 14%,
+      rgba(244, 249, 252, 0.98) 50%,
+      rgba(255, 255, 255, 0.93) 86%,
+      rgba(255, 255, 255, 0) 100%
+    );
+}
+
+.section-soft {
+  background:
+    linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.92) 14%,
+      rgba(252, 253, 255, 0.98) 50%,
+      rgba(255, 255, 255, 0.92) 86%,
+      rgba(255, 255, 255, 0) 100%
+    );
+}
+
+.section-panel {
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9) 0%, rgba(248, 250, 252, 0.96) 100%);
+  box-shadow:
+    0 24px 60px rgba(15, 23, 42, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+.section-grid {
+  background-image:
+    linear-gradient(rgba(148, 163, 184, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(148, 163, 184, 0.08) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.section-ghost {
+  background: transparent;
+}
+
 .dotted-bg {
   background-image: radial-gradient(circle at 1px 1px, black 1px, transparent 0);
   background-size: 40px 40px;

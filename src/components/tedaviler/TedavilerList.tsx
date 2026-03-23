@@ -31,7 +31,7 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
     <>
       {initialTreatments.length === 0 ? (
         <div className="py-20 text-center text-slate-400">
-          <p className="text-lg font-medium">Bu kategoride henüz tedavi bilgisi bulunmuyor.</p>
+          <p className="text-lg font-medium">Bu kategoride hen&uuml;z tedavi bilgisi bulunmuyor.</p>
         </div>
       ) : (
         <div className="grid auto-rows-[220px] grid-cols-1 gap-6 md:auto-rows-[250px] md:grid-cols-12">
@@ -67,7 +67,7 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
                         </p>
                       )}
                       <span className="flex shrink-0 items-center gap-1.5 text-sm font-bold text-blue-300 transition-all group-hover:gap-3">
-                        Detaylı Bilgi <ChevronRight className="h-4 w-4" />
+                        Detayl&#305; Bilgi <ChevronRight className="h-4 w-4" />
                       </span>
                     </div>
                   </div>

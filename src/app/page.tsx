@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft, Star, ArrowRight, Quote, Play } from "lucide-react";
+import { ChevronRight, ChevronLeft, Star, Quote, Play } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 
 const TESTIMONIALS = [
@@ -240,7 +240,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex min-h-screen flex-col bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_16%,#f8fbff_46%,#ffffff_72%,#f8fafc_100%)]">
 
       {/* ═══════════════ 1. HERO (Value Prop) ═══════════════ */}
       <section className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #075985 35%, #0e7490 65%, #0891b2 100%)' }}>
@@ -248,7 +248,6 @@ export default function Home() {
         {/* Soft radial glows */}
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none" style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 65%)' }} />
         <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #22d3ee 0%, transparent 65%)' }} />
-
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-0 min-h-[600px] lg:min-h-[680px]">
 
@@ -318,11 +317,27 @@ export default function Home() {
             </div>
           </div>
         </div>
+
+        <div className="hero-section-blend absolute bottom-[-8rem] left-1/2 h-52 w-[145%] -translate-x-1/2 sm:bottom-[-9rem] sm:h-60 lg:bottom-[-10rem] lg:h-72 pointer-events-none" />
+
       </section>
 
       {/* ═══════════════ 2. TEDAVİ ALANLARI — BENTO (Services) ═══════════════ */}
-      <section className="py-20 bg-slate-50 overflow-hidden border-b border-slate-100">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <div className="relative overflow-hidden">
+      <div className="pointer-events-none absolute inset-0">
+        <div className="absolute left-[-15rem] top-0 h-[36rem] w-[36rem] rounded-full bg-sky-200/42 blur-[145px]" />
+        <div className="absolute right-[-15rem] top-[18rem] h-[36rem] w-[36rem] rounded-full bg-cyan-200/40 blur-[145px]" />
+        <div className="absolute left-[2%] top-[44rem] h-[34rem] w-[34rem] rounded-full bg-blue-100/50 blur-[150px]" />
+        <div className="absolute right-[2%] top-[74rem] h-[34rem] w-[34rem] rounded-full bg-teal-100/46 blur-[150px]" />
+        <div className="absolute left-[-12rem] top-[110rem] h-[34rem] w-[34rem] rounded-full bg-cyan-100/46 blur-[150px]" />
+        <div className="absolute right-[-12rem] top-[144rem] h-[34rem] w-[34rem] rounded-full bg-sky-100/48 blur-[155px]" />
+        <div className="absolute left-[3%] top-[180rem] h-[34rem] w-[34rem] rounded-full bg-teal-100/42 blur-[150px]" />
+        <div className="absolute right-[1%] top-[212rem] h-[34rem] w-[34rem] rounded-full bg-blue-100/50 blur-[155px]" />
+        <div className="absolute left-[-12rem] top-[248rem] h-[34rem] w-[34rem] rounded-full bg-sky-100/44 blur-[150px]" />
+        <div className="absolute right-[-12rem] top-[280rem] h-[34rem] w-[34rem] rounded-full bg-cyan-100/44 blur-[150px]" />
+      </div>
+      <section className="section-ghost relative py-20 overflow-hidden">
+        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
           <FadeIn delay={0.1} direction="up" className="text-center mb-16 max-w-3xl mx-auto">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Tedavi Alanları</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Uzmanlık Alanlarımız</h2>
@@ -398,14 +413,15 @@ export default function Home() {
 
 
       {/* ═══════════════ 3. HASTA YORUMLARI (Social Proof) ═══════════════ */}
-      <section className="py-20 bg-slate-50 overflow-hidden relative border-y border-slate-100">
+      <section className="section-ghost relative py-20 overflow-hidden">
+        <div className="section-grid absolute inset-0 opacity-30 pointer-events-none" />
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
           <FadeIn direction="up" className="text-center mb-14">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Hasta Yorumları</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">Hastalarımız Ne Diyor?</h2>
           </FadeIn>
 
-          <div className="relative bg-white rounded-[2.5rem] border border-blue-100 shadow-xl shadow-blue-100/30 p-8 md:p-14">
+          <div className="section-panel relative rounded-[2.5rem] border border-white/80 p-8 md:p-14">
             <Quote className="w-14 h-14 text-blue-50 absolute top-7 left-7 opacity-20" />
             <div className="min-h-[200px] flex flex-col justify-center items-center text-center relative z-10">
               <div className="flex mb-6 gap-0.5">
@@ -440,8 +456,8 @@ export default function Home() {
 
 
       {/* ═══════════════ 4. SONUÇLAR (Results/Proof) ═══════════════ */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <section className="section-ghost relative py-20 overflow-hidden">
+        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
           <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Sonuçlar</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Tedavi Sonuçları</h2>
@@ -453,8 +469,8 @@ export default function Home() {
 
 
       {/* ═══════════════ 4b. HASTA HİKAYELERİ ═══════════════ */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <section className="section-ghost relative py-20 overflow-hidden">
+        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
           <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Hasta Deneyimleri</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Gerçek Hikayelerle Tedavi Yolculuğu</h2>
@@ -466,9 +482,9 @@ export default function Home() {
       </section>
 
       {/* ═══════════════ 5. MERKEZ TANITIM (Bento) ═══════════════ */}
-      <section className="py-20 bg-white overflow-hidden border-b border-slate-100">
-        <div className="container mx-auto px-4 max-w-6xl">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+      <section className="section-ghost relative py-20 overflow-hidden">
+        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
+          <div className="section-panel grid grid-cols-1 gap-6 rounded-[2.75rem] border border-slate-100/80 p-6 md:p-8 lg:grid-cols-2 lg:p-10 items-center">
 
             {/* SOL — Metin */}
             <FadeIn direction="right" delay={0.1} className="flex flex-col justify-center py-8 lg:py-0 lg:pr-8">
@@ -568,8 +584,8 @@ export default function Home() {
 
 
       {/* ═══════════════ 6. HAKKINDA (Trust) ═══════════════ */}
-      <section className="py-20 bg-slate-50 overflow-hidden border-y border-slate-100">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <section className="section-ghost relative py-20 overflow-hidden">
+        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-24">
             <FadeIn direction="right" delay={0.2} className="w-full lg:w-5/12 relative">
               <div className="absolute -inset-3 bg-white rounded-[2.5rem] -z-10 rotate-2 opacity-60 scale-[1.03] shadow-xl shadow-slate-200/50" />
@@ -607,8 +623,8 @@ export default function Home() {
 
 
       {/* ═══════════════ 7. YOUTUBE VİDEOLAR (Content) ═══════════════ */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 max-w-6xl">
+      <section className="section-ghost relative py-20 overflow-hidden">
+        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
           <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Video İçerikler</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">YouTube Kanalımız</h2>
@@ -656,14 +672,14 @@ export default function Home() {
 
 
       {/* ═══════════════ 8. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
-      <section className="py-20 bg-white overflow-hidden">
-        <div className="container mx-auto px-4 max-w-5xl">
+      <section className="section-ghost relative py-20 overflow-hidden">
+        <div className="container relative z-10 mx-auto px-4 max-w-5xl">
           <FadeIn direction="up" className="text-center mb-16">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">Tedavi Süreci</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">İlk Muayeneden Taburculuğa</h2>
           </FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 relative">
-            <div className="hidden md:block absolute top-[2.75rem] left-[14%] right-[14%] h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
+          <div className="section-panel relative grid grid-cols-1 gap-6 rounded-[2.5rem] border border-white/80 p-6 md:grid-cols-4 md:gap-4 md:p-10">
+            <div className="hidden md:block absolute top-[5.25rem] left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
             {[
               { step: "01", title: "Muayene", desc: "Fizik muayene ve görüntüleme ile tanı." },
               { step: "02", title: "Plan", desc: "Kişiye özel tedavi yolu belirlenir." },
@@ -686,7 +702,8 @@ export default function Home() {
 
 
       {/* ═══════════════ 9. CTA (Contact) ═══════════════ */}
-      <section className="py-20 bg-white overflow-hidden">
+      </div>
+      <section className="py-20 overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
           <FadeIn direction="up">
             <div className="rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden"
