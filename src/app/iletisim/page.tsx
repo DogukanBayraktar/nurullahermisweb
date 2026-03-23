@@ -102,7 +102,7 @@ export default function IletisimPage() {
       {/* ══════════════════════════════════════════
           FORM + İLETİŞİM KARTLARI
       ══════════════════════════════════════════ */}
-      <section className="py-14">
+      <section className="py-20">
         <div className="container mx-auto px-4 max-w-6xl">
 
           {/* Sayfa başlığı */}
@@ -113,7 +113,7 @@ export default function IletisimPage() {
             </div>
           </FadeIn>
 
-          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-stretch">
 
             {/* ── FORM (3 kolon) ── */}
             <FadeIn direction="up" delay={0.05} className="lg:col-span-3">
@@ -236,59 +236,77 @@ export default function IletisimPage() {
               </div>
             </FadeIn>
 
-            {/* ── İLETİŞİM KARTLARI (2 kolon) ── */}
-            <FadeIn direction="up" delay={0.1} className="lg:col-span-2">
-              <div className="space-y-4">
+            {/* ── İLETİŞİM PANELİ (2 kolon) ── */}
+            <FadeIn direction="up" delay={0.1} className="lg:col-span-2 h-full">
+              <div className="h-full bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden flex flex-col">
 
-                {/* Telefon */}
-                <a href="tel:4447799"
-                  className="flex items-center gap-4 bg-white border border-slate-100 rounded-2xl px-6 py-5 shadow-sm hover:border-blue-200 hover:shadow-md transition-all group">
-                  <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-colors">
-                    <Phone className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Randevu Hattı</p>
-                    <p className="text-base font-extrabold text-slate-900">444 77 99</p>
-                    <p className="text-xs text-slate-400 mt-0.5">0532 205 16 37</p>
-                  </div>
-                </a>
+                {/* Üst kısım — başlık */}
+                <div className="px-8 pt-8 pb-6 border-b border-slate-100">
+                  <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-1.5">Bize Ulaşın</p>
+                  <h2 className="text-xl font-extrabold text-slate-900">İletişim Bilgileri</h2>
+                </div>
 
-                {/* WhatsApp */}
-                <a href="https://wa.me/905321397799" target="_blank" rel="noopener noreferrer"
-                  className="flex items-center gap-4 bg-white border border-slate-100 rounded-2xl px-6 py-5 shadow-sm hover:border-emerald-200 hover:shadow-md transition-all group">
-                  <div className="w-11 h-11 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 transition-colors">
-                    <MessageSquare className="w-5 h-5 text-emerald-600 group-hover:text-white transition-colors" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">WhatsApp</p>
-                    <p className="text-base font-extrabold text-slate-900">Mesaj Gönder</p>
-                    <p className="text-xs text-slate-400 mt-0.5">Hızlı yanıt için</p>
-                  </div>
-                </a>
+                {/* İletişim satırları */}
+                <div className="flex flex-col flex-1 divide-y divide-slate-100">
 
-                {/* E-posta */}
-                <a href="mailto:nurullahermis@erenhastanesi.com"
-                  className="flex items-center gap-4 bg-white border border-slate-100 rounded-2xl px-6 py-5 shadow-sm hover:border-blue-200 hover:shadow-md transition-all group">
-                  <div className="w-11 h-11 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-colors">
-                    <Mail className="w-5 h-5 text-blue-600 group-hover:text-white transition-colors" />
-                  </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">E-posta</p>
-                    <p className="text-sm font-bold text-slate-900 leading-tight">nurullahermis</p>
-                    <p className="text-xs text-slate-400">@erenhastanesi.com</p>
-                  </div>
-                </a>
+                  {/* Telefon */}
+                  <a href="tel:4447799" className="group flex items-center gap-4 px-8 py-5 hover:bg-slate-50 transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-colors">
+                      <Phone className="w-[18px] h-[18px] text-blue-600 group-hover:text-white transition-colors" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Randevu Hattı</p>
+                      <p className="text-base font-extrabold text-slate-900 leading-tight">444 77 99</p>
+                      <p className="text-xs text-slate-400 mt-0.5">0532 205 16 37</p>
+                    </div>
+                  </a>
 
-                {/* Çalışma saatleri */}
-                <div className="flex items-center gap-4 bg-white border border-slate-100 rounded-2xl px-6 py-5 shadow-sm">
-                  <div className="w-11 h-11 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
-                    <Clock className="w-5 h-5 text-slate-500" />
+                  {/* WhatsApp */}
+                  <a href="https://wa.me/905321397799" target="_blank" rel="noopener noreferrer"
+                    className="group flex items-center gap-4 px-8 py-5 hover:bg-slate-50 transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center shrink-0 group-hover:bg-emerald-600 transition-colors">
+                      <MessageSquare className="w-[18px] h-[18px] text-emerald-600 group-hover:text-white transition-colors" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">WhatsApp</p>
+                      <p className="text-base font-extrabold text-slate-900 leading-tight">Mesaj Gönder</p>
+                      <p className="text-xs text-slate-400 mt-0.5">Hızlı yanıt için</p>
+                    </div>
+                  </a>
+
+                  {/* E-posta */}
+                  <a href="mailto:nurullahermis@erenhastanesi.com"
+                    className="group flex items-center gap-4 px-8 py-5 hover:bg-slate-50 transition-colors">
+                    <div className="w-10 h-10 rounded-xl bg-blue-50 flex items-center justify-center shrink-0 group-hover:bg-blue-600 transition-colors">
+                      <Mail className="w-[18px] h-[18px] text-blue-600 group-hover:text-white transition-colors" />
+                    </div>
+                    <div className="min-w-0 overflow-hidden">
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">E-posta</p>
+                      <p className="text-sm font-extrabold text-slate-900 leading-tight truncate">nurullahermis@erenhastanesi.com</p>
+                    </div>
+                  </a>
+
+                  {/* Çalışma saatleri */}
+                  <div className="flex items-center gap-4 px-8 py-5">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center shrink-0">
+                      <Clock className="w-[18px] h-[18px] text-slate-500" />
+                    </div>
+                    <div>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Çalışma Saatleri</p>
+                      <p className="text-sm font-extrabold text-slate-900 leading-tight">Pzt – Cuma: 08:00 – 20:00</p>
+                      <p className="text-xs text-slate-400 mt-0.5">Cumartesi: Randevu ile</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Çalışma Saatleri</p>
-                    <p className="text-sm font-bold text-slate-900">Pzt – Cuma: 08:00 – 20:00</p>
-                    <p className="text-xs text-slate-400 mt-0.5">Cumartesi: Randevu ile</p>
-                  </div>
+
+                </div>
+
+                {/* Alt CTA */}
+                <div className="px-8 py-6 border-t border-slate-100">
+                  <a href="https://wa.me/905321397799" target="_blank" rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white text-sm font-bold transition-all shadow-md shadow-emerald-600/20">
+                    <MessageSquare className="w-4 h-4" />
+                    WhatsApp ile Randevu Al
+                  </a>
                 </div>
 
               </div>
@@ -301,7 +319,7 @@ export default function IletisimPage() {
       {/* ══════════════════════════════════════════
           MUAYENE LOKASYONLARI
       ══════════════════════════════════════════ */}
-      <section className="py-14 bg-white border-t border-slate-100">
+      <section className="py-20 bg-white border-t border-slate-100">
         <div className="container mx-auto px-4 max-w-6xl">
 
           <FadeIn direction="up">

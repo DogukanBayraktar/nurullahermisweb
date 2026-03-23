@@ -89,7 +89,7 @@ export default async function HealthGuideDetailPage({ params }: { params: Promis
     .slice(0, 4);
 
   return (
-    <div className="min-h-screen bg-slate-50 py-24">
+    <div className="min-h-screen bg-slate-50 py-20">
       <div className="container mx-auto max-w-6xl px-4">
         <Link
           href="/saglik-rehberi"

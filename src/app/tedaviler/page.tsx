@@ -27,7 +27,7 @@ export default async function TedavilerPage() {
   });
 
   return (
-    <div className="py-24 bg-slate-50 min-h-screen">
+    <div className="py-20 bg-slate-50 min-h-screen">
       <div className="container mx-auto px-4 max-w-6xl">
 
         <FadeIn direction="up">

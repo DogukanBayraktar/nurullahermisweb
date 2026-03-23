@@ -112,7 +112,7 @@ export default function Home() {
         <div className="absolute -top-40 -right-40 w-[600px] h-[600px] rounded-full opacity-20 pointer-events-none" style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 65%)' }} />
         <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full opacity-15 pointer-events-none" style={{ background: 'radial-gradient(circle, #22d3ee 0%, transparent 65%)' }} />
 
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-0 min-h-[600px] lg:min-h-[680px]">
 
             {/* Sol — metin */}
@@ -184,8 +184,8 @@ export default function Home() {
       </section>
 
       {/* ═══════════════ 2. TEDAVİ ALANLARI — BENTO (Services) ═══════════════ */}
-      <section className="py-28 bg-slate-50 overflow-hidden border-b border-slate-100">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-slate-50 overflow-hidden border-b border-slate-100">
+        <div className="container mx-auto px-4 max-w-6xl">
           <FadeIn delay={0.1} direction="up" className="text-center mb-16 max-w-3xl mx-auto">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Tedavi Alanları</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Uzmanlık Alanlarımız</h2>
@@ -258,9 +258,111 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ═══════════════ 3. SONUÇLAR (Results/Proof) ═══════════════ */}
-      <section className="py-28 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
+
+      {/* ═══════════════ 3. MERKEZ TANITIM (Bento) ═══════════════ */}
+      <section className="py-20 bg-white overflow-hidden border-b border-slate-100">
+        <div className="container mx-auto px-4 max-w-6xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-center">
+
+            {/* SOL — Metin */}
+            <FadeIn direction="right" delay={0.1} className="flex flex-col justify-center py-8 lg:py-0 lg:pr-8">
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">Omurga Sağlığı Merkezi</p>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                Omurga Sağlığı İçin<br />
+                <span className="text-blue-600">Güvenilir Adres</span>
+              </h2>
+              <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+                Birçok branşın entegre çalıştığı merkezimizde, omurga sağlığınız için kanıta dayalı klinik uygulamalarla en uygun tedavi programlarını sunuyoruz. Uzman ekibimiz size özel çözümler üretiyor.
+              </p>
+              <div className="flex flex-wrap gap-4">
+                <Link href="/tedaviler">
+                  <span className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-7 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 hover:scale-[1.02]">
+                    Tedavileri İncele
+                  </span>
+                </Link>
+                <Link href="/iletisim">
+                  <span className="inline-flex items-center gap-2 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-700 font-bold text-sm px-7 py-3.5 rounded-xl transition-all">
+                    Randevu Al
+                  </span>
+                </Link>
+              </div>
+
+              <div className="mt-10 grid grid-cols-3 gap-0 border border-slate-100 rounded-2xl overflow-hidden bg-slate-50">
+                {[
+                  { val: "5000+", label: "Başarılı Operasyon" },
+                  { val: "20+", label: "Yıl Deneyim" },
+                  { val: "3", label: "Hastane Kampüsü" },
+                ].map((s, i) => (
+                  <div key={i} className={`text-center py-5 px-3 ${i === 1 ? 'border-x border-slate-100' : ''}`}>
+                    <div className="text-2xl font-extrabold text-blue-600 mb-1">{s.val}</div>
+                    <div className="text-[11px] text-slate-400 font-medium">{s.label}</div>
+                  </div>
+                ))}
+              </div>
+            </FadeIn>
+
+            {/* SAĞ — Bento Grid */}
+            <FadeIn direction="left" delay={0.15}>
+              <div className="grid grid-cols-2 gap-3" style={{ gridTemplateRows: '160px 160px 160px' }}>
+
+                {/* Büyük görsel — üst sol, 2 satır */}
+                <div className="row-span-2 rounded-3xl overflow-hidden relative">
+                  <img src="/images/skolyoz-kifoz.png" alt="Merkez" className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                  <div className="absolute bottom-5 left-5">
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 block mb-1">Cerrahi Merkez</span>
+                    <span className="text-sm font-extrabold text-white">Omurga Cerrahisi</span>
+                  </div>
+                </div>
+
+                {/* Stat kartı — üst sağ */}
+                <div className="rounded-3xl bg-blue-50 border border-blue-100 flex flex-col items-center justify-center p-5">
+                  <span className="text-4xl font-extrabold text-blue-600 leading-none">5000<span className="text-2xl">+</span></span>
+                  <span className="text-xs font-bold text-blue-500/70 mt-2 text-center">Sağlıklı, Mutlu Hasta</span>
+                </div>
+
+                {/* Küçük görsel — orta sağ */}
+                <div className="rounded-3xl overflow-hidden relative">
+                  <img src="/images/diz-kalca-protezi.png" alt="Teknoloji" className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                  <div className="absolute bottom-4 left-4">
+                    <span className="text-xs font-extrabold text-white block">Teknolojik</span>
+                    <span className="text-[10px] text-white/60">Tıbbi Cihazlar</span>
+                  </div>
+                </div>
+
+                {/* Alt sol */}
+                <div className="rounded-3xl overflow-hidden relative">
+                  <img src="/images/bel-fitigi.png" alt="Hastane" className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
+                </div>
+
+                {/* Online Randevu kartı — alt sağ */}
+                <div className="rounded-3xl overflow-hidden relative" style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #0e7490 100%)' }}>
+                  <div className="absolute -top-8 -right-8 w-24 h-24 rounded-full bg-white/10 blur-xl" />
+                  <div className="relative z-10 h-full flex flex-col justify-between p-5">
+                    <div>
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-sky-300 block mb-1">Hızlı Erişim</span>
+                      <span className="text-sm font-extrabold text-white leading-tight block">Online<br />Randevu</span>
+                    </div>
+                    <Link href="/iletisim">
+                      <span className="inline-block bg-white text-sky-900 text-[11px] font-extrabold px-4 py-2 rounded-xl hover:bg-sky-50 transition-colors">
+                        Randevu Al
+                      </span>
+                    </Link>
+                  </div>
+                </div>
+
+              </div>
+            </FadeIn>
+
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ 4. SONUÇLAR (Results/Proof) ═══════════════ */}
+      <section className="py-20 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 max-w-6xl">
           <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Sonuçlar</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">Tedavi Sonuçları</h2>
@@ -271,8 +373,8 @@ export default function Home() {
       </section>
 
       {/* ═══════════════ 4. HAKKINDA (Trust) ═══════════════ */}
-      <section className="py-28 bg-slate-50 overflow-hidden border-y border-slate-100">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-slate-50 overflow-hidden border-y border-slate-100">
+        <div className="container mx-auto px-4 max-w-6xl">
           <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-24">
             <FadeIn direction="right" delay={0.2} className="w-full lg:w-5/12 relative">
               <div className="absolute -inset-3 bg-white rounded-[2.5rem] -z-10 rotate-2 opacity-60 scale-[1.03] shadow-xl shadow-slate-200/50" />
@@ -309,7 +411,7 @@ export default function Home() {
       </section>
 
       {/* ═══════════════ 5. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
-      <section className="py-28 bg-white overflow-hidden">
+      <section className="py-20 bg-white overflow-hidden">
         <div className="container mx-auto px-4 max-w-5xl">
           <FadeIn direction="up" className="text-center mb-16">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">Tedavi Süreci</p>
@@ -338,7 +440,7 @@ export default function Home() {
       </section>
 
       {/* ═══════════════ 6. HASTA YORUMLARI (Social Proof) ═══════════════ */}
-      <section className="py-28 bg-slate-50 overflow-hidden relative border-y border-slate-100">
+      <section className="py-20 bg-slate-50 overflow-hidden relative border-y border-slate-100">
         <div className="container mx-auto px-4 max-w-4xl relative z-10">
           <FadeIn direction="up" className="text-center mb-14">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Hasta Yorumları</p>
@@ -379,8 +481,8 @@ export default function Home() {
       </section>
 
       {/* ═══════════════ 7. YOUTUBE VİDEOLAR (Content) ═══════════════ */}
-      <section className="py-28 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 max-w-6xl">
           <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Video İçerikler</p>
             <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">YouTube Kanalımız</h2>
@@ -427,8 +529,8 @@ export default function Home() {
       )}
 
       {/* ═══════════════ 8. CTA (Contact) ═══════════════ */}
-      <section className="py-8 pb-28 bg-white overflow-hidden">
-        <div className="container mx-auto px-4">
+      <section className="py-20 bg-white overflow-hidden">
+        <div className="container mx-auto px-4 max-w-6xl">
           <FadeIn direction="up">
             <div className="rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden"
               style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #075985 40%, #0e7490 100%)' }}>

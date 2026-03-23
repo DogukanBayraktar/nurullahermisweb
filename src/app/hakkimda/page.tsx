@@ -56,7 +56,7 @@ export default function HakkimdaPage() {
     <div className="min-h-screen bg-white text-slate-900">
 
       {/* HERO */}
-      <section className="relative bg-slate-50 py-24 md:py-32 overflow-hidden border-b border-slate-100">
+      <section className="relative bg-slate-50 py-20 overflow-hidden border-b border-slate-100">
         <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at 1px 1px, black 1px, transparent 0)', backgroundSize: '40px 40px' }} />
         <div className="container mx-auto px-4 max-w-6xl relative z-10">
           <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
@@ -104,7 +104,7 @@ export default function HakkimdaPage() {
       </section>
 
       {/* EĞİTİM & KARİYER */}
-      <section className="py-24 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-16">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Biyografi</p>
@@ -187,7 +187,7 @@ export default function HakkimdaPage() {
       </section>
 
       {/* UZMANLIK ALANLARI */}
-      <section className="py-24 bg-slate-50 border-y border-slate-100">
+      <section className="py-20 bg-slate-50 border-y border-slate-100">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-14">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Uzmanlık</p>
@@ -216,7 +216,7 @@ export default function HakkimdaPage() {
       </section>
 
       {/* AKADEMİK YAYINLAR */}
-      <section className="py-24 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="text-center mb-14">
             <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">Bilimsel Çalışmalar</p>
@@ -266,7 +266,7 @@ export default function HakkimdaPage() {
       </section>
 
       {/* KONGRE & ÜYELİKLER */}
-      <section className="py-24 bg-slate-50 border-t border-slate-100">
+      <section className="py-20 bg-slate-50 border-t border-slate-100">
         <div className="container mx-auto px-4 max-w-6xl">
           <div className="grid lg:grid-cols-2 gap-16">
 
@@ -312,7 +312,7 @@ export default function HakkimdaPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-8 pb-24 bg-white">
+      <section className="py-20 bg-white">
         <div className="container mx-auto px-4 max-w-5xl">
           <FadeIn direction="up">
             <div className="rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden"

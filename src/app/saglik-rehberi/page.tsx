@@ -37,8 +37,8 @@ export default async function HealthGuidePage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-50 py-24">
-      <div className="container mx-auto max-w-5xl px-4">
+    <div className="min-h-screen bg-slate-50 py-20">
+      <div className="container mx-auto px-4 max-w-6xl">
         <FadeIn direction="up">
           <div className="mb-12 text-center">
             <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-blue-600">Sağlık Rehberi</p>

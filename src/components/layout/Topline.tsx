@@ -21,9 +21,9 @@ export default function Topline() {
               <a href="tel:+2130675004735" className="transition-colors hover:text-white">+213 0675 004 735</a>
             </span>
             <span className="text-slate-700">|</span>
-            <a href="mailto:nurullahermis@erenhastanesi.com" className="flex shrink-0 items-center gap-1.5 transition-colors hover:text-blue-300">
+            <a href="mailto:nurullahermis@central.com.tr" className="flex shrink-0 items-center gap-1.5 transition-colors hover:text-blue-300">
               <Mail className="h-3 w-3" />
-              nurullahermis@erenhastanesi.com
+              nurullahermis@central.com.tr
             </a>
           </div>
 

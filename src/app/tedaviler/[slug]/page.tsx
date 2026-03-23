@@ -33,13 +33,13 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
   if (!treatment) notFound();
 
   return (
-    <div className="min-h-screen bg-slate-50 py-24">
+    <div className="min-h-screen bg-slate-50 py-20">
       <div className="container mx-auto max-w-6xl px-4">
         <Link
           href="/tedaviler"
-          className="mb-8 inline-flex items-center gap-2 rounded-lg border border-transparent px-4 py-2 text-sm font-semibold text-blue-600 transition-colors hover:border-blue-100 hover:bg-blue-50"
+          className="mb-8 inline-flex items-center rounded-lg border border-transparent px-4 py-2 font-semibold text-blue-600 transition-colors hover:border-blue-100 hover:bg-blue-50"
         >
-          <ArrowLeft className="h-4 w-4" /> Tum Tedaviler
+          <ArrowLeft className="mr-2 h-4 w-4" /> Tüm Tedavilere Dön
         </Link>
 
         {!isLocal && (
@@ -48,12 +48,12 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
               href="/studio"
               className="rounded bg-slate-200 px-3 py-1 text-xs italic text-slate-600 transition-colors hover:bg-blue-100"
             >
-              Studio'da Duzenle
+              Studio'da Düzenle
             </Link>
           </div>
         )}
 
-        <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-xl shadow-slate-200/40">
+        <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm">
           <div className="relative h-56 w-full sm:h-72">
             {treatment.coverImage ? (
               <img src={treatment.coverImage} alt={treatment.title} className="absolute inset-0 h-full w-full object-cover" />
@@ -62,7 +62,7 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
             )}
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
             <div className="absolute bottom-5 left-7 text-white">
-              <p className="mb-1 text-xs font-semibold uppercase tracking-widest opacity-70">Prof. Dr. M. Nurullah Ermis</p>
+              <p className="mb-1 text-xs font-semibold uppercase tracking-widest opacity-70">Prof. Dr. M. Nurullah Ermiş</p>
               <h1 className="text-2xl font-extrabold md:text-3xl">{treatment.title}</h1>
             </div>
           </div>
@@ -81,7 +81,7 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
           <div className="space-y-12 p-8 md:p-12">
             {treatment.description?.length > 0 && (
               <section>
-                <h2 className="mb-6 border-b border-slate-100 pb-2 text-2xl font-bold text-slate-900">
+                <h2 className="mb-6 border-b-2 border-blue-50 pb-2 text-2xl font-bold text-slate-900">
                   {treatment.title} Nedir?
                 </h2>
                 <div className="space-y-4">
@@ -113,7 +113,7 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
 
             {treatment.treatments?.length > 0 && (
               <section>
-                <h2 className="mb-6 border-b border-slate-100 pb-2 text-2xl font-bold text-slate-900">Tedavi Yontemleri</h2>
+                <h2 className="mb-6 border-b-2 border-blue-50 pb-2 text-2xl font-bold text-slate-900">Tedavi Yöntemleri</h2>
                 <div className="space-y-4">
                   {treatment.treatments.map((t: any, i: number) => (
                     <div key={i} className="rounded-xl border border-blue-100 bg-blue-50/60 p-5 transition-colors hover:border-blue-200">
@@ -134,7 +134,7 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
 
             {treatment.faq?.length > 0 && (
               <section>
-                <h2 className="mb-6 border-b border-slate-100 pb-2 text-2xl font-bold text-slate-900">Sikca Sorulan Sorular</h2>
+                <h2 className="mb-6 border-b-2 border-blue-50 pb-2 text-2xl font-bold text-slate-900">Sıkça Sorulan Sorular</h2>
                 <div className="space-y-3">
                   {treatment.faq.map((item: any, i: number) => (
                     <div key={i} className="overflow-hidden rounded-xl border border-slate-100 shadow-sm transition-shadow hover:shadow-md">
@@ -161,8 +161,8 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
               <div className="pointer-events-none absolute -top-16 -right-16 h-36 w-36 rounded-full bg-white/10 blur-2xl" />
               <div className="pointer-events-none absolute -bottom-12 -left-12 h-28 w-28 rounded-full bg-cyan-300/15 blur-2xl" />
               <div className="relative z-10 text-center md:text-left">
-                <p className="mb-2 text-xl font-bold text-white">{treatment.title} icin randevu alin</p>
-                <p className="text-sm text-sky-100">Prof. Dr. Ermis ile uzman degerlendirmesi icin hemen iletisime gecin.</p>
+                <p className="mb-2 text-xl font-bold text-white">{treatment.title} için randevu alın</p>
+                <p className="text-sm text-sky-100">Prof. Dr. Ermiş ile uzman değerlendirmesi için hemen iletişime geçin.</p>
               </div>
               <Link
                 href="/iletisim"

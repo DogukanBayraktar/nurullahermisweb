@@ -19,7 +19,7 @@ const treatments = [
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden bg-slate-950 text-slate-200">
-      <div className="container mx-auto px-4 py-16">
+      <div className="container mx-auto px-4 max-w-6xl py-16">
         <div className="grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4 lg:gap-8">
           <div className="lg:col-span-1">
             <div className="mb-6">
@@ -120,10 +120,10 @@ export default function Footer() {
                   <Mail className="h-4 w-4 text-blue-400" />
                 </div>
                 <a
-                  href="mailto:nurullahermis@erenhastanesi.com"
+                  href="mailto:nurullahermis@central.com.tr"
                   className="mt-2 text-sm font-medium text-slate-300 transition-colors hover:text-white"
                 >
-                  nurullahermis@erenhastanesi.com
+                  nurullahermis@central.com.tr
                 </a>
               </li>
             </ul>
@@ -132,7 +132,7 @@ export default function Footer() {
       </div>
 
       <div className="border-t border-white/5">
-        <div className="container mx-auto flex flex-col items-center justify-between px-4 py-6 text-xs text-slate-600 md:flex-row">
+        <div className="container mx-auto px-4 max-w-6xl flex flex-col items-center justify-between py-6 text-xs text-slate-600 md:flex-row">
           <p>&copy; {new Date().getFullYear()} Prof. Dr. M. Nurullah Ermiş. Tüm hakları saklıdır.</p>
           <div className="mt-3 flex space-x-6 md:mt-0">
             <Link href="/privacy" className="transition-colors hover:text-slate-400">
