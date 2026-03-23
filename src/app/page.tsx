@@ -528,7 +528,7 @@ export default function Home() {
 
             {/* SAĞ — Bento Grid */}
             <FadeIn direction="left" delay={0.15}>
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2" style={{ gridTemplateRows: 'repeat(5, minmax(150px, auto))' }}>
+              <div className="grid grid-cols-1 auto-rows-[minmax(150px,auto)] gap-3 sm:grid-cols-2 sm:auto-rows-auto sm:grid-rows-[160px_160px_160px]">
 
                 {/* Büyük görsel — üst sol, 2 satır */}
                 <div className="relative min-h-[220px] overflow-hidden rounded-3xl sm:row-span-2">
