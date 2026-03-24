@@ -208,7 +208,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
 
               {hasMore && (
                 <FadeIn direction="up" delay={0.12}>
-                  <div className="mt-10 flex justify-center">
+                  <div className="mt-20 flex justify-center">
                     <button
                       type="button"
                       onClick={() => setVisibleCount((count) => count + 6)}
