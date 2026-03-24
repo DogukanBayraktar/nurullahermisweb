@@ -24,7 +24,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
   const { i18n } = useTranslation();
   const lang = getCurrentLanguage(i18n.language);
   const ui = healthGuideUi[lang];
-  const [activeCategory, setActiveCategory] = useState(ui.all);
+  const [activeCategory, setActiveCategory] = useState<string>(ui.all);
   const [visibleCount, setVisibleCount] = useState(7);
   const scrollRef = useRef<HTMLDivElement>(null);
 
