@@ -3,6 +3,9 @@
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { FadeIn } from '@/components/ui/fade-in';
+import { useTranslation } from 'react-i18next';
+import '@/lib/i18n';
+import { getLocalizedTreatmentCard } from '@/lib/treatments';
 
 interface Treatment {
   _id: string;
@@ -27,25 +30,28 @@ function getBentoClass(slug: string) {
 }
 
 export default function TedavilerList({ initialTreatments }: { initialTreatments: Treatment[] }) {
+  const { t, i18n } = useTranslation();
+
   return (
     <>
       {initialTreatments.length === 0 ? (
         <div className="py-20 text-center text-slate-400">
-          <p className="text-lg font-medium">Bu kategoride hen&uuml;z tedavi bilgisi bulunmuyor.</p>
+          <p className="text-lg font-medium">{t('treatmentsPage.empty')}</p>
         </div>
       ) : (
         <div className="grid auto-rows-[220px] grid-cols-1 gap-6 md:auto-rows-[250px] md:grid-cols-12">
           {initialTreatments.map((item, i) => {
             const gridClass = getBentoClass(item.slug);
+            const localizedItem = getLocalizedTreatmentCard(item, i18n.language);
 
             return (
               <FadeIn key={item._id} delay={0.05 + i * 0.08} direction="up" className={gridClass}>
                 <Link href={`/tedaviler/${item.slug}`} className="group block h-full">
                   <div className="relative h-full overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all duration-500 hover:shadow-2xl hover:shadow-blue-900/10">
-                    {item.coverImage ? (
+                    {localizedItem.coverImage ? (
                       <img
-                        src={item.coverImage}
-                        alt={item.title}
+                        src={localizedItem.coverImage}
+                        alt={localizedItem.title}
                         className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
                       />
                     ) : (
@@ -59,15 +65,15 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
                           gridClass.includes('col-span-7') ? 'text-2xl md:text-3xl' : 'text-xl'
                         }`}
                       >
-                        {item.title}
+                        {localizedItem.title}
                       </h3>
-                      {item.description?.[0] && (
+                      {localizedItem.description?.[0] ? (
                         <p className="mb-4 max-w-md line-clamp-2 text-sm leading-relaxed text-white/80">
-                          {item.description[0]}
+                          {localizedItem.description[0]}
                         </p>
-                      )}
+                      ) : null}
                       <span className="flex shrink-0 items-center gap-1.5 text-sm font-bold text-blue-300 transition-all group-hover:gap-3">
-                        Detayl&#305; Bilgi <ChevronRight className="h-4 w-4" />
+                        {t('treatmentsPage.detailInfo')} <ChevronRight className="h-4 w-4" />
                       </span>
                     </div>
                   </div>
