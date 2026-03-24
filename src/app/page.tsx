@@ -7,6 +7,7 @@ import { ChevronRight, ChevronLeft, Star, Quote, Play } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
+import { getLocalizedPath } from '@/lib/routes';
 
 const TESTIMONIALS = [
   { author: "Mehmet A." },
@@ -90,7 +91,7 @@ function ResultsSlider({ items }: { items: Array<{ img: string; label: string; d
 
 
 function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: number; tag: string; tagColor: string; summary: string; story: string; result: string; img: string; date: string; imagePosition?: string }> }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [current, setCurrent] = useState(0);
   const total = items.length;
 
@@ -191,7 +192,8 @@ function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: num
 }
 
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const currentLang = i18n?.resolvedLanguage || i18n?.language || 'tr';
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [openVideo, setOpenVideo] = useState<{ id: string; isShort: boolean } | null>(null);
 
@@ -271,12 +273,12 @@ export default function Home() {
               </FadeIn>
 
               <FadeIn delay={0.4} direction="up" className="flex flex-col sm:flex-row gap-3">
-                <Link href="/iletisim">
+                <Link href={getLocalizedPath('contact', currentLang)}>
                   <Button size="lg" className="w-full sm:w-auto bg-white hover:bg-sky-50 text-sky-900 font-bold text-sm py-4 px-8 h-auto shadow-xl hover:scale-[1.02] transition-all duration-200 rounded-xl">
                     {t('home.hero.cta')}
                   </Button>
                 </Link>
-                <Link href="/tedaviler">
+                <Link href={getLocalizedPath('treatments', currentLang)}>
                   <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/25 bg-white/10 hover:bg-white/20 hover:border-white/40 hover:text-white font-semibold text-sm py-4 px-8 h-auto backdrop-blur-sm rounded-xl transition-all duration-200">
                     {t('nav.treatments')}
                   </Button>
@@ -343,7 +345,7 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[220px]">
             <FadeIn delay={0.05} direction="up" className="md:col-span-5 md:row-span-2">
-              <Link href="/tedaviler/skolyoz-kifoz-cerrahisi" className="group block h-full">
+              <Link href={getLocalizedPath('treatments', currentLang, 'skolyoz-kifoz-cerrahisi', 'treatment')} className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/skolyoz-kifoz.png" alt="Skolyoz" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
@@ -356,7 +358,7 @@ export default function Home() {
               </Link>
             </FadeIn>
             <FadeIn delay={0.1} direction="up" className="md:col-span-4">
-              <Link href="/tedaviler/bel-fitigi-tedavisi" className="group block h-full">
+              <Link href={getLocalizedPath('treatments', currentLang, 'bel-fitigi-tedavisi', 'treatment')} className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/bel-fitigi.png" alt="Bel Fıtığı" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
@@ -368,7 +370,7 @@ export default function Home() {
               </Link>
             </FadeIn>
             <FadeIn delay={0.12} direction="up" className="md:col-span-3">
-              <Link href="/tedaviler/diz-kalca-protezi" className="group block h-full">
+              <Link href={getLocalizedPath('treatments', currentLang, 'diz-kalca-protezi', 'treatment')} className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/diz-kalca-protezi.png" alt="Diz Kalça Protezi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
@@ -380,7 +382,7 @@ export default function Home() {
               </Link>
             </FadeIn>
             <FadeIn delay={0.15} direction="up" className="md:col-span-4">
-              <Link href="/tedaviler/cocuk-ortopedisi" className="group block h-full">
+              <Link href={getLocalizedPath('treatments', currentLang, 'cocuk-ortopedisi', 'treatment')} className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/cocuk-ortopedisi.png" alt="Çocuk Ortopedisi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
@@ -392,7 +394,7 @@ export default function Home() {
               </Link>
             </FadeIn>
             <FadeIn delay={0.18} direction="up" className="md:col-span-3">
-              <Link href="/tedaviler/artroskopik-cerrahi" className="group block h-full">
+              <Link href={getLocalizedPath('treatments', currentLang, 'artroskopik-cerrahi', 'treatment')} className="group block h-full">
                 <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                   <img src="/images/artroskopik-cerrahi.png" alt="Artroskopik Cerrahi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
@@ -494,12 +496,12 @@ export default function Home() {
                 {t("home.center.description")}
               </p>
               <div className="flex flex-wrap gap-4">
-                <Link href="/tedaviler">
+                <Link href={getLocalizedPath('treatments', currentLang)}>
                   <span className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-7 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 hover:scale-[1.02]">
                     {t("home.center.primaryCta")}
                   </span>
                 </Link>
-                <Link href="/iletisim">
+                <Link href={getLocalizedPath('contact', currentLang)}>
                   <span className="inline-flex items-center gap-2 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-700 font-bold text-sm px-7 py-3.5 rounded-xl transition-all">
                     {t("home.center.secondaryCta")}
                   </span>
@@ -567,7 +569,7 @@ export default function Home() {
                       <span className="text-[10px] font-bold uppercase tracking-widest text-sky-300 block mb-1">{t("home.center.grid.quickAccessBadge")}</span>
                       <span className="text-sm font-extrabold text-white leading-tight block">{t("home.center.grid.onlineAppointmentTitleLine1")}<br />{t("home.center.grid.onlineAppointmentTitleLine2")}</span>
                     </div>
-                    <Link href="/iletisim">
+                    <Link href={getLocalizedPath('contact', currentLang)}>
                       <span className="inline-block bg-white text-sky-900 text-[11px] font-extrabold px-4 py-2 rounded-xl hover:bg-sky-50 transition-colors">
                         {t("home.center.secondaryCta")}
                       </span>
@@ -610,7 +612,7 @@ export default function Home() {
                 </p>
               </FadeIn>
               <FadeIn delay={0.3} direction="up">
-                <Link href="/hakkimda">
+                <Link href={getLocalizedPath('about', currentLang)}>
                   <Button variant="outline" className="border-slate-200 text-slate-700 hover:text-blue-700 hover:border-blue-400 hover:bg-white font-semibold px-8 py-5 h-auto transition-all duration-200 rounded-xl text-sm">
                     {t("home.about.viewCareer")}
                   </Button>
@@ -720,7 +722,7 @@ export default function Home() {
                   {t("home.cta.subtitle")}
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                  <Link href="/iletisim">
+                  <Link href={getLocalizedPath('contact', currentLang)}>
                     <Button size="lg" className="bg-white hover:bg-sky-50 text-sky-900 font-bold text-sm py-4 px-8 h-auto rounded-xl shadow-2xl hover:scale-[1.02] transition-all duration-200">
                       {t("home.cta.appointmentBtn")}
                     </Button>

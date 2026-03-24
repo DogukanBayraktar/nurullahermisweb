@@ -4,6 +4,8 @@ import { Award, BookOpen, GraduationCap, Building, Star, ChevronRight, Phone, Ch
 import { FadeIn } from '@/components/ui/fade-in';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
+import '@/lib/i18n';
+import { getLocalizedPath } from '@/lib/routes';
 
 type TimelineItem = { year: string; title: string; subtitle?: string; type?: string };
 type ExperienceItem = { period: string; title: string; subtitle: string };
@@ -15,7 +17,7 @@ type BadgeItem = { label: string };
 type ExpertiseItem = { title: string; desc: string };
 
 export default function HakkimdaPage() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const education = t('aboutPage.education.items', { returnObjects: true }) as TimelineItem[];
   const experience = t('aboutPage.experience.items', { returnObjects: true }) as ExperienceItem[];
@@ -279,7 +281,7 @@ export default function HakkimdaPage() {
                 <p className="mx-auto mb-12 max-w-xl text-lg leading-relaxed text-sky-200/70">{t('aboutPage.cta.subtitle')}</p>
                 <div className="flex flex-col justify-center gap-4 sm:flex-row">
                   <Link
-                    href="/iletisim"
+                    href={getLocalizedPath('contact', i18n.language)}
                     className="inline-flex items-center justify-center gap-2 rounded-2xl bg-white px-8 py-4 text-sm font-bold text-sky-900 shadow-xl transition-all hover:scale-[1.02] hover:bg-sky-50"
                   >
                     {t('aboutPage.cta.primaryBtn')} <ChevronRight className="h-5 w-5" />

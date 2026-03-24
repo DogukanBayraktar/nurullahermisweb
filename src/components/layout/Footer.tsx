@@ -4,23 +4,24 @@ import Link from 'next/link';
 import { MapPin, Phone, Mail, Instagram, Facebook, Youtube, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
+import { getLocalizedPath } from '@/lib/routes';
 
 export default function Footer() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const pages = [
-    { href: '/hakkimda', label: t('nav.about') },
-    { href: '/tedaviler', label: t('footer.treatments') },
-    { href: '/saglik-rehberi', label: t('footer.healthGuide') },
-    { href: '/iletisim', label: t('footer.contact') },
+    { href: getLocalizedPath('about', i18n.language), label: t('nav.about') },
+    { href: getLocalizedPath('treatments', i18n.language), label: t('footer.treatments') },
+    { href: getLocalizedPath('healthGuide', i18n.language), label: t('footer.healthGuide') },
+    { href: getLocalizedPath('contact', i18n.language), label: t('footer.contact') },
   ];
 
   const treatments = [
-    { href: '/tedaviler/skolyoz-kifoz-cerrahisi', label: 'Skolyoz & Kifoz' },
-    { href: '/tedaviler/bel-fitigi-tedavisi', label: t('home.patientStories.herniation') },
-    { href: '/tedaviler/boyun-fitigi-cerrahisi', label: 'Boyun Fıtığı' },
-    { href: '/tedaviler/diz-kalca-protezi', label: t('home.patientStories.kneeProsthesis') },
-    { href: '/tedaviler/cocuk-ortopedisi', label: 'Çocuk Ortopedisi' },
+    { href: getLocalizedPath('treatments', i18n.language, 'skolyoz-kifoz-cerrahisi', 'treatment'), label: 'Skolyoz & Kifoz' },
+    { href: getLocalizedPath('treatments', i18n.language, 'bel-fitigi-tedavisi', 'treatment'), label: t('home.patientStories.herniation') },
+    { href: getLocalizedPath('treatments', i18n.language, 'boyun-fitigi-cerrahisi', 'treatment'), label: 'Boyun Fıtığı' },
+    { href: getLocalizedPath('treatments', i18n.language, 'diz-kalca-protezi', 'treatment'), label: t('home.patientStories.kneeProsthesis') },
+    { href: getLocalizedPath('treatments', i18n.language, 'cocuk-ortopedisi', 'treatment'), label: 'Çocuk Ortopedisi' },
   ];
   return (
     <footer className="relative overflow-hidden bg-slate-950 text-slate-200">
@@ -38,7 +39,7 @@ export default function Footer() {
                 href="https://www.instagram.com/prof.dr.nurullah.ermis/"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram'da Prof. Dr. Nurullah Ermiş'i takip edin"
+                aria-label={t('footer.instagramAria')}
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-400 transition-all hover:border-blue-600 hover:bg-blue-600 hover:text-white"
               >
                 <Instagram className="h-4 w-4" />
@@ -47,7 +48,7 @@ export default function Footer() {
                 href="https://facebook.com/ortopediveomurga"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Facebook'ta takip edin"
+                aria-label={t('footer.facebookAria')}
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-400 transition-all hover:border-blue-600 hover:bg-blue-600 hover:text-white"
               >
                 <Facebook className="h-4 w-4" />
@@ -56,7 +57,7 @@ export default function Footer() {
                 href="https://www.youtube.com/@centralhospitaltr"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="YouTube kanalımızı ziyaret edin"
+                aria-label={t('footer.youtubeAria')}
                 className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-400 transition-all hover:border-red-600 hover:bg-red-600 hover:text-white"
               >
                 <Youtube className="h-4 w-4" />
@@ -143,10 +144,10 @@ export default function Footer() {
           <p>{t('footer.rights')}</p>
           <div className="mt-3 flex space-x-6 md:mt-0">
             <Link href="/privacy" className="transition-colors hover:text-slate-400">
-              Gizlilik Politikası
+              {t('footer.privacyPolicy')}
             </Link>
             <Link href="/terms" className="transition-colors hover:text-slate-400">
-              Kullanım Koşulları
+              {t('footer.termsOfUse')}
             </Link>
           </div>
         </div>

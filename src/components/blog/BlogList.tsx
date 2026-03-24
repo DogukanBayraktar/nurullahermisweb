@@ -1,9 +1,13 @@
 'use client';
 
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
+import { useTranslation } from 'react-i18next';
 import { Clock, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { FadeIn } from '@/components/ui/fade-in';
+import '@/lib/i18n';
+import { getCurrentLanguage, healthGuideUi } from '@/lib/healthGuideTranslations';
+import { getLocalizedPath } from '@/lib/routes';
 
 interface Article {
   _id: string;
@@ -17,14 +21,22 @@ interface Article {
 }
 
 export default function BlogList({ initialArticles }: { initialArticles: Article[] }) {
-  const [activeCategory, setActiveCategory] = useState('Tümü');
+  const { i18n } = useTranslation();
+  const lang = getCurrentLanguage(i18n.language);
+  const ui = healthGuideUi[lang];
+  const [activeCategory, setActiveCategory] = useState(ui.all);
   const [visibleCount, setVisibleCount] = useState(7);
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const categories = ['Tümü', ...Array.from(new Set(initialArticles.map((a) => a.category).filter(Boolean)))];
+  const categories = useMemo(() => [ui.all, ...Array.from(new Set(initialArticles.map((a) => a.category).filter(Boolean)))], [initialArticles, ui.all]);
+
+  useEffect(() => {
+    setActiveCategory(ui.all);
+    setVisibleCount(7);
+  }, [ui.all]);
 
   const filtered =
-    activeCategory === 'Tümü'
+    activeCategory === ui.all
       ? initialArticles
       : initialArticles.filter((a) => a.category === activeCategory);
 
@@ -43,6 +55,12 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
     setVisibleCount(7);
   };
 
+  const formatReadTime = (value: number | string | undefined) => {
+    if (typeof value === 'number') return `${value} ${ui.minutesSuffix}`;
+    const match = String(value ?? 5).match(/\d+/);
+    return `${match?.[0] ?? 5} ${ui.minutesSuffix}`;
+  };
+
   return (
     <>
       <FadeIn direction="up" delay={0.1}>
@@ -51,7 +69,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
             type="button"
             onClick={() => scrollFilters('left')}
             className="absolute left-0 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:text-blue-600 md:flex"
-            aria-label="Filtreleri sola kaydır"
+            aria-label={ui.scrollLeft}
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
@@ -72,7 +90,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
                   }`}
                 >
                   {cat}
-                  {cat !== 'Tümü' && (
+                  {cat !== ui.all && (
                     <span
                       className={`ml-2 rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
                         activeCategory === cat ? 'bg-white/20 text-white' : 'bg-slate-100 text-slate-400'
@@ -90,7 +108,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
             type="button"
             onClick={() => scrollFilters('right')}
             className="absolute right-0 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full border border-slate-200 bg-white/95 text-slate-700 shadow-sm transition-all hover:border-blue-300 hover:text-blue-600 md:flex"
-            aria-label="Filtreleri sağa kaydır"
+            aria-label={ui.scrollRight}
           >
             <ChevronRight className="h-4 w-4" />
           </button>
@@ -99,13 +117,13 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
 
       {filtered.length === 0 ? (
         <div className="py-20 text-center text-slate-400">
-          <p className="text-lg font-medium">Bu kategoride henüz makale yok.</p>
+          <p className="text-lg font-medium">{ui.noArticles}</p>
         </div>
       ) : (
         <>
           {featured && (
             <FadeIn direction="up" delay={0.15}>
-              <Link href={`/saglik-rehberi/${featured.slug}`} className="group mb-8 block">
+              <Link href={getLocalizedPath('healthGuide', i18n.language, featured.slug, 'article')} className="group mb-8 block">
                 <div className="flex flex-col overflow-hidden rounded-3xl border border-slate-100 bg-white transition-all duration-400 hover:shadow-2xl hover:shadow-slate-200/60 md:flex-row">
                   <div className="relative h-64 overflow-hidden bg-slate-100 md:h-auto md:w-1/2">
                     {featured.coverImage ? (
@@ -127,7 +145,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
                         </span>
                       )}
                       <span className="flex items-center gap-1 text-xs text-slate-400">
-                        <Clock className="h-3 w-3" /> {featured.readTime || 5} dk
+                        <Clock className="h-3 w-3" /> {formatReadTime(featured.readTime)}
                       </span>
                     </div>
                     <h2 className="mb-4 text-2xl font-extrabold leading-tight text-slate-900 transition-colors group-hover:text-blue-700 md:text-3xl">
@@ -135,7 +153,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
                     </h2>
                     <p className="mb-6 line-clamp-3 text-sm leading-relaxed text-slate-500">{featured.summary}</p>
                     <span className="flex items-center gap-2 text-sm font-bold text-blue-600 transition-all group-hover:gap-3">
-                      Devamını Oku <ArrowRight className="h-4 w-4" />
+                      {ui.readMore} <ArrowRight className="h-4 w-4" />
                     </span>
                   </div>
                 </div>
@@ -148,7 +166,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
               <div className="grid grid-cols-1 gap-7 md:grid-cols-2 lg:grid-cols-3">
                 {rest.map((a, i) => (
                   <FadeIn key={a._id} delay={0.05 + i * 0.07} direction="up">
-                    <Link href={`/saglik-rehberi/${a.slug}`} className="group block h-full">
+                    <Link href={getLocalizedPath('healthGuide', i18n.language, a.slug, 'article')} className="group block h-full">
                       <div className="flex h-full flex-col overflow-hidden rounded-2xl border border-slate-100 bg-white transition-all duration-400 hover:border-blue-100 hover:shadow-xl hover:shadow-slate-200/60">
                         <div className="relative h-48 overflow-hidden bg-slate-100">
                           {a.coverImage ? (
@@ -171,7 +189,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
                         <div className="flex flex-1 flex-col p-6">
                           <div className="mb-3 flex items-center gap-3 text-xs font-medium text-slate-400">
                             <span className="flex items-center gap-1">
-                              <Clock className="h-3 w-3" /> {a.readTime || 5} dk
+                              <Clock className="h-3 w-3" /> {formatReadTime(a.readTime)}
                             </span>
                           </div>
                           <h3 className="mb-3 flex-1 text-lg font-bold leading-snug text-slate-900 transition-colors group-hover:text-blue-700">
@@ -179,7 +197,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
                           </h3>
                           <p className="mb-5 line-clamp-2 text-sm leading-relaxed text-slate-500">{a.summary}</p>
                           <span className="flex items-center gap-1.5 text-sm font-semibold text-blue-600 transition-all group-hover:gap-2.5">
-                            Devamını Oku <ArrowRight className="h-4 w-4" />
+                            {ui.readMore} <ArrowRight className="h-4 w-4" />
                           </span>
                         </div>
                       </div>
@@ -196,7 +214,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
                       onClick={() => setVisibleCount((count) => count + 6)}
                       className="rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition-all hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
                     >
-                      Daha Fazla Göster
+                      {ui.showMore}
                     </button>
                   </div>
                 </FadeIn>

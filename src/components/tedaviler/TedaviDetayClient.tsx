@@ -5,6 +5,7 @@ import { ArrowLeft, CheckCircle2, AlertTriangle, HelpCircle, Scissors, ChevronDo
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getLocalizedTreatmentDetail } from '@/lib/treatments';
+import { getLocalizedPath } from '@/lib/routes';
 
 interface TreatmentStat {
   label: string;
@@ -46,7 +47,7 @@ export default function TedaviDetayClient({
     <div className="min-h-screen bg-slate-50 py-20">
       <div className="container mx-auto max-w-6xl px-4">
         <Link
-          href="/tedaviler"
+          href={getLocalizedPath('treatments', i18n.language)}
           className="mb-8 inline-flex items-center rounded-lg border border-transparent px-4 py-2 font-semibold text-blue-600 transition-colors hover:border-blue-100 hover:bg-blue-50"
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> {t('treatmentsPage.backAll')}
@@ -178,7 +179,7 @@ export default function TedaviDetayClient({
                 <p className="text-sm text-sky-100">{t('treatmentsPage.ctaSubtitle')}</p>
               </div>
               <Link
-                href="/iletisim"
+                href={getLocalizedPath('contact', i18n.language)}
                 className="relative z-10 shrink-0 whitespace-nowrap rounded-xl bg-white px-8 py-4 text-sm font-extrabold text-sky-900 shadow-lg transition-all hover:scale-[1.02] hover:bg-sky-50"
               >
                 {t('treatmentsPage.ctaButton')}

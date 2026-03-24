@@ -8,6 +8,7 @@ import { urlFor } from '@/sanity/client';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getCurrentLanguage, getTranslatedLocalArticle, healthGuideUi } from '@/lib/healthGuideTranslations';
+import { getLocalizedPath } from '@/lib/routes';
 
 type RelatedArticle = {
   title: string;
@@ -91,7 +92,7 @@ export default function HealthGuideDetailClient({
     <div className="min-h-screen bg-slate-50 py-20">
       <div className="container mx-auto max-w-6xl px-4">
         <Link
-          href="/saglik-rehberi"
+          href={getLocalizedPath('healthGuide', i18n.language)}
           className="mb-8 inline-flex items-center rounded-lg border border-transparent px-4 py-2 font-semibold text-blue-600 transition-colors hover:border-blue-100 hover:bg-blue-50"
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> {ui.backToAll}
@@ -207,7 +208,7 @@ export default function HealthGuideDetailClient({
                     <p className="text-lg font-extrabold text-slate-900">{ui.author}</p>
                     <p className="mt-0.5 text-sm text-slate-500">{ui.authorTitle}</p>
                     <Link
-                      href="/hakkimda"
+                      href={getLocalizedPath('about', i18n.language)}
                       className="mt-2 inline-flex items-center gap-1 text-sm font-bold text-blue-600 transition-all hover:gap-2"
                     >
                       {ui.bioLink} <ChevronRight className="h-4 w-4" />
@@ -227,7 +228,7 @@ export default function HealthGuideDetailClient({
                   <h4 className="mb-2 text-lg font-bold">{ui.appointmentTitle}</h4>
                   <p className="mb-6 text-sm leading-relaxed text-sky-100">{ui.appointmentText}</p>
                   <Link
-                    href="/iletisim"
+                    href={getLocalizedPath('contact', i18n.language)}
                     className="block rounded-xl bg-white px-4 py-3.5 text-sm font-extrabold text-sky-900 shadow-md transition-colors hover:bg-sky-50"
                   >
                     {ui.appointmentCta}
@@ -242,7 +243,7 @@ export default function HealthGuideDetailClient({
                     {displayOtherArticles.map((related) => (
                       <Link
                         key={related.slug}
-                        href={`/saglik-rehberi/${related.slug}`}
+                        href={getLocalizedPath('healthGuide', i18n.language, related.slug, 'article')}
                         className="group flex items-stretch gap-3 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 p-3 transition-all hover:border-blue-200 hover:bg-blue-50/70"
                       >
                         <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-slate-200">

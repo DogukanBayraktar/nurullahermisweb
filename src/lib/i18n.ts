@@ -375,6 +375,7 @@ const resources = {
           appointmentLine: 'Randevu Hattı',
           whatsappTitle: 'WhatsApp ile Mesaj Gönder',
           whatsappSubtitle: 'Hızlı yanıt için',
+          whatsappButton: 'WhatsApp ile İletişime Geç',
           email: 'E-posta',
           phone: 'Telefon',
           hours: 'Çalışma Saatleri',
@@ -405,11 +406,17 @@ const resources = {
         address: 'Adres',
         addressText: 'Acıbadem Atakent Hastanesi, İstanbul',
         rights: '© 2026 Prof. Dr. M. Nurullah Ermiş. Tüm hakları saklıdır.',
+        privacyPolicy: 'Gizlilik Politikası',
+        termsOfUse: 'Kullanım Koşulları',
+        instagramAria: "Instagram'da Prof. Dr. Nurullah Ermiş'i takip edin",
+        facebookAria: "Facebook'ta takip edin",
+        youtubeAria: 'YouTube kanalımızı ziyaret edin',
       },
       
       // Topline
       topline: {
         callUs: 'Bizi Arayın',
+        international: 'Uluslararası',
         workingHours: 'Çalışma Saatleri',
         mondayFriday: 'Pzt - Cum',
         hours: '09:00 - 18:00',
@@ -798,6 +805,7 @@ const resources = {
           appointmentLine: 'Appointment Line',
           whatsappTitle: 'Send a Message on WhatsApp',
           whatsappSubtitle: 'For a quick response',
+          whatsappButton: 'Contact on WhatsApp',
           email: 'Email',
           phone: 'Phone',
           hours: 'Working Hours',
@@ -828,11 +836,17 @@ const resources = {
         address: 'Address',
         addressText: 'Acıbadem Atakent Hospital, Istanbul',
         rights: '© 2026 Prof. Dr. M. Nurullah Ermiş. All rights reserved.',
+        privacyPolicy: 'Privacy Policy',
+        termsOfUse: 'Terms of Use',
+        instagramAria: 'Follow Prof. Dr. Nurullah Ermiş on Instagram',
+        facebookAria: 'Follow us on Facebook',
+        youtubeAria: 'Visit our YouTube channel',
       },
       
       // Topline
       topline: {
         callUs: 'Call Us',
+        international: 'International',
         workingHours: 'Working Hours',
         mondayFriday: 'Mon - Fri',
         hours: '09:00 AM - 06:00 PM',

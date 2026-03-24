@@ -1,24 +1,23 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { Menu, X, Calendar, Phone, ArrowRight, Globe } from 'lucide-react';
+import { Menu, X, Calendar, Phone, ArrowRight } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
+import { getLangFromPathname, getLocalizedPath } from '@/lib/routes';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const pathname = usePathname();
   const { t, i18n } = useTranslation();
+  const currentLang = getLangFromPathname(pathname || '/');
 
   // Sayfa değişiminde veya link tıklandığında menüyü kapat
   const closeMenu = () => setIsOpen(false);
 
-  // Dil değiştirme fonksiyonu
-  const toggleLanguage = () => {
-    const newLang = i18n.language === 'tr' ? 'en' : 'tr';
-    i18n.changeLanguage(newLang);
-  };
 
   // Menü açıkken sayfa kaydırmayı engelle
   useEffect(() => {
@@ -33,11 +32,11 @@ export default function Navbar() {
   }, [isOpen]);
 
   const navLinks = [
-    { name: t('nav.home'), href: '/' },
-    { name: t('nav.about'), href: '/hakkimda' },
-    { name: t('nav.treatments'), href: '/tedaviler' },
-    { name: t('nav.healthGuide'), href: '/saglik-rehberi' },
-    { name: t('nav.contact'), href: '/iletisim' },
+    { name: t('nav.home'), href: currentLang === 'en' ? '/en' : '/' },
+    { name: t('nav.about'), href: getLocalizedPath('about', i18n.language) },
+    { name: t('nav.treatments'), href: getLocalizedPath('treatments', i18n.language) },
+    { name: t('nav.healthGuide'), href: getLocalizedPath('healthGuide', i18n.language) },
+    { name: t('nav.contact'), href: getLocalizedPath('contact', i18n.language) },
   ];
 
   return (
@@ -45,7 +44,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 max-w-6xl flex h-20 items-center justify-between">
 
         {/* Logo */}
-        <Link href="/" onClick={closeMenu} className="flex items-center">
+        <Link href={currentLang === 'en' ? '/en' : '/'} onClick={closeMenu} className="flex items-center">
           <img
             src="/logo.svg"
             alt="Prof. Dr. Nurullah Ermiş"
@@ -68,8 +67,8 @@ export default function Navbar() {
         </nav>
 
         {/* Sağ - Masaüstü Randevu & Mobil Hamburger */}
-        <div className="flex items-center gap-4">
-          <Link href="/iletisim" className="hidden md:block">
+        <div className="flex items-center gap-3">
+          <Link href={getLocalizedPath('contact', i18n.language)} className="hidden md:block">
             <span className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-gradient-to-r from-sky-900 via-sky-800 to-cyan-700 px-5 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-sky-900/20 transition-all duration-200 hover:-translate-y-0.5 hover:from-sky-800 hover:via-sky-700 hover:to-cyan-600 hover:shadow-xl hover:shadow-cyan-700/20">
               <Calendar className="w-4 h-4" />
               <span>{t('nav.appointment')}</span>
@@ -136,19 +135,8 @@ export default function Navbar() {
                   </a>
                 </div>
 
-                <div className="flex items-center justify-between rounded-2xl bg-slate-50 border border-slate-100 p-4">
-                  <p className="text-sm font-bold text-slate-900">{t('nav.languageSelection')}</p>
-                  <button 
-                    onClick={toggleLanguage}
-                    className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-blue-300 hover:text-blue-700"
-                  >
-                    <Globe className="w-4 h-4" />
-                    {i18n.language === 'tr' ? 'TR' : 'EN'}
-                  </button>
-                </div>
-
                 <Link 
-                  href="/iletisim" 
+                  href={getLocalizedPath('contact', i18n.language)} 
                   onClick={closeMenu}
                   className="w-full"
                 >

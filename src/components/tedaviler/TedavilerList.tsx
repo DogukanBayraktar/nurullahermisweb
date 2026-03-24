@@ -6,6 +6,7 @@ import { FadeIn } from '@/components/ui/fade-in';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getLocalizedTreatmentCard } from '@/lib/treatments';
+import { getLocalizedPath } from '@/lib/routes';
 
 interface Treatment {
   _id: string;
@@ -46,7 +47,7 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
 
             return (
               <FadeIn key={item._id} delay={0.05 + i * 0.08} direction="up" className={gridClass}>
-                <Link href={`/tedaviler/${item.slug}`} className="group block h-full">
+                <Link href={getLocalizedPath('treatments', i18n.language, item.slug, 'treatment')} className="group block h-full">
                   <div className="relative h-full overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm transition-all duration-500 hover:shadow-2xl hover:shadow-blue-900/10">
                     {localizedItem.coverImage ? (
                       <img

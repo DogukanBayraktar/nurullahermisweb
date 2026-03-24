@@ -5,6 +5,7 @@ import Topline from "@/components/layout/Topline";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
+import I18nRouteSync from "@/components/layout/I18nRouteSync";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,6 +23,7 @@ export default function RootLayout({
     <html lang="tr">
       {/* pt-9 = topline yüksekliği (36px = h-9) */}
       <body suppressHydrationWarning className={`${inter.className} min-h-screen flex flex-col antialiased bg-slate-50 text-slate-900 md:pt-9`}>
+        <I18nRouteSync />
         <Topline />
         <Navbar />
         <main className="flex-1">
