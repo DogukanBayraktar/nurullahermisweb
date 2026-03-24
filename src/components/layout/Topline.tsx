@@ -1,14 +1,23 @@
 'use client';
 
 import { Phone, Mail, Globe } from 'lucide-react';
+import { useTranslation } from 'react-i18next';
+import '@/lib/i18n';
 
 export default function Topline() {
+  const { t, i18n } = useTranslation();
+
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'tr' ? 'en' : 'tr';
+    i18n.changeLanguage(newLang);
+  };
+
   return (
     <div className="fixed left-0 right-0 top-0 z-[60] hidden w-full bg-slate-950 text-xs text-white shadow-sm md:block">
       <div className="container mx-auto overflow-x-auto px-4 scrollbar-none">
         <div className="flex h-9 w-max min-w-full items-center gap-4 whitespace-nowrap lg:w-auto lg:justify-between">
           <div className="flex items-center gap-3 whitespace-nowrap [&>span:first-child]:inline-flex">
-            <span className="hidden shrink-0 font-medium text-slate-400 sm:block">Randevu Bilgileri İçin:</span>
+            <span className="hidden shrink-0 font-medium text-slate-400 sm:block">{t('topline.callUs')}:</span>
             <a href="tel:+905322051637" className="flex shrink-0 items-center gap-1.5 font-bold transition-colors hover:text-blue-300">
               <Phone className="h-3 w-3" />
               0532 205 16 37
@@ -46,9 +55,12 @@ export default function Topline() {
               </a>
             </div>
             <span className="text-slate-700">|</span>
-            <button className="flex items-center gap-1 rounded border border-white/10 px-2 py-0.5 font-semibold transition-colors hover:border-blue-500 hover:text-blue-300">
+            <button 
+              onClick={toggleLanguage}
+              className="flex items-center gap-1 rounded border border-white/10 px-2 py-0.5 font-semibold transition-colors hover:border-blue-500 hover:text-blue-300"
+            >
               <Globe className="h-3 w-3" />
-              TR
+              {i18n.language === 'tr' ? 'TR' : 'EN'}
             </button>
           </div>
         </div>

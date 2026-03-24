@@ -1,22 +1,27 @@
+'use client';
+
 import Link from 'next/link';
 import { MapPin, Phone, Mail, Instagram, Facebook, Youtube, ChevronRight } from 'lucide-react';
-
-const pages = [
-  { href: '/hakkimda', label: 'Prof. Dr. Nurullah Ermiş' },
-  { href: '/tedaviler', label: 'Tedavi Alanları' },
-  { href: '/saglik-rehberi', label: 'Sağlık Rehberi' },
-  { href: '/iletisim', label: 'İletişim & Randevu' },
-];
-
-const treatments = [
-  { href: '/tedaviler/skolyoz-kifoz-cerrahisi', label: 'Skolyoz & Kifoz Cerrahisi' },
-  { href: '/tedaviler/bel-fitigi-tedavisi', label: 'Bel Fıtığı Tedavisi' },
-  { href: '/tedaviler/boyun-fitigi-cerrahisi', label: 'Boyun Fıtığı Cerrahisi' },
-  { href: '/tedaviler/diz-kalca-protezi', label: 'Diz & Kalça Protezi' },
-  { href: '/tedaviler/cocuk-ortopedisi', label: 'Çocuk Ortopedisi' },
-];
+import { useTranslation } from 'react-i18next';
+import '@/lib/i18n';
 
 export default function Footer() {
+  const { t } = useTranslation();
+
+  const pages = [
+    { href: '/hakkimda', label: t('nav.about') },
+    { href: '/tedaviler', label: t('footer.treatments') },
+    { href: '/saglik-rehberi', label: t('footer.healthGuide') },
+    { href: '/iletisim', label: t('footer.contact') },
+  ];
+
+  const treatments = [
+    { href: '/tedaviler/skolyoz-kifoz-cerrahisi', label: 'Skolyoz & Kifoz' },
+    { href: '/tedaviler/bel-fitigi-tedavisi', label: t('home.patientStories.herniation') },
+    { href: '/tedaviler/boyun-fitigi-cerrahisi', label: 'Boyun Fıtığı' },
+    { href: '/tedaviler/diz-kalca-protezi', label: t('home.patientStories.kneeProsthesis') },
+    { href: '/tedaviler/cocuk-ortopedisi', label: 'Çocuk Ortopedisi' },
+  ];
   return (
     <footer className="relative overflow-hidden bg-slate-950 text-slate-200">
       <div className="container mx-auto px-4 max-w-6xl py-16">
@@ -26,8 +31,7 @@ export default function Footer() {
               <img src="/logo.svg" alt="Prof. Dr. Nurullah Ermiş" className="h-17 w-auto brightness-0 invert" />
             </div>
             <p className="mb-6 text-sm leading-relaxed text-slate-400">
-              Ortopedi ve Travmatoloji alanında profesör unvanıyla; omurga cerrahisi, çocuk ortopedisi ve eklem
-              protezi konularında ileri düzey cerrahi çözümler.
+              {t('footer.aboutText')}
             </p>
             <div className="flex space-x-3">
               <a
@@ -61,7 +65,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">Sayfalar</h3>
+            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">{t('footer.quickLinks')}</h3>
             <ul className="space-y-3">
               {pages.map((link) => (
                 <li key={link.href}>
@@ -75,7 +79,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">Tedavi Alanları</h3>
+            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">{t('footer.treatments')}</h3>
             <ul className="space-y-3">
               {treatments.map((treatment) => (
                 <li key={treatment.href}>
@@ -92,7 +96,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">İletişim</h3>
+            <h3 className="mb-6 text-sm font-bold uppercase tracking-wider text-white">{t('footer.contactInfo')}</h3>
             <ul className="space-y-5">
               <li className="flex items-start gap-3">
                 <div className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/5">
@@ -115,7 +119,7 @@ export default function Footer() {
                   <a href="tel:+905322051637" className="text-sm font-medium text-slate-300 transition-colors hover:text-white">
                     0532 205 16 37
                   </a>
-                  <p className="mt-0.5 text-xs text-slate-500">Pzt - Cuma: 08:00 - 20:00</p>
+                  <p className="mt-0.5 text-xs text-slate-500">{t('topline.mondayFriday')}: 08:00 - 20:00</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -136,7 +140,7 @@ export default function Footer() {
 
       <div className="border-t border-white/5">
         <div className="container mx-auto px-4 max-w-6xl flex flex-col items-center justify-between py-6 text-xs text-slate-600 md:flex-row">
-          <p>&copy; {new Date().getFullYear()} Prof. Dr. M. Nurullah Ermiş. Tüm hakları saklıdır.</p>
+          <p>{t('footer.rights')}</p>
           <div className="mt-3 flex space-x-6 md:mt-0">
             <Link href="/privacy" className="transition-colors hover:text-slate-400">
               Gizlilik Politikası

@@ -4,12 +4,21 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Menu, X, Calendar, Phone, ArrowRight, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useTranslation } from 'react-i18next';
+import '@/lib/i18n';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const { t, i18n } = useTranslation();
 
   // Sayfa değişiminde veya link tıklandığında menüyü kapat
   const closeMenu = () => setIsOpen(false);
+
+  // Dil değiştirme fonksiyonu
+  const toggleLanguage = () => {
+    const newLang = i18n.language === 'tr' ? 'en' : 'tr';
+    i18n.changeLanguage(newLang);
+  };
 
   // Menü açıkken sayfa kaydırmayı engelle
   useEffect(() => {
@@ -24,11 +33,11 @@ export default function Navbar() {
   }, [isOpen]);
 
   const navLinks = [
-    { name: 'Ana Sayfa', href: '/' },
-    { name: 'Hakkımda', href: '/hakkimda' },
-    { name: 'Tedaviler', href: '/tedaviler' },
-    { name: 'Sağlık Rehberi', href: '/saglik-rehberi' },
-    { name: 'İletişim', href: '/iletisim' },
+    { name: t('nav.home'), href: '/' },
+    { name: t('nav.about'), href: '/hakkimda' },
+    { name: t('nav.treatments'), href: '/tedaviler' },
+    { name: t('nav.healthGuide'), href: '/saglik-rehberi' },
+    { name: t('nav.contact'), href: '/iletisim' },
   ];
 
   return (
@@ -63,7 +72,7 @@ export default function Navbar() {
           <Link href="/iletisim" className="hidden md:block">
             <span className="inline-flex items-center gap-2 rounded-full border border-sky-400/30 bg-gradient-to-r from-sky-900 via-sky-800 to-cyan-700 px-5 py-2.5 text-sm font-extrabold text-white shadow-lg shadow-sky-900/20 transition-all duration-200 hover:-translate-y-0.5 hover:from-sky-800 hover:via-sky-700 hover:to-cyan-600 hover:shadow-xl hover:shadow-cyan-700/20">
               <Calendar className="w-4 h-4" />
-              <span>Randevu Al</span>
+              <span>{t('nav.appointment')}</span>
             </span>
           </Link>
 
@@ -114,24 +123,27 @@ export default function Navbar() {
 
               {/* Contact Info in Mobile Menu */}
               <div className="space-y-6 pt-4">
-                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">İletişim Bilgileri</p>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest px-1">{t('nav.contactInfo')}</p>
                 <div className="grid grid-cols-1 gap-4">
                   <a href="tel:+902163621415" className="flex items-center gap-4 p-4 rounded-2xl bg-slate-50 border border-slate-100 group">
                     <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-blue-600 border border-slate-200 group-hover:bg-blue-600 group-hover:text-white transition-all">
                       <Phone className="w-5 h-5" />
                     </div>
                     <div>
-                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">Merkez Telefon</p>
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tight">{t('nav.centralPhone')}</p>
                       <p className="text-sm font-bold text-slate-900">0216 362 14 15</p>
                     </div>
                   </a>
                 </div>
 
                 <div className="flex items-center justify-between rounded-2xl bg-slate-50 border border-slate-100 p-4">
-                  <p className="text-sm font-bold text-slate-900">Dil Seçimi</p>
-                  <button className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-blue-300 hover:text-blue-700">
+                  <p className="text-sm font-bold text-slate-900">{t('nav.languageSelection')}</p>
+                  <button 
+                    onClick={toggleLanguage}
+                    className="flex items-center gap-2 rounded-xl border border-slate-200 bg-white px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:border-blue-300 hover:text-blue-700"
+                  >
                     <Globe className="w-4 h-4" />
-                    TR
+                    {i18n.language === 'tr' ? 'TR' : 'EN'}
                   </button>
                 </div>
 
@@ -142,7 +154,7 @@ export default function Navbar() {
                 >
                   <span className="flex w-full items-center justify-center gap-3 rounded-2xl border border-sky-400/30 bg-gradient-to-r from-sky-900 via-sky-800 to-cyan-700 py-5 text-lg font-extrabold text-white shadow-xl shadow-sky-900/20 transition-all duration-200 active:scale-95">
                     <Calendar className="w-5 h-5" />
-                    <span>Randevu Al</span>
+                    <span>{t('nav.appointment')}</span>
                   </span>
                 </Link>
               </div>

@@ -5,6 +5,8 @@ import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, ChevronLeft, Star, Quote, Play } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
+import { useTranslation } from 'react-i18next';
+import '@/lib/i18n';
 
 const TESTIMONIALS = [
   { text: "Skolyoz ameliyatı sonrası çocuğumuz ilk kez dik bir şekilde yürüdü. Profesörümüze minnettarız.", author: "Mehmet A.", detail: "Skolyoz Hastası Velisi" },
@@ -220,6 +222,7 @@ function PatientStoriesSlider({ items }: { items: typeof PATIENT_STORIES }) {
 }
 
 export default function Home() {
+  const { t } = useTranslation();
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [openVideo, setOpenVideo] = useState<{ id: string; isShort: boolean } | null>(null);
 
@@ -259,7 +262,7 @@ export default function Home() {
               <FadeIn delay={0.1} direction="down">
                 <div className="inline-flex items-center rounded-full border border-sky-400/30 bg-sky-400/10 px-4 py-1.5 text-sm font-semibold text-sky-200 mb-7 gap-2">
                   <Star className="w-3.5 h-3.5 text-yellow-400 fill-yellow-400" />
-                  Ortopedi ve Travmatoloji Profesörü
+                  {t('home.hero.badge')}
                 </div>
               </FadeIn>
 
@@ -267,24 +270,24 @@ export default function Home() {
                 <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-white tracking-tight mb-3 leading-[1.08]">
                   Prof. Dr. M. Nurullah Ermiş
                 </h1>
-                <p className="text-xl md:text-2xl text-sky-200 font-semibold mb-7">Ortopedi ve Omurga Cerrahisi Uzmanı</p>
+                <p className="text-xl md:text-2xl text-sky-200 font-semibold mb-7">{t('home.hero.title')}</p>
               </FadeIn>
 
               <FadeIn delay={0.3} direction="up">
                 <p className="text-base md:text-lg text-sky-100/80 mb-10 max-w-xl leading-relaxed">
-                  Skolyoz, bel-boyun fıtığı, diz-kalça protezi ve çocuk ortopedisi alanlarında 20 yılı aşkın cerrahi tecrübe.
+                  {t('home.hero.subtitle')}
                 </p>
               </FadeIn>
 
               <FadeIn delay={0.4} direction="up" className="flex flex-col sm:flex-row gap-3">
                 <Link href="/iletisim">
                   <Button size="lg" className="w-full sm:w-auto bg-white hover:bg-sky-50 text-sky-900 font-bold text-sm py-4 px-8 h-auto shadow-xl hover:scale-[1.02] transition-all duration-200 rounded-xl">
-                    Randevu Al
+                    {t('home.hero.cta')}
                   </Button>
                 </Link>
                 <Link href="/tedaviler">
                   <Button size="lg" variant="outline" className="w-full sm:w-auto text-white border-white/25 bg-white/10 hover:bg-white/20 hover:border-white/40 hover:text-white font-semibold text-sm py-4 px-8 h-auto backdrop-blur-sm rounded-xl transition-all duration-200">
-                    Tedavileri İncele
+                    {t('nav.treatments')}
                   </Button>
                 </Link>
               </FadeIn>
@@ -292,9 +295,9 @@ export default function Home() {
               <FadeIn delay={0.55} direction="none">
                 <div className="mt-12 grid grid-cols-3 gap-0 max-w-sm border border-white/15 rounded-2xl overflow-hidden bg-white/10 backdrop-blur-sm">
                   {[
-                    { val: "20+", label: "Yıl Deneyim" },
-                    { val: "Prof.", label: "Akademik Unvan" },
-                    { val: "UCSF", label: "ABD Eğitimi" },
+                    { val: "20+", label: t('home.stats.years') },
+                    { val: "Prof.", label: "Prof. Dr." },
+                    { val: "UCSF", label: "USA Training" },
                   ].map((s, i) => (
                     <div key={i} className={`text-center py-5 px-3 hover:bg-white/10 transition-colors ${i === 1 ? 'border-x border-white/15' : ''}`}>
                       <div className="text-2xl font-extrabold text-white mb-1">{s.val}</div>
