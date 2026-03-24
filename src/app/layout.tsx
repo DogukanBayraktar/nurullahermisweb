@@ -21,8 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="tr">
-      {/* pt-9 = topline yüksekliği (36px = h-9) */}
-      <body suppressHydrationWarning className={`${inter.className} min-h-screen flex flex-col antialiased bg-slate-50 text-slate-900 md:pt-9`}>
+      {/* md:pt-12 = topline yüksekliği (48px = h-12) */}
+      <body suppressHydrationWarning className={`${inter.className} min-h-screen flex flex-col antialiased bg-slate-50 text-slate-900 md:pt-12`}>
         <I18nRouteSync />
         <Topline />
         <Navbar />

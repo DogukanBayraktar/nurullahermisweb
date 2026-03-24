@@ -3,11 +3,11 @@
 import React, { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
-import { Menu, X, Calendar, Phone, ArrowRight } from 'lucide-react';
+import { Menu, X, Calendar, Phone, ArrowRight, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
-import { getLangFromPathname, getLocalizedPath } from '@/lib/routes';
+import { getAlternateLocalizedPath, getLangFromPathname, getLocalizedPath } from '@/lib/routes';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -39,8 +39,15 @@ export default function Navbar() {
     { name: t('nav.contact'), href: getLocalizedPath('contact', i18n.language) },
   ];
 
+  const languageOptions = [
+    { code: 'tr' as const, label: 'Türkçe', href: getAlternateLocalizedPath(pathname || '/', 'tr') },
+    { code: 'en' as const, label: 'English', href: getAlternateLocalizedPath(pathname || '/', 'en') },
+  ];
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur-md md:top-9">
+    <header
+      className="sticky top-0 z-[55] w-full border-b bg-white/95 backdrop-blur-md md:top-12"
+      >
       <div className="container mx-auto px-4 max-w-6xl flex h-20 items-center justify-between">
 
         {/* Logo */}
@@ -117,6 +124,40 @@ export default function Navbar() {
                   </motion.div>
                 ))}
               </nav>
+
+              <div className="space-y-4">
+                <div className="flex items-center gap-2 px-1">
+                  <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-700">
+                    <Globe className="h-4 w-4" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold uppercase tracking-[0.18em] text-slate-400">{t('nav.languageSelection')}</p>
+                    <p className="text-sm text-slate-500">{currentLang === 'tr' ? 'Tercih ettiğiniz dili seçin' : 'Choose your preferred language'}</p>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-3">
+                  {languageOptions.map((option) => {
+                    const isActive = option.code === currentLang;
+
+                    return (
+                      <Link
+                        key={option.code}
+                        href={option.href}
+                        onClick={closeMenu}
+                        className={`rounded-2xl border px-4 py-4 text-left transition-all ${
+                          isActive
+                            ? 'border-blue-200 bg-blue-50 text-blue-700 shadow-sm'
+                            : 'border-slate-200 bg-white text-slate-700 hover:border-blue-100 hover:bg-slate-50'
+                        }`}
+                      >
+                        <span className="block text-sm font-extrabold">{option.label}</span>
+                        <span className="mt-1 block text-xs text-slate-400">{option.code.toUpperCase()}</span>
+                      </Link>
+                    );
+                  })}
+                </div>
+              </div>
 
               <hr className="border-slate-100" />
 

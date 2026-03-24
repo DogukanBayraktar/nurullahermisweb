@@ -48,7 +48,7 @@ export default function Topline() {
   return (
     <div className="fixed left-0 right-0 top-0 z-[60] hidden w-full bg-slate-950 text-xs text-white shadow-sm md:block">
       <div className="container mx-auto overflow-visible px-4">
-        <div className="flex h-9 min-w-full items-center justify-between gap-4 whitespace-nowrap">
+        <div className="flex h-12 min-w-full items-center justify-between gap-4 whitespace-nowrap">
           <div className="flex min-w-0 items-center gap-3 whitespace-nowrap [&>span:first-child]:inline-flex">
             <span className="hidden shrink-0 font-medium text-slate-400 sm:block">{t('topline.callUs')}:</span>
             <a href="tel:+905322051637" className="flex shrink-0 items-center gap-1.5 font-bold transition-colors hover:text-blue-300">
@@ -99,7 +99,7 @@ export default function Topline() {
               </button>
 
               {isLanguageOpen && (
-                <div className="absolute right-0 top-[calc(100%+8px)] z-[80] min-w-[170px] overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/95 p-1 shadow-2xl ring-1 ring-white/10 backdrop-blur-md">
+                <div className="absolute right-0 top-[calc(100%+8px)] z-[80] min-w-[120px] overflow-hidden rounded-2xl border border-slate-800 bg-slate-950/95 p-1 shadow-2xl ring-1 ring-white/10 backdrop-blur-md">
                   {languageOptions.map((option) => {
                     const isActive = option.code === currentLang;
 
@@ -115,7 +115,7 @@ export default function Topline() {
                         }`}
                       >
                         <span>{option.label}</span>
-                        {isActive && <span className="text-[10px] uppercase tracking-[0.2em] text-blue-300">Aktif</span>}
+                        
                       </button>
                     );
                   })}

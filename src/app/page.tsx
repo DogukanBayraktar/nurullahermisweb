@@ -537,14 +537,14 @@ export default function Home() {
                 </div>
 
                 {/* Stat kartı — üst sağ */}
-                <div className="flex min-h-[170px] flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-6 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)] sm:min-h-0 sm:p-7">
-                  <span className="text-4xl font-extrabold leading-none text-blue-600 sm:text-5xl">
-                    5000<span className="text-2xl sm:text-3xl">+</span>
+               <div className="flex min-h-[150px] flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)] sm:min-h-0 sm:p-5">
+                  <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-none text-blue-600">
+                  5000<span className="text-base sm:text-lg lg:text-xl">+</span>
                   </span>
-                  <span className="mt-3 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 bg-clip-text text-xs font-extrabold tracking-[0.08em] text-transparent sm:text-sm">
-                    {t("home.center.grid.happyPatients")}
+                  <span className="mt-2 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 bg-clip-text text-[11px] font-extrabold tracking-[0.04em] text-transparent sm:text-xs lg:text-sm break-words">
+                  Sağlıklı, Mutlu Hasta
                   </span>
-                </div>
+               </div>
 
                 {/* Küçük görsel — orta sağ */}
                 <div className="relative min-h-[170px] overflow-hidden rounded-3xl">

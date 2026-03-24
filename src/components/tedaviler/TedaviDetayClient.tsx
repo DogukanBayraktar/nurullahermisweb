@@ -65,7 +65,7 @@ export default function TedaviDetayClient({
         )}
 
         <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm">
-          <div className="relative h-56 w-full sm:h-72">
+          <div className="relative h-[24rem] w-full sm:h-[30rem] lg:h-[36rem]">
             {localizedTreatment.coverImage ? (
               <img src={localizedTreatment.coverImage} alt={localizedTreatment.title} className="absolute inset-0 h-full w-full object-cover" />
             ) : (
