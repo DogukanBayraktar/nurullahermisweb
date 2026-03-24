@@ -1,7 +1,6 @@
 import { getAllArticles } from '@/sanity/queries';
 import { articles as localArticles } from '@/lib/articles';
-import BlogList from '@/components/blog/BlogList';
-import { FadeIn } from '@/components/ui/fade-in';
+import HealthGuidePageClient from '@/components/blog/HealthGuidePageClient';
 
 export const revalidate = 60;
 
@@ -36,22 +35,5 @@ export default async function HealthGuidePage() {
     }
   });
 
-  return (
-    <div className="min-h-screen bg-slate-50 py-20">
-      <div className="container mx-auto px-4 max-w-6xl">
-        <FadeIn direction="up">
-          <div className="mb-12 text-center">
-            <p className="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-blue-600">Sağlık Rehberi</p>
-            <h1 className="mb-6 text-4xl font-extrabold tracking-tight text-slate-900 md:text-5xl">Tedavi ve Sağlık Rehberi</h1>
-            <p className="mx-auto max-w-3xl text-lg leading-relaxed text-slate-600">
-              Omurga sağlığı, ortopedi ve tedaviler hakkında Prof. Dr. M. Nurullah Ermiş&apos;in hazırladığı
-              bilgilendirici içerikleri inceleyin.
-            </p>
-          </div>
-        </FadeIn>
-
-        <BlogList initialArticles={combined} />
-      </div>
-    </div>
-  );
+  return <HealthGuidePageClient initialArticles={combined} />;
 }
