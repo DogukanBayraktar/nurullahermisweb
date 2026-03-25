@@ -42,11 +42,11 @@ const resources = {
           subtitle: 'Ortopedi, omurga cerrahisi ve çocuk ortopedisi alanlarında kapsamlı cerrahi çözümler.',
           viewAll: 'Tüm Tedavileri İncele',
           cards: {
-            scoliosis: { title: 'Skolyoz & Kifoz', desc: 'VBT dahil en güncel omurga eğriliği düzeltme cerrahileri.' },
-            herniation: { title: 'Bel & Boyun Fıtığı', desc: 'Mikrocerrahi, aynı gün mobilizasyon.' },
-            kneeHip: { title: 'Diz & Kalça Protezi', desc: 'Robotik navigasyon destekli.' },
-            pediatric: { title: 'Çocuk Ortopedisi', desc: 'Kalça çıkığı, çarpık ayak, deformite.' },
-            arthroscopy: { title: 'Artroskopik Cerrahi', desc: 'Menisküs, ACL, kapalı cerrahi.' },
+            scoliosis: { title: 'Skolyoz & Kifoz', desc: 'Kişiye özel modern omurga tedavileri.' },
+            herniation: { title: 'Bel & Boyun Fıtığı', desc: 'Minimal invaziv omurga cerrahisi yaklaşımı.' },
+            kneeHip: { title: 'Diz & Kalça Protezi', desc: 'Ağrıyı azaltan güncel protez çözümleri.' },
+            pediatric: { title: 'Çocuk Ortopedisi', desc: 'Büyüme çağına uygun ortopedik takip ve tedavi.' },
+            arthroscopy: { title: 'Artroskopik Cerrahi', desc: 'Küçük kesilerle eklem içi cerrahi çözümler.' },
           },
         },
         results: {
@@ -131,6 +131,7 @@ const resources = {
           scoliosisSurgery: 'Skolyoz Cerrahisi',
           herniationSurgery: 'Bel Fıtığı Ameliyatı',
           kneeSurgery: 'Diz Protezi Cerrahisi',
+          whoIsNurullahErmis: 'Nurullah Ermiş Kimdir?',
         },
         process: {
           badge: 'Tedavi Süreci',
@@ -472,11 +473,11 @@ const resources = {
           subtitle: 'Comprehensive surgical solutions in orthopedics, spine surgery, and pediatric orthopedics.',
           viewAll: 'View All Treatments',
           cards: {
-            scoliosis: { title: 'Scoliosis & Kyphosis', desc: 'The latest spinal curvature correction surgeries, including VBT.' },
-            herniation: { title: 'Lumbar & Cervical Hernia', desc: 'Microsurgery with same-day mobilization.' },
-            kneeHip: { title: 'Knee & Hip Prosthesis', desc: 'Supported by robotic navigation.' },
-            pediatric: { title: 'Pediatric Orthopedics', desc: 'Hip dysplasia, clubfoot, and deformity care.' },
-            arthroscopy: { title: 'Arthroscopic Surgery', desc: 'Meniscus, ACL, and minimally invasive surgery.' },
+            scoliosis: { title: 'Scoliosis & Kyphosis', desc: 'Personalized modern spine treatments.' },
+            herniation: { title: 'Lumbar & Cervical Hernia', desc: 'A minimally invasive spine surgery approach.' },
+            kneeHip: { title: 'Knee & Hip Prosthesis', desc: 'Modern prosthetic solutions focused on comfort.' },
+            pediatric: { title: 'Pediatric Orthopedics', desc: 'Age-appropriate orthopedic care for children.' },
+            arthroscopy: { title: 'Arthroscopic Surgery', desc: 'Minimally invasive solutions for joint surgery.' },
           },
         },
         results: {
@@ -561,6 +562,7 @@ const resources = {
           scoliosisSurgery: 'Scoliosis Surgery',
           herniationSurgery: 'Herniated Disc Surgery',
           kneeSurgery: 'Knee Prosthesis Surgery',
+          whoIsNurullahErmis: 'Who Is Nurullah Ermis?',
         },
         process: {
           badge: 'Treatment Process',

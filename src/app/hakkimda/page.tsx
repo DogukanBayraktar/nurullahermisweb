@@ -56,9 +56,9 @@ export default function HakkimdaPage() {
                   alt={t('aboutPage.hero.imageAlt')}
                   className="relative aspect-[4/5] w-full rounded-3xl border-4 border-white object-cover object-top shadow-2xl"
                 />
-                <div className="absolute -bottom-6 -right-6 z-20 hidden flex-col items-center rounded-3xl bg-blue-600 px-7 py-5 text-white shadow-2xl shadow-blue-600/30 md:flex">
-                  <span className="text-3xl font-extrabold">20+</span>
-                  <span className="text-xs font-bold uppercase tracking-widest text-blue-100">{t('aboutPage.hero.experienceLabel')}</span>
+                <div className="absolute -bottom-6 -right-6 z-20 hidden min-h-[124px] flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 px-5 py-2.5 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)] md:flex">
+                  <span className="text-3xl font-extrabold leading-none text-blue-600">20+</span>
+                  <span className="mt-2 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 bg-clip-text text-xs font-extrabold uppercase tracking-widest text-transparent">{t('aboutPage.hero.experienceLabel')}</span>
                 </div>
               </div>
             </FadeIn>

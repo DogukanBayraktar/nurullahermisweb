@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft, Star, Quote, Play } from "lucide-react";
+import { ChevronRight, ChevronLeft, ChevronUp, ChevronDown, Star, Quote, Play } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
@@ -32,10 +32,10 @@ const PATIENT_STORIES = [
 
 
 const YOUTUBE_VIDEOS = [
-  { titleKey: "home.videos.scoliosisSurgery", videoId: "gryuYiNd6WI", isShort: false, thumb: "https://img.youtube.com/vi/gryuYiNd6WI/maxresdefault.jpg" },
-  { titleKey: "home.videos.herniationSurgery", videoId: "MOw6U2iJQew", isShort: false, thumb: "https://img.youtube.com/vi/MOw6U2iJQew/maxresdefault.jpg" },
-  { titleKey: "home.videos.kneeSurgery", videoId: "4kZKY8hnwDo", isShort: false, thumb: "https://img.youtube.com/vi/4kZKY8hnwDo/maxresdefault.jpg" },
-];
+  { id: "who-is-nurullah-ermis", order: 1, titleKey: "home.videos.whoIsNurullahErmis", videoId: "4kZKY8hnwDo", isShort: false, thumb: "https://img.youtube.com/vi/4kZKY8hnwDo/maxresdefault.jpg" },
+  { id: "knee-surgery", order: 2, titleKey: "home.videos.kneeSurgery", videoId: "gryuYiNd6WI", isShort: false, thumb: "https://img.youtube.com/vi/gryuYiNd6WI/maxresdefault.jpg" },
+  { id: "scoliosis-surgery", order: 3, titleKey: "home.videos.scoliosisSurgery", videoId: "MOw6U2iJQew", isShort: false, thumb: "https://img.youtube.com/vi/MOw6U2iJQew/maxresdefault.jpg" },
+].sort((a, b) => a.order - b.order);
 
 function ResultsSlider({ items }: { items: Array<{ img: string; label: string; desc: string }> }) {
   const [current, setCurrent] = useState(0);
@@ -195,7 +195,8 @@ export default function Home() {
   const { t, i18n } = useTranslation();
   const currentLang = i18n?.resolvedLanguage || i18n?.language || 'tr';
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [openVideo, setOpenVideo] = useState<{ id: string; isShort: boolean } | null>(null);
+  const [selectedVideoId, setSelectedVideoId] = useState(YOUTUBE_VIDEOS[0]?.id ?? "");
+  const [videoListStart, setVideoListStart] = useState(0);
 
   const testimonials = t('testimonialsData', { returnObjects: true }) as Array<{ text: string; author: string; detail: string }>;
 
@@ -219,6 +220,13 @@ export default function Home() {
     date: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin'][index]}.date`),
   }));
 
+  const selectedVideoIndex = Math.max(0, YOUTUBE_VIDEOS.findIndex((video) => video.id === selectedVideoId));
+  const selectedVideo = YOUTUBE_VIDEOS[selectedVideoIndex] ?? YOUTUBE_VIDEOS[0];
+  const visibleVideoCount = 4;
+  const visibleVideos = YOUTUBE_VIDEOS.slice(videoListStart, videoListStart + visibleVideoCount);
+  const canScrollVideosUp = videoListStart > 0;
+  const canScrollVideosDown = videoListStart + visibleVideoCount < YOUTUBE_VIDEOS.length;
+
   const nextTestimonial = useCallback(() => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
   }, []);
@@ -231,12 +239,16 @@ export default function Home() {
     return () => clearInterval(interval);
   }, [nextTestimonial]);
 
-  // ESC ile video kapat
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') setOpenVideo(null); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, []);
+    if (selectedVideoIndex < videoListStart) {
+      setVideoListStart(selectedVideoIndex);
+      return;
+    }
+
+    if (selectedVideoIndex >= videoListStart + visibleVideoCount) {
+      setVideoListStart(selectedVideoIndex - visibleVideoCount + 1);
+    }
+  }, [selectedVideoIndex, videoListStart]);
 
   return (
     <div className="flex min-h-screen flex-col bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_16%,#f8fbff_46%,#ffffff_72%,#f8fafc_100%)]">
@@ -524,20 +536,44 @@ export default function Home() {
 
             {/* SAĞ — Bento Grid */}
             <FadeIn direction="left" delay={0.15}>
-              <div className="grid grid-cols-1 auto-rows-[minmax(150px,auto)] gap-3 sm:grid-cols-2 sm:auto-rows-auto sm:grid-rows-[160px_160px_160px]">
+              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:grid-rows-[170px_170px_170px_170px]">
 
-                {/* Büyük görsel — üst sol, 2 satır */}
-                <div className="relative min-h-[220px] overflow-hidden rounded-3xl sm:row-span-2">
-                  <img src="/images/skolyoz-kifoz.png" alt="Merkez" className="absolute inset-0 w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                  <div className="absolute bottom-5 left-5">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/60 block mb-1">{t("home.center.grid.surgicalCenterBadge")}</span>
-                    <span className="text-sm font-extrabold text-white">{t("home.center.grid.surgicalCenterTitle")}</span>
+                <div className="hidden relative min-h-[170px] overflow-hidden rounded-3xl md:col-span-2 md:min-h-0" style={{ background: 'linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0e7490 100%)' }}>
+                  <div className="absolute inset-0 opacity-30" style={{ background: 'radial-gradient(circle at top right, rgba(125,211,252,0.45), transparent 42%)' }} />
+                  <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at bottom left, rgba(45,212,191,0.45), transparent 40%)' }} />
+                  <div className="relative z-10 flex h-full flex-col justify-between gap-4 p-6 md:flex-row md:items-end">
+                    <div className="max-w-md">
+                      <span className="mb-2 block text-[10px] font-bold uppercase tracking-widest text-sky-300">Omurga Sagligi Merkezi</span>
+                      <h3 className="text-xl font-extrabold text-white md:text-2xl">
+                        Multidisipliner degerlendirme ve cerrahi planlama
+                      </h3>
+                      <p className="mt-2 text-sm leading-relaxed text-white/70">
+                        Skolyoz, bel fitigi ve eklem cerrahilerinde tanidan tedaviye uzanan sureci tek merkezde yonetiyoruz.
+                      </p>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 text-center md:min-w-[240px]">
+                      {[
+                        { value: "20+", label: "Yil" },
+                        { value: "5000+", label: "Vaka" },
+                        { value: "3", label: "Kampus" },
+                      ].map((item) => (
+                        <div key={item.label} className="rounded-2xl border border-white/10 bg-white/10 px-3 py-4 backdrop-blur-sm">
+                          <div className="text-lg font-extrabold text-white">{item.value}</div>
+                          <div className="text-[10px] font-semibold uppercase tracking-wide text-sky-100/70">{item.label}</div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
+                {/* Büyük görsel — üst sol, 2 satır */}
+                <div className="relative min-h-[220px] overflow-hidden rounded-3xl md:row-span-2 md:min-h-0">
+                  <img src="/images/skolyoz-kifoz.png" alt="Merkez" className="absolute inset-0 w-full h-full object-cover" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                </div>
+
                 {/* Stat kartı — üst sağ */}
-               <div className="flex min-h-[150px] flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)] sm:min-h-0 sm:p-5">
+               <div className="flex min-h-[150px] flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)] md:min-h-0 md:p-5">
                   <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-none text-blue-600">
                   5000<span className="text-base sm:text-lg lg:text-xl">+</span>
                   </span>
@@ -547,34 +583,21 @@ export default function Home() {
                </div>
 
                 {/* Küçük görsel — orta sağ */}
-                <div className="relative min-h-[170px] overflow-hidden rounded-3xl">
+                <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:row-span-2 md:min-h-0">
                   <img src="/images/diz-kalca-protezi.png" alt="Teknoloji" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                  <div className="absolute bottom-4 left-4">
-                    <span className="text-xs font-extrabold text-white block">{t("home.center.grid.technologyTitle")}</span>
-                    <span className="text-[10px] text-white/60">{t("home.center.grid.technologySubtitle")}</span>
-                  </div>
                 </div>
 
                 {/* Alt sol */}
-                <div className="relative min-h-[170px] overflow-hidden rounded-3xl">
+                <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:min-h-0">
                   <img src="/images/bel-fitigi.png" alt="Hastane" className="absolute inset-0 w-full h-full object-cover" />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
                 </div>
 
                 {/* Online Randevu kartı — alt sağ */}
-                <div className="relative min-h-[170px] overflow-hidden rounded-3xl" style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #0e7490 100%)' }}>
-                  <div className="relative z-10 h-full flex flex-col justify-between p-5">
-                    <div>
-                      <span className="text-[10px] font-bold uppercase tracking-widest text-sky-300 block mb-1">{t("home.center.grid.quickAccessBadge")}</span>
-                      <span className="text-sm font-extrabold text-white leading-tight block">{t("home.center.grid.onlineAppointmentTitleLine1")}<br />{t("home.center.grid.onlineAppointmentTitleLine2")}</span>
-                    </div>
-                    <Link href={getLocalizedPath('contact', currentLang)}>
-                      <span className="inline-block bg-white text-sky-900 text-[11px] font-extrabold px-4 py-2 rounded-xl hover:bg-sky-50 transition-colors">
-                        {t("home.center.secondaryCta")}
-                      </span>
-                    </Link>
-                  </div>
+                <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:col-span-2 md:min-h-0" style={{ background: 'linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0e7490 100%)' }}>
+                  <img src="/images/cocuk-ortopedisi.png" alt="Cocuk ortopedisi" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "center 35%" }} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-slate-900/10 to-transparent" />
                 </div>
 
               </div>
@@ -633,44 +656,91 @@ export default function Home() {
             <p className="text-slate-500 text-lg">{t("home.videos.subtitle")}</p>
           </FadeIn>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-7">
-            {YOUTUBE_VIDEOS.map((video, i) => (
-              <FadeIn key={i} delay={0.1 + i * 0.12} direction="up">
-                <div className="group cursor-pointer" onClick={() => setOpenVideo({ id: video.videoId, isShort: video.isShort })}>
-                  <div className={`relative rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-xl hover:shadow-slate-200/80 transition-all duration-400 ${video.isShort ? 'aspect-[9/16] max-w-[220px] mx-auto' : 'aspect-video'}`}>
-                    <img src={video.thumb} alt={t(video.titleKey)} className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-600" />
-                    <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-red-600 flex items-center justify-center shadow-xl shadow-red-900/30 group-hover:scale-110 group-hover:shadow-2xl transition-all duration-300">
-                        <Play className="w-7 h-7 text-white ml-0.5" />
-                      </div>
-                    </div>
-                  </div>
-                  <h3 className="mt-4 font-bold text-slate-800 group-hover:text-blue-600 transition-colors leading-snug">{t(video.titleKey)}</h3>
+          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.45fr)_360px] lg:items-stretch">
+              <FadeIn direction="up">
+                <div className="relative overflow-hidden rounded-[1.9rem] aspect-video bg-slate-950 shadow-lg shadow-slate-200/70">
+                  <iframe
+                    src={`https://www.youtube.com/embed/${selectedVideo.videoId}?rel=0&modestbranding=1`}
+                    title={t(selectedVideo.titleKey)}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="h-full w-full"
+                  />
                 </div>
               </FadeIn>
-            ))}
+
+              <div className="lg:flex lg:h-full lg:flex-col">
+              <div className="mb-2 flex items-center justify-end px-1">
+                {YOUTUBE_VIDEOS.length > visibleVideoCount && (
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setVideoListStart((current) => Math.max(0, current - 1))}
+                      disabled={!canScrollVideosUp}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      <ChevronUp className="h-4 w-4" />
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setVideoListStart((current) => Math.min(YOUTUBE_VIDEOS.length - visibleVideoCount, current + 1))}
+                      disabled={!canScrollVideosDown}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                    >
+                      <ChevronDown className="h-4 w-4" />
+                    </button>
+                  </div>
+                )}
+              </div>
+              <div className="space-y-3 lg:grid lg:h-full lg:auto-rows-fr lg:gap-2 lg:space-y-0">
+              {visibleVideos.map((video, visibleIndex) => {
+                const i = videoListStart + visibleIndex;
+                const isActive = video.id === selectedVideoId;
+
+                return (
+                  <FadeIn key={i} delay={0.08 + i * 0.08} direction="up">
+                    <button
+                      type="button"
+                      onClick={() => setSelectedVideoId(video.id)}
+                      className={`group h-full w-full overflow-hidden rounded-[1.6rem] border text-left transition-all duration-300 ${
+                        isActive
+                          ? 'border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)]'
+                          : 'border-slate-200/80 bg-white shadow-[0_20px_50px_-30px_rgba(148,163,184,0.24)] hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50/70 hover:shadow-[0_20px_50px_-30px_rgba(148,163,184,0.30)]'
+                      }`}
+                    >
+                      <div className="flex h-full items-center gap-3 p-2.5">
+                        <div className="relative h-20 w-32 shrink-0 overflow-hidden rounded-2xl bg-slate-200">
+                          <img
+                            src={video.thumb}
+                            alt={t(video.titleKey)}
+                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                          />
+                          <div className={`absolute inset-0 ${isActive ? 'bg-blue-900/15' : 'bg-slate-950/30 group-hover:bg-slate-950/20'}`} />
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <div className={`flex h-11 w-11 items-center justify-center rounded-full transition-all ${
+                              isActive ? 'bg-blue-600 text-white' : 'bg-white/92 text-red-600'
+                            }`}>
+                              <Play className="ml-0.5 h-4 w-4 fill-current" />
+                            </div>
+                          </div>
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <h3 className={`line-clamp-2 font-extrabold leading-snug ${isActive ? 'text-blue-700' : 'text-slate-900 group-hover:text-blue-600'}`}>
+                            {t(video.titleKey)}
+                          </h3>
+                        </div>
+                      </div>
+                    </button>
+                  </FadeIn>
+                );
+              })}
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Video Modal */}
-      {openVideo && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm" onClick={() => setOpenVideo(null)}>
-          <div className={`relative mx-4 ${openVideo.isShort ? 'w-full max-w-sm' : 'w-full max-w-4xl'}`} onClick={e => e.stopPropagation()}>
-            <button onClick={() => setOpenVideo(null)} className="absolute -top-10 right-0 text-white/70 hover:text-white text-sm font-semibold">
-              {t("home.videos.close")} ✕
-            </button>
-            <div className={`rounded-2xl overflow-hidden shadow-2xl ${openVideo.isShort ? 'aspect-[9/16]' : 'aspect-video'}`}>
-              <iframe
-                src={`https://www.youtube.com/embed/${openVideo.id}?autoplay=1`}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                className="w-full h-full"
-              />
-            </div>
-          </div>
-        </div>
-      )}
+      
 
 
       {/* ═══════════════ 8. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
