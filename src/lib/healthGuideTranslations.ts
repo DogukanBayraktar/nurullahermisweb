@@ -63,7 +63,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'bel-fitigi-ameliyati': {
       slug: 'bel-fitigi-ameliyati',
       title: 'Bel Fıtığı Ameliyatı: Mikrocerrahi ile Aynı Gün Yürümek Mümkün',
-      img: '/images/bel-fitigi.png',
+      img: '/images/Bel Fıtığı Ameliyatı Mikrocerrahi.png',
       date: '12 Mart 2025',
       readTime: '7 dk okuma',
       category: 'Bel Fıtığı',
@@ -146,7 +146,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'boyun-fitigi-belirtileri': {
       slug: 'boyun-fitigi-belirtileri',
       title: 'Boyun Fıtığı Belirtileri ve Tedavisi: Kola Vuran Ağrıya Son',
-      img: '/images/boyun-fitigi.png',
+      img: '/images/kola-vuran-agri.png',
       date: '5 Kasım 2024',
       readTime: '6 dk okuma',
       category: 'Boyun Fıtığı',
@@ -163,7 +163,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'cocuk-ortopedisi-kalca-cikigi': {
       slug: 'cocuk-ortopedisi-kalca-cikigi',
       title: 'Çocuklarda Kalça Çıkığı (GKD): Erken Teşhis Ameliyatı Önler',
-      img: '/images/cocuk-ortopedisi.png',
+      img: '/images/cocuk-kalca-cikik.png',
       date: '20 Eylül 2024',
       readTime: '5 dk okuma',
       category: 'Çocuk Ortopedisi',
@@ -199,7 +199,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'bel-fitigi-ameliyati': {
       slug: 'bel-fitigi-ameliyati',
       title: 'Lumbar Disc Herniation Surgery: Walking on the Same Day with Microsurgery',
-      img: '/images/bel-fitigi.png',
+      img: '/images/Bel Fıtığı Ameliyatı Mikrocerrahi.png',
       date: 'March 12, 2025',
       readTime: '7 min read',
       category: 'Lumbar Disc Herniation',
@@ -282,7 +282,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'boyun-fitigi-belirtileri': {
       slug: 'boyun-fitigi-belirtileri',
       title: 'Cervical Disc Herniation Symptoms and Treatment: Relief for Arm Pain',
-      img: '/images/boyun-fitigi.png',
+      img: '/images/kola-vuran-agri.png',
       date: 'November 5, 2024',
       readTime: '6 min read',
       category: 'Cervical Disc Herniation',
@@ -299,7 +299,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'cocuk-ortopedisi-kalca-cikigi': {
       slug: 'cocuk-ortopedisi-kalca-cikigi',
       title: 'Hip Dislocation in Children (DDH): Early Diagnosis Prevents Surgery',
-      img: '/images/cocuk-ortopedisi.png',
+      img: '/images/cocuk-kalca-cikik.png',
       date: 'September 20, 2024',
       readTime: '5 min read',
       category: 'Pediatric Orthopedics',
