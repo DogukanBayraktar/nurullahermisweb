@@ -63,7 +63,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'bel-fitigi-ameliyati': {
       slug: 'bel-fitigi-ameliyati',
       title: 'Bel Fıtığı Ameliyatı: Mikrocerrahi ile Aynı Gün Yürümek Mümkün',
-      img: '/images/Bel Fıtığı Ameliyatı Mikrocerrahi.avif',
+      img: '/images/bel-fitigi.avif',
       date: '12 Mart 2025',
       readTime: '7 dk okuma',
       category: 'Bel Fıtığı',
@@ -96,7 +96,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'skolyoz-belirtileri-tedavisi': {
       slug: 'skolyoz-belirtileri-tedavisi',
       title: 'Skolyoz Belirtileri ve Tedavisi: Erken Teşhis Neden Bu Kadar Önemli?',
-      img: '/images/skolyoz-kifoz.avif',
+      img: '/images/saglik/skolyoz-cerrahi.avif',
       date: '28 Şubat 2025',
       readTime: '8 dk okuma',
       category: 'Skolyoz',
@@ -125,7 +125,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'diz-protezi-ameliyati': {
       slug: 'diz-protezi-ameliyati',
       title: 'Diz Protezi Ameliyatı: Robotik Cerrahi ile Ertesi Gün Yürümek',
-      img: '/images/diz-kalca-protezi.avif',
+      img: '/images/saglik/diz-cerrahi.avif',
       date: '10 Ocak 2025',
       readTime: '6 dk okuma',
       category: 'Eklem Protezi',
@@ -146,7 +146,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'boyun-fitigi-belirtileri': {
       slug: 'boyun-fitigi-belirtileri',
       title: 'Boyun Fıtığı Belirtileri ve Tedavisi: Kola Vuran Ağrıya Son',
-      img: '/images/kola-vuran-agri.avif',
+      img: '/images/saglik/boyun-cerrahi.avif',
       date: '5 Kasım 2024',
       readTime: '6 dk okuma',
       category: 'Boyun Fıtığı',
@@ -163,7 +163,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'cocuk-ortopedisi-kalca-cikigi': {
       slug: 'cocuk-ortopedisi-kalca-cikigi',
       title: 'Çocuklarda Kalça Çıkığı (GKD): Erken Teşhis Ameliyatı Önler',
-      img: '/images/cocuk-kalca-cikik.avif',
+      img: '/images/saglik/cocuk.avif',
       date: '20 Eylül 2024',
       readTime: '5 dk okuma',
       category: 'Çocuk Ortopedisi',
@@ -180,7 +180,7 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'acl-cop-bag-ameliyati': {
       slug: 'acl-cop-bag-ameliyati',
       title: 'Ön Çapraz Bağ (ACL) Ameliyatı: Sporculara Spora Dönüş Rehberi',
-      img: '/images/artroskopik-cerrahi.avif',
+      img: '/images/saglik/on-capraz.avif',
       date: '3 Ağustos 2024',
       readTime: '7 dk okuma',
       category: 'Artroskopik Cerrahi',

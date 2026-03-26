@@ -18,7 +18,7 @@ const resources = {
         contactInfo: 'İletişim Bilgileri',
         centralPhone: 'Merkez Telefon',
       },
-      
+
       // Homepage
       home: {
         hero: {
@@ -153,13 +153,13 @@ const resources = {
           callBtn: 'Hemen Arayın',
         },
       },
-      
+
       // Patient Stories Data
       patientStoriesData: {
         mehmet: {
           name: 'Mehmet Yılmaz',
           summary: 'Oğlumuzun omurgası 58 derece eğriydi',
-          story: 'Oğlumuz Kerem, 12 yaşında okul taramasında skolyoz teşhisi aldı. Başka iki hastanede \'bekleyelim\' dediler; ama eğrilik hızla ilerliyordu. Prof. Dr. Ermiş bizi ilk muayenede detaylıca dinledi, MR görüntülerini tek tek anlattı. Ameliyattan 2 gün sonra Kerem kendi ayakları üstünde yürüdü. Şimdi 16 yaşında, basketbol oynuyor.',
+          story: 'Oğlumuz Mehmet, 12 yaşında okul taramasında skolyoz teşhisi aldı. Başka iki hastanede \'bekleyelim\' dediler; ama eğrilik hızla ilerliyordu. Prof. Dr. Ermiş bizi ilk muayenede detaylıca dinledi, MR görüntülerini tek tek anlattı. Ameliyattan 2 gün sonra Kerem kendi ayakları üstünde yürüdü. Şimdi 16 yaşında, basketbol oynuyor.',
           result: '58° → 9° düzelme',
           date: 'Mart 2024',
         },
@@ -172,13 +172,13 @@ const resources = {
         },
         huseyin: {
           name: 'Hüseyin Toprak',
-          summary: 'Yıllardır merdivenden çıkmaktan korkuyordum',
-          story: 'Sağ dizim yıllardır beni zorladı; artık merdivenden bile çıkamaz olmuştum. Robotik navigasyonlu diz protezi hakkında araştırırken Prof. Dr. Ermiş\'e ulaştım. Ameliyat sonrası fizyoterapi süreci çok düzenliydi, her kontrolde ilerlememizi gördük. 3 ay sonra eşimle yürüyüşe çıktım.',
-          result: '6 haftada tam yük bindirme',
+          summary: 'Yıllardır boyun ağrısıyla yaşamak zorunda kalıyordum',
+          story:  'Boynumdan kollarıma yayılan ağrı ve uyuşma günlük hayatımı zorlaştırıyordu. Yapılan tetkiklerde boyun fıtığına bağlı sinir basısı olduğu ortaya çıktı. Prof. Dr. Ermiş süreci detaylıca anlattı ve ameliyat olmaya karar verdim. Ameliyat sonrası ağrılarım hızla azaldı ve kısa sürede normal hayatıma dönebildim.',
+          result: '4 haftada günlük yaşama dönüş',
           date: 'Kasım 2023',
         },
       },
-      
+
       // Testimonials Data
       testimonialsData: [
         {
@@ -202,7 +202,7 @@ const resources = {
           detail: 'Çocuk Ortopedisi Velisi',
         },
       ],
-      
+
 
       aboutPage: {
         hero: {
@@ -413,7 +413,7 @@ const resources = {
         facebookAria: "Facebook'ta takip edin",
         youtubeAria: 'YouTube kanalımızı ziyaret edin',
       },
-      
+
       // Topline
       topline: {
         callUs: 'Bizi Arayın',
@@ -422,7 +422,7 @@ const resources = {
         mondayFriday: 'Pzt - Cum',
         hours: '09:00 - 18:00',
       },
-      
+
       // Common
       common: {
         readMore: 'Devamını Oku',
@@ -449,7 +449,7 @@ const resources = {
         contactInfo: 'Contact Information',
         centralPhone: 'Central Phone',
       },
-      
+
       // Homepage
       home: {
         hero: {
@@ -584,13 +584,13 @@ const resources = {
           callBtn: 'Call Now',
         },
       },
-      
+
       // Patient Stories Data
       patientStoriesData: {
         mehmet: {
           name: 'Mehmet Yılmaz',
           summary: 'Our son\'s spine had a 58-degree curvature',
-          story: 'Our son Kerem was diagnosed with scoliosis during a school screening at age 12. Two other hospitals told us to "wait and see," but the curvature was progressing rapidly. Prof. Dr. Ermiş listened to us thoroughly at the first examination and explained each MRI image in detail. Two days after surgery, Kerem walked on his own feet. He\'s now 16 years old and playing basketball.',
+          story: 'Our son Mehmet was diagnosed with scoliosis during a school screening at age 12. Two other hospitals told us to "wait and see," but the curvature was progressing rapidly. Prof. Dr. Ermiş listened to us thoroughly at the first examination and explained each MRI image in detail. Two days after surgery, Mehmet walked on his own feet. He\'s now 16 years old and playing basketball.',
           result: '58° → 9° correction',
           date: 'March 2024',
         },
@@ -603,13 +603,12 @@ const resources = {
         },
         huseyin: {
           name: 'Hüseyin Toprak',
-          summary: 'I was afraid to climb stairs for years',
-          story: 'My right knee troubled me for years; I couldn\'t even climb stairs anymore. While researching robotic navigation knee prosthesis, I found Prof. Dr. Ermiş. The post-surgery physiotherapy process was very organized, we saw progress at every check-up. Three months later, I went for a walk with my wife.',
-          result: 'Full weight bearing in 6 weeks',
+          summary: 'I had been living with chronic neck pain for years',
+          story: 'Pain radiating from my neck to my arms along with numbness was making my daily life difficult. After medical evaluations, it was revealed that I had nerve compression due to a cervical disc herniation. Prof. Dr. Ermiş explained the process in detail, and I decided to undergo surgery. After the operation, my pain quickly decreased, and I was able to return to my normal life in a short time.',          result: 'Return to daily life within 4 weeks',
           date: 'November 2023',
         },
       },
-      
+
       // Testimonials Data
       testimonialsData: [
         {
@@ -633,7 +632,7 @@ const resources = {
           detail: 'Pediatric Orthopedics Parent',
         },
       ],
-      
+
 
       aboutPage: {
         hero: {
@@ -844,7 +843,7 @@ const resources = {
         facebookAria: 'Follow us on Facebook',
         youtubeAria: 'Visit our YouTube channel',
       },
-      
+
       // Topline
       topline: {
         callUs: 'Call Us',
@@ -853,7 +852,7 @@ const resources = {
         mondayFriday: 'Mon - Fri',
         hours: '09:00 AM - 06:00 PM',
       },
-      
+
       // Common
       common: {
         readMore: 'Read More',

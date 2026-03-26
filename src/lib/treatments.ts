@@ -40,7 +40,7 @@ export const TREATMENTS_DATA = [
   {
     slug: "bel-fitigi-tedavisi",
     title: "Bel Fıtığı Tedavisi",
-    img: "/images/bel-fitigi.avif",
+    img: "/images/bel-fitigi-1.avif",
     category: "Omurga Cerrahisi",
     stats: [{ label: "Cerrahi kesi boyutu", val: "1.5 cm" }, { label: "Operasyon süresi", val: "45–60 dk" }, { label: "Yürüme zamanı", val: "Aynı gün" }],
     desc: [
