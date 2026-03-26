@@ -25,9 +25,9 @@ const BEFORE_AFTER = [
 ];
 
 const PATIENT_STORIES = [
-  { age: 14, tagColor: "bg-blue-600", img: "/images/mehmet.png" },
-  { age: 52, tagColor: "bg-teal-600", img: "/images/ayse.png", imagePosition: "70% center" },
-  { age: 68, tagColor: "bg-indigo-600", img: "/images/huseyin-toprak.png", imagePosition: "74% center" },
+  { age: 14, tagColor: "bg-blue-600", img: "/images/mehmet.avif" },
+  { age: 52, tagColor: "bg-teal-600", img: "/images/ayse.avif", imagePosition: "70% center" },
+  { age: 68, tagColor: "bg-indigo-600", img: "/images/huseyin-toprak.avif", imagePosition: "74% center" },
 ];
 
 
@@ -101,7 +101,7 @@ function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: num
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrent((c) => (c + 1) % total);
-    }, 6000);
+    }, 15000);
 
     return () => clearInterval(interval);
   }, [total]);
@@ -170,9 +170,8 @@ function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: num
                   <button
                     key={i}
                     onClick={() => setCurrent(i)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${
-                      i === current ? "w-10 bg-blue-600" : "w-2 bg-blue-100 hover:bg-blue-200"
-                    }`}
+                    className={`h-1.5 rounded-full transition-all duration-300 ${i === current ? "w-10 bg-blue-600" : "w-2 bg-blue-100 hover:bg-blue-200"
+                      }`}
                   />
                 ))}
               </div>
@@ -335,328 +334,329 @@ export default function Home() {
 
       {/* ═══════════════ 2. TEDAVİ ALANLARI — BENTO (Services) ═══════════════ */}
       <div className="relative overflow-hidden">
-      <div className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-15rem] top-0 h-[36rem] w-[36rem] rounded-full bg-sky-200/42 blur-[145px]" />
-        <div className="absolute right-[-15rem] top-[18rem] h-[36rem] w-[36rem] rounded-full bg-cyan-200/40 blur-[145px]" />
-        <div className="absolute left-[2%] top-[44rem] h-[34rem] w-[34rem] rounded-full bg-blue-100/50 blur-[150px]" />
-        <div className="absolute right-[2%] top-[74rem] h-[34rem] w-[34rem] rounded-full bg-teal-100/46 blur-[150px]" />
-        <div className="absolute left-[-12rem] top-[110rem] h-[34rem] w-[34rem] rounded-full bg-cyan-100/46 blur-[150px]" />
-        <div className="absolute right-[-12rem] top-[144rem] h-[34rem] w-[34rem] rounded-full bg-sky-100/48 blur-[155px]" />
-        <div className="absolute left-[3%] top-[180rem] h-[34rem] w-[34rem] rounded-full bg-teal-100/42 blur-[150px]" />
-        <div className="absolute right-[1%] top-[212rem] h-[34rem] w-[34rem] rounded-full bg-blue-100/50 blur-[155px]" />
-        <div className="absolute left-[-12rem] top-[248rem] h-[34rem] w-[34rem] rounded-full bg-sky-100/44 blur-[150px]" />
-        <div className="absolute right-[-12rem] top-[280rem] h-[34rem] w-[34rem] rounded-full bg-cyan-100/44 blur-[150px]" />
-      </div>
-      <section className="section-ghost relative py-20 overflow-hidden">
-        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
-          <FadeIn delay={0.1} direction="up" className="text-center mb-16 max-w-3xl mx-auto">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.treatments.badge")}</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.treatments.title")}</h2>
-            <p className="text-slate-500 text-lg">{t("home.treatments.subtitle")}</p>
-          </FadeIn>
-
-          <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[220px]">
-            <FadeIn delay={0.05} direction="up" className="md:col-span-5 md:row-span-2">
-              <Link href={getLocalizedPath('treatments', currentLang, 'skolyoz-kifoz-cerrahisi', 'treatment')} className="group block h-full">
-                <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
-                  <img src="/images/skolyoz-kifoz.png" alt="Skolyoz" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
-                  <div className="absolute bottom-0 left-0 right-0 p-8">
-                    <h3 className="text-2xl font-extrabold text-white mb-2">{t("home.treatments.cards.scoliosis.title")}</h3>
-                    <p className="text-sm text-white/65 leading-relaxed">{t("home.treatments.cards.scoliosis.desc")}</p>
-                
-                  </div>
-                </div>
-              </Link>
-            </FadeIn>
-            <FadeIn delay={0.1} direction="up" className="md:col-span-4">
-              <Link href={getLocalizedPath('treatments', currentLang, 'bel-fitigi-tedavisi', 'treatment')} className="group block h-full">
-                <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
-                  <img src="/images/bel-fitigi.png" alt="Bel Fıtığı" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-lg font-extrabold text-white mb-1">{t("home.treatments.cards.herniation.title")}</h3>
-                    <p className="text-xs text-white/60">{t("home.treatments.cards.herniation.desc")}</p>
-                  </div>
-                </div>
-              </Link>
-            </FadeIn>
-            <FadeIn delay={0.12} direction="up" className="md:col-span-3">
-              <Link href={getLocalizedPath('treatments', currentLang, 'diz-kalca-protezi', 'treatment')} className="group block h-full">
-                <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
-                  <img src="/images/diz-kalca-protezi.png" alt="Diz Kalça Protezi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-lg font-extrabold text-white mb-1">{t("home.treatments.cards.kneeHip.title")}</h3>
-                    <p className="text-xs text-white/60">{t("home.treatments.cards.kneeHip.desc")}</p>
-                  </div>
-                </div>
-              </Link>
-            </FadeIn>
-            <FadeIn delay={0.15} direction="up" className="md:col-span-4">
-              <Link href={getLocalizedPath('treatments', currentLang, 'cocuk-ortopedisi', 'treatment')} className="group block h-full">
-                <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
-                  <img src="/images/cocuk-ortopedisi.png" alt="Çocuk Ortopedisi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-lg font-extrabold text-white mb-1">{t("home.treatments.cards.pediatric.title")}</h3>
-                    <p className="text-xs text-white/60">{t("home.treatments.cards.pediatric.desc")}</p>
-                  </div>
-                </div>
-              </Link>
-            </FadeIn>
-            <FadeIn delay={0.18} direction="up" className="md:col-span-3">
-              <Link href={getLocalizedPath('treatments', currentLang, 'artroskopik-cerrahi', 'treatment')} className="group block h-full">
-                <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
-                  <img src="/images/artroskopik-cerrahi.png" alt="Artroskopik Cerrahi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
-                  <div className="absolute bottom-0 left-0 right-0 p-6">
-                    <h3 className="text-lg font-extrabold text-white mb-1">{t("home.treatments.cards.arthroscopy.title")}</h3>
-                    <p className="text-xs text-white/60">{t("home.treatments.cards.arthroscopy.desc")}</p>
-                  </div>
-                </div>
-              </Link>
-            </FadeIn>
-          </div>
+        <div className="pointer-events-none absolute inset-0">
+          <div className="absolute left-[-15rem] top-0 h-[36rem] w-[36rem] rounded-full bg-sky-200/42 blur-[145px]" />
+          <div className="absolute right-[-15rem] top-[18rem] h-[36rem] w-[36rem] rounded-full bg-cyan-200/40 blur-[145px]" />
+          <div className="absolute left-[2%] top-[44rem] h-[34rem] w-[34rem] rounded-full bg-blue-100/50 blur-[150px]" />
+          <div className="absolute right-[2%] top-[74rem] h-[34rem] w-[34rem] rounded-full bg-teal-100/46 blur-[150px]" />
+          <div className="absolute left-[-12rem] top-[110rem] h-[34rem] w-[34rem] rounded-full bg-cyan-100/46 blur-[150px]" />
+          <div className="absolute right-[-12rem] top-[144rem] h-[34rem] w-[34rem] rounded-full bg-sky-100/48 blur-[155px]" />
+          <div className="absolute left-[3%] top-[180rem] h-[34rem] w-[34rem] rounded-full bg-teal-100/42 blur-[150px]" />
+          <div className="absolute right-[1%] top-[212rem] h-[34rem] w-[34rem] rounded-full bg-blue-100/50 blur-[155px]" />
+          <div className="absolute left-[-12rem] top-[248rem] h-[34rem] w-[34rem] rounded-full bg-sky-100/44 blur-[150px]" />
+          <div className="absolute right-[-12rem] top-[280rem] h-[34rem] w-[34rem] rounded-full bg-cyan-100/44 blur-[150px]" />
         </div>
-      </section>
-
-
-
-      {/* ═══════════════ 3. HASTA YORUMLARI (Social Proof) ═══════════════ */}
-      <section className="section-ghost relative py-20 overflow-hidden">
-        <div className="section-grid absolute inset-0 opacity-30 pointer-events-none" />
-        <div className="container mx-auto px-4 max-w-4xl relative z-10">
-          <FadeIn direction="up" className="text-center mb-14">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.testimonials.badge")}</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">{t("home.testimonials.title")}</h2>
-          </FadeIn>
-
-          <div className="section-panel relative rounded-[2.5rem] border border-white/80 p-8 md:p-14">
-            <Quote className="w-14 h-14 text-blue-50 absolute top-7 left-7 opacity-20" />
-            <div className="min-h-[200px] flex flex-col justify-center items-center text-center relative z-10">
-              <div className="flex mb-6 gap-0.5">
-                {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-500 fill-yellow-500" />)}
-              </div>
-              <p className="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed mb-8 italic px-4">
-                &ldquo;{testimonials[currentTestimonial].text}&rdquo;
-              </p>
-              <div>
-                <p className="font-extrabold text-slate-900 text-lg">{testimonials[currentTestimonial].author}</p>
-                <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mt-1">{testimonials[currentTestimonial].detail}</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-between mt-10">
-              <button onClick={prevTestimonial} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm">
-                <ChevronLeft className="w-6 h-6" />
-              </button>
-              <div className="flex gap-2">
-                {testimonials.map((_, i) => (
-                  <button key={i} onClick={() => setCurrentTestimonial(i)}
-                    className={`h-1.5 rounded-full transition-all duration-300 ${i === currentTestimonial ? 'w-10 bg-blue-600' : 'w-2 bg-blue-100 hover:bg-blue-200'}`}
-                  />
-                ))}
-              </div>
-              <button onClick={nextTestimonial} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm">
-                <ChevronRight className="w-6 h-6" />
-              </button>
-            </div>
-          </div>
-        </div>
-      </section>
-
-
-      {/* ═══════════════ 4. SONUÇLAR (Results/Proof) ═══════════════ */}
-      <section className="section-ghost relative py-20 overflow-hidden">
-        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
-          <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.results.badge")}</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.results.title")}</h2>
-            <p className="text-slate-500 text-lg">{t("home.results.subtitle")}</p>
-          </FadeIn>
-          <ResultsSlider items={beforeAfter} />
-        </div>
-      </section>
-
-
-      {/* ═══════════════ 4b. HASTA HİKAYELERİ ═══════════════ */}
-      <section className="section-ghost relative py-20 overflow-hidden">
-        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
-          <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.patientStories.badge")}</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.patientStories.title")}</h2>
-            <p className="text-slate-500 text-lg">{t("home.patientStories.subtitle")}</p>
-          </FadeIn>
-
-          <PatientStoriesSlider items={patientStories} />
-        </div>
-      </section>
-
-      {/* ═══════════════ 5. MERKEZ TANITIM (Bento) ═══════════════ */}
-      <section className="section-ghost relative py-20 overflow-hidden">
-        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
-          <div className="section-panel grid grid-cols-1 gap-6 rounded-[2.75rem] border border-slate-100/80 p-6 md:p-8 lg:grid-cols-2 lg:p-10 items-center">
-
-            {/* SOL — Metin */}
-            <FadeIn direction="right" delay={0.1} className="flex flex-col justify-center py-8 lg:py-0 lg:pr-8">
-              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">{t("home.center.badge")}</p>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
-                {t("home.center.titlePrefix")}<br />
-                <span className="text-blue-600">{t("home.center.titleAccent")}</span>
-              </h2>
-              <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-8 max-w-md">
-                {t("home.center.description")}
-              </p>
-              <div className="flex flex-wrap gap-4">
-                <Link href={getLocalizedPath('treatments', currentLang)}>
-                  <span className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-7 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 hover:scale-[1.02]">
-                    {t("home.center.primaryCta")}
-                  </span>
-                </Link>
-                <Link href={getLocalizedPath('contact', currentLang)}>
-                  <span className="inline-flex items-center gap-2 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-700 font-bold text-sm px-7 py-3.5 rounded-xl transition-all">
-                    {t("home.center.secondaryCta")}
-                  </span>
-                </Link>
-              </div>
-
-              <div className="mt-10 grid grid-cols-3 gap-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm shadow-slate-200/80">
-                {[
-                  { val: "5000+", label: t("home.center.stats.operations") },
-                  { val: "20+", label: t("home.center.stats.years") },
-                  { val: "3", label: t("home.center.stats.campuses") },
-                ].map((s, i) => (
-                  <div key={i} className={`bg-white/60 px-2 py-4 text-center sm:px-3 sm:py-5 ${i === 1 ? 'border-x border-slate-200' : ''}`}>
-                    <div className="mb-1 text-xl font-extrabold text-blue-600 sm:text-2xl">{s.val}</div>
-                    <div className="text-[10px] font-semibold leading-tight text-slate-500 sm:text-[11px]">{s.label}</div>
-                  </div>
-                ))}
-              </div>
+        <section className="section-ghost relative py-20 overflow-hidden">
+          <div className="container relative z-10 mx-auto px-4 max-w-6xl">
+            <FadeIn delay={0.1} direction="up" className="text-center mb-16 max-w-3xl mx-auto">
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.treatments.badge")}</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.treatments.title")}</h2>
+              <p className="text-slate-500 text-lg">{t("home.treatments.subtitle")}</p>
             </FadeIn>
 
-            {/* SAĞ — Bento Grid */}
-            <FadeIn direction="left" delay={0.15}>
-              <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:grid-rows-[170px_170px_170px_170px]">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-4 auto-rows-[220px]">
+              <FadeIn delay={0.05} direction="up" className="md:col-span-5 md:row-span-2">
+                <Link href={getLocalizedPath('treatments', currentLang, 'skolyoz-kifoz-cerrahisi', 'treatment')} className="group block h-full">
+                  <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
+                    <img src="/images/skolyoz-kifoz.avif" alt="Skolyoz" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
+                    <div className="absolute bottom-0 left-0 right-0 p-8">
+                      <h3 className="text-2xl font-extrabold text-white mb-2">{t("home.treatments.cards.scoliosis.title")}</h3>
+                      <p className="text-sm text-white/65 leading-relaxed">{t("home.treatments.cards.scoliosis.desc")}</p>
 
-                <div className="hidden relative min-h-[170px] overflow-hidden rounded-3xl md:col-span-2 md:min-h-0" style={{ background: 'linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0e7490 100%)' }}>
-                  <div className="absolute inset-0 opacity-30" style={{ background: 'radial-gradient(circle at top right, rgba(125,211,252,0.45), transparent 42%)' }} />
-                  <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at bottom left, rgba(45,212,191,0.45), transparent 40%)' }} />
-                  <div className="relative z-10 flex h-full flex-col justify-between gap-4 p-6 md:flex-row md:items-end">
-                    <div className="max-w-md">
-                      <span className="mb-2 block text-[10px] font-bold uppercase tracking-widest text-sky-300">Omurga Sagligi Merkezi</span>
-                      <h3 className="text-xl font-extrabold text-white md:text-2xl">
-                        Multidisipliner degerlendirme ve cerrahi planlama
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-white/70">
-                        Skolyoz, bel fitigi ve eklem cerrahilerinde tanidan tedaviye uzanan sureci tek merkezde yonetiyoruz.
-                      </p>
-                    </div>
-                    <div className="grid grid-cols-3 gap-2 text-center md:min-w-[240px]">
-                      {[
-                        { value: "20+", label: "Yil" },
-                        { value: "5000+", label: "Vaka" },
-                        { value: "3", label: "Kampus" },
-                      ].map((item) => (
-                        <div key={item.label} className="rounded-2xl border border-white/10 bg-white/10 px-3 py-4 backdrop-blur-sm">
-                          <div className="text-lg font-extrabold text-white">{item.value}</div>
-                          <div className="text-[10px] font-semibold uppercase tracking-wide text-sky-100/70">{item.label}</div>
-                        </div>
-                      ))}
                     </div>
                   </div>
-                </div>
-
-                {/* Büyük görsel — üst sol, 2 satır */}
-                <div className="relative min-h-[220px] overflow-hidden rounded-3xl md:row-span-2 md:min-h-0">
-                  <img src="/images/skolyoz-kifoz.png" alt="Merkez" className="absolute inset-0 w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                </div>
-
-                {/* Stat kartı — üst sağ */}
-               <div className="flex min-h-[150px] flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)] md:min-h-0 md:p-5">
-                  <span className="text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-none text-blue-600">
-                  5000<span className="text-base sm:text-lg lg:text-xl">+</span>
-                  </span>
-                  <span className="mt-2 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 bg-clip-text text-[11px] font-extrabold tracking-[0.04em] text-transparent sm:text-xs lg:text-sm break-words">
-                  Sağlıklı, Mutlu Hasta
-                  </span>
-               </div>
-
-                {/* Küçük görsel — orta sağ */}
-                <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:row-span-2 md:min-h-0">
-                  <img src="/images/diz-kalca-protezi.png" alt="Teknoloji" className="absolute inset-0 w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
-                </div>
-
-                {/* Alt sol */}
-                <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:min-h-0">
-                  <img src="/images/bel-fitigi.png" alt="Hastane" className="absolute inset-0 w-full h-full object-cover" />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
-                </div>
-
-                {/* Online Randevu kartı — alt sağ */}
-                <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:col-span-2 md:min-h-0" style={{ background: 'linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0e7490 100%)' }}>
-                  <img src="/images/cocuk-ortopedisi.png" alt="Cocuk ortopedisi" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "center 35%" }} />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-slate-900/10 to-transparent" />
-                </div>
-
-              </div>
-            </FadeIn>
-
+                </Link>
+              </FadeIn>
+              <FadeIn delay={0.1} direction="up" className="md:col-span-4">
+                <Link href={getLocalizedPath('treatments', currentLang, 'bel-fitigi-tedavisi', 'treatment')} className="group block h-full">
+                  <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
+                    <img src="/images/boyun-fitigi.avif" alt="Bel Fıtığı" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <h3 className="text-lg font-extrabold text-white mb-1">{t("home.treatments.cards.herniation.title")}</h3>
+                      <p className="text-xs text-white/60">{t("home.treatments.cards.herniation.desc")}</p>
+                    </div>
+                  </div>
+                </Link>
+              </FadeIn>
+              <FadeIn delay={0.12} direction="up" className="md:col-span-3">
+                <Link href={getLocalizedPath('treatments', currentLang, 'diz-kalca-protezi', 'treatment')} className="group block h-full">
+                  <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
+                    <img src="/images/diz-kalca-protezi.avif" alt="Diz Kalça Protezi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <h3 className="text-lg font-extrabold text-white mb-1">{t("home.treatments.cards.kneeHip.title")}</h3>
+                      <p className="text-xs text-white/60">{t("home.treatments.cards.kneeHip.desc")}</p>
+                    </div>
+                  </div>
+                </Link>
+              </FadeIn>
+              <FadeIn delay={0.15} direction="up" className="md:col-span-4">
+                <Link href={getLocalizedPath('treatments', currentLang, 'cocuk-ortopedisi', 'treatment')} className="group block h-full">
+                  <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
+                    <img src="/images/cocuk-ortopedisi.avif" alt="Çocuk Ortopedisi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <h3 className="text-lg font-extrabold text-white mb-1">{t("home.treatments.cards.pediatric.title")}</h3>
+                      <p className="text-xs text-white/60">{t("home.treatments.cards.pediatric.desc")}</p>
+                    </div>
+                  </div>
+                </Link>
+              </FadeIn>
+              <FadeIn delay={0.18} direction="up" className="md:col-span-3">
+                <Link href={getLocalizedPath('treatments', currentLang, 'artroskopik-cerrahi', 'treatment')} className="group block h-full">
+                  <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
+                    <img src="/images/artroskopik-cerrahi.avif" alt="Artroskopik Cerrahi" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
+                    <div className="absolute bottom-0 left-0 right-0 p-6">
+                      <h3 className="text-lg font-extrabold text-white mb-1">{t("home.treatments.cards.arthroscopy.title")}</h3>
+                      <p className="text-xs text-white/60">{t("home.treatments.cards.arthroscopy.desc")}</p>
+                    </div>
+                  </div>
+                </Link>
+              </FadeIn>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
 
-      {/* ═══════════════ 6. HAKKINDA (Trust) ═══════════════ */}
-      <section className="section-ghost relative py-20 overflow-hidden">
-        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
-          <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-24">
-            <FadeIn direction="right" delay={0.2} className="w-full lg:w-5/12 relative">
-              <img
-                src="/nurullah-hoca1.avif"
-                alt="Prof. Dr. Nurullah Ermiş"
-                className="rounded-3xl shadow-2xl shadow-slate-200/80 object-cover w-full aspect-[4/5] z-10 relative object-top"
-                style={{ objectPosition: "center 70%" }}
-              />
+
+        {/* ═══════════════ 3. HASTA YORUMLARI (Social Proof) ═══════════════ */}
+        <section className="section-ghost relative py-20 overflow-hidden">
+          <div className="section-grid absolute inset-0 opacity-30 pointer-events-none" />
+          <div className="container mx-auto px-4 max-w-4xl relative z-10">
+            <FadeIn direction="up" className="text-center mb-14">
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.testimonials.badge")}</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">{t("home.testimonials.title")}</h2>
             </FadeIn>
-            <div className="w-full lg:w-7/12">
-              <FadeIn delay={0.1} direction="up">
-                <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">{t("home.about.badge")}</p>
-                <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-5 leading-tight">
-                  {t("home.about.title")}
+
+            <div className="section-panel relative rounded-[2.5rem] border border-white/80 p-8 md:p-14">
+              <Quote className="w-14 h-14 text-blue-50 absolute top-7 left-7 opacity-20" />
+              <div className="min-h-[200px] flex flex-col justify-center items-center text-center relative z-10">
+                <div className="flex mb-6 gap-0.5">
+                  {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-500 fill-yellow-500" />)}
+                </div>
+                <p className="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed mb-8 italic px-4">
+                  &ldquo;{testimonials[currentTestimonial].text}&rdquo;
+                </p>
+                <div>
+                  <p className="font-extrabold text-slate-900 text-lg">{testimonials[currentTestimonial].author}</p>
+                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mt-1">{testimonials[currentTestimonial].detail}</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between mt-10">
+                <button onClick={prevTestimonial} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm">
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+                <div className="flex gap-2">
+                  {testimonials.map((_, i) => (
+                    <button key={i} onClick={() => setCurrentTestimonial(i)}
+                      className={`h-1.5 rounded-full transition-all duration-300 ${i === currentTestimonial ? 'w-10 bg-blue-600' : 'w-2 bg-blue-100 hover:bg-blue-200'}`}
+                    />
+                  ))}
+                </div>
+                <button onClick={nextTestimonial} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm">
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+
+        {/* ═══════════════ 4. SONUÇLAR (Results/Proof) ═══════════════ */}
+        <section className="section-ghost relative py-20 overflow-hidden">
+          <div className="container relative z-10 mx-auto px-4 max-w-6xl">
+            <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.results.badge")}</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.results.title")}</h2>
+              <p className="text-slate-500 text-lg">{t("home.results.subtitle")}</p>
+            </FadeIn>
+            <ResultsSlider items={beforeAfter} />
+          </div>
+        </section>
+
+
+        {/* ═══════════════ 4b. HASTA HİKAYELERİ ═══════════════ */}
+        <section className="section-ghost relative py-20 overflow-hidden">
+          <div className="container relative z-10 mx-auto px-4 max-w-6xl">
+            <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.patientStories.badge")}</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.patientStories.title")}</h2>
+              <p className="text-slate-500 text-lg">{t("home.patientStories.subtitle")}</p>
+            </FadeIn>
+
+            <PatientStoriesSlider items={patientStories} />
+          </div>
+        </section>
+
+        {/* ═══════════════ 5. MERKEZ TANITIM (Bento) ═══════════════ */}
+        <section className="section-ghost relative py-20 overflow-hidden">
+          <div className="container relative z-10 mx-auto px-4 max-w-6xl">
+            <div className="section-panel grid grid-cols-1 gap-6 rounded-[2.75rem] border border-slate-100/80 p-6 md:p-8 lg:grid-cols-2 lg:p-10 items-center">
+
+              {/* SOL — Metin */}
+              <FadeIn direction="right" delay={0.1} className="flex flex-col justify-center py-8 lg:py-0 lg:pr-8">
+                <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">{t("home.center.badge")}</p>
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-6">
+                  {t("home.center.titlePrefix")}<br />
+                  <span className="text-blue-600">{t("home.center.titleAccent")}</span>
                 </h2>
-                <div className="w-16 h-1 bg-blue-600 mb-8 rounded-full" />
-                <p className="text-lg text-slate-600 leading-relaxed mb-5 font-medium">
-                  {t("home.about.subtitle")}
+                <p className="text-slate-500 text-base md:text-lg leading-relaxed mb-8 max-w-md">
+                  {t("home.center.description")}
                 </p>
-                <p className="text-base md:text-lg text-slate-500 leading-relaxed mb-6">
-                  {t("home.about.description")}
-                </p>
+                <div className="flex flex-wrap gap-4">
+                  <Link href={getLocalizedPath('treatments', currentLang)}>
+                    <span className="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 text-white font-bold text-sm px-7 py-3.5 rounded-xl transition-all shadow-lg shadow-blue-600/20 hover:shadow-blue-600/30 hover:scale-[1.02]">
+                      {t("home.center.primaryCta")}
+                    </span>
+                  </Link>
+                  <Link href={getLocalizedPath('contact', currentLang)}>
+                    <span className="inline-flex items-center gap-2 border border-slate-200 text-slate-700 hover:border-blue-300 hover:text-blue-700 font-bold text-sm px-7 py-3.5 rounded-xl transition-all">
+                      {t("home.center.secondaryCta")}
+                    </span>
+                  </Link>
+                </div>
+
+                <div className="mt-10 grid grid-cols-3 gap-0 overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 shadow-sm shadow-slate-200/80">
+                  {[
+                    { val: "5000+", label: t("home.center.stats.operations") },
+                    { val: "20+", label: t("home.center.stats.years") },
+                    { val: "3", label: t("home.center.stats.campuses") },
+                  ].map((s, i) => (
+                    <div key={i} className={`bg-white/60 px-2 py-4 text-center sm:px-3 sm:py-5 ${i === 1 ? 'border-x border-slate-200' : ''}`}>
+                      <div className="mb-1 text-xl font-extrabold text-blue-600 sm:text-2xl">{s.val}</div>
+                      <div className="text-[10px] font-semibold leading-tight text-slate-500 sm:text-[11px]">{s.label}</div>
+                    </div>
+                  ))}
+                </div>
               </FadeIn>
-              <FadeIn delay={0.3} direction="up">
-                <Link href={getLocalizedPath('about', currentLang)}>
-                  <Button variant="outline" className="border-slate-200 text-slate-700 hover:text-blue-700 hover:border-blue-400 hover:bg-white font-semibold px-8 py-5 h-auto transition-all duration-200 rounded-xl text-sm">
-                    {t("home.about.viewCareer")}
-                  </Button>
-                </Link>
+
+              {/* SAĞ — Bento Grid */}
+              <FadeIn direction="left" delay={0.15}>
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:grid-rows-[170px_170px_170px_170px]">
+
+                  <div className="hidden relative min-h-[170px] overflow-hidden rounded-3xl md:col-span-2 md:min-h-0" style={{ background: 'linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0e7490 100%)' }}>
+                    <div className="absolute inset-0 opacity-30" style={{ background: 'radial-gradient(circle at top right, rgba(125,211,252,0.45), transparent 42%)' }} />
+                    <div className="absolute inset-0 opacity-20" style={{ background: 'radial-gradient(circle at bottom left, rgba(45,212,191,0.45), transparent 40%)' }} />
+                    <div className="relative z-10 flex h-full flex-col justify-between gap-4 p-6 md:flex-row md:items-end">
+                      <div className="max-w-md">
+                        <span className="mb-2 block text-[10px] font-bold uppercase tracking-widest text-sky-300">Omurga Sagligi Merkezi</span>
+                        <h3 className="text-xl font-extrabold text-white md:text-2xl">
+                          Multidisipliner degerlendirme ve cerrahi planlama
+                        </h3>
+                        <p className="mt-2 text-sm leading-relaxed text-white/70">
+                          Skolyoz, bel fitigi ve eklem cerrahilerinde tanidan tedaviye uzanan sureci tek merkezde yonetiyoruz.
+                        </p>
+                      </div>
+                      <div className="grid grid-cols-3 gap-2 text-center md:min-w-[240px]">
+                        {[
+                          { value: "20+", label: "Yil" },
+                          { value: "5000+", label: "Vaka" },
+                          { value: "3", label: "Kampus" },
+                        ].map((item) => (
+                          <div key={item.label} className="rounded-2xl border border-white/10 bg-white/10 px-3 py-4 backdrop-blur-sm">
+                            <div className="text-lg font-extrabold text-white">{item.value}</div>
+                            <div className="text-[10px] font-semibold uppercase tracking-wide text-sky-100/70">{item.label}</div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Büyük görsel — üst sol, 2 satır */}
+                  <div className="relative min-h-[220px] overflow-hidden rounded-3xl md:row-span-2 md:min-h-0">
+                    <img src="/images/skolyoz-kifoz.avif" alt="Merkez" className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                  </div>
+
+                  {/* Stat kartı — üst sağ */}
+                  <div className="flex min-h-[150px] flex-col items-center justify-center rounded-3xl border border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 p-4 text-center shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)] md:min-h-0 md:p-5">
+                    <span className="flex items-center text-2xl sm:text-3xl lg:text-4xl font-extrabold leading-none text-blue-600">
+                      5000
+                      <span className="text-base sm:text-lg lg:text-xl ml-1">+</span>
+                    </span>
+                    <span className="mt-2 bg-gradient-to-r from-blue-700 via-sky-600 to-cyan-500 bg-clip-text text-[11px] font-extrabold tracking-[0.04em] text-transparent sm:text-xs lg:text-sm break-words">
+                      Sağlıklı, Mutlu Hasta
+                    </span>
+                  </div>
+
+                  {/* Küçük görsel — orta sağ */}
+                  <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:row-span-2 md:min-h-0">
+                    <img src="/images/diz-kalca-protezi.avif" alt="Teknoloji" className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
+                  </div>
+
+                  {/* Alt sol */}
+                  <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:min-h-0">
+                    <img src="/images/bel-fitigi.avif" alt="Hastane" className="absolute inset-0 w-full h-full object-cover" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
+                  </div>
+
+                  {/* Online Randevu kartı — alt sağ */}
+                  <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:col-span-2 md:min-h-0" style={{ background: 'linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0e7490 100%)' }}>
+                    <img src="/images/cocuk-ortopedisi.avif" alt="Cocuk ortopedisi" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "center 35%" }} />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-slate-900/10 to-transparent" />
+                  </div>
+
+                </div>
               </FadeIn>
+
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
 
-      {/* ═══════════════ 7. YOUTUBE VİDEOLAR (Content) ═══════════════ */}
-      <section className="section-ghost relative py-20 overflow-hidden">
-        <div className="container relative z-10 mx-auto px-4 max-w-6xl">
-          <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.videos.badge")}</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.videos.title")}</h2>
-            <p className="text-slate-500 text-lg">{t("home.videos.subtitle")}</p>
-          </FadeIn>
+        {/* ═══════════════ 6. HAKKINDA (Trust) ═══════════════ */}
+        <section className="section-ghost relative py-20 overflow-hidden">
+          <div className="container relative z-10 mx-auto px-4 max-w-6xl">
+            <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-24">
+              <FadeIn direction="right" delay={0.2} className="w-full lg:w-5/12 relative">
+                <img
+                  src="/nurullah-hoca1.avif"
+                  alt="Prof. Dr. Nurullah Ermiş"
+                  className="rounded-3xl shadow-2xl shadow-slate-200/80 object-cover w-full aspect-[4/5] z-10 relative object-top"
+                  style={{ objectPosition: "center 70%" }}
+                />
+              </FadeIn>
+              <div className="w-full lg:w-7/12">
+                <FadeIn delay={0.1} direction="up">
+                  <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">{t("home.about.badge")}</p>
+                  <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 mb-5 leading-tight">
+                    {t("home.about.title")}
+                  </h2>
+                  <div className="w-16 h-1 bg-blue-600 mb-8 rounded-full" />
+                  <p className="text-lg text-slate-600 leading-relaxed mb-5 font-medium">
+                    {t("home.about.subtitle")}
+                  </p>
+                  <p className="text-base md:text-lg text-slate-500 leading-relaxed mb-6">
+                    {t("home.about.description")}
+                  </p>
+                </FadeIn>
+                <FadeIn delay={0.3} direction="up">
+                  <Link href={getLocalizedPath('about', currentLang)}>
+                    <Button variant="outline" className="border-slate-200 text-slate-700 hover:text-blue-700 hover:border-blue-400 hover:bg-white font-semibold px-8 py-5 h-auto transition-all duration-200 rounded-xl text-sm">
+                      {t("home.about.viewCareer")}
+                    </Button>
+                  </Link>
+                </FadeIn>
+              </div>
+            </div>
+          </div>
+        </section>
 
-          <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.45fr)_360px] lg:items-stretch">
+
+        {/* ═══════════════ 7. YOUTUBE VİDEOLAR (Content) ═══════════════ */}
+        <section className="section-ghost relative py-20 overflow-hidden">
+          <div className="container relative z-10 mx-auto px-4 max-w-6xl">
+            <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.videos.badge")}</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.videos.title")}</h2>
+              <p className="text-slate-500 text-lg">{t("home.videos.subtitle")}</p>
+            </FadeIn>
+
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.45fr)_360px] lg:items-stretch">
               <FadeIn direction="up">
                 <div className="relative overflow-hidden rounded-[1.9rem] aspect-video bg-slate-950 shadow-lg shadow-slate-200/70">
                   <iframe
@@ -670,110 +670,108 @@ export default function Home() {
               </FadeIn>
 
               <div className="lg:flex lg:h-full lg:flex-col">
-              <div className="mb-2 flex items-center justify-end px-1">
-                {YOUTUBE_VIDEOS.length > visibleVideoCount && (
-                  <div className="flex items-center gap-2">
-                    <button
-                      type="button"
-                      onClick={() => setVideoListStart((current) => Math.max(0, current - 1))}
-                      disabled={!canScrollVideosUp}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                      <ChevronUp className="h-4 w-4" />
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setVideoListStart((current) => Math.min(YOUTUBE_VIDEOS.length - visibleVideoCount, current + 1))}
-                      disabled={!canScrollVideosDown}
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
-                    >
-                      <ChevronDown className="h-4 w-4" />
-                    </button>
-                  </div>
-                )}
-              </div>
-              <div className="space-y-3 lg:grid lg:h-full lg:auto-rows-fr lg:gap-2 lg:space-y-0">
-              {visibleVideos.map((video, visibleIndex) => {
-                const i = videoListStart + visibleIndex;
-                const isActive = video.id === selectedVideoId;
+                <div className="mb-2 flex items-center justify-end px-1">
+                  {YOUTUBE_VIDEOS.length > visibleVideoCount && (
+                    <div className="flex items-center gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setVideoListStart((current) => Math.max(0, current - 1))}
+                        disabled={!canScrollVideosUp}
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        <ChevronUp className="h-4 w-4" />
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setVideoListStart((current) => Math.min(YOUTUBE_VIDEOS.length - visibleVideoCount, current + 1))}
+                        disabled={!canScrollVideosDown}
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition-colors hover:border-slate-300 hover:bg-slate-50 disabled:cursor-not-allowed disabled:opacity-40"
+                      >
+                        <ChevronDown className="h-4 w-4" />
+                      </button>
+                    </div>
+                  )}
+                </div>
+                <div className="space-y-3 lg:grid lg:h-full lg:auto-rows-fr lg:gap-2 lg:space-y-0">
+                  {visibleVideos.map((video, visibleIndex) => {
+                    const i = videoListStart + visibleIndex;
+                    const isActive = video.id === selectedVideoId;
 
-                return (
-                  <FadeIn key={i} delay={0.08 + i * 0.08} direction="up">
-                    <button
-                      type="button"
-                      onClick={() => setSelectedVideoId(video.id)}
-                      className={`group h-full w-full overflow-hidden rounded-[1.6rem] border text-left transition-all duration-300 ${
-                        isActive
-                          ? 'border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)]'
-                          : 'border-slate-200/80 bg-white shadow-[0_20px_50px_-30px_rgba(148,163,184,0.24)] hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50/70 hover:shadow-[0_20px_50px_-30px_rgba(148,163,184,0.30)]'
-                      }`}
-                    >
-                      <div className="flex h-full items-center gap-3 p-2.5">
-                        <div className="relative h-20 w-32 shrink-0 overflow-hidden rounded-2xl bg-slate-200">
-                          <img
-                            src={video.thumb}
-                            alt={t(video.titleKey)}
-                            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                          />
-                          <div className={`absolute inset-0 ${isActive ? 'bg-blue-900/15' : 'bg-slate-950/30 group-hover:bg-slate-950/20'}`} />
-                          <div className="absolute inset-0 flex items-center justify-center">
-                            <div className={`flex h-11 w-11 items-center justify-center rounded-full transition-all ${
-                              isActive ? 'bg-blue-600 text-white' : 'bg-white/92 text-red-600'
-                            }`}>
-                              <Play className="ml-0.5 h-4 w-4 fill-current" />
+                    return (
+                      <FadeIn key={i} delay={0.08 + i * 0.08} direction="up">
+                        <button
+                          type="button"
+                          onClick={() => setSelectedVideoId(video.id)}
+                          className={`group h-full w-full overflow-hidden rounded-[1.6rem] border text-left transition-all duration-300 ${isActive
+                              ? 'border-blue-200 bg-gradient-to-br from-blue-50 via-white to-cyan-50 shadow-[0_20px_50px_-30px_rgba(37,99,235,0.35)]'
+                              : 'border-slate-200/80 bg-white shadow-[0_20px_50px_-30px_rgba(148,163,184,0.24)] hover:-translate-y-0.5 hover:border-slate-300 hover:bg-slate-50/70 hover:shadow-[0_20px_50px_-30px_rgba(148,163,184,0.30)]'
+                            }`}
+                        >
+                          <div className="flex h-full items-center gap-3 p-2.5">
+                            <div className="relative h-20 w-32 shrink-0 overflow-hidden rounded-2xl bg-slate-200">
+                              <img
+                                src={video.thumb}
+                                alt={t(video.titleKey)}
+                                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                              />
+                              <div className={`absolute inset-0 ${isActive ? 'bg-blue-900/15' : 'bg-slate-950/30 group-hover:bg-slate-950/20'}`} />
+                              <div className="absolute inset-0 flex items-center justify-center">
+                                <div className={`flex h-11 w-11 items-center justify-center rounded-full transition-all ${isActive ? 'bg-blue-600 text-white' : 'bg-white/92 text-red-600'
+                                  }`}>
+                                  <Play className="ml-0.5 h-4 w-4 fill-current" />
+                                </div>
+                              </div>
+                            </div>
+                            <div className="min-w-0 flex-1">
+                              <h3 className={`line-clamp-2 font-extrabold leading-snug ${isActive ? 'text-blue-700' : 'text-slate-900 group-hover:text-blue-600'}`}>
+                                {t(video.titleKey)}
+                              </h3>
                             </div>
                           </div>
-                        </div>
-                        <div className="min-w-0 flex-1">
-                          <h3 className={`line-clamp-2 font-extrabold leading-snug ${isActive ? 'text-blue-700' : 'text-slate-900 group-hover:text-blue-600'}`}>
-                            {t(video.titleKey)}
-                          </h3>
-                        </div>
-                      </div>
-                    </button>
-                  </FadeIn>
-                );
-              })}
+                        </button>
+                      </FadeIn>
+                    );
+                  })}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </section>
-
-      
+        </section>
 
 
-      {/* ═══════════════ 8. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
-      <section className="section-ghost relative py-20 overflow-hidden">
-        <div className="container relative z-10 mx-auto px-4 max-w-5xl">
-          <FadeIn direction="up" className="text-center mb-16">
-            <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">{t("home.process.badge")}</p>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">{t("home.process.title")}</h2>
-          </FadeIn>
-          <div className="section-panel relative grid grid-cols-1 gap-6 rounded-[2.5rem] border border-white/80 p-6 md:grid-cols-4 md:gap-4 md:p-10">
-            <div className="hidden md:block absolute top-[5.25rem] left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
-            {[
-              { step: "01", title: t("home.process.examination"), desc: t("home.process.examinationDesc") },
-              { step: "02", title: t("home.process.plan"), desc: t("home.process.planDesc") },
-              { step: "03", title: t("home.process.treatment"), desc: t("home.process.treatmentDesc") },
-              { step: "04", title: t("home.process.recovery"), desc: t("home.process.recoveryDesc") },
-            ].map((item, i) => (
-              <FadeIn key={i} delay={0.1 + i * 0.12} direction="up">
-                <div className="text-center relative z-10 flex flex-col items-center group">
-                  <div className="w-[5.5rem] h-[5.5rem] rounded-2xl bg-white border border-blue-100 shadow-md shadow-blue-100/50 flex items-center justify-center mb-6 group-hover:shadow-lg group-hover:shadow-blue-200/60 group-hover:border-blue-200 transition-all duration-300">
-                    <span className="text-2xl font-extrabold text-blue-600">{item.step}</span>
+
+
+        {/* ═══════════════ 8. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
+        <section className="section-ghost relative py-20 overflow-hidden">
+          <div className="container relative z-10 mx-auto px-4 max-w-5xl">
+            <FadeIn direction="up" className="text-center mb-16">
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">{t("home.process.badge")}</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">{t("home.process.title")}</h2>
+            </FadeIn>
+            <div className="section-panel relative grid grid-cols-1 gap-6 rounded-[2.5rem] border border-white/80 p-6 md:grid-cols-4 md:gap-4 md:p-10">
+              <div className="hidden md:block absolute top-[5.25rem] left-[12.5%] right-[12.5%] h-px bg-gradient-to-r from-transparent via-blue-200 to-transparent" />
+              {[
+                { step: "01", title: t("home.process.examination"), desc: t("home.process.examinationDesc") },
+                { step: "02", title: t("home.process.plan"), desc: t("home.process.planDesc") },
+                { step: "03", title: t("home.process.treatment"), desc: t("home.process.treatmentDesc") },
+                { step: "04", title: t("home.process.recovery"), desc: t("home.process.recoveryDesc") },
+              ].map((item, i) => (
+                <FadeIn key={i} delay={0.1 + i * 0.12} direction="up">
+                  <div className="text-center relative z-10 flex flex-col items-center group">
+                    <div className="w-[5.5rem] h-[5.5rem] rounded-2xl bg-white border border-blue-100 shadow-md shadow-blue-100/50 flex items-center justify-center mb-6 group-hover:shadow-lg group-hover:shadow-blue-200/60 group-hover:border-blue-200 transition-all duration-300">
+                      <span className="text-2xl font-extrabold text-blue-600">{item.step}</span>
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
-                  <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
-                </div>
-              </FadeIn>
-            ))}
+                </FadeIn>
+              ))}
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
 
 
-      {/* ═══════════════ 9. CTA (Contact) ═══════════════ */}
+        {/* ═══════════════ 9. CTA (Contact) ═══════════════ */}
       </div>
       <section className="py-20 overflow-hidden">
         <div className="container mx-auto px-4 max-w-6xl">
