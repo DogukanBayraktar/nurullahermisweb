@@ -790,7 +790,7 @@ export default function Home() {
           </div>
         </section> */}
 
-        {/* ═══════════════ 7. BASINDA BIZ (Media) ═══════════════ */}
+        {/* ═══════════════ 7. BASINDA BIZ (Media) ═══════════════
         <section className="section-ghost relative overflow-hidden bg-white py-20">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
@@ -853,7 +853,8 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </section>
+        </section> */}
+        
         {/* ═══════════════ 8. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-5xl">
