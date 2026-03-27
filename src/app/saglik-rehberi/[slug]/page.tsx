@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { getArticleBySlug, getAllArticles } from '@/sanity/queries';
-import { getDefaultLocalArticles } from '@/lib/healthGuideTranslations';
+import { getDefaultLocalArticles, type LocalArticleShape } from '@/lib/healthGuideTranslations';
 import { canonicalArticleSlug, getSanityArticleSlug } from '@/lib/routes';
 import HealthGuideDetailClient from '@/components/blog/HealthGuideDetailClient';
 
@@ -14,7 +14,7 @@ type RelatedArticle = {
   coverImage?: string;
 };
 
-type LocalArticle = (typeof localArticles)[number];
+type LocalArticle = LocalArticleShape;
 
 type ArticleDetail = {
   title: string;
