@@ -1,7 +1,7 @@
 export const TREATMENTS_DATA = [
   {
     slug: "skolyoz-kifoz-cerrahisi",
-    title: "Skolyoz & Kifoz",
+    title: "Skolyoz & Kifoz Cerrahisi",
     img: "/images/skolyoz-kifoz.avif",
     category: "Omurga Cerrahisi",
     stats: [{ label: "VBT Cobb açısı", val: "40–65°" }, { label: "Hastane süresi", val: "3–5 gün" }, { label: "Düzeltme başarısı", val: "%85+" }],
