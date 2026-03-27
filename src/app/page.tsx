@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useState, useEffect, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { ChevronRight, ChevronLeft, ChevronUp, ChevronDown, Star, Quote, Play } from "lucide-react";
+import { ChevronRight, ChevronLeft, ChevronUp, ChevronDown, Star, Quote, Play, Newspaper, ExternalLink } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
@@ -219,6 +219,48 @@ export default function Home() {
     date: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin'][index]}.date`),
   }));
 
+  const mediaHighlights = currentLang.startsWith('en')
+    ? [
+      {
+        outlet: 'NTV Health',
+        title: 'Early scoliosis awareness and follow-up',
+        date: 'March 2025',
+        image: '/images/skolyoz-kifoz.avif',
+      },
+      {
+        outlet: 'Medical Update',
+        title: 'A current perspective on robotic joint surgery',
+        date: 'November 2024',
+        image: '/images/diz-kalca-protezi.avif',
+      },
+      {
+        outlet: 'CNN Türk',
+        title: 'When should neck pain and arm numbness be evaluated?',
+        date: 'February 2024',
+        image: '/images/boyun-fitigi.avif',
+      },
+    ]
+    : [
+      {
+        outlet: 'NTV Sağlık',
+        title: 'Skolyozda erken tanı ve doğru takip',
+        date: 'Mart 2025',
+        image: '/images/skolyoz-kifoz.avif',
+      },
+      {
+        outlet: 'Medical Update',
+        title: 'Robotik eklem cerrahisine güncel bakış',
+        date: 'Kasım 2024',
+        image: '/images/diz-kalca-protezi.avif',
+      },
+      {
+        outlet: 'CNN Türk',
+        title: 'Boyun ağrısı ve kola vuran uyuşma ne zaman ciddiye alınmalı?',
+        date: 'Şubat 2024',
+        image: '/images/boyun-fitigi.avif',
+      },
+    ];
+
   const selectedVideoIndex = Math.max(0, YOUTUBE_VIDEOS.findIndex((video) => video.id === selectedVideoId));
   const selectedVideo = YOUTUBE_VIDEOS[selectedVideoIndex] ?? YOUTUBE_VIDEOS[0];
   const visibleVideoCount = 4;
@@ -250,9 +292,25 @@ export default function Home() {
   }, [selectedVideoIndex, videoListStart]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_16%,#f8fbff_46%,#ffffff_72%,#f8fafc_100%)]">
+    <div className="relative flex min-h-screen flex-col overflow-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_16%,#f8fbff_46%,#ffffff_72%,#f8fafc_100%)]">
+      <div
+        className="pointer-events-none absolute right-[-14rem] top-[30rem] h-[34rem] w-[34rem] rounded-full opacity-[0.16] blur-3xl"
+        style={{ background: 'radial-gradient(circle, #38bdf8 0%, transparent 68%)' }}
+      />
+      <div
+        className="pointer-events-none absolute left-[-16rem] top-[76rem] h-[38rem] w-[38rem] rounded-full opacity-[0.14] blur-3xl"
+        style={{ background: 'radial-gradient(circle, #22d3ee 0%, transparent 68%)' }}
+      />
+      <div
+        className="pointer-events-none absolute right-[-12rem] top-[132rem] h-[32rem] w-[32rem] rounded-full opacity-[0.14] blur-3xl"
+        style={{ background: 'radial-gradient(circle, #60a5fa 0%, transparent 70%)' }}
+      />
+      <div
+        className="pointer-events-none absolute left-[-14rem] bottom-[22rem] h-[34rem] w-[34rem] rounded-full opacity-[0.14] blur-3xl"
+        style={{ background: 'radial-gradient(circle, #2dd4bf 0%, transparent 70%)' }}
+      />
 
-      {/* ═══════════════ 1. HERO (Value Prop) ═══════════════ */}
+      {/* ═══════════════ 0, HERO (Value Prop) ═══════════════ */}
       <section className="relative w-full overflow-hidden" style={{ background: 'linear-gradient(135deg, #0c4a6e 0%, #075985 35%, #0e7490 65%, #0891b2 100%)' }}>
 
         {/* Soft radial glows */}
@@ -332,7 +390,7 @@ export default function Home() {
 
       </section>
 
-      {/* ═══════════════ 2. TEDAVİ ALANLARI — BENTO (Services) ═══════════════ */}
+      
       <div className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0">
           <div className="absolute left-[-15rem] top-0 h-[36rem] w-[36rem] rounded-full bg-sky-200/42 blur-[145px]" />
@@ -346,6 +404,8 @@ export default function Home() {
           <div className="absolute left-[-12rem] top-[248rem] h-[34rem] w-[34rem] rounded-full bg-sky-100/44 blur-[150px]" />
           <div className="absolute right-[-12rem] top-[280rem] h-[34rem] w-[34rem] rounded-full bg-cyan-100/44 blur-[150px]" />
         </div>
+
+        {/* ═══════════════ 1. TEDAVİ ALANLARI — BENTO (Services) ═══════════════ */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <FadeIn delay={0.1} direction="up" className="text-center mb-16 max-w-3xl mx-auto">
@@ -420,9 +480,7 @@ export default function Home() {
           </div>
         </section>
 
-
-
-        {/* ═══════════════ 3. HASTA YORUMLARI (Social Proof) ═══════════════ */}
+        {/* ═══════════════ 2. HASTA YORUMLARI (Social Proof) ═══════════════ */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="section-grid absolute inset-0 opacity-30 pointer-events-none" />
           <div className="container mx-auto px-4 max-w-4xl relative z-10">
@@ -465,7 +523,7 @@ export default function Home() {
         </section>
 
 
-        {/* ═══════════════ 4. SONUÇLAR (Results/Proof) ═══════════════ */}
+        {/* ═══════════════ 3. SONUÇLAR (Results/Proof) ═══════════════ */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
@@ -491,7 +549,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* ═══════════════ 5. MERKEZ TANITIM (Bento) ═══════════════ */}
+        {/* ═══════════════ 4. MERKEZ TANITIM (Bento) ═══════════════ */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <div className="section-panel grid grid-cols-1 gap-6 rounded-[2.75rem] border border-slate-100/80 p-6 md:p-8 lg:grid-cols-2 lg:p-10 items-center">
@@ -535,7 +593,7 @@ export default function Home() {
 
               {/* SAĞ — Bento Grid */}
               <FadeIn direction="left" delay={0.15}>
-                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:grid-rows-[170px_170px_170px_170px]">
+                <div className="grid grid-cols-1 gap-3 md:grid-cols-2 md:grid-rows-[170px_170px_170px]">
 
                   <div className="hidden relative min-h-[170px] overflow-hidden rounded-3xl md:col-span-2 md:min-h-0" style={{ background: 'linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0e7490 100%)' }}>
                     <div className="absolute inset-0 opacity-30" style={{ background: 'radial-gradient(circle at top right, rgba(125,211,252,0.45), transparent 42%)' }} />
@@ -584,20 +642,14 @@ export default function Home() {
 
                   {/* Küçük görsel — orta sağ */}
                   <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:row-span-2 md:min-h-0">
-                    <img src="/images/diz-kalca-protezi.avif" alt="Teknoloji" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src="/images/saglik/on-capraz.avif" alt="Teknoloji" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent" />
                   </div>
 
                   {/* Alt sol */}
                   <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:min-h-0">
-                    <img src="/images/bel-fitigi.avif" alt="Hastane" className="absolute inset-0 w-full h-full object-cover" />
+                    <img src="/images/boyun-fitigi.avif" alt="Hastane" className="absolute inset-0 w-full h-full object-cover" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-900/50 to-transparent" />
-                  </div>
-
-                  {/* Online Randevu kartı — alt sağ */}
-                  <div className="relative min-h-[170px] overflow-hidden rounded-3xl md:col-span-2 md:min-h-0" style={{ background: 'linear-gradient(135deg, #082f49 0%, #0c4a6e 45%, #0e7490 100%)' }}>
-                    <img src="/images/cocuk-ortopedisi.avif" alt="Cocuk ortopedisi" className="absolute inset-0 h-full w-full object-cover" style={{ objectPosition: "center 35%" }} />
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-slate-900/10 to-transparent" />
                   </div>
 
                 </div>
@@ -608,7 +660,7 @@ export default function Home() {
         </section>
 
 
-        {/* ═══════════════ 6. HAKKINDA (Trust) ═══════════════ */}
+        {/* ═══════════════ 5. HAKKINDA (Trust) ═══════════════ */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-24">
@@ -647,7 +699,7 @@ export default function Home() {
         </section>
 
 
-        {/* ═══════════════ 7. YOUTUBE VİDEOLAR (Content) ═══════════════ */}
+        {/* ═══════════════ 6. YOUTUBE VİDEOLAR (Content) ═══════════════ */}
         {/* <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
@@ -738,9 +790,70 @@ export default function Home() {
           </div>
         </section> */}
 
+        {/* ═══════════════ 7. BASINDA BIZ (Media) ═══════════════ */}
+        <section className="section-ghost relative overflow-hidden bg-white py-20">
+          <div className="container relative z-10 mx-auto px-4 max-w-6xl">
+            <div className="mb-8 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+              <FadeIn direction="up" className="max-w-2xl">
+                <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-4">
+                  {currentLang.startsWith('en') ? 'In The Media' : 'Basında Biz'}
+                </p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">
+                  {currentLang.startsWith('en')
+                    ? 'Selected media coverage and expert appearances'
+                    : 'Basında öne çıkan yayınlar ve uzman görüşleri'}
+                </h2>
+                <p className="mt-4 text-base md:text-lg text-slate-500 leading-relaxed">
+                  {currentLang.startsWith('en')
+                    ? 'A compact archive of selected interviews, health coverage, and public-facing expert commentary.'
+                    : 'Röportajlar, sağlık yayınları ve kamuya yönelik uzman değerlendirmelerinden seçilmiş kısa bir arşiv.'}
+                </p>
+              </FadeIn>
+              <FadeIn direction="left" delay={0.08}>
+                <Link href={getLocalizedPath('media', currentLang)}>
+                  <Button variant="outline" className="border-slate-200 text-slate-700 hover:text-blue-700 hover:border-blue-400 hover:bg-white font-semibold px-6 py-5 h-auto transition-all duration-200 rounded-xl text-sm">
+                    {currentLang.startsWith('en') ? 'View All Coverage' : 'Tüm Yayınları Gör'}
+                  </Button>
+                </Link>
+              </FadeIn>
+            </div>
 
-
-
+            <div className="grid grid-cols-1 gap-5 lg:grid-cols-3">
+              {mediaHighlights.map((item, i) => (
+                <FadeIn key={item.title} delay={0.08 + i * 0.06} direction="up">
+                  <Link href={getLocalizedPath('media', currentLang)} className="group block h-full">
+                    <article className="flex h-full flex-col overflow-hidden rounded-[1.8rem] border border-slate-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-100 hover:shadow-xl hover:shadow-slate-200/60">
+                      <div className="relative h-44 overflow-hidden bg-slate-100">
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-slate-950/50 via-slate-900/10 to-transparent" />
+                      </div>
+                      <div className="flex flex-1 flex-col p-6">
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                          <div className="inline-flex items-center gap-2 rounded-full bg-blue-50 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-blue-700">
+                            <Newspaper className="h-4 w-4" />
+                            {item.outlet}
+                          </div>
+                          <span className="text-xs font-medium text-slate-400">{item.date}</span>
+                        </div>
+                        <h3 className="text-xl font-extrabold leading-snug text-slate-900 transition-colors group-hover:text-blue-700">
+                          {item.title}
+                        </h3>
+                        <div className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-slate-500 transition-colors group-hover:text-blue-600">
+                          <ExternalLink className="h-4 w-4" />
+                          {currentLang.startsWith('en') ? 'Open Press Room' : 'Basın Odasına Git'}
+                        </div>
+                      </div>
+                    </article>
+                  </Link>
+                </FadeIn>
+              ))}
+            </div>
+          </div>
+        </section>
         {/* ═══════════════ 8. TEDAVİ SÜRECİ (How it works) ═══════════════ */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-5xl">

@@ -1,5 +1,5 @@
 import { getAllArticles } from '@/sanity/queries';
-import { articles as localArticles } from '@/lib/articles';
+import { getDefaultLocalArticles } from '@/lib/healthGuideTranslations';
 import HealthGuidePageClient from '@/components/blog/HealthGuidePageClient';
 
 export const revalidate = 60;
@@ -17,7 +17,23 @@ type SanityArticle = {
 
 export default async function HealthGuidePage() {
   const sanityArticles = (await getAllArticles()) as SanityArticle[];
-  const combined: SanityArticle[] = [...sanityArticles];
+  const localArticles = getDefaultLocalArticles();
+  const localArticleMap = new Map(localArticles.map((article) => [article.slug, article]));
+  const combined: SanityArticle[] = sanityArticles.map((article) => {
+    const local = localArticleMap.get(article.slug);
+
+    if (!local) return article;
+
+    return {
+      ...article,
+      slug: local.slug,
+      title: local.title,
+      category: local.category,
+      summary: local.desc,
+      readTime: parseInt(local.readTime, 10),
+      coverImage: local.img,
+    };
+  });
 
   localArticles.forEach((local) => {
     const exists = sanityArticles.find((article) => article.slug === local.slug);

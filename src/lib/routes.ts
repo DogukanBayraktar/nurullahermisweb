@@ -10,12 +10,14 @@ const routeSegments = {
     treatments: 'tedaviler',
     healthGuide: 'saglik-rehberi',
     contact: 'iletisim',
+    media: 'basinda-biz',
   },
   en: {
     about: 'about',
     treatments: 'treatments',
     healthGuide: 'health-guide',
     contact: 'contact',
+    media: 'in-the-media',
   },
 } as const;
 
@@ -32,9 +34,16 @@ const articleSlugMap: Record<string, string> = {
   'bel-fitigi-ameliyati': 'lumbar-disc-surgery',
   'skolyoz-belirtileri-tedavisi': 'scoliosis-symptoms-treatment',
   'diz-protezi-ameliyati': 'knee-replacement-surgery',
-  'boyun-fitigi-belirtileri': 'cervical-disc-symptoms',
-  'cocuk-ortopedisi-kalca-cikigi': 'pediatric-orthopedics-hip-dislocation',
+  'boyun-fitiginiz-mi-var': 'do-you-have-a-cervical-disc-herniation',
+  'cocuklarda-kalca-cikigini-nasil-anlariz': 'how-can-we-recognize-hip-dislocation-in-children',
   'acl-cop-bag-ameliyati': 'acl-surgery',
+};
+
+const legacyArticleSlugMap: Record<string, string> = {
+  'boyun-fitigi-belirtileri': 'boyun-fitiginiz-mi-var',
+  'cocuk-ortopedisi-kalca-cikigi': 'cocuklarda-kalca-cikigini-nasil-anlariz',
+  'cervical-disc-symptoms': 'boyun-fitiginiz-mi-var',
+  'pediatric-orthopedics-hip-dislocation': 'cocuklarda-kalca-cikigini-nasil-anlariz',
 };
 
 function invertMap(map: Record<string, string>) {
@@ -43,6 +52,10 @@ function invertMap(map: Record<string, string>) {
 
 const reverseTreatmentSlugMap = invertMap(treatmentSlugMap);
 const reverseArticleSlugMap = invertMap(articleSlugMap);
+
+function normalizeArticleSlug(slug: string) {
+  return reverseArticleSlugMap[slug] ?? legacyArticleSlugMap[slug] ?? slug;
+}
 
 export function localizeTreatmentSlug(slug: string, language?: string) {
   const lang = getSiteLang(language);
@@ -56,12 +69,20 @@ export function canonicalTreatmentSlug(slug: string) {
 
 export function localizeArticleSlug(slug: string, language?: string) {
   const lang = getSiteLang(language);
-  if (lang === 'en') return articleSlugMap[slug] ?? slug;
-  return reverseArticleSlugMap[slug] ?? slug;
+  const canonicalSlug = normalizeArticleSlug(slug);
+  if (lang === 'en') return articleSlugMap[canonicalSlug] ?? canonicalSlug;
+  return canonicalSlug;
 }
 
 export function canonicalArticleSlug(slug: string) {
-  return reverseArticleSlugMap[slug] ?? slug;
+  return normalizeArticleSlug(slug);
+}
+
+export function getSanityArticleSlug(slug: string) {
+  const canonicalSlug = normalizeArticleSlug(slug);
+  if (canonicalSlug === 'boyun-fitiginiz-mi-var') return 'boyun-fitigi-belirtileri';
+  if (canonicalSlug === 'cocuklarda-kalca-cikigini-nasil-anlariz') return 'cocuk-ortopedisi-kalca-cikigi';
+  return canonicalSlug;
 }
 
 export function getLangFromPathname(pathname: string): SiteLang {
@@ -72,7 +93,14 @@ export function getLangFromPathname(pathname: string): SiteLang {
   const segments = cleanPath.split('/').filter(Boolean);
   const first = segments[0];
 
-  if (first === routeSegments.en.about || first === routeSegments.en.treatments || first === routeSegments.en.healthGuide || first === routeSegments.en.contact || first === 'en') {
+  if (
+    first === routeSegments.en.about ||
+    first === routeSegments.en.treatments ||
+    first === routeSegments.en.healthGuide ||
+    first === routeSegments.en.contact ||
+    first === routeSegments.en.media ||
+    first === 'en'
+  ) {
     return 'en';
   }
 
@@ -126,6 +154,10 @@ export function getAlternateLocalizedPath(pathname: string, targetLanguage: stri
 
   if (first === routeSegments.tr.contact || first === routeSegments.en.contact) {
     return getLocalizedPath('contact', targetLang);
+  }
+
+  if (first === routeSegments.tr.media || first === routeSegments.en.media) {
+    return getLocalizedPath('media', targetLang);
   }
 
   if (isTrTreatments || isEnTreatments) {

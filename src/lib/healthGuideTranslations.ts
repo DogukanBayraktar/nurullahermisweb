@@ -149,9 +149,9 @@ Dizlerinizde sürekli ağrı, şişlik, hareket kısıtlılığı veya günlük 
       ],
       tags: ['Diz Protezi', 'Robotik Cerrahi', 'Osteoartrit', 'Kireçlenme', 'Eklem Protezi'],
     },
-    'boyun-fitigi-belirtileri': {
-      slug: 'boyun-fitigi-belirtileri',
-      title: 'Boyun Fıtığı Belirtileri ve Tedavisi: Kola Vuran Ağrıya Son',
+    'boyun-fitiginiz-mi-var': {
+      slug: 'boyun-fitiginiz-mi-var',
+      title: 'Boyun Fıtığınız Mı Var? Paniğe Gerek Yok…',
       img: '/images/saglik/boyun-cerrahi.avif',
       date: '5 Kasım 2024',
       readTime: '6 dk okuma',
@@ -181,9 +181,9 @@ Ancak günümüzde masa başı çalışanlar ve gençlerde de yaygınlaşmışt�
       ],
       tags: ['Boyun Fıtığı', 'Servikal Disk', 'ACDF', 'Yapay Disk', 'Omurga Cerrahisi'],
     },
-    'cocuk-ortopedisi-kalca-cikigi': {
-      slug: 'cocuk-ortopedisi-kalca-cikigi',
-      title: 'Çocuklarda Kalça Çıkığı (GKD): Erken Teşhis Ameliyatı Önler',
+    'cocuklarda-kalca-cikigini-nasil-anlariz': {
+      slug: 'cocuklarda-kalca-cikigini-nasil-anlariz',
+      title: 'Çocuklarda Kalça Çıkığını Nasıl Anlarız?',
       img: '/images/saglik/cocuk.avif',
       date: '20 Eylül 2024',
       readTime: '5 dk okuma',
@@ -339,9 +339,9 @@ Do you experience persistent knee pain, swelling, limited movement, or difficult
       ],
       tags: ['Knee Replacement', 'Robotic Surgery', 'Osteoarthritis', 'Arthrosis', 'Joint Replacement'],
     },
-    'boyun-fitigi-belirtileri': {
-      slug: 'boyun-fitigi-belirtileri',
-      title: 'Cervical Disc Herniation Symptoms and Treatment: Relief for Arm Pain',
+    'boyun-fitiginiz-mi-var': {
+      slug: 'boyun-fitiginiz-mi-var',
+      title: 'Do You Have a Cervical Disc Herniation? No Need to Panic…',
       img: '/images/saglik/boyun-cerrahi.avif',
       date: 'November 5, 2024',
       readTime: '6 min read',
@@ -371,9 +371,9 @@ However, today it has also become widespread among desk workers and younger peop
       ],
       tags: ['Cervical Disc Herniation', 'Cervical Disc', 'ACDF', 'Artificial Disc', 'Spine Surgery'],
     },
-    'cocuk-ortopedisi-kalca-cikigi': {
-      slug: 'cocuk-ortopedisi-kalca-cikigi',
-      title: 'Hip Dislocation in Children (DDH): Early Diagnosis Prevents Surgery',
+    'cocuklarda-kalca-cikigini-nasil-anlariz': {
+      slug: 'cocuklarda-kalca-cikigini-nasil-anlariz',
+      title: 'How Can We Recognize Hip Dislocation in Children?',
       img: '/images/saglik/cocuk.avif',
       date: 'September 20, 2024',
       readTime: '5 min read',
@@ -448,4 +448,13 @@ export function getCurrentLanguage(language?: string): 'tr' | 'en' {
 export function getTranslatedLocalArticle(slug: string, language?: string) {
   const lang = getCurrentLanguage(language);
   return localArticleTranslations[lang][slug];
+}
+
+export function getAllTranslatedLocalArticles(language?: string) {
+  const lang = getCurrentLanguage(language);
+  return Object.values(localArticleTranslations[lang]);
+}
+
+export function getDefaultLocalArticles() {
+  return getAllTranslatedLocalArticles('tr');
 }

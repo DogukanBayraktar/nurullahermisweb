@@ -13,6 +13,7 @@ export default function Footer() {
     { href: getLocalizedPath('about', i18n.language), label: t('nav.about') },
     { href: getLocalizedPath('treatments', i18n.language), label: t('footer.treatments') },
     { href: getLocalizedPath('healthGuide', i18n.language), label: t('footer.healthGuide') },
+    { href: getLocalizedPath('media', i18n.language), label: i18n.language?.startsWith('en') ? 'In The Media' : 'Basında Biz' },
     { href: getLocalizedPath('contact', i18n.language), label: t('footer.contact') },
   ];
 
@@ -143,10 +144,10 @@ export default function Footer() {
         <div className="container mx-auto px-4 max-w-6xl flex flex-col items-center justify-between py-6 text-xs text-slate-600 md:flex-row">
           <p>{t('footer.rights')}</p>
           <div className="mt-3 flex space-x-6 md:mt-0">
-            <Link href="/privacy" className="transition-colors hover:text-slate-400">
+            <Link href="/gizlilik-politikasi" className="transition-colors hover:text-slate-400">
               {t('footer.privacyPolicy')}
             </Link>
-            <Link href="/terms" className="transition-colors hover:text-slate-400">
+            <Link href="/kullanim-kosullari" className="transition-colors hover:text-slate-400">
               {t('footer.termsOfUse')}
             </Link>
           </div>
