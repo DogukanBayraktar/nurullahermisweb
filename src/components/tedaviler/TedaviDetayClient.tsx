@@ -97,7 +97,7 @@ export default function TedaviDetayClient({
                 </h2>
                 <div className="space-y-4">
                   {localizedTreatment.description.map((p, i) => (
-                    <p key={i} className="text-[1.05rem] leading-relaxed text-slate-600">
+                    <p key={i} className="whitespace-pre-line text-[1.05rem] leading-relaxed text-slate-600">
                       {p}
                     </p>
                   ))}

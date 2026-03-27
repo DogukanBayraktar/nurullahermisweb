@@ -148,7 +148,7 @@ export default function HealthGuideDetailClient({
                   <div className="space-y-10">
                     {displayArticle._localContent.intro ? (
                       <section>
-                        <div className="space-y-3 text-[1.05rem] leading-relaxed text-slate-600">
+                        <div className="whitespace-pre-line space-y-3 text-[1.05rem] leading-relaxed text-slate-600">
                           {displayArticle._localContent.intro.split('\n\n').map((para: string, j: number) => (
                             <p key={j}>{para}</p>
                           ))}
@@ -160,7 +160,7 @@ export default function HealthGuideDetailClient({
                         <h2 className="mb-4 border-b-2 border-blue-50 pb-2 text-xl font-bold text-slate-900 md:text-2xl">
                           {section.h2}
                         </h2>
-                        <div className="space-y-3 text-[1.05rem] leading-relaxed text-slate-600">
+                        <div className="whitespace-pre-line space-y-3 text-[1.05rem] leading-relaxed text-slate-600">
                           {section.content.split('\n\n').map((para: string, j: number) => (
                             <p key={j}>{para}</p>
                           ))}

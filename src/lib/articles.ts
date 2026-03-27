@@ -1,51 +1,90 @@
 export const articles = [
   {
     slug: "bel-fitigi-ameliyati",
-    title: "Bel Fıtığı Ameliyatı: Mikrocerrahi ile Aynı Gün Yürümek Mümkün",
-    img: "/images/bel-fitigi.avif",
+    title: "Bel Fıtığı Ameliyatı Nedir?",
+    img: "/images/saglik/bel-fitigi.avif",
     date: "12 Mart 2025",
     readTime: "7 dk okuma",
     category: "Bel Fıtığı",
-    desc: "Bel fıtığı ameliyatı artık 1.5 cm'lik kesiden, mikroskop altında uygulanıyor ve hastalar aynı gün yürüyebiliyor. Bu yazıda mikrodiskektominin nasıl yapıldığını, kimlere gerektiğini ve iyileşme sürecini ayrıntıyla anlatıyoruz.",
-    intro: `Bacağınıza vuran şiddetli ağrı, geceleri uyandıran siyatik, oturamama… Bel fıtığı yaşayan milyonlarca insan bu tabloya aşinadır. "Ameliyat olmadan geçer mi?" sorusunun cevabı birçok vakada evettir — ancak 6 haftayı aşan, nörolojik hasar gösteren ya da günlük yaşamı felç eden vakalarda mikrocerrahi, hem en güvenli hem de en hızlı çözümü sunar.`,
+    desc: "Bel fıtığı, omurga disklerinin yerinden kayarak sinirlere baskı yapmasıyla oluşur ve çoğunlukla 30–50 yaş arasında görülür.",
+    intro: `Bel Fıtığı Ameliyatı Nedir? 
+
+Bel ağrısı, bacaklara yayılan uyuşma veya güçsüzlük mü yaşıyorsunuz? Bunlar çoğu zaman bel fıtığının belirtileri olabilir. Bel fıtığı, omurga disklerinin yerinden kayarak sinirlere baskı yapmasıyla oluşur ve çoğunlukla 30–50 yaş arasında görülür. Bel fıtığı tedavisinde ilk adım genellikle konservatif yöntemlerdir. Bunlar arasında ilaç tedavisi, fizik tedavi, omurga egzersizleri, yaşam tarzı değişiklikleri ve bel destekleri yer alır. Çoğu hasta bu yöntemlerle ağrısını yönetebilir ve günlük yaşam aktivitelerini sürdürebilir. Ancak bazı durumlarda konservatif tedavi yeterli olmayabilir. Şiddetli ağrı, bacaklarda güç kaybı, idrar veya dışkı kontrolünde sorun gibi belirtiler varsa ameliyat gerekebilir.`,
     sections: [
-      { h2: "Bel Fıtığı Neden Oluşur?", content: `Omurlar arasındaki disk yastıkları, yaşlanma, aşırı yük ve ani travmalarla zamanla dejenere olur. Diskin dış tabakası (anulus fibrozus) yırtıldığında içindeki jel kıvamındaki çekirdek (nukleus pulpozus) dışa fırlar ve çevre sinir köküne ya da omurilik kanalına baskı yapar. Bu baskı; siyatik ağrısı, his kaybı ve güçsüzlük olarak kendini gösterir.\n\nEn sık görülen bel fıtığı seviyeleri L4–L5 ve L5–S1'dir. L4–L5 fıtığı ayak bileğini kaldırmayı güçleştirirken, L5–S1 fıtığı topukta kuvvet kaybına yol açar.` },
-      { h2: "Bel Fıtığı Ameliyatı — Mikrodiskektomi Nasıl Yapılır?", content: `Genel anestezi altında başlayan operasyonda Prof. Dr. Ermiş, hastanın sırtında fıtığın tam üzerine gelecek biçimde yalnızca 1.5 cm'lik bir kesi yapar. Ameliyat mikroskobu devreye girerek görüş alanını büyütür; bu sayede sinir kökü hassasiyetle korunurken fıtık kütlesi milimetrik dikkatle temizlenir.\n\nOperasyon ortalama 45–60 dakika sürer. Hasta 4–6 saat içinde kalkıp yürür; çoğunlukla ertesi gün taburcu edilir. Masa başı işlere 1–2 haftada, fiziksel işlere ise 4–6 haftada dönüş mümkündür.` },
-      { h2: "Bel Fıtığı Ameliyatı Kimlere Gerekir?", content: `Her bel fıtığı ameliyat gerektirmez. Aşağıdaki durumlar cerrahi için güçlü endikasyonlardır:\n\n• Ağrı 6 haftadan uzun sürüyor ve konservatif tedaviye yanıt vermiyorsa\n• Ayak veya bacakta ilerleyen kuvvet kaybı varsa (özellikle düşük ayak)\n• İdrar ya da bağırsak kontrolünde ani güçlük (kauda equina sendromu) — bu durum acil cerrahidir\n• Ağrı kesiciler etkinliğini yitirdi ve yaşam kalitesi ciddi biçimde bozulduysa` },
-      { h2: "Ameliyat Sonrası İyileşme Süreci", content: `Mikrocerrahi sonrası siyatik ağrısının büyük bölümü ilk günlerde geriler. Sinirin tam iyileşmesi 3–6 ay sürebilir; bu sürede hafif karıncalanma hissi normal kabul edilir.\n\nİyileşmeyi hızlandırmak için öneriler:\n• İlk 4–6 haftada ağır kaldırmaktan ve öne eğilmekten kaçının\n• Fizyoterapist eşliğinde core (gövde) egzersizlerine başlayın\n• Yürüyüş, en temel ve etkili rehabilitasyon aracıdır — günde 2–3 kez kısa yürüyüşler yapın\n• Sigara iyileşmeyi yavaşlatır; mümkünse bırakın` },
-      { h2: "Ameliyat Sonrası Tekrar Fıtık Olur mu?", content: `Her 100 operasyonun yaklaşık 5–8'inde aynı seviyede tekrar fıtık oluşabilir. Bunun önüne geçmek için kilo kontrolü, düzenli core egzersizleri ve doğru kaldırma teknikleri hayati önem taşır. Tekrar fıtık oluştuğunda yeniden mikrodiskektomi veya endoskopik diskektomi başarıyla uygulanabilir.` },
+      {
+        h2: "Bel Fıtığı Ameliyatı Nasıl Yapılır?",
+        content: `Bel fıtığı ameliyatı, genellikle mikrocerrahi veya endoskopik yöntemlerle yapılır. Cerrahi sırasında fıtıklaşmış disk bölgesi temizlenir ve sinir üzerindeki baskı kaldırılır. Modern tıbbi teknikler sayesinde ameliyatlar yüksek başarı oranıyla gerçekleştirilir ve hastalar genellikle kısa sürede günlük yaşamlarına dönebilir.`
+      },
+      {
+        h2: "Ameliyat Sonrası Süreç",
+        content: `Mikrocerrahi sonrası siyatik ağrısının büyük kısmı genellikle ilk günlerde geriler, ancak sinirin tam iyileşmesi 3–6 ay sürebilir; bu süreçte hafif karıncalanma hissi normal kabul edilir. İyileşmeyi hızlandırmak için ameliyat sonrası ilk 4–6 haftada ağır kaldırmaktan ve öne eğilmekten kaçınmak, fizyoterapist eşliğinde core (gövde) egzersizlerine başlamak ve günde 2–3 kez kısa yürüyüşler yapmak çok önemlidir. Ayrıca sigara kullanımı iyileşmeyi yavaşlattığı için mümkünse bırakılmalıdır.`
+      },
+      {
+        h2: "Tekrar Fıtık Oluşma Riski",
+        content: `Ameliyattan sonra tekrar fıtık oluşma riski her 100 operasyondan yaklaşık 5–8’idir. Bu riskin önüne geçmek için kilo kontrolü, düzenli core egzersizleri ve doğru kaldırma teknikleri büyük önem taşır. Tekrar fıtık oluştuğunda ise mikrodiskektomi veya endoskopik diskektomi yöntemleri başarıyla uygulanabilir.`
+      }
     ],
     tags: ["Bel Fıtığı", "Mikrodiskektomi", "Siyatik", "Lomber Disk", "Omurga Cerrahisi"],
   },
   {
     slug: "skolyoz-belirtileri-tedavisi",
-    title: "Skolyoz Belirtileri ve Tedavisi: Erken Teşhis Neden Bu Kadar Önemli?",
-    img: "/images/skolyoz-kifoz.avif",
+    title: "Skolyozdan Korkmalı Mıyız? ",
+    img: "/images/saglik/skolyoz-cerrahi.avif'",
     date: "28 Şubat 2025",
     readTime: "8 dk okuma",
     category: "Skolyoz",
-    desc: "Skolyoz, omurganın 10 derecenin üzerinde anormal eğrilmesidir ve çoğunlukla büyüme çağında fark edilir. Erken teşhis, VBT gibi füzyonsuz yöntemlerle ameliyatsız hisse yakın sonuçlar elde etmeyi mümkün kılar.",
-    intro: `Okul çağındaki çocuğunuzun sırtına baktığınızda bir omuzun diğerinden yüksek durduğunu, bele ilişkin kıyafetlerin eşit oturmadığını fark ettiniz mi? Bu bulgular skolyozun erken işaretleri olabilir. Türkiye'de her 100 çocuktan 2–3'ünde anlamlı omurga eğriliği saptanmaktadır. İyi haber: erken yakalandığında VBT gibi modern yöntemlerle cerrahi füzyon yapmaksızın etkili tedavi mümkündür.`,
+    desc: "Skolyoz, omurganın yanlara doğru eğrilmesiyle ortaya çıkan bir rahatsızlıktır ve özellikle çocukluk ve ergenlik döneminde sıkça fark edilir.",
+    intro: `Omuzlarınız eşit mi? Aynaya bakarken sırtınızda hafif bir eğrilik fark ettiniz mi? Basit bir duruş bozukluğu sandığınız bu durum, aslında skolyozun ilk işareti olabilir. 
+    Skolyoz, omurganın yanlara doğru eğrilmesiyle ortaya çıkan bir rahatsızlıktır ve özellikle çocukluk ve ergenlik döneminde sıkça fark edilir. Çoğu zaman ağrı yapmadığı için fark edilmesi zor olabilir. Prof. Dr. Nurullah Ermiş, her hastalıkta olduğu gibi skolyozda da erken tanının önemine dikkat çekiyor. Düzenli doktor kontrolü, doğru egzersizler ve bazı durumlarda korse tedavisi, sağlıklı bir omurgaya ulaşmayı kolaylaştırıyor. Bu süreçte ailelere büyük görev düşüyor. Çocuklarınızın duruşuna, oturuşuna ve günlük hareketlerine dikkat etmeniz gerekiyor. Özellikle çocuk eğilirken sırtın bir tarafında çıkıntı görülüyorsa, bu belirti ihmal edilmeden uzmana başvurulmalıdır.`,
     sections: [
-      { h2: "Skolyoz Nedir?", content: `Skolyoz, omurganın öne-arkadan (frontal düzlemde) 10 derecenin üzerinde anormal biçimde sağa ya da sola eğrilmesidir. Eğrilik çoğunlukla S veya C şeklini alır. En yaygın türü olan Adölesan İdiyopatik Skolyoz (AIS), 10–16 yaş arasında, kesin nedeni bilinmeksizin ortaya çıkar. Kızlarda ilerleyen vakaların sıklığı erkeklere göre 8 kat daha fazladır.` },
-      { h2: "Skolyoz Belirtileri Nelerdir?", content: `Çoğu skolyoz başlangıçta ağrısız seyreder; bu nedenle aile bireyleri ya da okul taramaları tanıda kritik rol oynar. Dikkat edilmesi gereken bulgular:\n\n• Omuzların eşit yükseklikte durmaması\n• Sırtın bir tarafının diğerinden belirgin kabarık görünmesi (jilet sırtı)\n• Kalçaların dengesiz durması\n• Öne eğilince sırtta asimetri\n• İleri vakalarda kronik sırt-bel ağrısı ve kısa nefes alma` },
-      { h2: "VBT (Vertebral Body Tethering) Nedir?", content: `VBT, Türkiye'de uygulanan en yeni skolyoz cerrahi tekniklerinden biridir. Büyüme potansiyeli olan 10–16 yaş hastalarında, Cobb açısı 40–65° arasındaykan uygulanır.\n\nToraks kısmına küçük kesilerden girilir (torakoskopik yaklaşım). Eğriliğin iç tarafındaki omurganın yan yüzlerine vidalar yerleştirilir ve vidalar arasına esnek bir bant (tether) gerilir. Hasta büyüdükçe bant, omurgayı kademeli olarak diker.\n\nVBT'nin temel avantajı: füzyon (kaynama) gerektirmez, hareket kabiliyeti tamamen korunur ve hasta çok daha hızlı iyileşir.` },
-      { h2: "Skolyozda Korse Ne Zaman Yeterlidir?", content: `Cobb açısı 25–45° arasında ve büyüme devam ediyorsa korse ilerlemeyi yavaşlatabilir. Ancak korse skolyozu düzeltmez; yalnızca eğriliğin artmasını önlemeye çalışır.\n\nKorse kullanımı için koşullar:\n• Büyüme plakaları açık olmalıdır (Risser 0–2)\n• Cobb açısı 25–45° arasında olmalıdır\n• Günde en az 18–23 saat kullanılmalıdır` },
+      {
+        h2: "Skolyozun Nedenleri Nelerdir?",
+        content: `Skolyozun tek bir nedeni yoktur; birçok faktör rol oynayabilir. Yapılan araştırmalara göre vakaların yaklaşık %80’inde neden tam olarak belirlenemiyor. Öne çıkan faktörler arasında genetik yatkınlık önemli bir rol oynar ve kız çocuklarında erkeklere oranla daha sık görülür. Ayrıca anne karnında yeterince gelişmemiş omurga yapısı da skolyoza yol açabilir. Yanlış duruş, hatalı oturma ve ağır çantaların tek omuzda taşınması, var olan omurga eğriliğini daha da artırabilir.`
+      },
+      {
+        h2: "Skolyoz Tedavisi ve Ameliyat Süreci",
+        content: `Skolyoz ameliyatı ise ileri cerrahi deneyim ve teknoloji gerektiren bir operasyondur. Ancak günümüzdeki yöntemlerle ameliyat yüksek oranda başarılı geçmektedir. Ameliyat planı, hastanın yaşı ve eğriliğin derecesi göz önünde bulundurularak yapılır. Operasyonda omurga hizası boyunca açılan kesiye pedikül vida sistemleri yerleştirilir ve bu vidalar arasından metal çubuklar geçirilir.`
+      },
+      {
+        h2: "Skolyozdan Korkmalı Mıyız?",
+        content: `Unutmayın; skolyoz her zaman korkulacak bir durum değildir. Erken tanı, düzenli kontroller ve doğru tedavi yöntemleriyle çoğu vaka yönetilebilir ve sağlıklı bir omurgaya ulaşmak mümkündür.`
+      }
     ],
     tags: ["Skolyoz", "VBT", "Kifoz", "Omurga Eğriliği", "Çocuk Ortopedisi", "Omurga Cerrahisi"],
   },
   {
     slug: "diz-protezi-ameliyati",
-    title: "Diz Protezi Ameliyatı: Robotik Cerrahi ile Ertesi Gün Yürümek",
+    title: "Diz Protezi Ameliyatı",
     img: "/images/diz-kalca-protezi.avif",
     date: "10 Ocak 2025",
     readTime: "6 dk okuma",
     category: "Eklem Protezi",
-    desc: "Diz kireçlenmesinde (osteoartrit) ağrı kesiciler işe yaramıyorsa robotik total diz protezi en kalıcı çözümdür. Hastalar ertesi gün yürüyebilir; modern implantlar 20–25 yıl işlev görür.",
-    intro: `Merdiven inerken çekilen o keskin ağrı, geceleri uyandıran sızı, artık kaldırmanın anlamsız geldiği ağrı kesiciler… Diz kireçlenmesinin son evresinde milyonlarca kişinin tanıdığı bu tablo, robotik total diz protezi ile köklü biçimde değişebilir. Modern implantlar ve robotik hassasiyetle gerçekleştirilen bu operasyonda hastaların büyük çoğunluğu ertesi gün yürümeye başlamaktadır.`,
+    desc: "Diz protezi ameliyatı, eklem yüzeylerinin aşınması, kireçlenme veya travma sonrası oluşan hasarları düzeltmek için uygulanan güvenli ve etkili bir yöntemdir.",
+    intro: `DİZ PROTEZİ AMELİYATI NEDİR?
+ROBOTİK CERRAHİ HANGİ DURUMLARDA KULLANILIR? 
+
+Dizlerinizde sürekli ağrı, şişlik, hareket kısıtlılığı veya günlük yaşam aktivitelerinde zorlanma mı yaşıyorsunuz? Bunlar genellikle ileri derecede eklem hasarının veya diz kireçlenmesinin ilk işaretleri olabilir. Diz protezi ameliyatı, eklem yüzeylerinin aşınması, kireçlenme veya travma sonrası oluşan hasarları düzeltmek için uygulanan güvenli ve etkili bir yöntemdir. Prof. Dr. Nurullah Ermiş, diz protezi ameliyatlarında erken değerlendirmenin tedaviyi büyük oranda kolaylaştırdığını vurguluyor.`,
     sections: [
-      { h2: "Diz Kireçlenmesi (Osteoartrit) Nedir?", content: `Osteoartrit, diz eklemini örten kıkırdak dokunun zamanla aşınmasıdır. Kıkırdak incelip yok oldukça kemikler birbirine sürtünmeye başlar; bu durum şiddetli ağrı, şişlik ve hareket kısıtlılığına yol açar. 60 yaş üstü nüfusun yaklaşık %30'u klinik osteoartrit belirtileri yaşamaktadır.` },
-      { h2: "Robotik Diz Protezi Neden Daha İyi?", content: `Geleneksel diz protezinde cerrah, ameliyat sırasında kemik kesimlerini el aleti ve kılavuzlarla yapar. Robotik sistemde ise:\n\n• Ameliyat öncesi 3 boyutlu kemik modeli hazırlanır\n• İmplant pozisyonu bilgisayarda milimetrik hassasiyetle planlanır\n• Ameliyat sırasında robot, planlanan sınırların dışına çıkılmasını otomatik olarak engeller\n• Bacak ekseni mükemmel biçimde düzeltilir` },
+      {
+        h2: "Diz Protezi Hangi Durumlarda Uygulanır?",
+        content: `Diz protezi genellikle ileri derecede osteoartrit, romatoid artrit, travmatik eklem hasarı veya önceki cerrahi müdahaleler sonrası dizde ciddi fonksiyon kaybı olan hastalarda uygulanır. Belirtiler arasında sürekli diz ağrısı, merdiven inip çıkmada zorluk, bacaklarda güç kaybı ve eklemde sertlik yer alır. Bu belirtiler varsa gecikmeden ortopedi uzmanına başvurmak gerekir.`
+      },
+      {
+        h2: "Diz Protezi Ameliyatı Nasıl Yapılır?",
+        content: `Diz protezi ameliyatı, hastanın yaşı, genel sağlık durumu ve dizdeki hasarın derecesine göre planlanır. Cerrahide aşınmış veya hasar görmüş eklem yüzeyleri çıkarılır ve yerine metal, seramik veya polietilen malzemelerden oluşan yapay eklem (protezi) yerleştirilir. Modern cerrahi teknikler ve robotik destekli yöntemler sayesinde operasyonlar yüksek başarı oranıyla gerçekleştirilir. Ameliyat sonrası fizik tedavi ile dizin hareket kabiliyeti artırılır ve hastalar günlük yaşam aktivitelerine güvenle dönebilir.`
+      },
+      {
+        h2: "Diz Protezi Ameliyatı Hangi Durumlarda Tercih Edilir?",
+        content: `Diz protezi ameliyatı genellikle şu durumlarda tercih edilir:\n\n• İleri derecede osteoartrit veya kireçlenme ile ağrı ve hareket kaybı \n• Romatoid artrit veya diğer eklem hastalıklarında ciddi fonksiyon kaybı \n• Önceki tedavilere yanıt alınamayan kronik diz ağrıları \n• Travmatik eklem hasarı sonrası dizin düzgün çalışmaması`
+      },
+      {
+        h2: "Robotik Diz Protezi Nedir?",
+        content: `Robotik diz protezi, geleneksel yöntemlere göre daha hassas ve güvenlidir. Geleneksel diz protezi ameliyatında cerrah, kemik kesimlerini el aletleri ve kılavuzlarla gerçekleştirirken, robotik sistemde ameliyat öncesinde hastanın kemikleri 3 boyutlu olarak modellenir ve implant pozisyonu bilgisayar ortamında milimetrik hassasiyetle planlanır. Ameliyat sırasında robot, planlanan sınırların dışına çıkılmasını otomatik olarak engeller ve bacak ekseninin mükemmel biçimde düzeltilmesini sağlar, böylece implantın yerleşimi ve dizin fonksiyonu çok daha güvenli ve doğru olur.`
+      },
+      {
+        h2: "İyileşme Süreci ve Sonuçlar",
+        content: `Erken değerlendirme, modern cerrahi teknikler ve doğru rehabilitasyon ile hastaların çoğu ağrısız ve aktif bir yaşam sürdürebilir. Düzenli kontroller, uygun tedavi planı ve bilinçli fizik tedavi ile diz sağlığınızı güvenle koruyabilirsiniz.`
+      }
     ],
     tags: ["Diz Protezi", "Robotik Cerrahi", "Osteoartrit", "Kireçlenme", "Eklem Protezi"],
   },
@@ -56,10 +95,28 @@ export const articles = [
     date: "5 Kasım 2024",
     readTime: "6 dk okuma",
     category: "Boyun Fıtığı",
-    desc: "Boyun fıtığı omuz, kol ve parmaklara yayılan ağrı ile kendini gösterir. ACDF ve yapay disk (TDR) yöntemleriyle küçük bir kesiden kalıcı çözüm mümkündür.",
-    intro: `Boyun ağrısı, dünya genelinde bel ağrısından sonra en sık karşılaşılan ikinci kas-iskelet şikâyetidir. Uzun süreli bilgisayar ve telefon kullanımı, ofis hayatı ve hareketsizlik bu riski dramatik biçimde artırıyor.`,
+    ddesc: "Boyun fıtığı, omurgadaki disklerin yerinden kayarak sinirlere baskı yapmasıyla ortaya çıkan bir rahatsızlıktır ve genellikle orta yaş ve ileri yaşlarda daha sık görülür.",
+    intro: `Boyun Fıtığınız Mı Var? Paniğe Gerek Yok…
+Boyun ağrısı, omuzlarda uyuşma veya kolda hissizlik fark ettiniz mi? Bunlar basit bir kas yorgunluğu gibi görünebilir, ancak boyun fıtığının ilk belirtileri olabilir. 
+Boyun fıtığı, omurgadaki disklerin yerinden kayarak sinirlere baskı yapmasıyla ortaya çıkan bir rahatsızlıktır ve genellikle orta yaş ve ileri yaşlarda daha sık görülür. 
+Ancak günümüzde masa başı çalışanlar ve gençlerde de yaygınlaşmıştır. Prof. Dr. Nurullah Ermiş, boyun fıtığında erken tanının önemine dikkat çekiyor. Düzenli kontroller, doğru egzersizler ve yaşam alışkanlıklarının düzenlenmesi çoğu vakada ağrıyı azaltabilir ve yaşam kalitesini artırabilir.`,
     sections: [
-      { h2: "Boyun Fıtığı Neden Olur?", content: `Boyun (servikal) omurlar arasındaki disk yastıkları yaş ilerledikçe su kaybeder ve elastikiyetini yitirir. C5–C6 ve C6–C7 seviyeleri en sık etkilenen bölgelerdir.` },
+      {
+        h2: "Boyun Fıtığı Belirtileri Nelerdir?",
+        content: `Boyun fıtığının en sık görülen belirtileri arasında boyun ağrısı, omuz ve kollarda uyuşma veya karıncalanma, kollarda güç kaybı ve baş hareketlerinde kısıtlılık yer alır. Eğer bu belirtilerden biri veya birkaçı varsa, gecikmeden uzmana başvurmak önemlidir.`
+      },
+      {
+        h2: "Boyun Fıtığının Nedenleri Nelerdir?",
+        content: `Boyun fıtığının oluşumunda birçok faktör rol oynar. Uzun süre yanlış duruşla oturmak, ağır yük taşımak, ani hareketler veya genetik yatkınlık fıtık riskini artırabilir.`
+      },
+      {
+        h2: "Tedavi Seçenekleri Nelerdir?",
+        content: `Tedavi seçenekleri, hastalığın derecesine ve hastanın yaşam tarzına göre değişir. Çoğu hafif ve orta şiddette fıtık, ilaç tedavisi, fizik tedavi ve özel egzersiz programlarıyla kontrol altına alınabilir. Şiddetli vakalarda veya sinir basısı ileri düzeyde olduğunda, ileri cerrahi yöntemler uygulanabilir. Modern tıbbi tekniklerle boyun fıtığı ameliyatları yüksek başarı oranıyla gerçekleştirilmektedir.`
+      },
+      {
+        h2: "Boyun Fıtığından Korkmalı Mıyız?",
+        content: `Unutmayın; boyun fıtığı her zaman korkulacak bir durum değildir. Erken tanı, düzenli doktor kontrolleri ve doğru tedavi yöntemleri ile çoğu hasta normal yaşamına dönebilir, ağrıları yönetilebilir ve hareket özgürlüğü korunabilir. Düzenli duruş kontrolleri, ergonomik çalışma düzeni ve bilinçli egzersizlerle boyun sağlığınızı koruyabilirsiniz.`
+      }
     ],
     tags: ["Boyun Fıtığı", "Servikal Disk", "ACDF", "Yapay Disk", "Omurga Cerrahisi"],
   },
@@ -70,25 +127,64 @@ export const articles = [
     date: "20 Eylül 2024",
     readTime: "5 dk okuma",
     category: "Çocuk Ortopedisi",
-    desc: "Gelişimsel kalça displazisi (GKD), bebeklerde her 100 doğumda 1–3'ünde görülür. İlk 6 ayda teşhis edildiğinde Pavlik bandajıyla %90 üzerinde ameliyatsız başarı elde edilir.",
-    intro: `Her yeni doğanın kalçası farklıdır; ancak bazı bebeklerde kalça ekleminin yuvası yetersiz gelişmiş ya da femur başı tamamen yerinden çıkmış olabilir.`,
+    desc: "Kalça çıkığı, genellikle doğuştan gelen bir durumdur ve eklem gelişimiyle doğrudan ilgilidir.",
+    intro: `Çocuklarda Kalça Çıkığını Nasıl Anlarız? 
+
+Doğum sonrası bebeklerde kalça bölgelerinde asimetri fark ettiniz mi? Bacakların eşit uzunlukta olmaması, bebeğinizin bir bacağını diğerine göre daha az açabilmesi ya da kalçada hareket kısıtlılığı çocuklarda kalça çıkığının ilk işaretleri olabilir. Kalça çıkığı, genellikle doğuştan gelen bir durumdur ve eklem gelişimiyle doğrudan ilgilidir. Prof. Dr. Nurullah Ermiş, erken tanının önemine dikkat çekiyor; çünkü erken fark edilen kalça çıkığı, basit yöntemlerle kolayca düzeltilebilir ve çocuğun normal gelişimi sağlanabilir.`,
     sections: [
-      { h2: "GKD (Gelişimsel Kalça Displazisi) Nedir?", content: `GKD, femur başının asetabulum içinde tam oturmadığı bir gelişimsel bozukluktur. Her 100 canlı doğumda 1–3 bebekte görülür; kız bebeklerde risk 6 kat daha yüksektir.` },
+      {
+        h2: "Kalça Çıkığı Belirtileri Nelerdir?",
+        content: `Kalça çıkığı genellikle doğum sırasında veya ilk aylarda fark edilir. Belirtileri arasında bacak boylarında fark, kalça çevresinde simetri eksikliği, bebeğin bacaklarını açarken zorlanma veya “tık” sesiyle hareket etme yer alır.`
+      },
+      {
+        h2: "Kalça Çıkığının Nedenleri Nelerdir?",
+        content: `Kalça çıkığının oluşumunda birçok faktör rol oynayabilir. Genetik yatkınlık, bebek anne karnında ters pozisyonda olduğunda veya bazı doğum komplikasyonları riski artırabilir. Ayrıca prematüre bebeklerde veya ailede geçmişte kalça çıkığı öyküsü olan çocuklarda görülme olasılığı daha yüksektir.`
+      },
+      {
+        h2: "Tedavi Süreci Nasıldır?",
+        content: `Tedavi, çıkığın şiddetine ve çocuğun yaşına göre değişir. Hafif olgularda Pavlik bandajı veya özel kalça alçıları kullanılır; bunlar kalça eklemini doğru pozisyonda sabitler ve eklem gelişimini destekler. Tedavi genellikle birkaç hafta ile birkaç ay sürebilir ve düzenli takip gerektirir. Daha ileri vakalarda veya konservatif yöntemlerle yeterli düzeltme sağlanamazsa, cerrahi müdahale gerekebilir.`
+      },
+      {
+        h2: "Cerrahi Tedavi ve Sonrası",
+        content: `Cerrahi işlemde kalça eklemi düzgün konuma getirilir ve sabitlenir; bazı durumlarda pelvik kemik ve femur kemiklerine müdahale gerekebilir. Modern cerrahi yöntemler sayesinde ameliyatlar güvenli ve yüksek başarı oranıyla gerçekleştirilir, çocuk normal gelişimini sürdürebilir. Ameliyat sonrası genellikle özel alçılar veya destekleyici cihazlarla kalça korunur ve fizik tedavi ile hareket kabiliyeti güçlendirilir.`
+      },
+      {
+        h2: "Takip ve Önemi",
+        content: `Düzenli kontroller, uzman yönlendirmesi ve uygun tedavi yöntemleri ile çocuğunuzun sağlıklı bir şekilde yürümeye başlamasını ve normal gelişimini güvenle destekleyebilirsiniz.`
+      }
     ],
     tags: ["Kalça Çıkığı", "GKD", "Çocuk Ortopedisi", "Pavlik Bandajı", "Bebek Kalça Displazisi"],
   },
   {
-    slug: "acl-cop-bag-ameliyati",
-    title: "Ön Çapraz Bağ (ACL) Ameliyatı: Sporculara Spora Dönüş Rehberi",
-    img: "/images/artroskopik-cerrahi.avif",
-    date: "3 Ağustos 2024",
-    readTime: "7 dk okuma",
-    category: "Artroskopik Cerrahi",
-    desc: "ACL kopması artroskopik rekonstrüksiyonla tedavi edilir. Doğru greft seçimi ve rehabilitasyon protokolüyle sporcularda 6–9 ayda spora dönüş mümkündür.",
-    intro: `Futbol, basketbol ya da kayak yaparken ani bir manevra sırasında dizinizde duyduğunuz "çat" sesi ve hemen ardından gelen şişlik — ön çapraz bağ (ACL) kopmasının klasik tablosudur.`,
+    slug: 'acl-cop-bag-ameliyati',
+    title: 'Spor Yaralanmalarına Dikkat! ',
+    img: '/images/saglik/on-capraz.avif',
+    date: '3 Ağustos 2024',
+    readTime: '7 dk okuma',
+    category: 'Artroskopik Cerrahi',
+    desc: "Spor yaralanmaları, kas, tendon, bağ ve eklemlerde oluşan hasarlardır ve hem amatör hem de profesyonel sporcular arasında sık görülür.",
+    intro: `Spor Yaralanmalarına Dikkat! 
+
+      Spor yaparken ya da günlük yaşamda ani hareketler sırasında eklem, kas veya kemiklerde ağrı, şişlik veya hareket kısıtlılığı mı hissediyorsunuz? Bunlar çoğu zaman basit bir zorlanma gibi görünebilir, ancak spor yaralanmalarının ilk işaretleri olabilir.\n 
+      Spor yaralanmaları, kas, tendon, bağ ve eklemlerde oluşan hasarlardır ve hem amatör hem de profesyonel sporcular arasında sık görülür. Prof. Dr. Nurullah Ermiş, spor yaralanmalarında erken tanı ve doğru müdahalenin önemine dikkat çekiyor.`,
     sections: [
-      { h2: "Ön Çapraz Bağ (ACL) Nedir ve Neden Kopar?", content: `ACL, diz eklemini ön-arka yönde stabilize eden güçlü bir bağdır. Ani yön değiştirme, durma, atlama ve diz üzerine düşme gibi mekanizmalarla yırtılır.` },
+      {
+        h2: "Sık Görülen Spor Yaralanmaları ve Belirtileri",
+        content: `Sık görülen spor yaralanmaları arasında burkulmalar, kas zorlanmaları, tendon iltihapları, menisküs yaralanmaları ve kemik kırıkları yer alır. Belirtiler genellikle ağrı, şişlik, morarma, eklemde hareket kısıtlılığı veya basınca duyarlılık şeklindedir. Bu belirtiler ortaya çıktığında gecikmeden ortopedik uzmana başvurmak gerekir.`
+      },
+      {
+        h2: "Spor Yaralanmalarının Nedenleri",
+        content: `Spor yaralanmalarının oluşumunda birçok faktör rol oynar. Yanlış ısınma, hatalı teknik, aşırı yüklenme veya uygun olmayan ekipman kullanımı riski artırabilir. Ayrıca kişisel faktörler, genetik yatkınlık ve önceki yaralanmalar da süreci etkiler.`
+      },
+      {
+        h2: "Tedavi Seçenekleri ve Cerrahi Gereksinim",
+        content: `Tedavi seçenekleri, yaralanmanın türü ve şiddetine göre değişir. Hafif yaralanmalarda dinlenme, fizik tedavi, egzersiz ve ağrı yönetimi yeterli olurken; bazı durumlarda cerrahi müdahale gerekebilir. Cerrahi genellikle şu durumlarda tercih edilir:\n\n• Kemik kırıkları veya eklemde kayma oluştuğunda \n• Menisküs yırtıkları ve bağ kopmaları gibi ciddi eklem yaralanmalarında \n• Tendon kopmaları veya kronik, iyileşmeyen yaralanmalarda \n• Konservatif (ameliyatsız) tedaviye yanıt alınamadığında veya ağrı ve fonksiyon kaybı devam ettiğinde`
+      },
+      {
+        h2: "İyileşme Süreci ve Korunma",
+        content: `Modern ortopedik cerrahi teknikler sayesinde operasyonlar yüksek başarı oranıyla gerçekleştirilir ve sporcuların spora dönüş süresi minimuma indirilir. Erken tanı, doğru tedavi ve uygun rehabilitasyonla çoğu yaralanma tamamen iyileşir. Düzenli ısınma, doğru teknik, uygun ekipman kullanımı ve bilinçli egzersizler, yaralanma riskinizi azaltır ve sağlıklı bir spor hayatı sürdürmenizi sağlar.`
+      }
     ],
-    tags: ["ACL", "Ön Çapraz Bağ", "Diz Ameliyatı", "Artroskopi", "Menisküs", "Spor Cerrahisi"],
+    tags: ['ACL', 'Ön Çapraz Bağ', 'Diz Ameliyatı', 'Artroskopi', 'Menisküs', 'Spor Cerrahisi'],
   },
 ];

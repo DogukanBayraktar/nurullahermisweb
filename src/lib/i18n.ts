@@ -24,7 +24,7 @@ const resources = {
         hero: {
           badge: 'Ortopedi & Travmatoloji Uzmanı',
           title: 'Ortopedi Uzmanı',
-          subtitle: '20+ yıllık cerrahi tecrübe ile skolyoz, bel fıtığı ve eklem sorunlarına kapsamlı çözümler.',
+          subtitle: '20 yılı aşkın cerrahi tecrübem ve güncel rehabilitasyon yöntemleri ile skolyoz, bel fıtığı ve eklem sorunlarınızda daima yanınızdayım.',
           cta: 'Hemen Randevu Al',
           whatsapp: 'WhatsApp ile Ulaşın',
         },
@@ -455,8 +455,7 @@ const resources = {
         hero: {
           badge: 'Orthopedics & Traumatology Specialist',
           title: 'Orthopedics Expert',
-          subtitle: '20+ years of surgical experience providing comprehensive solutions for scoliosis, herniated disc, and joint problems.',
-          cta: 'Book Appointment Now',
+          subtitle: 'With over 20 years of surgical experience and up-to-date rehabilitation methods, I am always by your side in the treatment of scoliosis, herniated disc, and joint problems.',          cta: 'Book Appointment Now',
           whatsapp: 'Contact via WhatsApp',
         },
         stats: {

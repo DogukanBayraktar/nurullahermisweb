@@ -62,84 +62,90 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
   tr: {
     'bel-fitigi-ameliyati': {
       slug: 'bel-fitigi-ameliyati',
-      title: 'Bel Fıtığı Ameliyatı: Mikrocerrahi ile Aynı Gün Yürümek Mümkün',
-      img: '/images/bel-fitigi.avif',
+      title: 'Bel Fıtığı Ameliyatı Nedir?',
+      img: '/images/saglik/bel-fitigi.avif',
       date: '12 Mart 2025',
       readTime: '7 dk okuma',
       category: 'Bel Fıtığı',
-      desc: 'Bel fıtığı ameliyatı artık 1.5 cm\'lik kesiden, mikroskop altında uygulanıyor ve hastalar aynı gün yürüyebiliyor. Bu yazıda mikrodiskektominin nasıl yapıldığını, kimlere gerektiğini ve iyileşme sürecini ayrıntıyla anlatıyoruz.',
-      intro: 'Bacağınıza vuran şiddetli ağrı, geceleri uyandıran siyatik, oturamama… Bel fıtığı yaşayan milyonlarca insan bu tabloya aşinadır. "Ameliyat olmadan geçer mi?" sorusunun cevabı birçok vakada evettir — ancak 6 haftayı aşan, nörolojik hasar gösteren ya da günlük yaşamı felç eden vakalarda mikrocerrahi, hem en güvenli hem de en hızlı çözümü sunar.',
+      desc: "Bel fıtığı, omurga disklerinin yerinden kayarak sinirlere baskı yapmasıyla oluşur ve çoğunlukla 30–50 yaş arasında görülür.",
+      intro: `Bel Fıtığı Ameliyatı Nedir? 
+
+Bel ağrısı, bacaklara yayılan uyuşma veya güçsüzlük mü yaşıyorsunuz? Bunlar çoğu zaman bel fıtığının belirtileri olabilir. Bel fıtığı, omurga disklerinin yerinden kayarak sinirlere baskı yapmasıyla oluşur ve çoğunlukla 30–50 yaş arasında görülür. Bel fıtığı tedavisinde ilk adım genellikle konservatif yöntemlerdir. Bunlar arasında ilaç tedavisi, fizik tedavi, omurga egzersizleri, yaşam tarzı değişiklikleri ve bel destekleri yer alır. Çoğu hasta bu yöntemlerle ağrısını yönetebilir ve günlük yaşam aktivitelerini sürdürebilir. Ancak bazı durumlarda konservatif tedavi yeterli olmayabilir. Şiddetli ağrı, bacaklarda güç kaybı, idrar veya dışkı kontrolünde sorun gibi belirtiler varsa ameliyat gerekebilir.`,
       sections: [
         {
-          h2: 'Bel Fıtığı Neden Oluşur?',
-          content: 'Omurlar arasındaki disk yastıkları, yaşlanma, aşırı yük ve ani travmalarla zamanla dejenere olur. Diskin dış tabakası (anulus fibrozus) yırtıldığında içindeki jel kıvamındaki çekirdek (nukleus pulpozus) dışa fırlar ve çevre sinir köküne ya da omurilik kanalına baskı yapar. Bu baskı; siyatik ağrısı, his kaybı ve güçsüzlük olarak kendini gösterir.\n\nEn sık görülen bel fıtığı seviyeleri L4–L5 ve L5–S1\'dir. L4–L5 fıtığı ayak bileğini kaldırmayı güçleştirirken, L5–S1 fıtığı topukta kuvvet kaybına yol açar.',
+          h2: "Bel Fıtığı Ameliyatı Nasıl Yapılır?",
+          content: `Bel fıtığı ameliyatı, genellikle mikrocerrahi veya endoskopik yöntemlerle yapılır. Cerrahi sırasında fıtıklaşmış disk bölgesi temizlenir ve sinir üzerindeki baskı kaldırılır. Modern tıbbi teknikler sayesinde ameliyatlar yüksek başarı oranıyla gerçekleştirilir ve hastalar genellikle kısa sürede günlük yaşamlarına dönebilir.`
         },
         {
-          h2: 'Bel Fıtığı Ameliyatı — Mikrodiskektomi Nasıl Yapılır?',
-          content: 'Genel anestezi altında başlayan operasyonda Prof. Dr. Ermiş, hastanın sırtında fıtığın tam üzerine gelecek biçimde yalnızca 1.5 cm\'lik bir kesi yapar. Ameliyat mikroskobu devreye girerek görüş alanını büyütür; bu sayede sinir kökü hassasiyetle korunurken fıtık kütlesi milimetrik dikkatle temizlenir.\n\nOperasyon ortalama 45–60 dakika sürer. Hasta 4–6 saat içinde kalkıp yürür; çoğunlukla ertesi gün taburcu edilir. Masa başı işlere 1–2 haftada, fiziksel işlere ise 4–6 haftada dönüş mümkündür.',
+          h2: "Ameliyat Sonrası Süreç",
+          content: `Mikrocerrahi sonrası siyatik ağrısının büyük kısmı genellikle ilk günlerde geriler, ancak sinirin tam iyileşmesi 3–6 ay sürebilir; bu süreçte hafif karıncalanma hissi normal kabul edilir. İyileşmeyi hızlandırmak için ameliyat sonrası ilk 4–6 haftada ağır kaldırmaktan ve öne eğilmekten kaçınmak, fizyoterapist eşliğinde core (gövde) egzersizlerine başlamak ve günde 2–3 kez kısa yürüyüşler yapmak çok önemlidir. Ayrıca sigara kullanımı iyileşmeyi yavaşlattığı için mümkünse bırakılmalıdır.`
         },
         {
-          h2: 'Bel Fıtığı Ameliyatı Kimlere Gerekir?',
-          content: 'Her bel fıtığı ameliyat gerektirmez. Aşağıdaki durumlar cerrahi için güçlü endikasyonlardır:\n\n• Ağrı 6 haftadan uzun sürüyor ve konservatif tedaviye yanıt vermiyorsa\n• Ayak veya bacakta ilerleyen kuvvet kaybı varsa (özellikle düşük ayak)\n• İdrar ya da bağırsak kontrolünde ani güçlük (kauda equina sendromu) — bu durum acil cerrahidir\n• Ağrı kesiciler etkinliğini yitirdi ve yaşam kalitesi ciddi biçimde bozulduysa',
-        },
-        {
-          h2: 'Ameliyat Sonrası İyileşme Süreci',
-          content: 'Mikrocerrahi sonrası siyatik ağrısının büyük bölümü ilk günlerde geriler. Sinirin tam iyileşmesi 3–6 ay sürebilir; bu sürede hafif karıncalanma hissi normal kabul edilir.\n\nİyileşmeyi hızlandırmak için öneriler:\n• İlk 4–6 haftada ağır kaldırmaktan ve öne eğilmekten kaçının\n• Fizyoterapist eşliğinde core (gövde) egzersizlerine başlayın\n• Yürüyüş, en temel ve etkili rehabilitasyon aracıdır — günde 2–3 kez kısa yürüyüşler yapın\n• Sigara iyileşmeyi yavaşlatır; mümkünse bırakın',
-        },
-        {
-          h2: 'Ameliyat Sonrası Tekrar Fıtık Olur mu?',
-          content: 'Her 100 operasyonun yaklaşık 5–8\'inde aynı seviyede tekrar fıtık oluşabilir. Bunun önüne geçmek için kilo kontrolü, düzenli core egzersizleri ve doğru kaldırma teknikleri hayati önem taşır. Tekrar fıtık oluştuğunda yeniden mikrodiskektomi veya endoskopik diskektomi başarıyla uygulanabilir.',
-        },
+          h2: "Tekrar Fıtık Oluşma Riski",
+          content: `Ameliyattan sonra tekrar fıtık oluşma riski her 100 operasyondan yaklaşık 5–8’idir. Bu riskin önüne geçmek için kilo kontrolü, düzenli core egzersizleri ve doğru kaldırma teknikleri büyük önem taşır. Tekrar fıtık oluştuğunda ise mikrodiskektomi veya endoskopik diskektomi yöntemleri başarıyla uygulanabilir.`
+        }
       ],
       tags: ['Bel Fıtığı', 'Mikrodiskektomi', 'Siyatik', 'Lomber Disk', 'Omurga Cerrahisi'],
     },
     'skolyoz-belirtileri-tedavisi': {
       slug: 'skolyoz-belirtileri-tedavisi',
-      title: 'Skolyoz Belirtileri ve Tedavisi: Erken Teşhis Neden Bu Kadar Önemli?',
+      title: 'Skolyozdan Korkmalı Mıyız? ',
       img: '/images/saglik/skolyoz-cerrahi.avif',
       date: '28 Şubat 2025',
       readTime: '8 dk okuma',
       category: 'Skolyoz',
-      desc: 'Skolyoz, omurganın 10 derecenin üzerinde anormal eğrilmesidir ve çoğunlukla büyüme çağında fark edilir. Erken teşhis, VBT gibi füzyonsuz yöntemlerle ameliyatsız hisse yakın sonuçlar elde etmeyi mümkün kılar.',
-      intro: 'Okul çağındaki çocuğunuzun sırtına baktığınızda bir omuzun diğerinden yüksek durduğunu, bele ilişkin kıyafetlerin eşit oturmadığını fark ettiniz mi? Bu bulgular skolyozun erken işaretleri olabilir. Türkiye\'de her 100 çocuktan 2–3\'ünde anlamlı omurga eğriliği saptanmaktadır. İyi haber: erken yakalandığında VBT gibi modern yöntemlerle cerrahi füzyon yapmaksızın etkili tedavi mümkündür.',
+      desc: "Skolyoz, omurganın yanlara doğru eğrilmesiyle ortaya çıkan bir rahatsızlıktır ve özellikle çocukluk ve ergenlik döneminde sıkça fark edilir.",
+      intro: `Omuzlarınız eşit mi? Aynaya bakarken sırtınızda hafif bir eğrilik fark ettiniz mi? Basit bir duruş bozukluğu sandığınız bu durum, aslında skolyozun ilk işareti olabilir. 
+    Skolyoz, omurganın yanlara doğru eğrilmesiyle ortaya çıkan bir rahatsızlıktır ve özellikle çocukluk ve ergenlik döneminde sıkça fark edilir. Çoğu zaman ağrı yapmadığı için fark edilmesi zor olabilir. Prof. Dr. Nurullah Ermiş, her hastalıkta olduğu gibi skolyozda da erken tanının önemine dikkat çekiyor. Düzenli doktor kontrolü, doğru egzersizler ve bazı durumlarda korse tedavisi, sağlıklı bir omurgaya ulaşmayı kolaylaştırıyor. Bu süreçte ailelere büyük görev düşüyor. Çocuklarınızın duruşuna, oturuşuna ve günlük hareketlerine dikkat etmeniz gerekiyor. Özellikle çocuk eğilirken sırtın bir tarafında çıkıntı görülüyorsa, bu belirti ihmal edilmeden uzmana başvurulmalıdır.`,
       sections: [
         {
-          h2: 'Skolyoz Nedir?',
-          content: 'Skolyoz, omurganın öne-arkadan (frontal düzlemde) 10 derecenin üzerinde anormal biçimde sağa ya da sola eğrilmesidir. Eğrilik çoğunlukla S veya C şeklini alır. En yaygın türü olan Adölesan İdiyopatik Skolyoz (AIS), 10–16 yaş arasında, kesin nedeni bilinmeksizin ortaya çıkar. Kızlarda ilerleyen vakaların sıklığı erkeklere göre 8 kat daha fazladır.',
+          h2: "Skolyozun Nedenleri Nelerdir?",
+          content: `Skolyozun tek bir nedeni yoktur; birçok faktör rol oynayabilir. Yapılan araştırmalara göre vakaların yaklaşık %80’inde neden tam olarak belirlenemiyor. Öne çıkan faktörler arasında genetik yatkınlık önemli bir rol oynar ve kız çocuklarında erkeklere oranla daha sık görülür. Ayrıca anne karnında yeterince gelişmemiş omurga yapısı da skolyoza yol açabilir. Yanlış duruş, hatalı oturma ve ağır çantaların tek omuzda taşınması, var olan omurga eğriliğini daha da artırabilir.`
         },
         {
-          h2: 'Skolyoz Belirtileri Nelerdir?',
-          content: 'Çoğu skolyoz başlangıçta ağrısız seyreder; bu nedenle aile bireyleri ya da okul taramaları tanıda kritik rol oynar. Dikkat edilmesi gereken bulgular:\n\n• Omuzların eşit yükseklikte durmaması\n• Sırtın bir tarafının diğerinden belirgin kabarık görünmesi (jilet sırtı)\n• Kalçaların dengesiz durması\n• Öne eğilince sırtta asimetri\n• İleri vakalarda kronik sırt-bel ağrısı ve kısa nefes alma',
+          h2: "Skolyoz Tedavisi ve Ameliyat Süreci",
+          content: `Skolyoz ameliyatı ise ileri cerrahi deneyim ve teknoloji gerektiren bir operasyondur. Ancak günümüzdeki yöntemlerle ameliyat yüksek oranda başarılı geçmektedir. Ameliyat planı, hastanın yaşı ve eğriliğin derecesi göz önünde bulundurularak yapılır. Operasyonda omurga hizası boyunca açılan kesiye pedikül vida sistemleri yerleştirilir ve bu vidalar arasından metal çubuklar geçirilir.`
         },
         {
-          h2: 'VBT (Vertebral Body Tethering) Nedir?',
-          content: 'VBT, Türkiye\'de uygulanan en yeni skolyoz cerrahi tekniklerinden biridir. Büyüme potansiyeli olan 10–16 yaş hastalarında, Cobb açısı 40–65° arasındaykan uygulanır.\n\nToraks kısmına küçük kesilerden girilir (torakoskopik yaklaşım). Eğriliğin iç tarafındaki omurganın yan yüzlerine vidalar yerleştirilir ve vidalar arasına esnek bir bant (tether) gerilir. Hasta büyüdükçe bant, omurgayı kademeli olarak diker.\n\nVBT\'nin temel avantajı: füzyon (kaynama) gerektirmez, hareket kabiliyeti tamamen korunur ve hasta çok daha hızlı iyileşir.',
-        },
-        {
-          h2: 'Skolyozda Korse Ne Zaman Yeterlidir?',
-          content: 'Cobb açısı 25–45° arasında ve büyüme devam ediyorsa korse ilerlemeyi yavaşlatabilir. Ancak korse skolyozu düzeltmez; yalnızca eğriliğin artmasını önlemeye çalışır.\n\nKorse kullanımı için koşullar:\n• Büyüme plakaları açık olmalıdır (Risser 0–2)\n• Cobb açısı 25–45° arasında olmalıdır\n• Günde en az 18–23 saat kullanılmalıdır',
-        },
+          h2: "Skolyozdan Korkmalı Mıyız?",
+          content: `Unutmayın; skolyoz her zaman korkulacak bir durum değildir. Erken tanı, düzenli kontroller ve doğru tedavi yöntemleriyle çoğu vaka yönetilebilir ve sağlıklı bir omurgaya ulaşmak mümkündür.`
+        }
       ],
       tags: ['Skolyoz', 'VBT', 'Kifoz', 'Omurga Eğriliği', 'Çocuk Ortopedisi', 'Omurga Cerrahisi'],
     },
     'diz-protezi-ameliyati': {
       slug: 'diz-protezi-ameliyati',
-      title: 'Diz Protezi Ameliyatı: Robotik Cerrahi ile Ertesi Gün Yürümek',
+      title: 'Diz Protezi Ameliyatı Nedir?',
       img: '/images/saglik/diz-cerrahi.avif',
       date: '10 Ocak 2025',
       readTime: '6 dk okuma',
       category: 'Eklem Protezi',
-      desc: 'Diz kireçlenmesinde (osteoartrit) ağrı kesiciler işe yaramıyorsa robotik total diz protezi en kalıcı çözümdür. Hastalar ertesi gün yürüyebilir; modern implantlar 20–25 yıl işlev görür.',
-      intro: 'Merdiven inerken çekilen o keskin ağrı, geceleri uyandıran sızı, artık kaldırmanın anlamsız geldiği ağrı kesiciler… Diz kireçlenmesinin son evresinde milyonlarca kişinin tanıdığı bu tablo, robotik total diz protezi ile köklü biçimde değişebilir. Modern implantlar ve robotik hassasiyetle gerçekleştirilen bu operasyonda hastaların büyük çoğunluğu ertesi gün yürümeye başlamaktadır.',
+      desc: "Diz protezi ameliyatı, eklem yüzeylerinin aşınması, kireçlenme veya travma sonrası oluşan hasarları düzeltmek için uygulanan güvenli ve etkili bir yöntemdir.",
+      intro: `DİZ PROTEZİ AMELİYATI NEDİR?
+ROBOTİK CERRAHİ HANGİ DURUMLARDA KULLANILIR? 
+
+Dizlerinizde sürekli ağrı, şişlik, hareket kısıtlılığı veya günlük yaşam aktivitelerinde zorlanma mı yaşıyorsunuz? Bunlar genellikle ileri derecede eklem hasarının veya diz kireçlenmesinin ilk işaretleri olabilir. Diz protezi ameliyatı, eklem yüzeylerinin aşınması, kireçlenme veya travma sonrası oluşan hasarları düzeltmek için uygulanan güvenli ve etkili bir yöntemdir. Prof. Dr. Nurullah Ermiş, diz protezi ameliyatlarında erken değerlendirmenin tedaviyi büyük oranda kolaylaştırdığını vurguluyor.`,
       sections: [
         {
-          h2: 'Diz Kireçlenmesi (Osteoartrit) Nedir?',
-          content: 'Osteoartrit, diz eklemini örten kıkırdak dokunun zamanla aşınmasıdır. Kıkırdak incelip yok oldukça kemikler birbirine sürtünmeye başlar; bu durum şiddetli ağrı, şişlik ve hareket kısıtlılığına yol açar. 60 yaş üstü nüfusun yaklaşık %30\'u klinik osteoartrit belirtileri yaşamaktadır.',
+          h2: "Diz Protezi Hangi Durumlarda Uygulanır?",
+          content: `Diz protezi genellikle ileri derecede osteoartrit, romatoid artrit, travmatik eklem hasarı veya önceki cerrahi müdahaleler sonrası dizde ciddi fonksiyon kaybı olan hastalarda uygulanır. Belirtiler arasında sürekli diz ağrısı, merdiven inip çıkmada zorluk, bacaklarda güç kaybı ve eklemde sertlik yer alır. Bu belirtiler varsa gecikmeden ortopedi uzmanına başvurmak gerekir.`
         },
         {
-          h2: 'Robotik Diz Protezi Neden Daha İyi?',
-          content: 'Geleneksel diz protezinde cerrah, ameliyat sırasında kemik kesimlerini el aleti ve kılavuzlarla yapar. Robotik sistemde ise:\n\n• Ameliyat öncesi 3 boyutlu kemik modeli hazırlanır\n• İmplant pozisyonu bilgisayarda milimetrik hassasiyetle planlanır\n• Ameliyat sırasında robot, planlanan sınırların dışına çıkılmasını otomatik olarak engeller\n• Bacak ekseni mükemmel biçimde düzeltilir',
+          h2: "Diz Protezi Ameliyatı Nasıl Yapılır?",
+          content: `Diz protezi ameliyatı, hastanın yaşı, genel sağlık durumu ve dizdeki hasarın derecesine göre planlanır. Cerrahide aşınmış veya hasar görmüş eklem yüzeyleri çıkarılır ve yerine metal, seramik veya polietilen malzemelerden oluşan yapay eklem (protezi) yerleştirilir. Modern cerrahi teknikler ve robotik destekli yöntemler sayesinde operasyonlar yüksek başarı oranıyla gerçekleştirilir. Ameliyat sonrası fizik tedavi ile dizin hareket kabiliyeti artırılır ve hastalar günlük yaşam aktivitelerine güvenle dönebilir.`
         },
+        {
+          h2: "Diz Protezi Ameliyatı Hangi Durumlarda Tercih Edilir?",
+          content: `Diz protezi ameliyatı genellikle şu durumlarda tercih edilir:\n\n• İleri derecede osteoartrit veya kireçlenme ile ağrı ve hareket kaybı \n• Romatoid artrit veya diğer eklem hastalıklarında ciddi fonksiyon kaybı \n• Önceki tedavilere yanıt alınamayan kronik diz ağrıları \n• Travmatik eklem hasarı sonrası dizin düzgün çalışmaması`
+        },
+        {
+          h2: "Robotik Diz Protezi Nedir?",
+          content: `Robotik diz protezi, geleneksel yöntemlere göre daha hassas ve güvenlidir. Geleneksel diz protezi ameliyatında cerrah, kemik kesimlerini el aletleri ve kılavuzlarla gerçekleştirirken, robotik sistemde ameliyat öncesinde hastanın kemikleri 3 boyutlu olarak modellenir ve implant pozisyonu bilgisayar ortamında milimetrik hassasiyetle planlanır. Ameliyat sırasında robot, planlanan sınırların dışına çıkılmasını otomatik olarak engeller ve bacak ekseninin mükemmel biçimde düzeltilmesini sağlar, böylece implantın yerleşimi ve dizin fonksiyonu çok daha güvenli ve doğru olur.`
+        },
+        {
+          h2: "İyileşme Süreci ve Sonuçlar",
+          content: `Erken değerlendirme, modern cerrahi teknikler ve doğru rehabilitasyon ile hastaların çoğu ağrısız ve aktif bir yaşam sürdürebilir. Düzenli kontroller, uygun tedavi planı ve bilinçli fizik tedavi ile diz sağlığınızı güvenle koruyabilirsiniz.`
+        }
       ],
       tags: ['Diz Protezi', 'Robotik Cerrahi', 'Osteoartrit', 'Kireçlenme', 'Eklem Protezi'],
     },
@@ -150,13 +156,28 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
       date: '5 Kasım 2024',
       readTime: '6 dk okuma',
       category: 'Boyun Fıtığı',
-      desc: 'Boyun fıtığı omuz, kol ve parmaklara yayılan ağrı ile kendini gösterir. ACDF ve yapay disk (TDR) yöntemleriyle küçük bir kesiden kalıcı çözüm mümkündür.',
-      intro: 'Boyun ağrısı, dünya genelinde bel ağrısından sonra en sık karşılaşılan ikinci kas-iskelet şikâyetidir. Uzun süreli bilgisayar ve telefon kullanımı, ofis hayatı ve hareketsizlik bu riski dramatik biçimde artırıyor.',
+      desc: "Boyun fıtığı, omurgadaki disklerin yerinden kayarak sinirlere baskı yapmasıyla ortaya çıkan bir rahatsızlıktır ve genellikle orta yaş ve ileri yaşlarda daha sık görülür.",
+      intro: `Boyun Fıtığınız Mı Var? Paniğe Gerek Yok…
+Boyun ağrısı, omuzlarda uyuşma veya kolda hissizlik fark ettiniz mi? Bunlar basit bir kas yorgunluğu gibi görünebilir, ancak boyun fıtığının ilk belirtileri olabilir. 
+Boyun fıtığı, omurgadaki disklerin yerinden kayarak sinirlere baskı yapmasıyla ortaya çıkan bir rahatsızlıktır ve genellikle orta yaş ve ileri yaşlarda daha sık görülür. 
+Ancak günümüzde masa başı çalışanlar ve gençlerde de yaygınlaşmıştır. Prof. Dr. Nurullah Ermiş, boyun fıtığında erken tanının önemine dikkat çekiyor. Düzenli kontroller, doğru egzersizler ve yaşam alışkanlıklarının düzenlenmesi çoğu vakada ağrıyı azaltabilir ve yaşam kalitesini artırabilir.`,
       sections: [
         {
-          h2: 'Boyun Fıtığı Neden Olur?',
-          content: 'Boyun (servikal) omurlar arasındaki disk yastıkları yaş ilerledikçe su kaybeder ve elastikiyetini yitirir. C5–C6 ve C6–C7 seviyeleri en sık etkilenen bölgelerdir.',
+          h2: "Boyun Fıtığı Belirtileri Nelerdir?",
+          content: `Boyun fıtığının en sık görülen belirtileri arasında boyun ağrısı, omuz ve kollarda uyuşma veya karıncalanma, kollarda güç kaybı ve baş hareketlerinde kısıtlılık yer alır. Eğer bu belirtilerden biri veya birkaçı varsa, gecikmeden uzmana başvurmak önemlidir.`
         },
+        {
+          h2: "Boyun Fıtığının Nedenleri Nelerdir?",
+          content: `Boyun fıtığının oluşumunda birçok faktör rol oynar. Uzun süre yanlış duruşla oturmak, ağır yük taşımak, ani hareketler veya genetik yatkınlık fıtık riskini artırabilir.`
+        },
+        {
+          h2: "Tedavi Seçenekleri Nelerdir?",
+          content: `Tedavi seçenekleri, hastalığın derecesine ve hastanın yaşam tarzına göre değişir. Çoğu hafif ve orta şiddette fıtık, ilaç tedavisi, fizik tedavi ve özel egzersiz programlarıyla kontrol altına alınabilir. Şiddetli vakalarda veya sinir basısı ileri düzeyde olduğunda, ileri cerrahi yöntemler uygulanabilir. Modern tıbbi tekniklerle boyun fıtığı ameliyatları yüksek başarı oranıyla gerçekleştirilmektedir.`
+        },
+        {
+          h2: "Boyun Fıtığından Korkmalı Mıyız?",
+          content: `Unutmayın; boyun fıtığı her zaman korkulacak bir durum değildir. Erken tanı, düzenli doktor kontrolleri ve doğru tedavi yöntemleri ile çoğu hasta normal yaşamına dönebilir, ağrıları yönetilebilir ve hareket özgürlüğü korunabilir. Düzenli duruş kontrolleri, ergonomik çalışma düzeni ve bilinçli egzersizlerle boyun sağlığınızı koruyabilirsiniz.`
+        }
       ],
       tags: ['Boyun Fıtığı', 'Servikal Disk', 'ACDF', 'Yapay Disk', 'Omurga Cerrahisi'],
     },
@@ -167,30 +188,63 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
       date: '20 Eylül 2024',
       readTime: '5 dk okuma',
       category: 'Çocuk Ortopedisi',
-      desc: 'Gelişimsel kalça displazisi (GKD), bebeklerde her 100 doğumda 1–3\'ünde görülür. İlk 6 ayda teşhis edildiğinde Pavlik bandajıyla %90 üzerinde ameliyatsız başarı elde edilir.',
-      intro: 'Her yeni doğanın kalçası farklıdır; ancak bazı bebeklerde kalça ekleminin yuvası yetersiz gelişmiş ya da femur başı tamamen yerinden çıkmış olabilir.',
+      desc: "Kalça çıkığı, genellikle doğuştan gelen bir durumdur ve eklem gelişimiyle doğrudan ilgilidir.",
+      intro: `Çocuklarda Kalça Çıkığını Nasıl Anlarız? 
+
+Doğum sonrası bebeklerde kalça bölgelerinde asimetri fark ettiniz mi? Bacakların eşit uzunlukta olmaması, bebeğinizin bir bacağını diğerine göre daha az açabilmesi ya da kalçada hareket kısıtlılığı çocuklarda kalça çıkığının ilk işaretleri olabilir. Kalça çıkığı, genellikle doğuştan gelen bir durumdur ve eklem gelişimiyle doğrudan ilgilidir. Prof. Dr. Nurullah Ermiş, erken tanının önemine dikkat çekiyor; çünkü erken fark edilen kalça çıkığı, basit yöntemlerle kolayca düzeltilebilir ve çocuğun normal gelişimi sağlanabilir.`,
       sections: [
         {
-          h2: 'GKD (Gelişimsel Kalça Displazisi) Nedir?',
-          content: 'GKD, femur başının asetabulum içinde tam oturmadığı bir gelişimsel bozukluktur. Her 100 canlı doğumda 1–3 bebekte görülür; kız bebeklerde risk 6 kat daha yüksektir.',
+          h2: "Kalça Çıkığı Belirtileri Nelerdir?",
+          content: `Kalça çıkığı genellikle doğum sırasında veya ilk aylarda fark edilir. Belirtileri arasında bacak boylarında fark, kalça çevresinde simetri eksikliği, bebeğin bacaklarını açarken zorlanma veya “tık” sesiyle hareket etme yer alır.`
         },
+        {
+          h2: "Kalça Çıkığının Nedenleri Nelerdir?",
+          content: `Kalça çıkığının oluşumunda birçok faktör rol oynayabilir. Genetik yatkınlık, bebek anne karnında ters pozisyonda olduğunda veya bazı doğum komplikasyonları riski artırabilir. Ayrıca prematüre bebeklerde veya ailede geçmişte kalça çıkığı öyküsü olan çocuklarda görülme olasılığı daha yüksektir.`
+        },
+        {
+          h2: "Tedavi Süreci Nasıldır?",
+          content: `Tedavi, çıkığın şiddetine ve çocuğun yaşına göre değişir. Hafif olgularda Pavlik bandajı veya özel kalça alçıları kullanılır; bunlar kalça eklemini doğru pozisyonda sabitler ve eklem gelişimini destekler. Tedavi genellikle birkaç hafta ile birkaç ay sürebilir ve düzenli takip gerektirir. Daha ileri vakalarda veya konservatif yöntemlerle yeterli düzeltme sağlanamazsa, cerrahi müdahale gerekebilir.`
+        },
+        {
+          h2: "Cerrahi Tedavi ve Sonrası",
+          content: `Cerrahi işlemde kalça eklemi düzgün konuma getirilir ve sabitlenir; bazı durumlarda pelvik kemik ve femur kemiklerine müdahale gerekebilir. Modern cerrahi yöntemler sayesinde ameliyatlar güvenli ve yüksek başarı oranıyla gerçekleştirilir, çocuk normal gelişimini sürdürebilir. Ameliyat sonrası genellikle özel alçılar veya destekleyici cihazlarla kalça korunur ve fizik tedavi ile hareket kabiliyeti güçlendirilir.`
+        },
+        {
+          h2: "Takip ve Önemi",
+          content: `Düzenli kontroller, uzman yönlendirmesi ve uygun tedavi yöntemleri ile çocuğunuzun sağlıklı bir şekilde yürümeye başlamasını ve normal gelişimini güvenle destekleyebilirsiniz.`
+        }
       ],
       tags: ['Kalça Çıkığı', 'GKD', 'Çocuk Ortopedisi', 'Pavlik Bandajı', 'Bebek Kalça Displazisi'],
     },
     'acl-cop-bag-ameliyati': {
       slug: 'acl-cop-bag-ameliyati',
-      title: 'Ön Çapraz Bağ (ACL) Ameliyatı: Sporculara Spora Dönüş Rehberi',
+      title: 'Spor Yaralanmalarına Dikkat! ',
       img: '/images/saglik/on-capraz.avif',
       date: '3 Ağustos 2024',
       readTime: '7 dk okuma',
       category: 'Artroskopik Cerrahi',
-      desc: 'ACL kopması artroskopik rekonstrüksiyonla tedavi edilir. Doğru greft seçimi ve rehabilitasyon protokolüyle sporcularda 6–9 ayda spora dönüş mümkündür.',
-      intro: 'Futbol, basketbol ya da kayak yaparken ani bir manevra sırasında dizinizde duyduğunuz "çat" sesi ve hemen ardından gelen şişlik — ön çapraz bağ (ACL) kopmasının klasik tablosudur.',
+      desc: "Spor yaralanmaları, kas, tendon, bağ ve eklemlerde oluşan hasarlardır ve hem amatör hem de profesyonel sporcular arasında sık görülür.",
+      intro: `Spor Yaralanmalarına Dikkat! 
+
+      Spor yaparken ya da günlük yaşamda ani hareketler sırasında eklem, kas veya kemiklerde ağrı, şişlik veya hareket kısıtlılığı mı hissediyorsunuz? Bunlar çoğu zaman basit bir zorlanma gibi görünebilir, ancak spor yaralanmalarının ilk işaretleri olabilir.\n 
+      Spor yaralanmaları, kas, tendon, bağ ve eklemlerde oluşan hasarlardır ve hem amatör hem de profesyonel sporcular arasında sık görülür. Prof. Dr. Nurullah Ermiş, spor yaralanmalarında erken tanı ve doğru müdahalenin önemine dikkat çekiyor.`,
       sections: [
         {
-          h2: 'Ön Çapraz Bağ (ACL) Nedir ve Neden Kopar?',
-          content: 'ACL, diz eklemini ön-arka yönde stabilize eden güçlü bir bağdır. Ani yön değiştirme, durma, atlama ve diz üzerine düşme gibi mekanizmalarla yırtılır.',
+          h2: "Sık Görülen Spor Yaralanmaları ve Belirtileri",
+          content: `Sık görülen spor yaralanmaları arasında burkulmalar, kas zorlanmaları, tendon iltihapları, menisküs yaralanmaları ve kemik kırıkları yer alır. Belirtiler genellikle ağrı, şişlik, morarma, eklemde hareket kısıtlılığı veya basınca duyarlılık şeklindedir. Bu belirtiler ortaya çıktığında gecikmeden ortopedik uzmana başvurmak gerekir.`
         },
+        {
+          h2: "Spor Yaralanmalarının Nedenleri",
+          content: `Spor yaralanmalarının oluşumunda birçok faktör rol oynar. Yanlış ısınma, hatalı teknik, aşırı yüklenme veya uygun olmayan ekipman kullanımı riski artırabilir. Ayrıca kişisel faktörler, genetik yatkınlık ve önceki yaralanmalar da süreci etkiler.`
+        },
+        {
+          h2: "Tedavi Seçenekleri ve Cerrahi Gereksinim",
+          content: `Tedavi seçenekleri, yaralanmanın türü ve şiddetine göre değişir. Hafif yaralanmalarda dinlenme, fizik tedavi, egzersiz ve ağrı yönetimi yeterli olurken; bazı durumlarda cerrahi müdahale gerekebilir. Cerrahi genellikle şu durumlarda tercih edilir:\n\n• Kemik kırıkları veya eklemde kayma oluştuğunda \n• Menisküs yırtıkları ve bağ kopmaları gibi ciddi eklem yaralanmalarında \n• Tendon kopmaları veya kronik, iyileşmeyen yaralanmalarda \n• Konservatif (ameliyatsız) tedaviye yanıt alınamadığında veya ağrı ve fonksiyon kaybı devam ettiğinde`
+        },
+        {
+          h2: "İyileşme Süreci ve Korunma",
+          content: `Modern ortopedik cerrahi teknikler sayesinde operasyonlar yüksek başarı oranıyla gerçekleştirilir ve sporcuların spora dönüş süresi minimuma indirilir. Erken tanı, doğru tedavi ve uygun rehabilitasyonla çoğu yaralanma tamamen iyileşir. Düzenli ısınma, doğru teknik, uygun ekipman kullanımı ve bilinçli egzersizler, yaralanma riskinizi azaltır ve sağlıklı bir spor hayatı sürdürmenizi sağlar.`
+        }
       ],
       tags: ['ACL', 'Ön Çapraz Bağ', 'Diz Ameliyatı', 'Artroskopi', 'Menisküs', 'Spor Cerrahisi'],
     },
@@ -199,134 +253,188 @@ export const localArticleTranslations: Record<'tr' | 'en', Record<string, LocalA
     'bel-fitigi-ameliyati': {
       slug: 'bel-fitigi-ameliyati',
       title: 'Lumbar Disc Herniation Surgery: Walking on the Same Day with Microsurgery',
-      img: '/images/Bel Fıtığı Ameliyatı Mikrocerrahi.avif',
+      img: '/images/saglik/bel-fitigi.avif',
       date: 'March 12, 2025',
       readTime: '7 min read',
       category: 'Lumbar Disc Herniation',
-      desc: 'Lumbar disc herniation surgery can now be performed through a 1.5 cm incision under the microscope, and patients can walk on the same day. In this article, we explain how microdiscectomy is performed, who needs it, and what recovery looks like.',
-      intro: 'Severe pain radiating down the leg, sciatica that wakes you at night, inability to sit... millions of people living with a lumbar disc herniation know this picture well. In many cases the answer to “Can it heal without surgery?” is yes — but when symptoms last longer than 6 weeks, cause neurological damage, or paralyze daily life, microsurgery offers the safest and fastest solution.',
+      desc: "A lumbar disc herniation occurs when spinal discs shift out of place and put pressure on nerves, and it is most commonly seen between the ages of 30 and 50.",
+      intro: `What Is Lumbar Disc Herniation Surgery? 
+
+Are you experiencing lower back pain, numbness radiating to the legs, or weakness? These may often be symptoms of a lumbar disc herniation. A lumbar disc herniation occurs when spinal discs shift out of place and put pressure on nerves, and it is most commonly seen between the ages of 30 and 50. The first step in treatment is usually conservative methods. These include medication, physical therapy, spinal exercises, lifestyle changes, and lumbar supports. Most patients can manage their pain and continue daily activities with these methods. However, in some cases, conservative treatment may not be sufficient. If there are symptoms such as severe pain, loss of strength in the legs, or problems with bladder or bowel control, surgery may be required.`,
       sections: [
         {
-          h2: 'Why Does a Lumbar Disc Herniation Occur?',
-          content: 'The discs between the vertebrae gradually degenerate due to aging, excessive load, and sudden trauma. When the outer layer of the disc (annulus fibrosus) tears, the gel-like core inside (nucleus pulposus) protrudes outward and compresses the nearby nerve root or spinal canal. This pressure appears as sciatica, numbness, and weakness.\n\nThe most common levels are L4–L5 and L5–S1. An L4–L5 herniation can make it difficult to lift the ankle, while an L5–S1 herniation may cause weakness in the heel.',
+          h2: "How Is Lumbar Disc Herniation Surgery Performed?",
+          content: `Lumbar disc herniation surgery is generally performed using microsurgical or endoscopic methods. During the procedure, the herniated disc material is removed and the pressure on the nerve is relieved. Thanks to modern medical techniques, surgeries are performed with high success rates, and patients can usually return to their daily lives in a short time.`
         },
         {
-          h2: 'How Is Microdiscectomy Performed?',
-          content: 'Under general anesthesia, Prof. Dr. Ermiş makes only a 1.5 cm incision on the back directly over the herniated level. The surgical microscope enlarges the field, allowing the nerve root to be protected while the herniated fragment is removed with millimetric precision.\n\nThe operation usually takes 45–60 minutes. Patients stand up and walk within 4–6 hours and are often discharged the next day. Desk work is usually possible within 1–2 weeks, while physically demanding jobs may require 4–6 weeks.',
+          h2: "Postoperative Process",
+          content: `After microsurgery, most of the sciatic pain usually decreases in the first days, but full nerve recovery may take 3–6 months; mild tingling during this period is considered normal. To accelerate recovery, it is very important to avoid heavy lifting and bending forward during the first 4–6 weeks after surgery, start core exercises under the supervision of a physiotherapist, and take short walks 2–3 times a day. Additionally, smoking should be stopped if possible, as it slows down recovery.`
         },
         {
-          h2: 'Who Needs Surgery for a Lumbar Disc Herniation?',
-          content: 'Not every lumbar disc herniation requires surgery. The situations below are strong indications for an operation:\n\n• Pain lasting longer than 6 weeks despite conservative treatment\n• Progressive weakness in the foot or leg (especially foot drop)\n• Sudden urinary or bowel control problems (cauda equina syndrome) — an emergency\n• Painkillers no longer work and quality of life is seriously impaired',
-        },
-        {
-          h2: 'Recovery After Surgery',
-          content: 'After microsurgery, most sciatic pain improves within the first days. Full nerve recovery may take 3–6 months; mild tingling during this period can be normal.\n\nTo speed up recovery:\n• Avoid heavy lifting and bending forward during the first 4–6 weeks\n• Start core exercises with a physiotherapist\n• Walking is the most basic and effective rehabilitation tool — take 2–3 short walks a day\n• Smoking slows recovery; quit if possible',
-        },
-        {
-          h2: 'Can the Herniation Recur After Surgery?',
-          content: 'About 5–8 out of every 100 operations may develop a recurrent herniation at the same level. Weight control, regular core exercise, and proper lifting techniques are crucial to reduce this risk. If recurrence occurs, repeat microdiscectomy or endoscopic discectomy can be performed successfully.',
-        },
+          h2: "Risk of Recurrent Herniation",
+          content: `The risk of recurrent herniation after surgery is approximately 5–8 out of every 100 operations. To reduce this risk, weight control, regular core exercises, and proper lifting techniques are very important. If herniation recurs, microdiscectomy or endoscopic discectomy methods can be successfully applied.`
+        }
       ],
       tags: ['Lumbar Disc Herniation', 'Microdiscectomy', 'Sciatica', 'Lumbar Disc', 'Spine Surgery'],
     },
     'skolyoz-belirtileri-tedavisi': {
       slug: 'skolyoz-belirtileri-tedavisi',
-      title: 'Scoliosis Symptoms and Treatment: Why Is Early Diagnosis So Important?',
-      img: '/images/skolyoz-kifoz.avif',
+      title: 'Should we be afraid of scoliosis?',
+      img: '/images/saglik/skolyoz-cerrahi.avif',
       date: 'February 28, 2025',
       readTime: '8 min read',
       category: 'Scoliosis',
-      desc: 'Scoliosis is an abnormal curvature of the spine greater than 10 degrees and is often noticed during growth. Early diagnosis makes it possible to achieve near-surgical correction with fusionless methods such as VBT.',
-      intro: 'Have you noticed that one shoulder is higher than the other or that clothes do not sit evenly on your child’s waistline? These may be early signs of scoliosis. In Turkey, clinically significant spinal curvature is detected in 2–3 out of every 100 children. The good news is that when diagnosed early, effective treatment may be possible with modern techniques such as VBT without spinal fusion.',
+      desc: "Scoliosis is a condition characterized by a sideways curvature of the spine and is often noticed during childhood and adolescence.",
+      intro: `Are your shoulders level? Have you noticed a slight curvature in your back when looking in the mirror? What you may think is a simple posture issue could actually be an early sign of scoliosis. 
+Scoliosis is a condition characterized by a sideways curvature of the spine and is often noticed during childhood and adolescence. Since it usually does not cause pain, it can be difficult to detect. Prof. Dr. Nurullah Ermiş emphasizes the importance of early diagnosis in scoliosis, as in all diseases. Regular medical check-ups, proper exercises, and in some cases brace treatment help achieve a healthy spine. In this process, families have a major responsibility. You need to pay attention to your children's posture, sitting habits, and daily movements. Especially if a prominence is noticed on one side of the back when the child bends forward, this sign should not be ignored and a specialist should be consulted.`,
       sections: [
         {
-          h2: 'What Is Scoliosis?',
-          content: 'Scoliosis is an abnormal sideways curvature of the spine greater than 10 degrees on the frontal plane. The curve usually takes an S or C shape. The most common type, Adolescent Idiopathic Scoliosis (AIS), appears between the ages of 10 and 16 without a clearly known cause. Progressive cases are about 8 times more common in girls than in boys.',
+          h2: "What Causes Scoliosis?",
+          content: `Scoliosis does not have a single cause; multiple factors may play a role. According to studies, in approximately 80% of cases, the exact cause cannot be determined. Genetic predisposition is one of the leading factors, and it is more common in girls than in boys. Additionally, an underdeveloped spine during fetal development may also lead to scoliosis. Poor posture, incorrect sitting habits, and carrying heavy bags on one shoulder can further worsen an existing spinal curvature.`
         },
         {
-          h2: 'What Are the Symptoms of Scoliosis?',
-          content: 'Most scoliosis cases are painless at first, which is why family observation and school screening are critical. Warning signs include:\n\n• Uneven shoulder height\n• One side of the back appearing more prominent\n• Imbalance at the hips\n• Visible asymmetry when bending forward\n• In advanced cases, chronic back pain and shortness of breath',
+          h2: "Scoliosis Treatment and Surgery Process",
+          content: `Scoliosis surgery is an operation that requires advanced surgical experience and technology. However, with modern methods, the success rate of surgery is quite high. The surgical plan is determined by considering the patient’s age and the degree of curvature. During the operation, pedicle screw systems are placed along the incision made along the spine, and metal rods are inserted between these screws.`
         },
         {
-          h2: 'What Is VBT (Vertebral Body Tethering)?',
-          content: 'VBT is one of the newest surgical techniques used for scoliosis in Turkey. It is applied in growing patients aged 10–16 with a Cobb angle between 40° and 65°.\n\nThrough small thoracic incisions (thoracoscopic approach), screws are placed on the lateral side of the vertebrae along the inner side of the curve, and a flexible cord (tether) is tensioned between them. As the patient grows, the tether gradually corrects the spine.\n\nThe main advantage of VBT is that it does not require fusion, preserves motion, and allows a faster recovery.',
-        },
-        {
-          h2: 'When Is a Brace Enough?',
-          content: 'If the Cobb angle is between 25° and 45° and growth is ongoing, a brace can slow progression. However, a brace does not correct scoliosis; it mainly aims to prevent the curve from worsening.\n\nRequirements for brace treatment:\n• Growth plates should still be open (Risser 0–2)\n• Cobb angle should be between 25° and 45°\n• It should be worn at least 18–23 hours a day',
-        },
+          h2: "Should We Be Afraid of Scoliosis?",
+          content: `Remember, scoliosis is not always something to be feared. With early diagnosis, regular follow-ups, and appropriate treatment methods, most cases can be managed, and it is possible to achieve a healthy spine.`
+        }
       ],
       tags: ['Scoliosis', 'VBT', 'Kyphosis', 'Spinal Curvature', 'Pediatric Orthopedics', 'Spine Surgery'],
     },
     'diz-protezi-ameliyati': {
       slug: 'diz-protezi-ameliyati',
-      title: 'Knee Replacement Surgery: Walking the Next Day with Robotic Surgery',
-      img: '/images/diz-kalca-protezi.avif',
+      title: 'What is knee replacement surgery?',
+      img: '/images/saglik/diz-cerrahi.avif',
       date: 'January 10, 2025',
       readTime: '6 min read',
       category: 'Joint Replacement',
-      desc: 'If painkillers no longer help in knee osteoarthritis, robotic total knee replacement is the most durable solution. Patients can walk the next day, and modern implants can function for 20–25 years.',
-      intro: 'That sharp pain while going downstairs, the ache that wakes you up at night, painkillers that no longer make sense... in advanced knee osteoarthritis, this familiar picture can change dramatically with robotic total knee replacement. Thanks to modern implants and robotic precision, most patients start walking the very next day.',
+      desc: "Knee replacement surgery is a safe and effective method used to correct damage caused by joint wear, osteoarthritis, or trauma.",
+      intro: `WHAT IS KNEE REPLACEMENT SURGERY?
+WHEN IS ROBOTIC SURGERY USED? 
+
+Do you experience persistent knee pain, swelling, limited movement, or difficulty performing daily activities? These are often the first signs of advanced joint damage or knee osteoarthritis. Knee replacement surgery is a safe and effective method used to correct damage caused by joint wear, osteoarthritis, or trauma. Prof. Dr. Nurullah Ermiş emphasizes that early evaluation significantly facilitates treatment in knee replacement procedures.`,
       sections: [
         {
-          h2: 'What Is Knee Osteoarthritis?',
-          content: 'Osteoarthritis is the gradual wear of the cartilage covering the knee joint. As the cartilage thins and disappears, the bones begin to rub against each other, causing severe pain, swelling, and loss of motion. Around 30% of people over the age of 60 experience clinical symptoms of osteoarthritis.',
+          h2: "When Is Knee Replacement Applied?",
+          content: `Knee replacement is generally performed in patients with advanced osteoarthritis, rheumatoid arthritis, traumatic joint damage, or severe loss of knee function after previous surgical interventions. Symptoms include persistent knee pain, difficulty climbing stairs, loss of strength in the legs, and joint stiffness. If these symptoms are present, it is important to consult an orthopedic specialist without delay.`
         },
         {
-          h2: 'Why Is Robotic Knee Replacement Better?',
-          content: 'In traditional knee replacement, the surgeon makes bone cuts using manual guides during the operation. With robotic systems:\n\n• A 3D bone model is prepared before surgery\n• Implant positioning is planned with millimetric accuracy\n• During surgery, the robot prevents movements beyond the planned boundaries\n• The leg axis is corrected with high precision',
+          h2: "How Is Knee Replacement Surgery Performed?",
+          content: `Knee replacement surgery is planned according to the patient’s age, general health condition, and the degree of damage in the knee. During surgery, worn or damaged joint surfaces are removed and replaced with an artificial joint (prosthesis) made of metal, ceramic, or polyethylene materials. Thanks to modern surgical techniques and robotic-assisted methods, operations are performed with high success rates. After surgery, mobility of the knee is improved through physical therapy, and patients can safely return to their daily activities.`
         },
+        {
+          h2: "In Which Cases Is Knee Replacement Surgery Preferred?",
+          content: `Knee replacement surgery is generally preferred in the following situations:\n\n• Advanced osteoarthritis or degeneration with pain and loss of movement \n• Severe functional loss in rheumatoid arthritis or other joint diseases \n• Chronic knee pain unresponsive to previous treatments \n• Improper knee function after traumatic joint damage`
+        },
+        {
+          h2: "What Is Robotic Knee Replacement?",
+          content: `Robotic knee replacement is more precise and safer compared to traditional methods. In conventional knee replacement surgery, the surgeon performs bone cuts using manual instruments and guides, whereas in robotic systems, the patient’s bones are modeled in 3D before surgery and the implant position is planned with millimetric precision in a computer environment. During the operation, the robot automatically prevents deviations beyond the planned boundaries and ensures perfect alignment of the leg axis, resulting in much safer and more accurate implant placement and knee function.`
+        },
+        {
+          h2: "Recovery Process and Outcomes",
+          content: `With early evaluation, modern surgical techniques, and proper rehabilitation, most patients can lead a pain-free and active life. Regular check-ups, an appropriate treatment plan, and conscious physical therapy help you maintain your knee health safely.`
+        }
       ],
       tags: ['Knee Replacement', 'Robotic Surgery', 'Osteoarthritis', 'Arthrosis', 'Joint Replacement'],
     },
     'boyun-fitigi-belirtileri': {
       slug: 'boyun-fitigi-belirtileri',
       title: 'Cervical Disc Herniation Symptoms and Treatment: Relief for Arm Pain',
-      img: '/images/kola-vuran-agri.avif',
+      img: '/images/saglik/boyun-cerrahi.avif',
       date: 'November 5, 2024',
       readTime: '6 min read',
       category: 'Cervical Disc Herniation',
-      desc: 'A cervical disc herniation causes pain radiating to the shoulder, arm, and fingers. Permanent relief is possible through a small incision with ACDF and artificial disc replacement (TDR).',
-      intro: 'Neck pain is the second most common musculoskeletal complaint worldwide after low back pain. Long hours at the computer, constant phone use, office life, and inactivity significantly increase this risk.',
+      desc: "A cervical disc herniation is a condition that occurs when the discs in the spine shift out of place and put pressure on the nerves, and it is more commonly seen in middle-aged and older individuals.",
+      intro: `Do You Have a Cervical Disc Herniation? No Need to Panic…
+Do you have neck pain, numbness in your shoulders, or a loss of sensation in your arm? These may seem like simple muscle fatigue, but they could be the first signs of a cervical disc herniation. 
+A cervical disc herniation is a condition that occurs when the discs in the spine shift out of place and put pressure on the nerves, and it is generally more common in middle-aged and older individuals. 
+However, today it has also become widespread among desk workers and younger people. Prof. Dr. Nurullah Ermiş emphasizes the importance of early diagnosis in cervical disc herniation. Regular check-ups, proper exercises, and adjustments in lifestyle habits can reduce pain and improve quality of life in most cases.`,
       sections: [
         {
-          h2: 'Why Does a Cervical Disc Herniation Occur?',
-          content: 'As we age, the disc cushions between the cervical vertebrae lose water and elasticity. The C5–C6 and C6–C7 levels are the most commonly affected segments.',
+          h2: "What Are the Symptoms of Cervical Disc Herniation?",
+          content: `The most common symptoms of cervical disc herniation include neck pain, numbness or tingling in the shoulders and arms, loss of strength in the arms, and limited movement of the head. If one or more of these symptoms are present, it is important to consult a specialist without delay.`
         },
+        {
+          h2: "What Causes Cervical Disc Herniation?",
+          content: `Many factors play a role in the development of a cervical disc herniation. Sitting for long periods with poor posture, carrying heavy loads, sudden movements, or genetic predisposition can increase the risk of herniation.`
+        },
+        {
+          h2: "What Are the Treatment Options?",
+          content: `Treatment options vary depending on the severity of the condition and the patient’s lifestyle. Most mild to moderate herniations can be managed with medication, physical therapy, and special exercise programs. In severe cases or when nerve compression is advanced, advanced surgical methods may be applied. With modern medical techniques, cervical disc herniation surgeries are performed with high success rates.`
+        },
+        {
+          h2: "Should We Be Afraid of Cervical Disc Herniation?",
+          content: `Remember, cervical disc herniation is not always something to be feared. With early diagnosis, regular medical check-ups, and appropriate treatment methods, most patients can return to their normal lives, manage their pain, and maintain their freedom of movement. You can protect your neck health with regular posture checks, an ergonomic working environment, and conscious exercise.`
+        }
       ],
       tags: ['Cervical Disc Herniation', 'Cervical Disc', 'ACDF', 'Artificial Disc', 'Spine Surgery'],
     },
     'cocuk-ortopedisi-kalca-cikigi': {
       slug: 'cocuk-ortopedisi-kalca-cikigi',
       title: 'Hip Dislocation in Children (DDH): Early Diagnosis Prevents Surgery',
-      img: '/images/cocuk-kalca-cikik.avif',
+      img: '/images/saglik/cocuk.avif',
       date: 'September 20, 2024',
       readTime: '5 min read',
       category: 'Pediatric Orthopedics',
-      desc: 'Developmental dysplasia of the hip (DDH) is seen in 1–3 out of every 100 births. When diagnosed in the first 6 months, more than 90% success can be achieved without surgery using a Pavlik harness.',
-      intro: 'Every newborn hip is unique; however, in some babies the hip socket may be underdeveloped or the femoral head may be completely displaced.',
+      desc: "Hip dislocation is usually a congenital condition and is directly related to joint development.",
+      intro: `How Can We Recognize Hip Dislocation in Children? 
+
+Have you noticed asymmetry in your baby’s hip area after birth? Differences in leg length, the baby being unable to open one leg as much as the other, or limited movement in the hip may be early signs of hip dislocation in children. Hip dislocation is usually a congenital condition and is directly related to joint development. Prof. Dr. Nurullah Ermiş emphasizes the importance of early diagnosis, because when detected early, hip dislocation can be easily corrected with simple methods and normal development can be ensured.`,
       sections: [
         {
-          h2: 'What Is DDH (Developmental Dysplasia of the Hip)?',
-          content: 'DDH is a developmental problem in which the femoral head does not sit fully within the acetabulum. It is seen in 1–3 babies per 100 live births, and the risk is about 6 times higher in girls.',
+          h2: "What Are the Symptoms of Hip Dislocation?",
+          content: `Hip dislocation is usually noticed during birth or in the first months. Symptoms include differences in leg length, lack of symmetry around the hips, difficulty in opening the baby’s legs, or movement accompanied by a “click” sound.`
         },
+        {
+          h2: "What Causes Hip Dislocation?",
+          content: `Many factors may play a role in the development of hip dislocation. Genetic predisposition, the baby being in a breech position in the womb, or certain birth complications can increase the risk. It is also more likely to be seen in premature babies or in children with a family history of hip dislocation.`
+        },
+        {
+          h2: "What Is the Treatment Process?",
+          content: `Treatment varies depending on the severity of the dislocation and the child’s age. In mild cases, Pavlik harness or special hip casts are used; these keep the hip joint in the correct position and support joint development. Treatment usually lasts from a few weeks to several months and requires regular follow-up. In more advanced cases or when sufficient correction cannot be achieved with conservative methods, surgical intervention may be necessary.`
+        },
+        {
+          h2: "Surgical Treatment and Aftercare",
+          content: `During surgery, the hip joint is repositioned correctly and stabilized; in some cases, intervention on the pelvic bone and femur may be required. Thanks to modern surgical techniques, operations are performed safely with high success rates, allowing the child to continue normal development. After surgery, the hip is usually protected with special casts or supportive devices, and mobility is improved through physical therapy.`
+        },
+        {
+          h2: "Follow-up and Importance",
+          content: `With regular check-ups, specialist guidance, and appropriate treatment methods, you can safely support your child’s ability to walk healthily and ensure normal development.`
+        }
       ],
       tags: ['Hip Dislocation', 'DDH', 'Pediatric Orthopedics', 'Pavlik Harness', 'Infant Hip Dysplasia'],
     },
     'acl-cop-bag-ameliyati': {
       slug: 'acl-cop-bag-ameliyati',
-      title: 'Anterior Cruciate Ligament (ACL) Surgery: A Return-to-Sport Guide for Athletes',
-      img: '/images/artroskopik-cerrahi.avif',
+      title: 'Be Careful with Sports Injuries! ',
+      img: '/images/saglik/on-capraz.avif',
       date: 'August 3, 2024',
       readTime: '7 min read',
       category: 'Arthroscopic Surgery',
-      desc: 'ACL rupture is treated with arthroscopic reconstruction. With the right graft selection and rehabilitation protocol, athletes can return to sports in 6–9 months.',
-      intro: 'That “pop” sound in the knee during a sudden move while playing football, basketball, or skiing, followed by immediate swelling, is the classic picture of an ACL rupture.',
+      desc: "Sports injuries are damages that occur in muscles, tendons, ligaments, and joints, and are commonly seen among both amateur and professional athletes.",
+      intro: `Be Careful with Sports Injuries! 
+
+      Do you feel pain, swelling, or limited movement in your joints, muscles, or bones during sports activities or sudden movements in daily life? These may seem like simple strains, but they could be the first signs of sports injuries. 
+      Sports injuries are damages that occur in muscles, tendons, ligaments, and joints, and are commonly seen among both amateur and professional athletes. Prof. Dr. Nurullah Ermiş emphasizes the importance of early diagnosis and proper intervention in sports injuries.`,
       sections: [
         {
-          h2: 'What Is the ACL and Why Does It Tear?',
-          content: 'The ACL is a strong ligament that stabilizes the knee in the front-to-back direction. It tears with mechanisms such as sudden direction changes, abrupt stops, jumping, and falling onto the knee.',
+          h2: "Common Sports Injuries and Symptoms",
+          content: `Common sports injuries include sprains, muscle strains, tendon inflammations, meniscus injuries, and bone fractures. Symptoms are usually pain, swelling, bruising, limited joint movement, or sensitivity to pressure. When these symptoms occur, it is important to consult an orthopedic specialist without delay.`
         },
+        {
+          h2: "Causes of Sports Injuries",
+          content: `Many factors play a role in the development of sports injuries. Improper warm-up, incorrect technique, overloading, or the use of inappropriate equipment can increase the risk. Additionally, personal factors, genetic predisposition, and previous injuries also affect the process.`
+        },
+        {
+          h2: "Treatment Options and Surgical Needs",
+          content: `Treatment options vary depending on the type and severity of the injury. In mild cases, rest, physical therapy, exercise, and pain management are sufficient; however, in some cases, surgical intervention may be required. Surgery is generally preferred in the following situations:\n\n• When bone fractures or joint dislocations occur \n• In serious joint injuries such as meniscus tears and ligament ruptures \n• In tendon ruptures or chronic, non-healing injuries \n• When there is no response to conservative (non-surgical) treatment or when pain and loss of function persist`
+        },
+        {
+          h2: "Recovery Process and Prevention",
+          content: `Thanks to modern orthopedic surgical techniques, operations are performed with high success rates and the return-to-sport time is minimized. With early diagnosis, proper treatment, and appropriate rehabilitation, most injuries can fully heal. Regular warm-ups, correct techniques, appropriate equipment use, and conscious exercise reduce your risk of injury and help you maintain a healthy sports life.`
+        }
       ],
       tags: ['ACL', 'Anterior Cruciate Ligament', 'Knee Surgery', 'Arthroscopy', 'Meniscus', 'Sports Surgery'],
     },
