@@ -23,7 +23,7 @@ const resources = {
       home: {
         hero: {
           badge: 'Ortopedi & Travmatoloji Uzmanı',
-          title: 'Omurga ve Eklem Sağlığınızda Güvenilir Uzman',
+          title: 'Ortopedi Uzmanı',
           subtitle: '20+ yıllık cerrahi tecrübe ile skolyoz, bel fıtığı ve eklem sorunlarına kapsamlı çözümler.',
           cta: 'Hemen Randevu Al',
           whatsapp: 'WhatsApp ile Ulaşın',
@@ -454,7 +454,7 @@ const resources = {
       home: {
         hero: {
           badge: 'Orthopedics & Traumatology Specialist',
-          title: 'Trusted Expert in Spine and Joint Health',
+          title: 'Orthopedics Expert',
           subtitle: '20+ years of surgical experience providing comprehensive solutions for scoliosis, herniated disc, and joint problems.',
           cta: 'Book Appointment Now',
           whatsapp: 'Contact via WhatsApp',
