@@ -95,7 +95,7 @@ Dizlerinizde sürekli ağrı, şişlik, hareket kısıtlılığı veya günlük 
     date: "5 Kasım 2024",
     readTime: "6 dk okuma",
     category: "Boyun Fıtığı",
-    ddesc: "Boyun fıtığı, omurgadaki disklerin yerinden kayarak sinirlere baskı yapmasıyla ortaya çıkan bir rahatsızlıktır ve genellikle orta yaş ve ileri yaşlarda daha sık görülür.",
+    desc: "Boyun fıtığı, omurgadaki disklerin yerinden kayarak sinirlere baskı yapmasıyla ortaya çıkan bir rahatsızlıktır ve genellikle orta yaş ve ileri yaşlarda daha sık görülür.",
     intro: `Boyun Fıtığınız Mı Var? Paniğe Gerek Yok…
 Boyun ağrısı, omuzlarda uyuşma veya kolda hissizlik fark ettiniz mi? Bunlar basit bir kas yorgunluğu gibi görünebilir, ancak boyun fıtığının ilk belirtileri olabilir. 
 Boyun fıtığı, omurgadaki disklerin yerinden kayarak sinirlere baskı yapmasıyla ortaya çıkan bir rahatsızlıktır ve genellikle orta yaş ve ileri yaşlarda daha sık görülür. 

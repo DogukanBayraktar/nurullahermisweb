@@ -41,7 +41,7 @@ export default async function HealthGuideDetailPage({ params }: { params: Promis
         title: local.title,
         slug: local.slug,
         category: local.category,
-        summary: local.desc ?? "", 
+        summary: local.desc, 
         content: null,
         _localContent: local,
         readTime: local.readTime,

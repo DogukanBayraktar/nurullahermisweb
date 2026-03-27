@@ -27,7 +27,7 @@ export default async function HealthGuidePage() {
         title: local.title,
         slug: local.slug,
         category: local.category,
-        summary: local.desc ?? "", 
+        summary: local.desc,
         readTime: parseInt(local.readTime, 10),
         publishedAt: new Date().toISOString(),
         coverImage: local.img,
