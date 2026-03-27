@@ -191,7 +191,7 @@ export default function Navbar() {
             
             {/* Alt Bilgi */}
             <div className="p-8 bg-slate-50 text-center border-t border-slate-100">
-               <p className="text-sm text-slate-500 font-medium">© 2026 Prof. Dr. M. Nurullah Ermiş</p>
+               <p className="text-sm text-slate-500 font-medium">© 2026 Prof. Dr. Nurullah Ermiş</p>
             </div>
           </motion.div>
         )}

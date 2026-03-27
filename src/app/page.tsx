@@ -272,7 +272,7 @@ export default function Home() {
 
               <FadeIn delay={0.2} direction="up">
                 <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-white tracking-tight mb-3 leading-[1.08]">
-                  Prof. Dr. M. Nurullah Ermiş
+                  Prof. Dr. Nurullah Ermiş
                 </h1>
                 {/* <p className="text-xl md:text-2xl text-sky-200 font-semibold mb-7">{t('home.hero.title')}</p> */}
               </FadeIn>
@@ -319,7 +319,7 @@ export default function Home() {
                   <div className="absolute -inset-4 rounded-[3rem] opacity-30 blur-2xl pointer-events-none" style={{ background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)' }} />
                   <img
                     src="/nurullah-hoca3.avif"
-                    alt="Prof. Dr. M. Nurullah Ermiş"
+                    alt="Prof. Dr. Nurullah Ermiş"
                     className="relative rounded-3xl shadow-2xl shadow-black/30 object-cover w-full sm:w-full sm:max-w-sm lg:max-w-md aspect-[3/4] object-top border-2 border-white/20"
                   />
                 </div>
