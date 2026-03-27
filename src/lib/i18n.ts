@@ -159,7 +159,7 @@ const resources = {
         mehmet: {
           name: 'Mehmet Yılmaz',
           summary: 'Oğlumuzun omurgası 58 derece eğriydi',
-          story: 'Oğlumuz Mehmet, 12 yaşında okul taramasında skolyoz teşhisi aldı. Başka iki hastanede \'bekleyelim\' dediler; ama eğrilik hızla ilerliyordu. Prof. Dr. Ermiş bizi ilk muayenede detaylıca dinledi, MR görüntülerini tek tek anlattı. Ameliyattan 2 gün sonra Kerem kendi ayakları üstünde yürüdü. Şimdi 16 yaşında, basketbol oynuyor.',
+          story: 'Oğlumuz Mehmet, 12 yaşında okul taramasında skolyoz teşhisi aldı. Başka iki hastanede \'bekleyelim\' dediler; ama eğrilik hızla ilerliyordu. Prof. Dr. Ermiş bizi ilk muayenede detaylıca dinledi, MR görüntülerini tek tek anlattı. Ameliyattan 2 gün sonra Mehmet kendi ayakları üstünde yürüdü. Şimdi 16 yaşında, basketbol oynuyor.',
           result: '58° → 9° düzelme',
           date: 'Mart 2024',
         },
