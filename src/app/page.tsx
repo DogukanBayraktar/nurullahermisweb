@@ -274,7 +274,7 @@ export default function Home() {
                 <h1 className="text-4xl md:text-5xl lg:text-[3.5rem] font-extrabold text-white tracking-tight mb-3 leading-[1.08]">
                   Prof. Dr. M. Nurullah Ermiş
                 </h1>
-                <p className="text-xl md:text-2xl text-sky-200 font-semibold mb-7">{t('home.hero.title')}</p>
+                {/* <p className="text-xl md:text-2xl text-sky-200 font-semibold mb-7">{t('home.hero.title')}</p> */}
               </FadeIn>
 
               <FadeIn delay={0.3} direction="up">
@@ -648,7 +648,7 @@ export default function Home() {
 
 
         {/* ═══════════════ 7. YOUTUBE VİDEOLAR (Content) ═══════════════ */}
-        <section className="section-ghost relative py-20 overflow-hidden">
+        {/* <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
               <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.videos.badge")}</p>
@@ -736,7 +736,7 @@ export default function Home() {
               </div>
             </div>
           </div>
-        </section>
+        </section> */}
 
 
 
