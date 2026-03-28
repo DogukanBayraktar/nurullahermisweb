@@ -19,8 +19,8 @@ export default function Footer() {
 
   const treatments = [
     { href: getLocalizedPath('treatments', i18n.language, 'skolyoz-kifoz-cerrahisi', 'treatment'), label: t('home.treatments.cards.scoliosis.title') },
-    { href: getLocalizedPath('treatments', i18n.language, 'bel-fitigi-tedavisi', 'treatment'), label: t('home.treatments.cards.herniation.title') },
-    { href: getLocalizedPath('treatments', i18n.language, 'boyun-fitigi-cerrahisi', 'treatment'), label: t('home.treatments.cards.arthroscopy.title') },
+    { href: getLocalizedPath('treatments', i18n.language, 'boyun-fitigi-cerrahisi', 'treatment'), label: t('home.treatments.cards.herniation.title') },
+    { href: getLocalizedPath('treatments', i18n.language, 'artroskopik-cerrahi', 'treatment'), label: t('home.treatments.cards.arthroscopy.title') },
     { href: getLocalizedPath('treatments', i18n.language, 'diz-kalca-protezi', 'treatment'), label: t('home.treatments.cards.kneeHip.title') },
     { href: getLocalizedPath('treatments', i18n.language, 'cocuk-ortopedisi', 'treatment'), label: t('home.treatments.cards.pediatric.title') },
   ];
