@@ -216,6 +216,39 @@ Doğum sonrası bebeklerde kalça bölgelerinde asimetri fark ettiniz mi? Bacakl
       ],
       tags: ['Kalça Çıkığı', 'GKD', 'Çocuk Ortopedisi', 'Pavlik Bandajı', 'Bebek Kalça Displazisi'],
     },
+    'skolyoz-egzersizleri': {
+      slug: 'skolyoz-egzersizleri',
+      title: 'Skolyoz Egzersizleri: Omurgayı Destekleyen Hareketler',
+      img: '/images/saglik/skolyoz-egzersiz.avif',
+      date: '28 Mart 2025',
+      readTime: '8 dk okuma',
+      category: 'Skolyoz',
+      desc: 'Skolyozda doğru egzersizler omurga kaslarını güçlendirir, eğriliğin ilerlemesini yavaşlatabilir ve yaşam kalitesini artırır. Hangi egzersizler faydalı, hangileri sakıncalı?',
+      intro: `Skolyoz tanısı almak, hareketsiz kalmak anlamına gelmez. Aksine — doğru egzersizler, omurga kaslarını güçlendirerek eğriliğin ilerlemesini yavaşlatabilir, ağrıyı azaltabilir ve duruşu belirgin biçimde iyileştirebilir.\n\nAncak her egzersiz her hastaya uygun değildir. Eğriliğin tipi, derecesi ve hastanın yaşı, hangi hareketlerin faydalı hangilerinin zararlı olacağını doğrudan belirler. Bu nedenle egzersiz programının mutlaka ortopedi uzmanı veya fizyoterapist gözetiminde oluşturulması gerekir.\n\nProf. Dr. Nurullah Ermiş, skolyozlu hastalarında egzersizi tedavinin ayrılmaz bir parçası olarak görür. Bu rehberde bilimsel temeli olan yaklaşımları, dikkat edilmesi gereken noktaları ve sıkça sorulan soruları bulacaksınız.`,
+      sections: [
+        {
+          h2: 'Skolyozda Egzersizin Önemi',
+          content: `Omurga çevresindeki kaslar — özellikle paraspinal kaslar, karın kasları ve kalça stabilizatörleri — omurgayı dik tutan aktif desteklerdir. Bu kaslar zayıfladığında eğrilik üzerindeki yük artar ve eğriliğin ilerlemesi kolaylaşır.\n\nEgzersiz tedavisinin kanıtlanmış faydaları şunlardır:\n\n• Omurga kaslarını güçlendirerek omurgaya aktif destek sağlar\n• Büyüme dönemindeki çocuklarda eğriliğin ilerlemesini yavaşlatabilir\n• Postür farkındalığını artırır, günlük yaşam alışkanlıklarını iyileştirir\n• Ağrı ve kas yorgunluğunu azaltır\n• Solunum kapasitesini destekler (özellikle torakal eğriliklerde)\n• Cerrahi sonrası iyileşme sürecini hızlandırır\n\nÖnemli: Egzersiz, korse veya cerrahi tedavinin yerini almaz. Eğriliğin derecesine göre bu yöntemler birlikte uygulanır.`
+        },
+        {
+          h2: 'Skolyozu Destekleyen Temel Egzersiz Yaklaşımları',
+          content: `Bilimsel literatürde ve klinik uygulamada öne çıkan birkaç yöntem vardır:\n\nSchroth Yöntemi\nAlmanya kökenli bu üç boyutlu solunum ve postür eğitimi yöntemi, skolyoz için en çok araştırılmış egzersiz yaklaşımlarından biridir. Omurgayı aktif olarak rotasyon ve elongasyon ile yeniden hizalama prensibine dayanır. Fizyoterapist eşliğinde öğrenilmesi önerilir.\n\nSEAS (Scientific Exercise Approach to Scoliosis)\nİtalyan kökenli bu yaklaşım, hastanın kendi kendine uygulayabileceği aktif öz-düzeltme egzersizlerine dayanır. Korse tedavisiyle kombinasyonu başarılı sonuçlar vermektedir.\n\nCore Stabilizasyon Egzersizleri\nDerin karın kasları (transversus abdominis) ve multifidus kaslarını hedef alan bu egzersizler, omurganın dinamik dengesini destekler. Pilates bazlı hareketler bu kategoriye girer.\n\nSolunum Egzersizleri\nÖzellikle torakal (göğüs bölgesi) skolyozda solunum kapasitesini korumak için diyafragmatik ve yönlendirici solunum egzersizleri önemlidir.`
+        },
+        {
+          h2: 'Evde Uygulanabilecek Destekleyici Hareketler',
+          content: `Aşağıdaki hareketler genel omurga sağlığını destekler; ancak kişisel egzersiz programınız uzman tarafından belirlenmelidir:\n\nCat-Cow (Kedi-İnek Hareketi)\nDörtayak pozisyonda sırtı yavaşça yukarı ve aşağı hareket ettirerek omurganın esnekliğini artırır, kas gerilimini azaltır.\n\nBird-Dog\nDörtayak pozisyondan karşılıklı kol ve bacağı yavaşça uzatma hareketi; core kaslarını ve denge koordinasyonunu güçlendirir.\n\nYan Köprü (Side Plank — modifiye)\nDiz üzerinde yapılan yan köprü, lateral stabilizatörleri güçlendirerek lateral eğriliklerde destek sağlar.\n\nScapular Retraksiyon\nOmuzları arkaya ve aşağıya çekme hareketi; üst sırt kaslarını güçlendirir, öne düşen omuz duruşunu düzeltir.\n\nPelvik Tilt\nSırt üstü yatış pozisyonunda bel bölgesini zemine bastırıp bırakma; lumbar bölge mobilizasyonu ve karın kası aktivasyonu için kullanılır.\n\nDikkat: Bu hareketler genel bilgilendirme amaçlıdır. Eğriliğin yönüne ve lokalizasyonuna göre bazı hareketler hastaya uygun olmayabilir.`
+        },
+        {
+          h2: 'Kaçınılması Gereken Durumlar',
+          content: `Skolyozlu hastalarda bazı aktivite ve egzersizler dikkatli değerlendirilmelidir:\n\n• Ağır serbest ağırlık egzersizleri: Yanlış form altında omurgaya aşırı yük bindirebilir\n• Yüksek darbeli aktiviteler: Eğriliğin ilerlediği dönemlerde koşu veya atlama yoğunluğu azaltılabilir\n• Asimetrik yük taşıma: Tek omuzda ağır çanta omurga kasimetrini artırabilir\n• Ağrı veren hareketler: Herhangi bir egzersiz sırasında ağrı, uyuşma veya nefes darlığı yaşanıyorsa hemen bırakılmalı ve uzman görüşü alınmalıdır\n\nNot: Hafif eğriliklerde (20° altı) yüzme, yürüyüş, pilates ve yoga gibi aktiviteler genellikle güvenle yapılabilir. 20–45° arası vakalarda program fizyoterapist eşliğinde tasarlanmalıdır.`
+        },
+        {
+          h2: 'Egzersiz Programına Ne Zaman Başlanmalı?',
+          content: `Egzersiz, skolyoz tanısından sonra ne kadar erken başlanırsa o kadar faydalıdır. Büyüme dönemindeki çocuklarda ve ergenlerde — özellikle Cobb açısı 20–45° arasında olanlarda — düzenli egzersiz ve gerekirse korse tedavisinin birlikte uygulanması, cerrahiye gerek kalmadan eğriliğin kontrol altında tutulmasına yardımcı olabilir.\n\nCerrahi sonrası dönemde ise egzersiz programı genellikle ameliyattan 4–6 hafta sonra fizyoterapist gözetiminde başlar; ilerleme cerrahın onayıyla adım adım yürütülür.\n\nHer hastanın durumu farklıdır. Egzersiz programınızı oluşturmadan önce mutlaka uzman görüşü alın.`
+        },
+      ],
+      tags: ['Skolyoz', 'Skolyoz Egzersizleri', 'Schroth', 'Core Egzersiz', 'Omurga Sağlığı', 'Postür'],
+    },
     'acl-cop-bag-ameliyati': {
       slug: 'acl-cop-bag-ameliyati',
       title: 'Spor Yaralanmalarına Dikkat! ',
@@ -405,6 +438,39 @@ Have you noticed asymmetry in your baby’s hip area after birth? Differences in
         }
       ],
       tags: ['Hip Dislocation', 'DDH', 'Pediatric Orthopedics', 'Pavlik Harness', 'Infant Hip Dysplasia'],
+    },
+    'skolyoz-egzersizleri': {
+      slug: 'skolyoz-egzersizleri',
+      title: 'Scoliosis Exercises: Movements That Support the Spine',
+      img: '/images/saglik/skolyoz-cerrahi.avif',
+      date: 'March 28, 2025',
+      readTime: '8 min read',
+      category: 'Scoliosis',
+      desc: 'The right exercises in scoliosis strengthen spinal muscles, may slow the progression of the curve, and improve quality of life. Which exercises help — and which should be avoided?',
+      intro: `A scoliosis diagnosis does not mean you should stop moving. Quite the opposite — when done correctly, exercises can strengthen the muscles around the spine, slow the progression of the curve, reduce pain, and noticeably improve posture.\n\nHowever, not every exercise suits every patient. The type, degree, and location of the curve — as well as the patient's age — directly determine which movements are beneficial and which may be harmful. For this reason, any exercise programme must be designed under the supervision of an orthopaedic specialist or physiotherapist.\n\nProf. Dr. Nurullah Ermiş considers exercise an integral part of treatment for his patients with scoliosis. In this guide you will find evidence-based approaches, important precautions, and answers to frequently asked questions.`,
+      sections: [
+        {
+          h2: 'Why Exercise Matters in Scoliosis',
+          content: `The muscles surrounding the spine — particularly the paraspinal muscles, abdominal muscles, and hip stabilisers — are the active supports that keep the spine upright. When these muscles weaken, the load on the curve increases and its progression becomes easier.\n\nEvidence-based benefits of exercise therapy include:\n\n• Strengthening spinal muscles and providing active support to the spine\n• Potentially slowing curve progression in growing children\n• Increasing postural awareness and improving daily habits\n• Reducing pain and muscle fatigue\n• Supporting respiratory capacity (especially in thoracic curves)\n• Accelerating recovery after surgery\n\nImportant: Exercise does not replace bracing or surgical treatment. Depending on the severity of the curve, these approaches are used in combination.`
+        },
+        {
+          h2: 'Key Exercise Approaches in Scoliosis',
+          content: `Several methods are prominent in both scientific literature and clinical practice:\n\nSchroth Method\nThis three-dimensional breathing and postural re-education method, developed in Germany, is one of the most extensively researched exercise approaches for scoliosis. It is based on the principle of actively realigning the spine through rotation and elongation. Learning from a trained physiotherapist is strongly recommended.\n\nSEAS (Scientific Exercise Approach to Scoliosis)\nThis Italian approach is built around active self-correction exercises the patient can perform independently. Combining it with brace treatment has shown promising results.\n\nCore Stabilisation Exercises\nExercises targeting the deep abdominal muscles (transversus abdominis) and multifidus support the dynamic balance of the spine. Pilates-based movements fall into this category.\n\nBreathing Exercises\nDiaphragmatic and directional breathing exercises are important for preserving respiratory capacity, particularly in thoracic (chest-region) scoliosis.`
+        },
+        {
+          h2: 'Supportive Movements You Can Do at Home',
+          content: `The following movements support general spinal health; however, your personal exercise programme should always be determined by a specialist:\n\nCat-Cow\nIn a hands-and-knees position, slowly arch and round the back alternately. Increases spinal flexibility and reduces muscle tension.\n\nBird-Dog\nFrom hands-and-knees, slowly extend the opposite arm and leg. Strengthens core muscles and improves balance coordination.\n\nModified Side Plank\nA side plank performed from the knees rather than the feet; strengthens lateral stabilisers and provides support in lateral curves.\n\nScapular Retraction\nDrawing the shoulder blades back and downward; strengthens the upper back muscles and corrects rounded-shoulder posture.\n\nPelvic Tilt\nLying on the back, gently press the lower back into the floor and release; mobilises the lumbar region and activates the abdominal muscles.\n\nNote: These movements are for general information purposes. Depending on the direction and location of the curve, some exercises may not be appropriate for a given patient.`
+        },
+        {
+          h2: 'Situations to Approach with Caution',
+          content: `Certain activities and exercises require careful consideration in patients with scoliosis:\n\n• Heavy free-weight exercises: Can place excessive load on the spine if form is compromised\n• High-impact activities: During periods of active curve progression, running or jumping intensity may need to be reduced\n• Asymmetric load-bearing: Carrying a heavy bag on a single shoulder can worsen spinal asymmetry\n• Pain-inducing movements: If pain, numbness, or breathlessness occurs during any exercise, stop immediately and consult a specialist\n\nNote: In mild curves (below 20°), swimming, walking, Pilates, and yoga can generally be performed safely. For curves between 20–45°, the programme should be designed with a physiotherapist.`
+        },
+        {
+          h2: 'When Should an Exercise Programme Begin?',
+          content: `The earlier exercise begins after a scoliosis diagnosis, the more beneficial it is. In growing children and adolescents — particularly those with a Cobb angle between 20–45° — regular exercise combined with bracing where necessary can help keep the curve under control without the need for surgery.\n\nAfter surgery, the exercise programme typically begins 4–6 weeks post-operatively under physiotherapy supervision, with progress advanced step by step under the surgeon's approval.\n\nEvery patient's situation is different. Always consult a specialist before starting your exercise programme.`
+        },
+      ],
+      tags: ['Scoliosis', 'Scoliosis Exercises', 'Schroth', 'Core Exercise', 'Spine Health', 'Posture'],
     },
     'acl-cop-bag-ameliyati': {
       slug: 'acl-cop-bag-ameliyati',

@@ -48,7 +48,7 @@ export default function HakkimdaPage() {
       <section className="relative overflow-hidden border-b border-slate-100 bg-slate-50 py-20">
         <div className="absolute inset-0 dotted-bg opacity-[0.03]" />
         <div className="container relative z-10 mx-auto max-w-6xl px-4">
-          <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-20">
+          <div className="flex flex-col items-center gap-12 lg:flex-row lg:items-start lg:gap-20">
             <FadeIn direction="right" delay={0.1} className="w-full lg:w-5/12">
               <div className="relative">
                 <img

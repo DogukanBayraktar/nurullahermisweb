@@ -37,6 +37,7 @@ const articleSlugMap: Record<string, string> = {
   'boyun-fitiginiz-mi-var': 'do-you-have-a-cervical-disc-herniation',
   'cocuklarda-kalca-cikigini-nasil-anlariz': 'how-can-we-recognize-hip-dislocation-in-children',
   'acl-cop-bag-ameliyati': 'acl-surgery',
+  'skolyoz-egzersizleri': 'scoliosis-exercises',
 };
 
 const legacyArticleSlugMap: Record<string, string> = {
