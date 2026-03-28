@@ -27,6 +27,7 @@ const articleSlugs = [
   'boyun-fitiginiz-mi-var',
   'cocuklarda-kalca-cikigini-nasil-anlariz',
   'acl-cop-bag-ameliyati',
+  'skolyoz-egzersizleri',
 ];
 
 const articleSlugMapEN: Record<string, string> = {
@@ -36,6 +37,7 @@ const articleSlugMapEN: Record<string, string> = {
   'boyun-fitiginiz-mi-var': 'do-you-have-a-cervical-disc-herniation',
   'cocuklarda-kalca-cikigini-nasil-anlariz': 'how-can-we-recognize-hip-dislocation-in-children',
   'acl-cop-bag-ameliyati': 'acl-surgery',
+  'skolyoz-egzersizleri': 'scoliosis-exercises',
 };
 
 export default function sitemap(): MetadataRoute.Sitemap {

@@ -10,6 +10,7 @@ const articleSlugMapEN: Record<string, string> = {
   'boyun-fitiginiz-mi-var': 'do-you-have-a-cervical-disc-herniation',
   'cocuklarda-kalca-cikigini-nasil-anlariz': 'how-can-we-recognize-hip-dislocation-in-children',
   'acl-cop-bag-ameliyati': 'acl-surgery',
+  'skolyoz-egzersizleri': 'scoliosis-exercises',
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
