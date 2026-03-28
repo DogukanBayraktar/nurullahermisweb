@@ -13,7 +13,7 @@ export default function Footer() {
     { href: getLocalizedPath('about', i18n.language), label: t('nav.about') },
     { href: getLocalizedPath('treatments', i18n.language), label: t('footer.treatments') },
     { href: getLocalizedPath('healthGuide', i18n.language), label: t('footer.healthGuide') },
-    { href: getLocalizedPath('media', i18n.language), label: i18n.language?.startsWith('en') ? 'In The Media' : 'Basında Biz' },
+    // { href: getLocalizedPath('media', i18n.language), label: i18n.language?.startsWith('en') ? 'In The Media' : 'Basında Biz' },
     { href: getLocalizedPath('contact', i18n.language), label: t('footer.contact') },
   ];
 
