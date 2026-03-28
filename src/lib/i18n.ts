@@ -43,7 +43,7 @@ const resources = {
           viewAll: 'Tüm Tedavileri İncele',
           cards: {
             scoliosis: { title: 'Skolyoz & Kifoz', desc: 'Kişiye özel modern omurga tedavileri.' },
-            herniation: { title: 'Bel & Boyun Fıtığı', desc: 'Minimal invaziv omurga cerrahisi yaklaşımı.' },
+            herniation: { title: 'Boyun Fıtığı', desc: 'Minimal invaziv omurga cerrahisi yaklaşımı.' },
             kneeHip: { title: 'Diz & Kalça Protezi', desc: 'Ağrıyı azaltan güncel protez çözümleri.' },
             pediatric: { title: 'Çocuk Ortopedisi', desc: 'Büyüme çağına uygun ortopedik takip ve tedavi.' },
             arthroscopy: { title: 'Artroskopik Cerrahi', desc: 'Küçük kesilerle eklem içi cerrahi çözümler.' },
@@ -173,7 +173,7 @@ const resources = {
         huseyin: {
           name: 'Hüseyin Toprak',
           summary: 'Yıllardır boyun ağrısıyla yaşamak zorunda kalıyordum',
-          story:  'Boynumdan kollarıma yayılan ağrı ve uyuşma günlük hayatımı zorlaştırıyordu. Yapılan tetkiklerde boyun fıtığına bağlı sinir basısı olduğu ortaya çıktı. Prof. Dr. Ermiş süreci detaylıca anlattı ve ameliyat olmaya karar verdim. Ameliyat sonrası ağrılarım hızla azaldı ve kısa sürede normal hayatıma dönebildim.',
+          story: 'Boynumdan kollarıma yayılan ağrı ve uyuşma günlük hayatımı zorlaştırıyordu. Yapılan tetkiklerde boyun fıtığına bağlı sinir basısı olduğu ortaya çıktı. Prof. Dr. Ermiş süreci detaylıca anlattı ve ameliyat olmaya karar verdim. Ameliyat sonrası ağrılarım hızla azaldı ve kısa sürede normal hayatıma dönebildim.',
           result: '4 haftada günlük yaşama dönüş',
           date: 'Kasım 2023',
         },
@@ -211,9 +211,9 @@ const resources = {
           title: 'Ortopedi ve Omurga Cerrahisi Uzmanı — Central Hospital, İstanbul',
           imageAlt: 'Prof. Dr. Nurullah Ermiş portresi',
           experienceLabel: 'Yıl Deneyim',
-          bio1: "Prof. Dr. Nurullah Ermiş, 2002 yılında Hacettepe Üniversitesi Tıp Fakültesi'nden mezun olmuş; uzmanlık eğitimini 2008'de Baltalimanı Metin Sabancı Kemik Hastalıkları Hastanesi'nde tamamlamıştır.",
-          bio2: "Uzmanlık sonrasında Belçika Gent Üniversitesi ve ABD California Üniversitesi (UCSF)'nde omurga cerrahisi alanında uluslararası ileri eğitimler almıştır. 2019 yılından itibaren Central Hospital İstanbul'da kurucu hekim olarak görev yapmaktadır.",
-          bio3: 'Skolyoz (VBT dahil), bel-boyun fıtığı, diz-kalça protezi, artroskopik cerrahi, çocuk ortopedisi ve boy uzatma cerrahisi başlıca uzmanlık alanlarıdır.',
+          bio1: "Prof. Dr. M. Nurullah Ermiş, 2002 yılında Hacettepe Üniversitesi Tıp Fakültesi’nden mezun olmuş ve uzmanlık eğitimini 2008 yılında Baltalimanı Metin Sabancı Kemik Hastalıkları Hastanesi'nde tamamlamıştır. Uzmanlık sonrası kariyerinde uluslararası düzeyde kendini daima geliştirmiş; Belçika Gent Üniversitesi ve ABD California Üniversitesi (UCSF)’nde omurga cerrahisi alanında ileri eğitimler almıştır. 2019 yılından bu yana Central Hospital İstanbul’da kurucu hekim olarak görev yapmaktadır.",
+          bio2: "Prof. Dr. Ermiş, özellikle skolyoz (VBT dahil), bel ve boyun fıtığı, diz ve kalça protezi, artroskopik cerrahi, çocuk ortopedisi ve boy uzatma cerrahisi alanlarında uzmanlaşmıştır. Hastalarına modern cerrahi teknikler ve multidisipliner yaklaşımlar ile en yüksek kalitede bakım sunmayı amaçlamakta; hem yetişkin hem de çocuk ortopedisi alanında geniş bir deneyime sahiptir.",
+          bio3: "“Hekimlik sanatında geçirdiğim uzun yıllar bana en temel gerçeği, belki de en basit haliyle öğretti: Hayat, harekettir. Bir Ortopedi ve Travmatoloji uzmanı olarak, omurganın dik duruşunun sadece anatomik bir başarı değil, insanın hayata karşı sergilediği güçlü bir tavır olduğunu her zaman savundum ve savunmaya devam edeceğim.”",
           badges: [
             { label: 'Profesör (2021)' },
             { label: 'UCSF & Gent Üniversitesi' },
@@ -455,7 +455,7 @@ const resources = {
         hero: {
           badge: 'Orthopedics & Traumatology Specialist',
           title: 'Orthopedics Expert',
-          subtitle: 'With over 20 years of surgical experience and up-to-date rehabilitation methods, I am always by your side in the treatment of scoliosis, herniated disc, and joint problems.',          cta: 'Book Appointment Now',
+          subtitle: 'With over 20 years of surgical experience and up-to-date rehabilitation methods, I am always by your side in the treatment of scoliosis, herniated disc, and joint problems.', cta: 'Book Appointment Now',
           whatsapp: 'Contact via WhatsApp',
         },
         stats: {
@@ -473,7 +473,7 @@ const resources = {
           viewAll: 'View All Treatments',
           cards: {
             scoliosis: { title: 'Scoliosis & Kyphosis', desc: 'Personalized modern spine treatments.' },
-            herniation: { title: 'Lumbar & Cervical Hernia', desc: 'A minimally invasive spine surgery approach.' },
+            herniation: { title: 'Cervical Hernia', desc: 'A minimally invasive spine surgery approach.' },
             kneeHip: { title: 'Knee & Hip Prosthesis', desc: 'Modern prosthetic solutions focused on comfort.' },
             pediatric: { title: 'Pediatric Orthopedics', desc: 'Age-appropriate orthopedic care for children.' },
             arthroscopy: { title: 'Arthroscopic Surgery', desc: 'Minimally invasive solutions for joint surgery.' },
@@ -603,7 +603,7 @@ const resources = {
         huseyin: {
           name: 'Hüseyin Toprak',
           summary: 'I had been living with chronic neck pain for years',
-          story: 'Pain radiating from my neck to my arms along with numbness was making my daily life difficult. After medical evaluations, it was revealed that I had nerve compression due to a cervical disc herniation. Prof. Dr. Ermiş explained the process in detail, and I decided to undergo surgery. After the operation, my pain quickly decreased, and I was able to return to my normal life in a short time.',          result: 'Return to daily life within 4 weeks',
+          story: 'Pain radiating from my neck to my arms along with numbness was making my daily life difficult. After medical evaluations, it was revealed that I had nerve compression due to a cervical disc herniation. Prof. Dr. Ermiş explained the process in detail, and I decided to undergo surgery. After the operation, my pain quickly decreased, and I was able to return to my normal life in a short time.', result: 'Return to daily life within 4 weeks',
           date: 'November 2023',
         },
       },
@@ -640,9 +640,9 @@ const resources = {
           title: 'Orthopedics and Spine Surgery Specialist — Central Hospital, Istanbul',
           imageAlt: 'Portrait of Prof. Dr. Nurullah Ermiş',
           experienceLabel: 'Years of Experience',
-          bio1: 'Prof. Dr. Nurullah Ermiş graduated from Hacettepe University Faculty of Medicine in 2002 and completed his specialty training at Baltalimanı Metin Sabancı Bone Diseases Hospital in 2008.',
-          bio2: 'After specialization, he received advanced international training in spine surgery at Ghent University in Belgium and the University of California (UCSF) in the USA. Since 2019, he has been serving as a founding physician at Central Hospital Istanbul.',
-          bio3: 'His main areas of expertise include scoliosis (including VBT), lumbar and cervical disc herniation, knee and hip replacement, arthroscopic surgery, pediatric orthopedics, and limb lengthening surgery.',
+          bio1: "Prof. Dr. M. Nurullah Ermiş graduated from Hacettepe University Faculty of Medicine in 2002 and completed his specialty training in 2008 at Baltalimanı Metin Sabancı Bone Diseases Hospital. Following his specialization, he continuously advanced his career on an international level, receiving advanced spine surgery training at Ghent University in Belgium and the University of California (UCSF) in the United States. Since 2019, he has been serving as a founding physician at Central Hospital Istanbul.",
+          bio2: "Prof. Dr. Ermiş specializes particularly in scoliosis (including VBT), lumbar and cervical disc herniation, knee and hip replacement, arthroscopic surgery, pediatric orthopedics, and limb lengthening surgery. He aims to provide the highest quality of care to his patients through modern surgical techniques and multidisciplinary approaches, with extensive experience in both adult and pediatric orthopedics.",
+          bio3: "\"The many years I have spent in the art of medicine have taught me the most fundamental truth, perhaps in its simplest form: Life is movement. As an Orthopedics and Traumatology specialist, I have always believed—and will continue to believe—that the upright posture of the spine is not merely an anatomical achievement, but also a powerful reflection of a person’s stance toward life.\"", 
           badges: [
             { label: 'Professor (2021)' },
             { label: 'UCSF & Ghent University' },

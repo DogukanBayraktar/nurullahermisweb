@@ -429,7 +429,7 @@ export default function Home() {
                 </Link>
               </FadeIn>
               <FadeIn delay={0.1} direction="up" className="md:col-span-4">
-                <Link href={getLocalizedPath('treatments', currentLang, 'bel-fitigi-tedavisi', 'treatment')} className="group block h-full">
+                <Link href={getLocalizedPath('treatments', currentLang, 'boyun-fitigi-cerrahisi', 'treatment')} className="group block h-full">
                   <div className="relative rounded-3xl overflow-hidden h-full border border-slate-100 hover:shadow-2xl hover:shadow-blue-900/10 transition-all duration-500">
                     <img src="/images/boyun-fitigi.avif" alt="Bel Fıtığı" className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
                     <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 via-45% to-slate-950/10" />
