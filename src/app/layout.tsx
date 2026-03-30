@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
 import I18nRouteSync from "@/components/layout/I18nRouteSync";
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default function RootLayout({
         <WhatsAppButton />
         <Footer />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
