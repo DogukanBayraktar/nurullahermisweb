@@ -13,14 +13,14 @@ export default function Footer() {
     { href: getLocalizedPath('about', i18n.language), label: t('nav.about') },
     { href: getLocalizedPath('treatments', i18n.language), label: t('footer.treatments') },
     { href: getLocalizedPath('healthGuide', i18n.language), label: t('footer.healthGuide') },
-    { href: getLocalizedPath('media', i18n.language), label: i18n.language?.startsWith('en') ? 'In The Media' : 'Basında Biz' },
+    // { href: getLocalizedPath('media', i18n.language), label: i18n.language?.startsWith('en') ? 'In The Media' : 'Basında Biz' },
     { href: getLocalizedPath('contact', i18n.language), label: t('footer.contact') },
   ];
 
   const treatments = [
     { href: getLocalizedPath('treatments', i18n.language, 'skolyoz-kifoz-cerrahisi', 'treatment'), label: t('home.treatments.cards.scoliosis.title') },
-    { href: getLocalizedPath('treatments', i18n.language, 'bel-fitigi-tedavisi', 'treatment'), label: t('home.treatments.cards.herniation.title') },
-    { href: getLocalizedPath('treatments', i18n.language, 'boyun-fitigi-cerrahisi', 'treatment'), label: i18n.language?.startsWith('en') ? 'Cervical Hernia' : 'Boyun Fıtığı' },
+    { href: getLocalizedPath('treatments', i18n.language, 'boyun-fitigi-cerrahisi', 'treatment'), label: t('home.treatments.cards.herniation.title') },
+    { href: getLocalizedPath('treatments', i18n.language, 'artroskopik-cerrahi', 'treatment'), label: t('home.treatments.cards.arthroscopy.title') },
     { href: getLocalizedPath('treatments', i18n.language, 'diz-kalca-protezi', 'treatment'), label: t('home.treatments.cards.kneeHip.title') },
     { href: getLocalizedPath('treatments', i18n.language, 'cocuk-ortopedisi', 'treatment'), label: t('home.treatments.cards.pediatric.title') },
   ];

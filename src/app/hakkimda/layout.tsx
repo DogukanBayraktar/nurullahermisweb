@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Hakkımda | Prof. Dr. Nurullah Ermiş',
-  description: 'Prof. Dr. M. Nurullah Ermiş\'in özgeçmişi, eğitimi, uzmanlık alanları, akademik yayınları ve kongre sunumları.',
+  description: 'Prof. Dr. Nurullah Ermiş\'in özgeçmişi, eğitimi, uzmanlık alanları, akademik yayınları ve kongre sunumları.',
   keywords: ['Nurullah Ermiş kimdir', 'ortopedi cerrahı özgeçmiş', 'omurga cerrahı istanbul'],
   alternates: {
     canonical: 'https://www.nurullahermis.com/hakkimda',
