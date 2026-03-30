@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
 import I18nRouteSync from "@/components/layout/I18nRouteSync";
+import { Analytics } from "@vercel/analytics/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
         </main>
         <WhatsAppButton />
         <Footer />
+        <Analytics />
       </body>
     </html>
   );
