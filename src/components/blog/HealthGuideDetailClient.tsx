@@ -220,7 +220,7 @@ export default function HealthGuideDetailClient({
           </article>
 
           <aside className="lg:col-span-1">
-            <div className="sticky top-28 space-y-6">
+            <div className="sticky top-40 space-y-6">
               <div className="relative overflow-hidden rounded-3xl border border-white/10 p-7 text-center text-white shadow-2xl shadow-sky-950/20 hero-bg">
                 <div className="pointer-events-none absolute -top-16 -right-16 h-36 w-36 rounded-full bg-white/10 blur-2xl" />
                 <div className="pointer-events-none absolute -bottom-12 -left-12 h-28 w-28 rounded-full bg-cyan-300/15 blur-2xl" />
