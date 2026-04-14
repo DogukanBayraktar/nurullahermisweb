@@ -177,6 +177,13 @@ const resources = {
           result: '4 haftada günlük yaşama dönüş',
           date: 'Kasım 2023',
         },
+          sahika: {
+          name: 'Şahika',
+          summary: 'En sağlam adımlarını Central Hospital’da attı',
+          story: '10 yıl önce Central Hospital Kozyatağı Hastanesi’nde yine emin ellerde şifa bulmuş, sağ kalça protezi ameliyatı olmuştu. Yıllar geçti, bu kez de sol kalçasında aynı problemi yaşadı. İlk şifa bulduğu yere, Central Hospital’a geldi. Kapıdan içeri girdiğinde, on yıl önceki Şahika ile bugünkü arasında dağlar kadar fark vardı. Bu kez korkudan çok güven vardı içinde. Çünkü biliyordu ki bu yolun sonunda yine şifa vardı. Şahika başarılı ameliyatın ardından attığı her adımda umudun izlerini taşıyor.',
+          result: 'Kalça protezi ameliyatı sonrası sağlıklı adımlar',
+          date: 'Nisan 2026',
+        },
       },
 
       // Testimonials Data
@@ -605,6 +612,13 @@ const resources = {
           summary: 'I had been living with chronic neck pain for years',
           story: 'Pain radiating from my neck to my arms along with numbness was making my daily life difficult. After medical evaluations, it was revealed that I had nerve compression due to a cervical disc herniation. Prof. Dr. Ermiş explained the process in detail, and I decided to undergo surgery. After the operation, my pain quickly decreased, and I was able to return to my normal life in a short time.', result: 'Return to daily life within 4 weeks',
           date: 'November 2023',
+        },
+        sahika: {
+          name: 'Şahika',
+          summary: 'She took her most solid steps at Central Hospital.',
+          story: 'Ten years after a successful right hip replacement at Central Hospital Kozyatağı, Şahika returned to the same trusted hands for her left hip. Entering with confidence instead of fear, she found healing once again. Following her successful surgery, every step she takes now carries the traces of hope.',
+          result: 'Healthy steps after hip replacement surgery.',
+          date: 'April 2026',
         },
       },
 

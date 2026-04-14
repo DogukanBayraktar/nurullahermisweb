@@ -28,6 +28,7 @@ const PATIENT_STORIES = [
   { age: 14, tagColor: "bg-blue-600", img: "/images/mehmet.avif" },
   { age: 52, tagColor: "bg-teal-600", img: "/images/ayse.avif", imagePosition: "70% center" },
   { age: 68, tagColor: "bg-indigo-600", img: "/images/huseyin-toprak.avif", imagePosition: "74% center" },
+  { age: 73, tagColor: "bg-indigo-600", img: "/images/sahika.avif", imagePosition: "74% center" },
 ];
 
 
@@ -207,16 +208,16 @@ export default function Home() {
 
   const patientStories = PATIENT_STORIES.map((item, index) => ({
     ...item,
-    name: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin'][index]}.name`),
+    name: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.name`),
     tag: t([
       'home.patientStories.scoliosisSurgery',
       'home.patientStories.herniation',
       'home.patientStories.kneeProsthesis',
     ][index]),
-    summary: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin'][index]}.summary`),
-    story: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin'][index]}.story`),
-    result: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin'][index]}.result`),
-    date: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin'][index]}.date`),
+    summary: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.summary`),
+    story: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.story`),
+    result: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.result`),
+    date: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.date`),
   }));
 
   const mediaHighlights = currentLang.startsWith('en')
