@@ -11,6 +11,7 @@ const resources = {
         home: 'Ana Sayfa',
         about: 'Hakkımda',
         treatments: 'Tedaviler',
+        gallery: 'Galeri',
         healthGuide: 'Sağlık Rehberi',
         contact: 'İletişim',
         appointment: 'Randevu Al',
@@ -343,6 +344,22 @@ const resources = {
         resultsSubtitle: 'Prof. Dr. Ermiş\'in gerçekleştirdiği başarılı operasyonlardan derlenen vaka örnekleri.',
       },
 
+      galleryPage: {
+        badge: 'Vaka Galerisi',
+        title: 'Tedavi Galerisi',
+        subtitle: 'Tedavi başlıklarına göre düzenlenmiş görsel galeri içerisinde operasyon ve takip süreçlerinden seçilmiş örnekleri inceleyin.',
+        quickJump: 'Kategoriler',
+        quickJumpSubtitle: 'Doğrudan ilgilendiğiniz tedavi alanına geçin.',
+        viewTreatment: 'Tedaviyi İncele',
+        imageCount_one: '{{count}} görsel',
+        imageCount_other: '{{count}} görsel',
+        beforeAfterLabel: 'Galeri',
+        openLightbox: 'Büyütmek için tıklayın',
+        closeLightbox: 'Galeriyi kapat',
+        previousImage: 'Önceki görsel',
+        nextImage: 'Sonraki görsel',
+      },
+
 
       contact: {
         pageBadge: 'Randevu & İletişim',
@@ -410,6 +427,7 @@ const resources = {
         aboutText: 'Ortopedi ve Travmatoloji alanında 20+ yıllık deneyim ile skolyoz, bel fıtığı ve eklem tedavilerinde uzman.',
         quickLinks: 'Hızlı Bağlantılar',
         treatments: 'Tedaviler',
+        gallery: 'Galeri',
         healthGuide: 'Sağlık Rehberi',
         contact: 'İletişim',
         contactInfo: 'İletişim',
@@ -453,6 +471,7 @@ const resources = {
         home: 'Home',
         about: 'About',
         treatments: 'Treatments',
+        gallery: 'Gallery',
         healthGuide: 'Health Guide',
         contact: 'Contact',
         appointment: 'Make Appointment',
@@ -782,6 +801,22 @@ const resources = {
         resultsSubtitle: 'Case examples compiled from successful operations performed by Prof. Dr. Ermiş.',
       },
 
+      galleryPage: {
+        badge: 'Case Gallery',
+        title: 'Treatment Gallery',
+        subtitle: 'Browse selected visual case examples grouped by treatment headings and specialties.',
+        quickJump: 'Categories',
+        quickJumpSubtitle: 'Jump directly to the treatment area you want to review.',
+        viewTreatment: 'View Treatment',
+        imageCount_one: '{{count}} image',
+        imageCount_other: '{{count}} images',
+        beforeAfterLabel: 'Gallery',
+        openLightbox: 'Click to enlarge',
+        closeLightbox: 'Close gallery',
+        previousImage: 'Previous image',
+        nextImage: 'Next image',
+      },
+
 
       contact: {
         pageBadge: 'Appointment & Contact',
@@ -849,6 +884,7 @@ const resources = {
         aboutText: '20+ years of experience in Orthopedics and Traumatology, specializing in scoliosis, herniated disc, and joint treatments.',
         quickLinks: 'Quick Links',
         treatments: 'Treatments',
+        gallery: 'Gallery',
         healthGuide: 'Health Guide',
         contact: 'Contact',
         contactInfo: 'Contact',

@@ -35,6 +35,7 @@ export default function Navbar() {
     { name: t('nav.home'), href: currentLang === 'en' ? '/en' : '/' },
     { name: t('nav.about'), href: getLocalizedPath('about', i18n.language) },
     { name: t('nav.treatments'), href: getLocalizedPath('treatments', i18n.language) },
+    // { name: t('nav.gallery'), href: getLocalizedPath('gallery', i18n.language) },
     { name: t('nav.healthGuide'), href: getLocalizedPath('healthGuide', i18n.language) },
     { name: t('nav.contact'), href: getLocalizedPath('contact', i18n.language) },
   ];

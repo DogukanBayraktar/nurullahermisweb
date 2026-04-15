@@ -12,6 +12,7 @@ export default function Footer() {
   const pages = [
     { href: getLocalizedPath('about', i18n.language), label: t('nav.about') },
     { href: getLocalizedPath('treatments', i18n.language), label: t('footer.treatments') },
+    // { href: getLocalizedPath('gallery', i18n.language), label: t('footer.gallery') },
     { href: getLocalizedPath('healthGuide', i18n.language), label: t('footer.healthGuide') },
     // { href: getLocalizedPath('media', i18n.language), label: i18n.language?.startsWith('en') ? 'In The Media' : 'Basında Biz' },
     { href: getLocalizedPath('contact', i18n.language), label: t('footer.contact') },

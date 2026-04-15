@@ -8,6 +8,7 @@ const routeSegments = {
   tr: {
     about: 'hakkimda',
     treatments: 'tedaviler',
+    gallery: 'galeri',
     healthGuide: 'saglik-rehberi',
     contact: 'iletisim',
     media: 'basinda-biz',
@@ -15,6 +16,7 @@ const routeSegments = {
   en: {
     about: 'about',
     treatments: 'treatments',
+    gallery: 'gallery',
     healthGuide: 'health-guide',
     contact: 'contact',
     media: 'in-the-media',
@@ -97,6 +99,7 @@ export function getLangFromPathname(pathname: string): SiteLang {
   if (
     first === routeSegments.en.about ||
     first === routeSegments.en.treatments ||
+    first === routeSegments.en.gallery ||
     first === routeSegments.en.healthGuide ||
     first === routeSegments.en.contact ||
     first === routeSegments.en.media ||
@@ -151,6 +154,10 @@ export function getAlternateLocalizedPath(pathname: string, targetLanguage: stri
 
   if (first === routeSegments.tr.about || first === routeSegments.en.about) {
     return getLocalizedPath('about', targetLang);
+  }
+
+  if (first === routeSegments.tr.gallery || first === routeSegments.en.gallery) {
+    return getLocalizedPath('gallery', targetLang);
   }
 
   if (first === routeSegments.tr.contact || first === routeSegments.en.contact) {

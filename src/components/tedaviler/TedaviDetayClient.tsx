@@ -1,9 +1,18 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle2, AlertTriangle, HelpCircle, Scissors, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
+import {
+  AlertTriangle,
+  ArrowLeft,
+  CheckCircle2,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  HelpCircle,
+  Scissors,
+} from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useState, useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import '@/lib/i18n';
 import { getLocalizedTreatmentDetail } from '@/lib/treatments';
 import { getLocalizedPath } from '@/lib/routes';
@@ -39,9 +48,8 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
   const { t } = useTranslation();
   const [current, setCurrent] = useState(0);
   const total = images.length;
-
-  // Görsel yoksa bileşeni hiç render etme (Section'ı gizler)
-  if (!images || images.length === 0) return null;
+  const touchStartX = useRef<number | null>(null);
+  const touchEndX = useRef<number | null>(null);
 
   const prev = () => setCurrent((c) => (c - 1 + total) % total);
   const next = () => setCurrent((c) => (c + 1) % total);
@@ -52,12 +60,35 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
     return () => clearInterval(timer);
   }, [total]);
 
-  // Sadece 2 görsel göster: current ve sonraki
+  if (!images || images.length === 0) return null;
+
+  const handleTouchStart = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchStartX.current = event.touches[0]?.clientX ?? null;
+    touchEndX.current = null;
+  };
+
+  const handleTouchMove = (event: React.TouchEvent<HTMLDivElement>) => {
+    touchEndX.current = event.touches[0]?.clientX ?? null;
+  };
+
+  const handleTouchEnd = () => {
+    if (touchStartX.current === null || touchEndX.current === null) return;
+
+    const deltaX = touchStartX.current - touchEndX.current;
+    if (Math.abs(deltaX) < 40) return;
+
+    if (deltaX > 0) {
+      next();
+      return;
+    }
+
+    prev();
+  };
+
   const visibleImages = [0, 1].map((offset) => images[(current + offset) % total]);
 
   return (
     <section>
-      {/* Başlık & Açıklama - YAZILAR BÜYÜTÜLDÜ */}
       <div className="mb-10 text-center">
         <p className="mb-3 text-base font-bold uppercase tracking-[0.18em] text-blue-600">
           {t('treatmentsPage.resultsBadge')}
@@ -70,18 +101,38 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
         </p>
       </div>
 
-      {/* 2'li Grid Yapısı - Sabit 2 Kolon */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div
+        className="md:hidden"
+        onTouchStart={handleTouchStart}
+        onTouchMove={handleTouchMove}
+        onTouchEnd={handleTouchEnd}
+      >
+        <div className="overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-md">
+          <div className="relative h-80 overflow-hidden">
+            <img
+              src={images[current]}
+              alt={`${title} - gorsel ${current + 1}`}
+              className="h-full w-full object-cover transition-transform duration-500"
+            />
+            <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/55 to-transparent px-5 pb-5 pt-10">
+              <p className="text-xs font-bold uppercase tracking-[0.18em] text-white/80">
+                {current + 1} / {total}
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="hidden gap-6 md:grid md:grid-cols-2">
         {visibleImages.map((src, i) => (
           <div
             key={`${current}-${i}`}
             className="overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
           >
-            {/* Yükseklik artırıldı: h-96 (384px) / lg:h-[28rem] (448px) */}
-            <div className="relative h-96 lg:h-[28rem] overflow-hidden">
+            <div className="relative h-96 overflow-hidden lg:h-[28rem]">
               <img
                 src={src}
-                alt={`${title} – görsel ${(current + i) % total + 1}`}
+                alt={`${title} - gorsel ${(current + i) % total + 1}`}
                 className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
               />
             </div>
@@ -89,32 +140,29 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
         ))}
       </div>
 
-      {/* Navigasyon - Orijinal boyutlar korundu */}
       {total > 1 && (
         <div className="mt-7 flex items-center justify-center gap-4">
-          {/* Sol ok butonu - orijinal: h-11 w-11 */}
           <button
             onClick={prev}
             className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50"
-            aria-label="Önceki"
+            aria-label="Onceki"
           >
             <ChevronLeft className="h-5 w-5 text-slate-600" />
           </button>
 
-          {/* Dot indicatorlar - orijinal: h-1.5, w-2 / w-8 */}
           <div className="flex gap-2">
             {images.map((_, i) => (
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`h-1.5 cursor-pointer rounded-full transition-all duration-300 ${i === current ? 'w-8 bg-blue-600' : 'w-2 bg-slate-200 hover:bg-slate-300'
-                  }`}
-                aria-label={`Görsel ${i + 1}`}
+                className={`h-1.5 cursor-pointer rounded-full transition-all duration-300 ${
+                  i === current ? 'w-8 bg-blue-600' : 'w-2 bg-slate-200 hover:bg-slate-300'
+                }`}
+                aria-label={`Gorsel ${i + 1}`}
               />
             ))}
           </div>
 
-          {/* Sağ ok butonu - orijinal: h-11 w-11 */}
           <button
             onClick={next}
             className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50"
@@ -268,8 +316,8 @@ export default function TedaviDetayClient({
               </section>
             ) : null}
 
-            <div className="relative flex flex-col items-center justify-between gap-6 overflow-hidden rounded-[2rem] border border-white/10 p-8 shadow-2xl shadow-sky-950/20 md:flex-row md:p-10 hero-bg">
-              <div className="pointer-events-none absolute -top-16 -right-16 h-36 w-36 rounded-full bg-white/10 blur-2xl" />
+            <div className="hero-bg relative flex flex-col items-center justify-between gap-6 overflow-hidden rounded-[2rem] border border-white/10 p-8 shadow-2xl shadow-sky-950/20 md:flex-row md:p-10">
+              <div className="pointer-events-none absolute -right-16 -top-16 h-36 w-36 rounded-full bg-white/10 blur-2xl" />
               <div className="pointer-events-none absolute -bottom-12 -left-12 h-28 w-28 rounded-full bg-cyan-300/15 blur-2xl" />
               <div className="relative z-10 text-center md:text-left">
                 <p className="mb-2 text-xl font-bold text-white">

@@ -81,6 +81,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       alternates: { languages: { tr: `${BASE_URL}/tedaviler`, en: `${BASE_URL}/treatments` } },
     },
     {
+      url: `${BASE_URL}/galeri`,
+      lastModified: now,
+      changeFrequency: 'weekly',
+      priority: 0.8,
+      alternates: { languages: { tr: `${BASE_URL}/galeri`, en: `${BASE_URL}/gallery` } },
+    },
+    {
       url: `${BASE_URL}/saglik-rehberi`,
       lastModified: now,
       changeFrequency: 'weekly',
