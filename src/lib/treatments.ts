@@ -3,6 +3,12 @@ export const TREATMENTS_DATA = [
     slug: "skolyoz-kifoz-cerrahisi",
     title: "Skolyoz & Kifoz Cerrahisi",
     img: "/images/skolyoz-kifoz.avif",
+    images: [
+      "/images/69b7fcf232c107d58afb5fbe_skolyoz-3.jpg.avif",
+      "/images/69b7fcf298c193a1b456984e_skolyoz-2.jpg.avif",
+      "/images/69b80d3d2324c321ba53cae5_Kyphosis-before-after-1.jpg.avif",
+      "/images/69b8010e9d8850fbd786d629_kyphoscoliosis-2.jpg.avif",
+    ],
     category: "Omurga Cerrahisi",
     stats: [{ label: "VBT Cobb açısı", val: "40–65°" }, { label: "Hastane süresi", val: "3–5 gün" }, { label: "Düzeltme başarısı", val: "%85+" }],
     desc: [
@@ -50,6 +56,7 @@ export const TREATMENTS_DATA = [
     slug: "bel-fitigi-tedavisi",
     title: "Bel Fıtığı Tedavisi",
     img: "/images/bel-fitigi-1.avif",
+    // images: ["/images/bel-fitigi-1.avif"],
     category: "Omurga Cerrahisi",
     stats: [{ label: "Cerrahi kesi boyutu", val: "1.5 cm" }, { label: "Operasyon süresi", val: "45–60 dk" }, { label: "Yürüme zamanı", val: "Aynı gün" }],
     desc: [
@@ -85,6 +92,7 @@ export const TREATMENTS_DATA = [
     slug: "boyun-fitigi-cerrahisi",
     title: "Boyun Fıtığı Cerrahisi",
     img: "/images/boyun-fitigi.avif",
+    // images: ["/images/boyun-fitigi.avif"],
     category: "Omurga Cerrahisi",
     stats: [{ label: "Cerrahi kesi", val: "~3 cm" }, { label: "Hastane süresi", val: "1–2 gün" }, { label: "İşe dönüş", val: "2–4 hafta" }],
     desc: [
@@ -118,6 +126,7 @@ export const TREATMENTS_DATA = [
     slug: "diz-kalca-protezi",
     title: "Diz & Kalça Protezi",
     img: "/images/diz-kalca-protezi.avif",
+    // images: ["/images/diz-kalca-protezi.avif"],
     category: "Eklem Cerrahisi",
     stats: [{ label: "Yürüme zamanı", val: "Ertesi gün" }, { label: "Taburculuk", val: "2–3. gün" }, { label: "Protez ömrü", val: "20–25 yıl" }],
     desc: [
@@ -152,6 +161,7 @@ export const TREATMENTS_DATA = [
     slug: "cocuk-ortopedisi",
     title: "Çocuk Ortopedisi",
     img: "/images/cocuk-ortopedisi.avif",
+    // images: ["/images/cocuk-ortopedisi.avif"],
     category: "Çocuk Ortopedisi",
     stats: [{ label: "GKD erken başarı", val: "%95" }, { label: "Boy uzatma hızı", val: "1 mm/gün" }, { label: "Tedavi yaş aralığı", val: "0–18 yaş" }],
     desc: [
@@ -187,6 +197,7 @@ export const TREATMENTS_DATA = [
     slug: "artroskopik-cerrahi",
     title: "Artroskopik Cerrahi",
     img: "/images/artroskopik-cerrahi.avif",
+    // images: ["/images/artroskopik-cerrahi.avif"],
     category: "Artroskopik Cerrahi",
     stats: [{ label: "Kesi sayısı", val: "2 adet" }, { label: "Hastane süresi", val: "1–2 gün" }, { label: "ACL'de spora dönüş", val: "6–9 ay" }],
     desc: [

@@ -213,6 +213,7 @@ export default function Home() {
       'home.patientStories.scoliosisSurgery',
       'home.patientStories.herniation',
       'home.patientStories.kneeProsthesis',
+      'home.patientStories.hipProsthesis',
     ][index]),
     summary: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.summary`),
     story: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.story`),

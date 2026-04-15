@@ -80,6 +80,7 @@ const resources = {
           scoliosisSurgery: 'Skolyoz Cerrahisi',
           herniation: 'Bel Fıtığı',
           kneeProsthesis: 'Diz Protezi',
+          hipProsthesis: 'Kalça Protezi',
           readFullStory: 'Tüm Hikayeyi Oku',
           result: 'Sonuç',
           beforeAfter: 'Önce/Sonra',
@@ -337,6 +338,9 @@ const resources = {
         ctaTitle: '{{title}} için randevu alın',
         ctaSubtitle: 'Prof. Dr. Ermiş ile uzman değerlendirmesi için hemen iletişime geçin.',
         ctaButton: 'Hemen Randevu Al',
+        resultsBadge: 'Tedavi Sonuçları',
+        resultsTitle: 'Hastalarımızın Tedavi Sonuçları',
+        resultsSubtitle: 'Prof. Dr. Ermiş\'in gerçekleştirdiği başarılı operasyonlardan derlenen vaka örnekleri.',
       },
 
 
@@ -773,6 +777,9 @@ const resources = {
         ctaTitle: 'Book an appointment for {{title}}',
         ctaSubtitle: 'Contact us now for an expert evaluation with Prof. Dr. Ermiş.',
         ctaButton: 'Book Appointment Now',
+        resultsBadge: 'Treatment Results',
+        resultsTitle: 'Our Patients\' Treatment Outcomes',
+        resultsSubtitle: 'Case examples compiled from successful operations performed by Prof. Dr. Ermiş.',
       },
 
 

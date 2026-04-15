@@ -19,6 +19,7 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
         title: local.title,
         slug: local.slug,
         coverImage: local.img,
+        images: local.images,
         stats: local.stats,
         description: local.desc,
         symptoms: local.symptoms,

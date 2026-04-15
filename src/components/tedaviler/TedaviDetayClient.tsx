@@ -1,8 +1,9 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowLeft, CheckCircle2, AlertTriangle, HelpCircle, Scissors, ChevronDown } from 'lucide-react';
+import { ArrowLeft, CheckCircle2, AlertTriangle, HelpCircle, Scissors, ChevronDown, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useState, useEffect } from 'react';
 import '@/lib/i18n';
 import { getLocalizedTreatmentDetail } from '@/lib/treatments';
 import { getLocalizedPath } from '@/lib/routes';
@@ -28,9 +29,103 @@ interface TreatmentDetail {
   coverImage?: string;
   stats?: TreatmentStat[];
   description?: string[];
+  images?: string[];
   symptoms?: string[];
   treatments?: TreatmentMethod[];
   faq?: TreatmentFaq[];
+}
+
+function ImageSlider({ images, title }: { images: string[]; title: string }) {
+  const { t } = useTranslation();
+  const [current, setCurrent] = useState(0);
+  const total = images.length;
+
+  // Görsel yoksa bileşeni hiç render etme (Section'ı gizler)
+  if (!images || images.length === 0) return null;
+
+  const prev = () => setCurrent((c) => (c - 1 + total) % total);
+  const next = () => setCurrent((c) => (c + 1) % total);
+
+  useEffect(() => {
+    if (total <= 1) return;
+    const timer = setInterval(() => setCurrent((c) => (c + 1) % total), 5000);
+    return () => clearInterval(timer);
+  }, [total]);
+
+  // Sadece 2 görsel göster: current ve sonraki
+  const visibleImages = [0, 1].map((offset) => images[(current + offset) % total]);
+
+  return (
+    <section>
+      {/* Başlık & Açıklama - YAZILAR BÜYÜTÜLDÜ */}
+      <div className="mb-10 text-center">
+        <p className="mb-3 text-base font-bold uppercase tracking-[0.18em] text-blue-600">
+          {t('treatmentsPage.resultsBadge')}
+        </p>
+        <h2 className="mb-4 text-3xl font-extrabold text-slate-900 md:text-3xl">
+          {t('treatmentsPage.resultsTitle')}
+        </h2>
+        <p className="mx-auto max-w-2xl text-lg leading-relaxed text-slate-600">
+          {t('treatmentsPage.resultsSubtitle')}
+        </p>
+      </div>
+
+      {/* 2'li Grid Yapısı - Sabit 2 Kolon */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {visibleImages.map((src, i) => (
+          <div
+            key={`${current}-${i}`}
+            className="overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-md transition-all duration-300 hover:-translate-y-1 hover:shadow-xl"
+          >
+            {/* Yükseklik artırıldı: h-96 (384px) / lg:h-[28rem] (448px) */}
+            <div className="relative h-96 lg:h-[28rem] overflow-hidden">
+              <img
+                src={src}
+                alt={`${title} – görsel ${(current + i) % total + 1}`}
+                className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Navigasyon - Orijinal boyutlar korundu */}
+      {total > 1 && (
+        <div className="mt-7 flex items-center justify-center gap-4">
+          {/* Sol ok butonu - orijinal: h-11 w-11 */}
+          <button
+            onClick={prev}
+            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50"
+            aria-label="Önceki"
+          >
+            <ChevronLeft className="h-5 w-5 text-slate-600" />
+          </button>
+
+          {/* Dot indicatorlar - orijinal: h-1.5, w-2 / w-8 */}
+          <div className="flex gap-2">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`h-1.5 cursor-pointer rounded-full transition-all duration-300 ${i === current ? 'w-8 bg-blue-600' : 'w-2 bg-slate-200 hover:bg-slate-300'
+                  }`}
+                aria-label={`Görsel ${i + 1}`}
+              />
+            ))}
+          </div>
+
+          {/* Sağ ok butonu - orijinal: h-11 w-11 */}
+          <button
+            onClick={next}
+            className="flex h-11 w-11 cursor-pointer items-center justify-center rounded-xl border border-slate-200 bg-white shadow-sm transition-all hover:border-blue-300 hover:bg-blue-50"
+            aria-label="Sonraki"
+          >
+            <ChevronRight className="h-5 w-5 text-slate-600" />
+          </button>
+        </div>
+      )}
+    </section>
+  );
 }
 
 export default function TedaviDetayClient({
@@ -103,6 +198,10 @@ export default function TedaviDetayClient({
                   ))}
                 </div>
               </section>
+            ) : null}
+
+            {localizedTreatment.images?.length ? (
+              <ImageSlider images={localizedTreatment.images} title={localizedTreatment.title} />
             ) : null}
 
             {localizedTreatment.symptoms?.length ? (
