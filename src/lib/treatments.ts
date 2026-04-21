@@ -126,7 +126,13 @@ export const TREATMENTS_DATA = [
     slug: "diz-kalca-protezi",
     title: "Diz & Kalça Protezi",
     img: "/images/diz-kalca-protezi.avif",
-    // images: ["/images/diz-kalca-protezi.avif"],
+    images: [
+      "/images/diz-kalca/diz-protezi-before-after-2.jpg",
+      "/images/diz-kalca/diz-protezi-before-after-3.jpg",
+      "/images/diz-kalca/kalca-protezi-before-after-1.jpg",
+      "/images/diz-kalca/kalca-protezi-before-after-2.jpg",
+      "/images/diz-kalca/kalca1-protezi-before-after-1.jpg",
+    ],
     category: "Eklem Cerrahisi",
     stats: [{ label: "Yürüme zamanı", val: "Ertesi gün" }, { label: "Taburculuk", val: "2–3. gün" }, { label: "Protez ömrü", val: "20–25 yıl" }],
     desc: [

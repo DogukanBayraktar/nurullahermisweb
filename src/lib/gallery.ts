@@ -13,7 +13,7 @@ export const GALLERY_CATEGORIES: GalleryCategory[] = TREATMENTS_DATA.map((item) 
   title: item.title,
   category: item.category,
   coverImage: item.img,
-  images: [...new Set([...(item.images ?? []), item.img].filter(Boolean))],
+    images: [...new Set((item.images ?? []).filter(Boolean))],
 }));
 
 export function getLocalizedGalleryCategories(language?: string): GalleryCategory[] {
