@@ -42,12 +42,10 @@ export default function HealthGuideDetailClient({
   article,
   isLocal,
   otherArticles,
-  showStudioLink,
 }: {
   article: ArticleDetail;
   isLocal: boolean;
   otherArticles: RelatedArticle[];
-  showStudioLink: boolean;
 }) {
   const { i18n } = useTranslation();
   const lang = getCurrentLanguage(i18n.language);
@@ -97,17 +95,6 @@ export default function HealthGuideDetailClient({
         >
           <ArrowLeft className="mr-2 h-4 w-4" /> {ui.backToAll}
         </Link>
-
-        {showStudioLink && (
-          <div className="mb-4 text-right">
-            <Link
-              href="/studio"
-              className="rounded bg-slate-200 px-3 py-1 text-xs italic text-slate-600 transition-colors hover:bg-blue-100"
-            >
-              {ui.editInStudio}
-            </Link>
-          </div>
-        )}
 
         <div className="grid grid-cols-1 gap-10 lg:grid-cols-3">
           <article className="lg:col-span-2">

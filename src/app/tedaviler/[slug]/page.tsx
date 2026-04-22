@@ -9,11 +9,26 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
   const { slug } = await params;
 
   let treatment = await getTreatmentBySlug(slug);
-  let isLocal = false;
+  const local = TREATMENTS_DATA.find((t) => t.slug === slug);
+  let isLocal = Boolean(local);
+
+  if (treatment && local) {
+    treatment = {
+      ...treatment,
+      title: local.title,
+      slug: local.slug,
+      category: local.category,
+      coverImage: local.img,
+      images: local.images,
+      stats: local.stats,
+      description: local.desc,
+      symptoms: local.symptoms,
+      treatments: local.treatment,
+      faq: local.faq,
+    };
+  }
 
   if (!treatment) {
-    const local = TREATMENTS_DATA.find((t) => t.slug === slug);
-
     if (local) {
       treatment = {
         title: local.title,
@@ -26,7 +41,6 @@ export default async function TedaviDetayPage({ params }: { params: Promise<{ sl
         treatments: local.treatment,
         faq: local.faq,
       };
-      isLocal = true;
     }
   }
 

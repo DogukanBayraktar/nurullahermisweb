@@ -35,7 +35,7 @@ export default async function HealthGuideDetailPage({ params }: { params: Promis
   const local = localArticles.find((item) => item.slug === slug);
 
   let article = (await getArticleBySlug(getSanityArticleSlug(slug))) as ArticleDetail | null;
-  let isLocal = false;
+  let isLocal = Boolean(local);
 
   if (article && local) {
     article = {
@@ -48,6 +48,7 @@ export default async function HealthGuideDetailPage({ params }: { params: Promis
       coverImage: local.img,
       _localContent: local,
     };
+    isLocal = true;
   }
 
   if (!article && local) {
@@ -62,7 +63,6 @@ export default async function HealthGuideDetailPage({ params }: { params: Promis
       publishedAt: local.date,
       coverImage: local.img,
     };
-    isLocal = true;
   }
 
   if (!article) notFound();
@@ -97,7 +97,6 @@ export default async function HealthGuideDetailPage({ params }: { params: Promis
       article={article}
       isLocal={isLocal}
       otherArticles={otherArticles}
-      showStudioLink={!isLocal}
     />
   );
 }

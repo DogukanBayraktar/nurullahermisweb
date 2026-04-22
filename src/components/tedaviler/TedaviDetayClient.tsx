@@ -196,17 +196,6 @@ export default function TedaviDetayClient({
           <ArrowLeft className="mr-2 h-4 w-4" /> {t('treatmentsPage.backAll')}
         </Link>
 
-        {!isLocal && (
-          <div className="mb-4 text-right">
-            <Link
-              href="/studio"
-              className="rounded bg-slate-200 px-3 py-1 text-xs italic text-slate-600 transition-colors hover:bg-blue-100"
-            >
-              {t('treatmentsPage.editInStudio')}
-            </Link>
-          </div>
-        )}
-
         <div className="overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-sm">
           <div className="relative h-[24rem] w-full sm:h-[30rem] lg:h-[36rem]">
             {localizedTreatment.coverImage ? (
