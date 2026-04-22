@@ -3,8 +3,6 @@
 import React, { useMemo } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, UserRound, Clock, ChevronRight } from 'lucide-react';
-import { PortableText } from '@portabletext/react';
-import { urlFor } from '@/sanity/client';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getCurrentLanguage, getTranslatedLocalArticle, healthGuideUi } from '@/lib/healthGuideTranslations';
@@ -28,7 +26,6 @@ type ArticleDetail = {
   slug: string;
   category: string;
   summary: string;
-  content: unknown;
   readTime: string | number;
   publishedAt: string;
   coverImage?: string;
@@ -155,35 +152,7 @@ export default function HealthGuideDetailClient({
                       </section>
                     ))}
                   </div>
-                ) : (
-                  <div className="prose prose-slate max-w-none prose-headings:font-extrabold prose-headings:text-slate-900 prose-li:text-slate-600 prose-p:leading-relaxed prose-p:text-slate-600">
-                    <PortableText
-                      value={displayArticle.content as never}
-                      components={{
-                        types: {
-                          image: ({ value }: { value: unknown }) => (
-                            <div className="my-10 overflow-hidden rounded-2xl border border-slate-100 bg-slate-50 shadow-lg">
-                              <img src={urlFor(value).url()} alt="Visual" className="h-auto w-full" />
-                            </div>
-                          ),
-                        },
-                        block: {
-                          h2: ({ children }: { children?: React.ReactNode }) => (
-                            <h2 className="mt-14 mb-6 border-b-2 border-blue-50 pb-2 text-2xl font-extrabold text-slate-900 md:text-3xl">
-                              {children}
-                            </h2>
-                          ),
-                          h3: ({ children }: { children?: React.ReactNode }) => (
-                            <h3 className="mt-10 mb-4 text-xl font-bold text-slate-900 md:text-2xl">{children}</h3>
-                          ),
-                          normal: ({ children }: { children?: React.ReactNode }) => (
-                            <p className="mb-5 text-[1.1rem] leading-relaxed">{children}</p>
-                          ),
-                        },
-                      }}
-                    />
-                  </div>
-                )}
+                ) : null}
 
                 <div className="mt-16 flex items-center gap-5 rounded-3xl border border-slate-100 bg-slate-50 p-8">
                   <img

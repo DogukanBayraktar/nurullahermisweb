@@ -81,13 +81,6 @@ export function canonicalArticleSlug(slug: string) {
   return normalizeArticleSlug(slug);
 }
 
-export function getSanityArticleSlug(slug: string) {
-  const canonicalSlug = normalizeArticleSlug(slug);
-  if (canonicalSlug === 'boyun-fitiginiz-mi-var') return 'boyun-fitigi-belirtileri';
-  if (canonicalSlug === 'cocuklarda-kalca-cikigini-nasil-anlariz') return 'cocuk-ortopedisi-kalca-cikigi';
-  return canonicalSlug;
-}
-
 export function getLangFromPathname(pathname: string): SiteLang {
   const cleanPath = pathname === '/' ? '/' : pathname.replace(/\/$/, '');
 
