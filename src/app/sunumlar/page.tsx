@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { BookOpen, Calendar, ChevronRight, Search, X } from 'lucide-react';
 import { FadeIn } from '@/components/ui/fade-in';
@@ -149,10 +149,21 @@ const TYPE_LABELS: Record<Presentation['type'], string> = {
 export default function SunumlarPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedYear, setSelectedYear] = useState('Tümü');
+  const [dbPresentations, setDbPresentations] = useState<Presentation[] | null>(null);
 
-  const years = ['Tümü', ...Array.from(new Set(PRESENTATIONS.map((p) => p.year))).sort((a, b) => Number(b) - Number(a))];
+  useEffect(() => {
+    fetch('/api/public/sunumlar')
+      .then((r) => r.json())
+      .then((data: Presentation[]) => {
+        if (Array.isArray(data) && data.length > 0) setDbPresentations(data);
+      })
+      .catch(() => {});
+  }, []);
 
-  const filtered = PRESENTATIONS.filter((p) => {
+  const activePresentations = dbPresentations ?? PRESENTATIONS;
+  const years = ['Tümü', ...Array.from(new Set(activePresentations.map((p) => p.year))).sort((a, b) => Number(b) - Number(a))];
+
+  const filtered = activePresentations.filter((p) => {
     const q = searchQuery.toLowerCase();
     const matchesSearch =
       searchQuery === '' ||

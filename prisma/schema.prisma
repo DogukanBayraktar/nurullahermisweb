@@ -1,15 +1,74 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
+// prisma/schema.prisma
 
 generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
+  provider  = "postgresql"
+  url       = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
 }
-npm install @vercel/postgres prisma @prisma/client
-npx prisma init
+
+model HealthArticle {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String
+  img       String
+  date      String
+  readTime  String
+  category  String
+  desc      String   @db.Text
+  intro     String   @db.Text
+  sections  Json     // [{ h2: string, content: string }]
+  tags      String[] // string array
+  lang      String   @default("tr") // "tr" | "en"
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Treatment {
+  id        Int      @id @default(autoincrement())
+  slug      String   @unique
+  title     String
+  img       String
+  images    String[] // gallery images
+  category  String
+  stats     Json     // [{ label: string, val: string }]
+  desc      Json     // string[] (paragraphs)
+  symptoms  String[]
+  treatment Json     // [{ baslik: string, icerik: string }]
+  faq       Json     // [{ s: string, c: string }]
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PressItem {
+  id        Int      @id @default(autoincrement())
+  outlet    String
+  title     String
+  summary   String   @db.Text
+  date      String
+  format    String   // "tv" | "press" | "radio"
+  image     String
+  href      String
+  lang      String   @default("tr")
+  published Boolean  @default(true)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Presentation {
+  id        Int      @id @default(autoincrement())
+  year      String
+  title     String
+  congress  String
+  location  String
+  type      String   // "konferans" | "sempozyum" | "workshop" | "webinar"
+  language  String   // "TR" | "EN"
+  topic     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

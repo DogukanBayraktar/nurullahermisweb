@@ -1,31 +1,55 @@
+// src/app/tedaviler/[slug]/page.tsx
 import { notFound } from 'next/navigation';
 import { TREATMENTS_DATA } from '@/lib/treatments';
 import TedaviDetayClient from '@/components/tedaviler/TedaviDetayClient';
+import { prisma } from '@/lib/prisma';
 
 export const revalidate = 60;
 
 export default async function TedaviDetayPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  const local = TREATMENTS_DATA.find((t) => t.slug === slug);
-  const isLocal = Boolean(local);
-  const treatment = local
-    ? {
-        title: local.title,
-        slug: local.slug,
-        coverImage: local.img,
-        images: local.images,
-        stats: local.stats,
-        description: local.desc,
-        symptoms: local.symptoms,
-        treatments: local.treatment,
-        faq: local.faq,
-      }
-    : null;
+  // DB'den dene
+  try {
+    const dbTreatment = await prisma.treatment.findUnique({
+      where: { slug },
+    });
 
-  if (!treatment) {
-    notFound();
+    if (dbTreatment) {
+      const treatment = {
+        title: dbTreatment.title,
+        slug: dbTreatment.slug,
+        coverImage: dbTreatment.img,
+        images: dbTreatment.images,
+        stats: dbTreatment.stats as { label: string; val: string }[],
+        description: dbTreatment.desc,
+        symptoms: dbTreatment.symptoms,
+        treatments: dbTreatment.treatment as { baslik: string; icerik: string }[],
+        faq: dbTreatment.faq as { s: string; c: string }[],
+      };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      return <TedaviDetayClient treatment={treatment as any} isLocal={true} />;
+    }
+  } catch {
+    // DB hazır değil — fallback
   }
 
-  return <TedaviDetayClient treatment={treatment as any} isLocal={isLocal} />;
+  // .ts fallback
+  const local = TREATMENTS_DATA.find((t) => t.slug === slug);
+  if (!local) notFound();
+
+  const treatment = {
+    title: local.title,
+    slug: local.slug,
+    coverImage: local.img,
+    images: local.images,
+    stats: local.stats,
+    description: local.desc,
+    symptoms: local.symptoms,
+    treatments: local.treatment,
+    faq: local.faq,
+  };
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return <TedaviDetayClient treatment={treatment as any} isLocal={true} />;
 }

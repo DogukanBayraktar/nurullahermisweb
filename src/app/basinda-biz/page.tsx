@@ -213,11 +213,34 @@ export default function BasindaBizPage() {
   const lang = getLangFromPathname(pathname || '/');
   const copy = copyByLang[lang];
   const [page, setPage] = useState(1);
+  const [dbItems, setDbItems] = useState<PressItem[] | null>(null);
+
+  // DB'den güncel verileri çek (varsa override et)
+  useEffect(() => {
+    fetch(`/api/public/basin?lang=${lang}`)
+      .then((r) => r.json())
+      .then((data: Array<{ outlet: string; title: string; summary: string; date: string; format: 'tv'|'press'|'radio'; image: string; href: string }>) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setDbItems(data.map((d) => ({
+            outlet: d.outlet,
+            title: d.title,
+            summary: d.summary,
+            date: d.date,
+            format: d.format,
+            image: d.image,
+            href: d.href,
+          })));
+        }
+      })
+      .catch(() => {/* DB hazır değilse hardcoded veriyle devam */});
+  }, [lang]);
+
+  const activeItems = dbItems ?? copy.items;
   const pageSize = 6;
-  const pageCount = Math.ceil(copy.items.length / pageSize);
+  const pageCount = Math.ceil(activeItems.length / pageSize);
   const pagedItems = useMemo(
-    () => copy.items.slice((page - 1) * pageSize, page * pageSize),
-    [copy.items, page]
+    () => activeItems.slice((page - 1) * pageSize, page * pageSize),
+    [activeItems, page]
   );
 
   useEffect(() => {
