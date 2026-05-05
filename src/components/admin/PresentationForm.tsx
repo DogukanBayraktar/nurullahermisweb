@@ -19,6 +19,15 @@ type PresentationFormProps = {
 
 const inputCls = 'w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-900 text-sm placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow';
 
+function Field({ label, children }: { label: string; children: React.ReactNode }) {
+  return (
+    <div>
+      <label className="block text-xs font-medium text-slate-600 mb-1.5">{label}</label>
+      {children}
+    </div>
+  );
+}
+
 export default function PresentationForm({ defaultValues = {} }: PresentationFormProps) {
   const router = useRouter();
   const isEdit = !!defaultValues.id;
@@ -60,13 +69,6 @@ export default function PresentationForm({ defaultValues = {} }: PresentationFor
     }
   }
 
-  const F = ({ label, children }: { label: string; children: React.ReactNode }) => (
-    <div>
-      <label className="block text-xs font-medium text-slate-600 mb-1.5">{label}</label>
-      {children}
-    </div>
-  );
-
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">{error}</div>}
@@ -74,41 +76,41 @@ export default function PresentationForm({ defaultValues = {} }: PresentationFor
       <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
         <h2 className="text-sm font-semibold text-slate-700">Sunum Bilgileri</h2>
 
-        <F label="Başlık">
+        <Field label="Başlık">
           <input value={form.title} onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))} className={inputCls} required />
-        </F>
+        </Field>
 
-        <F label="Kongre / Etkinlik Adı">
+        <Field label="Kongre / Etkinlik Adı">
           <input value={form.congress} onChange={(e) => setForm((f) => ({ ...f, congress: e.target.value }))} placeholder="38. Türk Ortopedi Kongresi" className={inputCls} />
-        </F>
+        </Field>
 
         <div className="grid grid-cols-3 gap-4">
-          <F label="Yıl">
+          <Field label="Yıl">
             <input value={form.year} onChange={(e) => setForm((f) => ({ ...f, year: e.target.value }))} placeholder="2024" className={inputCls} />
-          </F>
-          <F label="Tür">
+          </Field>
+          <Field label="Tür">
             <select value={form.type} onChange={(e) => setForm((f) => ({ ...f, type: e.target.value }))} className={inputCls}>
               <option value="konferans">Konferans</option>
               <option value="sempozyum">Sempozyum</option>
               <option value="workshop">Workshop</option>
               <option value="webinar">Webinar</option>
             </select>
-          </F>
-          <F label="Dil">
+          </Field>
+          <Field label="Dil">
             <select value={form.language} onChange={(e) => setForm((f) => ({ ...f, language: e.target.value }))} className={inputCls}>
               <option value="TR">Türkçe (TR)</option>
               <option value="EN">English (EN)</option>
             </select>
-          </F>
+          </Field>
         </div>
 
         <div className="grid grid-cols-2 gap-4">
-          <F label="Konum">
+          <Field label="Konum">
             <input value={form.location} onChange={(e) => setForm((f) => ({ ...f, location: e.target.value }))} placeholder="İstanbul, Türkiye" className={inputCls} />
-          </F>
-          <F label="Konu">
+          </Field>
+          <Field label="Konu">
             <input value={form.topic} onChange={(e) => setForm((f) => ({ ...f, topic: e.target.value }))} placeholder="Skolyoz" className={inputCls} />
-          </F>
+          </Field>
         </div>
       </div>
 

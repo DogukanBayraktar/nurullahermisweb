@@ -1,8 +1,10 @@
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import AdminSessionProvider from '@/components/admin/AdminSessionProvider';
+import { Inter } from 'next/font/google';
 
-// Admin sayfalarının arama motorlarında indexlenmesini engelle
+const inter = Inter({ subsets: ['latin'] });
+
 export const metadata = {
   title: 'Admin Paneli | nurullahermis.com',
   robots: { index: false, follow: false },
@@ -11,9 +13,6 @@ export const metadata = {
 export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   const session = await getServerSession(authOptions);
 
-  // Bu layout kendi SessionProvider'ını sağlar.
-  // Sitenin ana layout.tsx'i (Navbar, Footer, Topline vs.) burada çalışmaya
-  // devam eder ama admin sayfaları AdminShell içinde tamamen ayrı görünür.
   return (
     <AdminSessionProvider session={session}>
       {children}

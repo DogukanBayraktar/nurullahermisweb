@@ -1,3 +1,5 @@
+import articleSlugMapData from './articleSlugMap.json';
+
 export type SiteLang = 'tr' | 'en';
 
 export function getSiteLang(language?: string): SiteLang {
@@ -32,15 +34,22 @@ const treatmentSlugMap: Record<string, string> = {
   'artroskopik-cerrahi': 'arthroscopic-surgery',
 };
 
-const articleSlugMap: Record<string, string> = {
-  'bel-fitigi-ameliyati': 'lumbar-disc-surgery',
-  'skolyoz-belirtileri-tedavisi': 'scoliosis-symptoms-treatment',
-  'diz-protezi-ameliyati': 'knee-replacement-surgery',
-  'boyun-fitiginiz-mi-var': 'do-you-have-a-cervical-disc-herniation',
-  'cocuklarda-kalca-cikigini-nasil-anlariz': 'how-can-we-recognize-hip-dislocation-in-children',
-  'acl-cop-bag-ameliyati': 'acl-surgery',
-  'skolyoz-egzersizleri': 'scoliosis-exercises',
-};
+let articleSlugMap: Record<string, string> = { ...articleSlugMapData };
+
+// Dinamik slug çözümü: DB'den gelen EN makalelerin slug'larını da işle
+// EN slug → TR canonical: "lumbar-disc-surgery" → "bel-fitigi-ameliyati"
+// Bu fonksiyon hem statik map'i hem de runtime'da gelen slugları destekler
+export function buildArticleSlugMapFromPairs(
+  pairs: { trSlug: string; enSlug: string }[]
+) {
+  pairs.forEach(({ trSlug, enSlug }) => {
+    const tr = trSlug.replace(/_tr$/, '');
+    const en = enSlug.replace(/_en$/, '');
+    if (tr && en && !articleSlugMap[tr]) {
+      articleSlugMap[tr] = en;
+    }
+  });
+}
 
 const legacyArticleSlugMap: Record<string, string> = {
   'boyun-fitigi-belirtileri': 'boyun-fitiginiz-mi-var',
@@ -168,7 +177,9 @@ export function getAlternateLocalizedPath(pathname: string, targetLanguage: stri
 
   if (isTrHealthGuide || isEnHealthGuide) {
     if (!second) return getLocalizedPath('healthGuide', targetLang);
-    return getLocalizedPath('healthGuide', targetLang, canonicalArticleSlug(second), 'article');
+    const canonical = canonicalArticleSlug(second);
+    // localized slug map'te varsa onu kullan, yoksa canonical (aynı) slug ile devam et
+    return getLocalizedPath('healthGuide', targetLang, canonical, 'article');
   }
 
   return targetLang === 'en' ? cleanPath : cleanPath;

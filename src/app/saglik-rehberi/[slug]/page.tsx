@@ -1,9 +1,9 @@
 // src/app/saglik-rehberi/[slug]/page.tsx
 import { notFound } from 'next/navigation';
-import { getDefaultLocalArticles, type LocalArticleShape } from '@/lib/healthGuideTranslations';
+import { getTranslatedLocalArticle, getAllTranslatedLocalArticles, type LocalArticleShape } from '@/lib/healthGuideTranslations';
 import { canonicalArticleSlug } from '@/lib/routes';
 import HealthGuideDetailClient from '@/components/blog/HealthGuideDetailClient';
-import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 
 export const revalidate = 60;
 
@@ -28,73 +28,112 @@ type ArticleDetail = {
   _localContent?: LocalArticle;
 };
 
-export default async function HealthGuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+export async function renderHealthGuideDetailPage({
+  params,
+  forceLang,
+}: {
+  params: Promise<{ slug: string }>;
+  forceLang?: 'tr' | 'en';
+}) {
   const { slug: rawSlug } = await params;
   const slug = canonicalArticleSlug(rawSlug);
 
   let article: ArticleDetail | null = null;
   let otherArticles: RelatedArticle[] = [];
+  let alternateSlug: string | null = null;
 
   // DB'den dene
   try {
-    const dbArticle = await prisma.healthArticle.findFirst({
-      where: {
-        OR: [
-          { slug: `${slug}_tr` },
-          { slug: `${slug}_en` },
-          { slug },
-        ],
-        published: true,
-      },
-    });
-
-    if (dbArticle) {
-      const localContent: LocalArticle = {
-        slug: slug,
-        title: dbArticle.title,
-        img: dbArticle.img,
-        date: dbArticle.date,
-        readTime: dbArticle.readTime,
-        category: dbArticle.category,
-        desc: dbArticle.desc,
-        intro: dbArticle.intro,
-        sections: dbArticle.sections as { h2: string; content: string }[],
-        tags: dbArticle.tags,
-      };
-
-      article = {
-        title: dbArticle.title,
-        slug,
-        category: dbArticle.category,
-        summary: dbArticle.desc,
-        _localContent: localContent,
-        readTime: dbArticle.readTime,
-        publishedAt: dbArticle.date,
-        coverImage: dbArticle.img,
-      };
-
-      // Related articles from DB
-      const related = await prisma.healthArticle.findMany({
-        where: { published: true, NOT: { id: dbArticle.id } },
-        take: 4,
-        orderBy: { createdAt: 'desc' },
+    if (hasDatabaseUrl) {
+      // Önce hedeflenen dildeki makaleyi bul
+      // Suffix'li (skolyoz_tr) veya direkt (skolyoz) olabilir
+      const targetSuffix = forceLang === 'en' ? '_en' : '_tr';
+      
+      const dbArticle = await prisma.healthArticle.findFirst({
+        where: {
+          OR: [
+            { slug: `${slug}${targetSuffix}`, published: true },
+            { slug: slug, lang: forceLang || 'tr', published: true },
+          ],
+        },
       });
-      otherArticles = related.map((r) => ({
-        title: r.title,
-        slug: r.slug.replace(/_tr$/, '').replace(/_en$/, ''),
-        category: r.category,
-        publishedAt: r.date,
-        coverImage: r.img,
-      }));
+
+      console.log('DEBUG: renderHealthGuideDetailPage', {
+        rawSlug,
+        slug,
+        forceLang,
+        targetSuffix,
+        foundId: dbArticle?.id,
+        foundSlug: dbArticle?.slug,
+        foundLang: dbArticle?.lang
+      });
+
+      if (dbArticle) {
+        const localContent: LocalArticle = {
+          slug: slug,
+          title: dbArticle.title,
+          img: dbArticle.img,
+          date: dbArticle.date,
+          readTime: dbArticle.readTime,
+          category: dbArticle.category,
+          desc: dbArticle.desc,
+          intro: dbArticle.intro,
+          sections: dbArticle.sections as { h2: string; content: string }[],
+          tags: dbArticle.tags,
+        };
+
+        article = {
+          title: dbArticle.title,
+          slug,
+          category: dbArticle.category,
+          summary: dbArticle.desc,
+          _localContent: localContent,
+          readTime: dbArticle.readTime,
+          publishedAt: dbArticle.date,
+          coverImage: dbArticle.img,
+        };
+
+        // Karşı dildeki slug'ı bul (Navbar için ipucu olabilir)
+        const otherLang = forceLang === 'en' ? 'tr' : 'en';
+        const otherSuffix = otherLang === 'en' ? '_en' : '_tr';
+        const pairArticle = await prisma.healthArticle.findFirst({
+          where: {
+            OR: [
+              { slug: `${slug}${otherSuffix}`, published: true },
+              { slug: slug, lang: otherLang, published: true },
+            ],
+          },
+          select: { slug: true }
+        });
+        
+        if (pairArticle) {
+          alternateSlug = pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '');
+        }
+
+        // Related articles from DB
+        const related = await prisma.healthArticle.findMany({
+          where: { published: true, lang: forceLang || 'tr', NOT: { id: dbArticle.id } },
+          take: 4,
+          orderBy: { createdAt: 'desc' },
+        });
+        otherArticles = related.map((r) => ({
+          title: r.title,
+          slug: r.slug.replace(/_tr$/, '').replace(/_en$/, ''),
+          category: r.category,
+          publishedAt: r.date,
+          coverImage: r.img,
+        }));
+      }
     }
-  } catch {
-    // DB hatası — fallback
+  } catch (error) {
+    console.error('DB fetch error in HealthGuideDetailPage:', error);
   }
 
   // DB'de yoksa .ts fallback
   if (!article) {
-    const localArticles = getDefaultLocalArticles();
-    const local = localArticles.find((item) => item.slug === slug);
+    const langToUse = forceLang || 'tr';
+    const local = getTranslatedLocalArticle(slug, langToUse);
+    
     if (!local) notFound();
 
     article = {
@@ -108,6 +147,7 @@ export default async function HealthGuideDetailPage({ params }: { params: Promis
       coverImage: local.img,
     };
 
+    const localArticles = getAllTranslatedLocalArticles(langToUse);
     otherArticles = localArticles
       .filter((item) => item.slug !== slug)
       .slice(0, 4)
@@ -120,11 +160,18 @@ export default async function HealthGuideDetailPage({ params }: { params: Promis
       }));
   }
 
+  const isLocal = !hasDatabaseUrl || article._localContent?.intro === undefined;
+
   return (
     <HealthGuideDetailClient
       article={article}
-      isLocal={true}
+      isLocal={isLocal}
       otherArticles={otherArticles}
+      alternateSlug={alternateSlug}
     />
   );
+}
+
+export default async function HealthGuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  return renderHealthGuideDetailPage({ params, forceLang: undefined });
 }

@@ -2,8 +2,9 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import AdminShell from '@/components/admin/AdminShell';
+import AdminNotice from '@/components/admin/AdminNotice';
 import Link from 'next/link';
 import { Plus, Pencil } from 'lucide-react';
 import DeleteButton from '@/components/admin/DeleteButton';
@@ -12,7 +13,9 @@ export default async function SunumlarAdminPage() {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/admin/login');
 
-  const items = await prisma.presentation.findMany({ orderBy: { year: 'desc' } });
+  const items = hasDatabaseUrl
+    ? await prisma.presentation.findMany({ orderBy: { year: 'desc' } }).catch(() => [])
+    : [];
 
   return (
     <AdminShell>
@@ -32,7 +35,14 @@ export default async function SunumlarAdminPage() {
         </div>
 
         <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden">
-          {items.length === 0 ? (
+          {!hasDatabaseUrl ? (
+            <div className="p-6">
+              <AdminNotice
+                title="Veritabanı bağlantısı bekleniyor"
+                message="Sunum kayıtlarını yönetmek için önce Vercel Postgres bağlantısı ve Prisma tabloları hazırlanmalı."
+              />
+            </div>
+          ) : items.length === 0 ? (
             <div className="p-12 text-center text-slate-400 text-sm">
               Henüz sunum yok.{' '}
               <Link href="/admin/sunumlar/yeni" className="text-blue-600 hover:underline">Ekle →</Link>

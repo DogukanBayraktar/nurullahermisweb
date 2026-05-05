@@ -2,39 +2,40 @@
 import { notFound } from 'next/navigation';
 import { TREATMENTS_DATA } from '@/lib/treatments';
 import TedaviDetayClient from '@/components/tedaviler/TedaviDetayClient';
-import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 
 export const revalidate = 60;
 
 export default async function TedaviDetayPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+  let dbTreatment = null;
 
-  // DB'den dene
   try {
-    const dbTreatment = await prisma.treatment.findUnique({
-      where: { slug },
-    });
-
-    if (dbTreatment) {
-      const treatment = {
-        title: dbTreatment.title,
-        slug: dbTreatment.slug,
-        coverImage: dbTreatment.img,
-        images: dbTreatment.images,
-        stats: dbTreatment.stats as { label: string; val: string }[],
-        description: dbTreatment.desc,
-        symptoms: dbTreatment.symptoms,
-        treatments: dbTreatment.treatment as { baslik: string; icerik: string }[],
-        faq: dbTreatment.faq as { s: string; c: string }[],
-      };
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return <TedaviDetayClient treatment={treatment as any} isLocal={true} />;
+    if (hasDatabaseUrl) {
+      dbTreatment = await prisma.treatment.findUnique({
+        where: { slug },
+      });
     }
   } catch {
-    // DB hazır değil — fallback
+    // DB hazir degilse statik veriye dus.
   }
 
-  // .ts fallback
+  if (dbTreatment) {
+    const treatment = {
+      title: dbTreatment.title,
+      slug: dbTreatment.slug,
+      coverImage: dbTreatment.img,
+      images: dbTreatment.images,
+      stats: dbTreatment.stats as { label: string; val: string }[],
+      description: dbTreatment.desc,
+      symptoms: dbTreatment.symptoms,
+      treatments: dbTreatment.treatment as { baslik: string; icerik: string }[],
+      faq: dbTreatment.faq as { s: string; c: string }[],
+    };
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return <TedaviDetayClient treatment={treatment as any} isLocal={true} />;
+  }
+
   const local = TREATMENTS_DATA.find((t) => t.slug === slug);
   if (!local) notFound();
 

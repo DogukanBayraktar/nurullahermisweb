@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { ChevronRight, ChevronLeft, ChevronUp, ChevronDown, Star, Quote, Play, Newspaper, ExternalLink } from "lucide-react";
 import { FadeIn } from "@/components/ui/fade-in";
@@ -195,8 +195,6 @@ export default function Home() {
   const { t, i18n } = useTranslation();
   const currentLang = i18n?.resolvedLanguage || i18n?.language || 'tr';
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
-  const [selectedVideoId, setSelectedVideoId] = useState(YOUTUBE_VIDEOS[0]?.id ?? "");
-  const [videoListStart, setVideoListStart] = useState(0);
 
   const testimonials = t('testimonialsData', { returnObjects: true }) as Array<{ text: string; author: string; detail: string }>;
 
@@ -263,35 +261,19 @@ export default function Home() {
       },
     ];
 
-  const selectedVideoIndex = Math.max(0, YOUTUBE_VIDEOS.findIndex((video) => video.id === selectedVideoId));
-  const selectedVideo = YOUTUBE_VIDEOS[selectedVideoIndex] ?? YOUTUBE_VIDEOS[0];
-  const visibleVideoCount = 4;
-  const visibleVideos = YOUTUBE_VIDEOS.slice(videoListStart, videoListStart + visibleVideoCount);
-  const canScrollVideosUp = videoListStart > 0;
-  const canScrollVideosDown = videoListStart + visibleVideoCount < YOUTUBE_VIDEOS.length;
-
-  const nextTestimonial = useCallback(() => {
+  const nextTestimonial = () => {
     setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
-  }, []);
+  };
   const prevTestimonial = () => {
     setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length);
   };
 
   useEffect(() => {
-    const interval = setInterval(nextTestimonial, 5000);
+    const interval = setInterval(() => {
+      setCurrentTestimonial((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
     return () => clearInterval(interval);
-  }, [nextTestimonial]);
-
-  useEffect(() => {
-    if (selectedVideoIndex < videoListStart) {
-      setVideoListStart(selectedVideoIndex);
-      return;
-    }
-
-    if (selectedVideoIndex >= videoListStart + visibleVideoCount) {
-      setVideoListStart(selectedVideoIndex - visibleVideoCount + 1);
-    }
-  }, [selectedVideoIndex, videoListStart]);
+  }, [testimonials.length]);
 
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden bg-[linear-gradient(180deg,#f8fafc_0%,#ffffff_16%,#f8fbff_46%,#ffffff_72%,#f8fafc_100%)]">

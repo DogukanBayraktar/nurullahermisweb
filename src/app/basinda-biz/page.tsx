@@ -212,7 +212,7 @@ export default function BasindaBizPage() {
   const pathname = usePathname();
   const lang = getLangFromPathname(pathname || '/');
   const copy = copyByLang[lang];
-  const [page, setPage] = useState(1);
+  const [pagination, setPagination] = useState({ lang, page: 1 });
   const [dbItems, setDbItems] = useState<PressItem[] | null>(null);
 
   // DB'den güncel verileri çek (varsa override et)
@@ -237,15 +237,12 @@ export default function BasindaBizPage() {
 
   const activeItems = dbItems ?? copy.items;
   const pageSize = 6;
+  const page = pagination.lang === lang ? pagination.page : 1;
   const pageCount = Math.ceil(activeItems.length / pageSize);
   const pagedItems = useMemo(
     () => activeItems.slice((page - 1) * pageSize, page * pageSize),
     [activeItems, page]
   );
-
-  useEffect(() => {
-    setPage(1);
-  }, [lang]);
 
   return (
     <div className="min-h-screen bg-white text-slate-900">
@@ -333,7 +330,7 @@ export default function BasindaBizPage() {
                 <button
                   key={pageNumber}
                   type="button"
-                  onClick={() => setPage(pageNumber)}
+                  onClick={() => setPagination({ lang, page: pageNumber })}
                   className={`inline-flex h-11 min-w-11 items-center justify-center rounded-full border px-4 text-sm font-bold transition-all ${
                     page === pageNumber
                       ? 'border-blue-600 bg-blue-600 text-white shadow-lg shadow-blue-600/20'

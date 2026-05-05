@@ -6,11 +6,15 @@ import { prisma } from '@/lib/prisma';
 import AdminShell from '@/components/admin/AdminShell';
 import PressForm from '@/components/admin/PressForm';
 
-export default async function EditPressPage({ params }: { params: { id: string } }) {
+export default async function EditPressPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/admin/login');
 
-  const item = await prisma.pressItem.findUnique({ where: { id: Number(params.id) } });
+  const { id: idStr } = await params;
+  const id = Number(idStr);
+  if (!idStr || Number.isNaN(id)) notFound();
+
+  const item = await prisma.pressItem.findUnique({ where: { id } });
   if (!item) notFound();
 
   return (

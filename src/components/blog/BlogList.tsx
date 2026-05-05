@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useTranslation } from 'react-i18next';
 import { Clock, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
@@ -20,20 +20,22 @@ interface Article {
   coverImage?: string;
 }
 
+type Filters = {
+  allLabel: string;
+  activeCategory: string;
+  visibleCount: number;
+};
+
 export default function BlogList({ initialArticles }: { initialArticles: Article[] }) {
   const { i18n } = useTranslation();
   const lang = getCurrentLanguage(i18n.language);
   const ui = healthGuideUi[lang];
-  const [activeCategory, setActiveCategory] = useState<string>(ui.all);
-  const [visibleCount, setVisibleCount] = useState(7);
+  const [filters, setFilters] = useState<Filters>({ allLabel: ui.all, activeCategory: ui.all, visibleCount: 7 });
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const categories = useMemo(() => [ui.all, ...Array.from(new Set(initialArticles.map((a) => a.category).filter(Boolean)))], [initialArticles, ui.all]);
-
-  useEffect(() => {
-    setActiveCategory(ui.all);
-    setVisibleCount(7);
-  }, [ui.all]);
+  const activeCategory = filters.allLabel === ui.all ? filters.activeCategory : ui.all;
+  const visibleCount = filters.allLabel === ui.all ? filters.visibleCount : 7;
 
   const filtered =
     activeCategory === ui.all
@@ -51,8 +53,7 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
   };
 
   const handleCategoryChange = (category: string) => {
-    setActiveCategory(category);
-    setVisibleCount(7);
+    setFilters({ allLabel: ui.all, activeCategory: category, visibleCount: 7 });
   };
 
   const formatReadTime = (value: number | string | undefined) => {
@@ -211,7 +212,13 @@ export default function BlogList({ initialArticles }: { initialArticles: Article
                   <div className="mt-10 flex justify-center">
                     <button
                       type="button"
-                      onClick={() => setVisibleCount((count) => count + 6)}
+                      onClick={() =>
+                        setFilters((current) => ({
+                          allLabel: ui.all,
+                          activeCategory,
+                          visibleCount: (current.allLabel === ui.all ? current.visibleCount : 7) + 6,
+                        }))
+                      }
                       className="rounded-full border border-slate-200 bg-white px-6 py-3 text-sm font-bold text-slate-700 transition-all hover:border-blue-300 hover:bg-blue-50 hover:text-blue-600"
                     >
                       {ui.showMore}

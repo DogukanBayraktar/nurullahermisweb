@@ -18,16 +18,25 @@ type Article = {
   coverImage?: string;
 };
 
-export default function HealthGuidePageClient({ initialArticles }: { initialArticles: Article[] }) {
+export default function HealthGuidePageClient({
+  initialArticles,
+  forceLang,
+}: {
+  initialArticles: Article[];
+  forceLang?: 'tr' | 'en';
+}) {
   const { i18n } = useTranslation();
-  const lang = getCurrentLanguage(i18n.language);
+  const lang = forceLang ?? getCurrentLanguage(i18n.language);
   const ui = healthGuideUi[lang];
 
   const translatedArticles = useMemo(
     () =>
       initialArticles.map((article) => {
+        // DB'den gelen makale — override etme, DB'deki içerik geçerli
+        if (article._id.startsWith('db-')) return article;
+        // .ts fallback — dil çevirisi uygula
         const localArticle = getTranslatedLocalArticle(article.slug, lang);
-        if (!localArticle || !article._id.startsWith('local-')) return article;
+        if (!localArticle) return article;
         return {
           ...article,
           title: localArticle.title,

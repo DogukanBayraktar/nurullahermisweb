@@ -35,7 +35,6 @@ export default function Topline() {
       window.localStorage.setItem('i18nextLng', lang);
     }
 
-    document.documentElement.lang = lang;
     setIsLanguageOpen(false);
     router.push(href);
   };

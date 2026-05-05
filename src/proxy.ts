@@ -2,8 +2,11 @@ import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 
 export default withAuth(
-  function middleware() {
-    return NextResponse.next();
+  function middleware(req) {
+    // Admin layout'unun Navbar/Footer'ı gizleyebilmesi için pathname header'ı ekle
+    const requestHeaders = new Headers(req.headers);
+    requestHeaders.set('x-pathname', req.nextUrl.pathname);
+    return NextResponse.next({ request: { headers: requestHeaders } });
   },
   {
     callbacks: {
@@ -18,7 +21,5 @@ export default withAuth(
 );
 
 export const config = {
-  // Sadece /admin altındaki tüm rotaları yakala
-  // Sitenin mevcut i18n/routing mantığına dokunmaz
   matcher: ['/admin/:path*'],
 };

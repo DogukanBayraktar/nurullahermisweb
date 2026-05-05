@@ -1,7 +1,7 @@
 // src/app/tedaviler/page.tsx
 import { TREATMENTS_DATA } from '@/lib/treatments';
 import TedavilerPageClient from '@/components/tedaviler/TedavilerPageClient';
-import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 
 export const revalidate = 60;
 
@@ -12,14 +12,16 @@ export default async function TedavilerPage() {
     slug: string;
     category: string;
     coverImage: string;
-    description: unknown;
+    description: string[] | undefined;
   }[] = [];
 
   try {
-    const dbRows = await prisma.treatment.findMany({
-      where: { published: true },
-      orderBy: { createdAt: 'asc' },
-    });
+    const dbRows = hasDatabaseUrl
+      ? await prisma.treatment.findMany({
+          where: { published: true },
+          orderBy: { createdAt: 'asc' },
+        })
+      : [];
 
     if (dbRows.length > 0) {
       combinedTreatments = dbRows.map((t) => ({
@@ -28,7 +30,7 @@ export default async function TedavilerPage() {
         slug: t.slug,
         category: t.category,
         coverImage: t.img,
-        description: t.desc,
+        description: Array.isArray(t.desc) ? (t.desc as string[]) : undefined,
       }));
     }
   } catch {

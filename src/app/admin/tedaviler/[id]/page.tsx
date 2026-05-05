@@ -6,11 +6,15 @@ import { prisma } from '@/lib/prisma';
 import AdminShell from '@/components/admin/AdminShell';
 import TreatmentForm from '@/components/admin/TreatmentForm';
 
-export default async function EditTreatmentPage({ params }: { params: { id: string } }) {
+export default async function EditTreatmentPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/admin/login');
 
-  const t = await prisma.treatment.findUnique({ where: { id: Number(params.id) } });
+  const { id: idStr } = await params;
+  const id = Number(idStr);
+  if (!idStr || Number.isNaN(id)) notFound();
+
+  const t = await prisma.treatment.findUnique({ where: { id } });
   if (!t) notFound();
 
   return (

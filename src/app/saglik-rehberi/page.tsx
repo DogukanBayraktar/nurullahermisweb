@@ -1,6 +1,6 @@
 // src/app/saglik-rehberi/page.tsx
-import { prisma } from '@/lib/prisma';
-import { getDefaultLocalArticles } from '@/lib/healthGuideTranslations';
+import { hasDatabaseUrl, prisma } from '@/lib/prisma';
+import { getDefaultLocalArticles, getAllTranslatedLocalArticles } from '@/lib/healthGuideTranslations';
 import HealthGuidePageClient from '@/components/blog/HealthGuidePageClient';
 
 export const revalidate = 60;
@@ -16,19 +16,21 @@ type LocalArticle = {
   coverImage?: string;
 };
 
-export default async function HealthGuidePage() {
-  // DB'den önce dene, hata varsa fallback
+export default async function HealthGuidePage({ lang: forceLang }: { lang?: 'tr' | 'en' }) {
+  const lang = forceLang ?? 'tr';
+
   let dbArticles: LocalArticle[] = [];
   try {
-    const rows = await prisma.healthArticle.findMany({
-      where: { lang: 'tr', published: true },
-      orderBy: { createdAt: 'desc' },
-    });
+    const rows = hasDatabaseUrl
+      ? await prisma.healthArticle.findMany({
+          where: { lang, published: true },
+          orderBy: { createdAt: 'desc' },
+        })
+      : [];
     if (rows.length > 0) {
       dbArticles = rows.map((a) => ({
         _id: `db-${a.id}`,
         title: a.title,
-        // slug'dan _tr suffix'ini temizle
         slug: a.slug.replace(/_tr$/, '').replace(/_en$/, ''),
         category: a.category,
         summary: a.desc,
@@ -42,9 +44,13 @@ export default async function HealthGuidePage() {
   }
 
   // Eğer DB boşsa .ts fallback
+  const fallbackArticles = lang === 'en'
+    ? getAllTranslatedLocalArticles('en')
+    : getDefaultLocalArticles();
+
   const combined: LocalArticle[] = dbArticles.length > 0
     ? dbArticles
-    : getDefaultLocalArticles().map((local) => ({
+    : fallbackArticles.map((local) => ({
         _id: `local-${local.slug}`,
         title: local.title,
         slug: local.slug,
@@ -55,5 +61,5 @@ export default async function HealthGuidePage() {
         coverImage: local.img,
       }));
 
-  return <HealthGuidePageClient initialArticles={combined} />;
+  return <HealthGuidePageClient initialArticles={combined} forceLang={lang} />;
 }

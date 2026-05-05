@@ -2,18 +2,22 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import AdminShell from '@/components/admin/AdminShell';
+import AdminNotice from '@/components/admin/AdminNotice';
+import { RebuildSlugMapButton } from '@/components/admin/RebuildSlugMapButton';
 import Link from 'next/link';
-import { Plus, Pencil, Trash2, Eye, EyeOff } from 'lucide-react';
+import { Plus, Pencil, Eye, EyeOff } from 'lucide-react';
 
 export default async function SaglikRehberiAdminPage() {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/admin/login');
 
-  const articles = await prisma.healthArticle.findMany({
-    orderBy: { createdAt: 'desc' },
-  });
+  const articles = hasDatabaseUrl
+    ? await prisma.healthArticle.findMany({
+        orderBy: { createdAt: 'desc' },
+      }).catch(() => [])
+    : [];
 
   return (
     <AdminShell>
@@ -23,17 +27,27 @@ export default async function SaglikRehberiAdminPage() {
             <h1 className="text-2xl font-bold text-slate-900">Sağlık Rehberi</h1>
             <p className="text-slate-500 mt-1 text-sm">{articles.length} makale</p>
           </div>
-          <Link
-            href="/admin/saglik-rehberi/yeni"
-            className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors"
-          >
-            <Plus className="w-4 h-4" />
-            Yeni Makale
-          </Link>
+          <div className="flex items-center gap-3">
+            <RebuildSlugMapButton />
+            <Link
+              href="/admin/saglik-rehberi/yeni"
+              className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Yeni Makale
+            </Link>
+          </div>
         </div>
 
         <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden">
-          {articles.length === 0 ? (
+          {!hasDatabaseUrl ? (
+            <div className="p-6">
+              <AdminNotice
+                title="Veritabanı bağlantısı bekleniyor"
+                message="Sağlık Rehberi makalelerini yönetmek için önce Vercel Postgres bağlantısı ve Prisma tabloları hazırlanmalı."
+              />
+            </div>
+          ) : articles.length === 0 ? (
             <div className="p-12 text-center text-slate-400">
               <p className="text-sm">Henüz makale yok.</p>
               <Link href="/admin/saglik-rehberi/yeni" className="mt-3 inline-block text-blue-600 text-sm hover:underline">
@@ -56,12 +70,14 @@ export default async function SaglikRehberiAdminPage() {
                   <tr key={article.id} className="border-b border-slate-50 hover:bg-slate-50/50 transition-colors">
                     <td className="px-6 py-4">
                       <div className="font-medium text-slate-900 line-clamp-1">{article.title}</div>
-                      <div className="text-xs text-slate-400 mt-0.5">{article.slug}</div>
+                      <div className="text-xs text-slate-400 mt-0.5">
+                        {article.slug.replace(/_tr$/, '').replace(/_en$/, '')}
+                      </div>
                     </td>
                     <td className="px-4 py-4 text-slate-600">{article.category}</td>
                     <td className="px-4 py-4">
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-600 uppercase">
-                        {article.lang}
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${article.lang === 'en' ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-600'}`}>
+                        {article.lang === 'en' ? 'English' : 'Türkçe'}
                       </span>
                     </td>
                     <td className="px-4 py-4">

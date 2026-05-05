@@ -39,10 +39,12 @@ export default function HealthGuideDetailClient({
   article,
   isLocal,
   otherArticles,
+  alternateSlug,
 }: {
   article: ArticleDetail;
   isLocal: boolean;
   otherArticles: RelatedArticle[];
+  alternateSlug?: string | null;
 }) {
   const { i18n } = useTranslation();
   const lang = getCurrentLanguage(i18n.language);
@@ -51,25 +53,15 @@ export default function HealthGuideDetailClient({
   const translatedLocal = getTranslatedLocalArticle(article.slug, lang);
 
   const displayArticle = useMemo(() => {
-    if (!isLocal || !translatedLocal) return article;
-    return {
-      ...article,
-      title: translatedLocal.title,
-      category: translatedLocal.category,
-      summary: translatedLocal.desc,
-      readTime: translatedLocal.readTime,
-      publishedAt: translatedLocal.date,
-      coverImage: translatedLocal.img,
-      _localContent: {
-        intro: translatedLocal.intro,
-        sections: translatedLocal.sections,
-      },
-    };
-  }, [article, isLocal, translatedLocal]);
+    // Sunucudan gelen içerik her zaman öncelikli olmalı (DB veya Local Fallback fark etmez)
+    // Çünkü sunucu forceLang parametresine göre doğru içeriği zaten hazırladı.
+    return article;
+  }, [article]);
 
   const displayOtherArticles = useMemo(
     () =>
       otherArticles.map((related) => {
+        // "Diğer Yazılar" için de eğer .ts dosyasında çeviri varsa onu kullan, yoksa olduğu gibi bırak
         const translated = getTranslatedLocalArticle(related.slug, lang);
         if (!translated) return related;
         return {
@@ -128,7 +120,7 @@ export default function HealthGuideDetailClient({
                   {displayArticle.summary}
                 </div>
 
-                {isLocal && displayArticle._localContent ? (
+                {displayArticle._localContent ? (
                   <div className="space-y-10">
                     {displayArticle._localContent.intro ? (
                       <section>

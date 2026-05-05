@@ -6,11 +6,15 @@ import { prisma } from '@/lib/prisma';
 import AdminShell from '@/components/admin/AdminShell';
 import PresentationForm from '@/components/admin/PresentationForm';
 
-export default async function EditPresentationPage({ params }: { params: { id: string } }) {
+export default async function EditPresentationPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/admin/login');
 
-  const item = await prisma.presentation.findUnique({ where: { id: Number(params.id) } });
+  const { id: idStr } = await params;
+  const id = Number(idStr);
+  if (!idStr || Number.isNaN(id)) notFound();
+
+  const item = await prisma.presentation.findUnique({ where: { id } });
   if (!item) notFound();
 
   return (

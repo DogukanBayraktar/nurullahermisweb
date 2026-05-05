@@ -2,43 +2,55 @@ import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 
+function getAdminCredentials() {
+  const username = process.env.ADMIN_USERNAME;
+  const passwordHash = process.env.ADMIN_PASSWORD_HASH;
+
+  if (!username || !passwordHash) {
+    console.error('Admin login is not configured. Set ADMIN_USERNAME and ADMIN_PASSWORD_HASH.');
+    return null;
+  }
+
+  if (!/^\$2[aby]\$\d{2}\$/.test(passwordHash)) {
+    console.error('ADMIN_PASSWORD_HASH is not a valid bcrypt hash. Escape $ characters as \\$ in .env.local.');
+    return null;
+  }
+
+  return { username, passwordHash };
+}
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Admin Girişi',
+      name: 'Admin Girisi',
       credentials: {
-        username: { label: 'Kullanıcı Adı', type: 'text' },
-        password: { label: 'Şifre', type: 'password' },
+        username: { label: 'Kullanici Adi', type: 'text' },
+        password: { label: 'Sifre', type: 'password' },
       },
       async authorize(credentials) {
-        console.log('GELEN:', credentials?.username, credentials?.password);
-        console.log('BEKLENEN:', process.env.ADMIN_USERNAME);
-        console.log('HASH:', process.env.ADMIN_PASSWORD_HASH);
-
         if (!credentials?.username || !credentials?.password) return null;
 
-        if (credentials.username !== process.env.ADMIN_USERNAME) {
-          console.log('USERNAME YANLIŞ');
-          return null;
-        } // ← Eksik kapanış parantezi eklendi
+        const adminCredentials = getAdminCredentials();
+        if (!adminCredentials) return null;
 
-        const adminPasswordHash = "$2b$12$vpubAnxGH3SAWcCOcRfbaOEL0OUqu3R5U9vQnrRDC/Lz0U3eiDiVa";
-        const result = await bcrypt.compare(credentials.password, adminPasswordHash);
-        console.log('BCRYPT SONUÇ:', result);
+        if (credentials.username !== adminCredentials.username) return null;
 
-        if (!result) return null;
+        const isPasswordValid = await bcrypt.compare(credentials.password, adminCredentials.passwordHash);
+        if (!isPasswordValid) return null;
+
         return { id: '1', name: 'Admin', email: 'admin@nurullahermis.com' };
       },
     }),
   ],
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60 * 8, // 8 saat
+    maxAge: 60 * 60 * 8,
   },
   pages: {
     signIn: '/admin/login',
     error: '/admin/login',
   },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
       if (user) token.id = user.id;

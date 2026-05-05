@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
 import I18nRouteSync from "@/components/layout/I18nRouteSync";
+import { headers } from "next/headers";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -14,23 +15,29 @@ export const metadata: Metadata = {
   description: "Prof. Dr. Nurullah Ermiş - Ortopedi ve Travmatoloji Uzmanı. Skolyoz, bel fıtığı, boyun fıtığı, diz-kalça protezi ve çocuk ortopedisi alanında uzman cerrahi çözümler. Eren Hastanesi, Ataşehir/İstanbul.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  const pathname = headersList.get('x-pathname') ?? headersList.get('x-invoke-path') ?? '';
+  const isAdmin = pathname.startsWith('/admin');
+
   return (
     <html lang="tr">
-      {/* md:pt-12 = topline yüksekliği (48px = h-12) */}
-      <body suppressHydrationWarning className={`${inter.className} min-h-screen flex flex-col antialiased bg-slate-50 text-slate-900 md:pt-12`}>
+      <body
+        suppressHydrationWarning
+        className={`${inter.className} min-h-screen flex flex-col antialiased bg-slate-50 text-slate-900 ${isAdmin ? '' : 'md:pt-12'}`}
+      >
         <I18nRouteSync />
-        <Topline />
-        <Navbar />
-        <main className="flex-1">
+        {!isAdmin && <Topline />}
+        {!isAdmin && <Navbar />}
+        <main className={isAdmin ? 'flex-1 flex flex-col' : 'flex-1'}>
           {children}
         </main>
-        <WhatsAppButton />
-        <Footer />
+        {!isAdmin && <WhatsAppButton />}
+        {!isAdmin && <Footer />}
       </body>
     </html>
   );

@@ -2,8 +2,9 @@
 import { getServerSession } from 'next-auth';
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
-import { prisma } from '@/lib/prisma';
+import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import AdminShell from '@/components/admin/AdminShell';
+import AdminNotice from '@/components/admin/AdminNotice';
 import Link from 'next/link';
 import { Plus, Pencil } from 'lucide-react';
 import DeleteButton from '@/components/admin/DeleteButton';
@@ -12,7 +13,9 @@ export default async function BasinAdminPage() {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/admin/login');
 
-  const items = await prisma.pressItem.findMany({ orderBy: { createdAt: 'desc' } });
+  const items = hasDatabaseUrl
+    ? await prisma.pressItem.findMany({ orderBy: { createdAt: 'desc' } }).catch(() => [])
+    : [];
 
   return (
     <AdminShell>
@@ -32,7 +35,14 @@ export default async function BasinAdminPage() {
         </div>
 
         <div className="bg-white border border-slate-100 rounded-2xl overflow-hidden">
-          {items.length === 0 ? (
+          {!hasDatabaseUrl ? (
+            <div className="p-6">
+              <AdminNotice
+                title="Veritabanı bağlantısı bekleniyor"
+                message="Basın & Medya kayıtlarını yönetmek için önce Vercel Postgres bağlantısı ve Prisma tabloları hazırlanmalı."
+              />
+            </div>
+          ) : items.length === 0 ? (
             <div className="p-12 text-center text-slate-400 text-sm">
               Henüz haber yok.{' '}
               <Link href="/admin/basin/yeni" className="text-blue-600 hover:underline">Ekle →</Link>

@@ -9,11 +9,14 @@ async function requireAdmin() {
   if (!session) throw new Error('Unauthorized');
 }
 
-export async function PUT(req: NextRequest, { params }: { params: { id: string } }) {
+type IdContext = { params: Promise<{ id: string }> };
+
+export async function PUT(req: NextRequest, { params }: IdContext) {
   try {
     await requireAdmin();
+    const { id } = await params;
     const body = await req.json();
-    const item = await prisma.presentation.update({ where: { id: Number(params.id) }, data: body });
+    const item = await prisma.presentation.update({ where: { id: Number(id) }, data: body });
     return NextResponse.json(item);
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : 'Unknown error';
@@ -21,10 +24,11 @@ export async function PUT(req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-export async function DELETE(_req: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(_req: NextRequest, { params }: IdContext) {
   try {
     await requireAdmin();
-    await prisma.presentation.delete({ where: { id: Number(params.id) } });
+    const { id } = await params;
+    await prisma.presentation.delete({ where: { id: Number(id) } });
     return NextResponse.json({ ok: true });
   } catch {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
