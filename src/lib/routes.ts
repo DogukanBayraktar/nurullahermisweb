@@ -87,7 +87,19 @@ export function localizeArticleSlug(slug: string, language?: string) {
 }
 
 export function canonicalArticleSlug(slug: string) {
-  return normalizeArticleSlug(slug);
+  // Önce legacy map'e bak
+  const legacy = legacyArticleSlugMap[slug];
+  if (legacy) return legacy;
+  // EN slug → TR canonical (ters map)
+  const fromEn = reverseArticleSlugMap[slug];
+  if (fromEn) return fromEn;
+  // Zaten TR canonical
+  return slug;
+}
+
+// EN sayfalarında DB araması için: EN slug'ı olduğu gibi döndür
+export function rawArticleSlug(slug: string) {
+  return slug;
 }
 
 export function getLangFromPathname(pathname: string): SiteLang {

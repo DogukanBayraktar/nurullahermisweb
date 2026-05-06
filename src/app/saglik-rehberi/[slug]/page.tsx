@@ -52,8 +52,12 @@ export async function renderHealthGuideDetailPage({
       const dbArticle = await prisma.healthArticle.findFirst({
         where: {
           OR: [
+            // TR canonical slug ile: bel-fitigi-ameliyati_tr
             { slug: `${slug}${targetSuffix}`, published: true },
-            { slug: slug, lang: forceLang || 'tr', published: true },
+            // EN makaleler için rawSlug direkt: lumbar-disc-surgery_en
+            { slug: `${rawSlug}${targetSuffix}`, published: true },
+            // Suffix olmadan lang ile
+            { slug: rawSlug, lang: forceLang || 'tr', published: true },
           ],
         },
       });
