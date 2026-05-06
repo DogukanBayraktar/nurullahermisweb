@@ -10,20 +10,33 @@ export default async function TedaviDetayPage({
   params,
   language = 'tr',
 }: {
-  params: Promise<{ slug: string }>;
+  params: Promise<{ slug: string; originalSlug?: string }>;
   language?: 'tr' | 'en';
 }) {
-  const { slug } = await params;
+  const { slug, originalSlug } = await params;
   let dbTreatment = null;
 
   try {
     if (hasDatabaseUrl) {
-      const dbSlug = language === 'en' ? `${slug}_en` : slug;
-      dbTreatment = await prisma.treatment.findUnique({
-        where: { slug: dbSlug },
-      });
+      if (language === 'en') {
+        const candidateSlugs = [`${slug}_en`];
+        const normalizedOriginal = originalSlug?.replace(/_tr$/, '').replace(/_en$/, '');
+        if (normalizedOriginal && normalizedOriginal !== slug) {
+          candidateSlugs.push(`${normalizedOriginal}_en`);
+        }
 
-      if (!dbTreatment && language === 'en') {
+        dbTreatment = await prisma.treatment.findFirst({
+          where: {
+            OR: candidateSlugs.map((candidate) => ({ slug: candidate })),
+          },
+        });
+
+        if (!dbTreatment) {
+          dbTreatment = await prisma.treatment.findUnique({
+            where: { slug },
+          });
+        }
+      } else {
         dbTreatment = await prisma.treatment.findUnique({
           where: { slug },
         });
@@ -45,8 +58,9 @@ export default async function TedaviDetayPage({
       treatments: dbTreatment.treatment as { baslik: string; icerik: string }[],
       faq: dbTreatment.faq as { s: string; c: string }[],
     };
+    // DB content should be rendered as-is; static translation fallback is only for local data.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    return <TedaviDetayClient treatment={treatment as any} isLocal={true} />;
+    return <TedaviDetayClient treatment={treatment as any} isLocal={false} />;
   }
 
   const local = TREATMENTS_DATA.find((t) => t.slug === slug);

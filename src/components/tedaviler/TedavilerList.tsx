@@ -44,7 +44,9 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
           {initialTreatments.map((item, i) => {
             const normalizedSlug = item.slug.replace(/_tr$/, '').replace(/_en$/, '');
             const gridClass = getBentoClass(normalizedSlug);
-            const localizedItem = getLocalizedTreatmentCard(item, i18n.language);
+            // Only apply static translation for local data; DB records are already in the correct language.
+            const isFromDb = item._id.startsWith('db-');
+            const localizedItem = isFromDb ? item : getLocalizedTreatmentCard(item, i18n.language);
 
             return (
               <FadeIn key={item._id} delay={0.05 + i * 0.08} direction="up" className={gridClass}>
