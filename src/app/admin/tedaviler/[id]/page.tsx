@@ -17,6 +17,13 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
   const t = await prisma.treatment.findUnique({ where: { id } });
   if (!t) notFound();
 
+  // Karşı dil kaydını bul
+  const canonicalSlug = t.slug.replace(/_en$/, '');
+  const isEn = t.slug.endsWith('_en');
+  const pairSlug = isEn ? canonicalSlug : `${canonicalSlug}_en`;
+
+  const pair = await prisma.treatment.findUnique({ where: { slug: pairSlug } });
+
   return (
     <AdminShell>
       <div className="p-8 max-w-3xl mx-auto">
@@ -32,10 +39,22 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
             img: t.img,
             category: t.category,
             stats: t.stats as { label: string; val: string }[],
+            desc: t.desc as string[],
             symptoms: t.symptoms,
             treatment: t.treatment as { baslik: string; icerik: string }[],
             faq: t.faq as { s: string; c: string }[],
             published: t.published,
+            lang: isEn ? 'en' : 'tr',
+            // Karşı dil
+            pairId: pair?.id,
+            pairSlug: pair?.slug,
+            pairTitle: pair?.title ?? '',
+            pairCategory: pair?.category ?? '',
+            pairDesc: (pair?.desc as string[]) ?? [],
+            pairSymptoms: pair?.symptoms ?? [],
+            pairStats: (pair?.stats as { label: string; val: string }[]) ?? [],
+            pairTreatment: (pair?.treatment as { baslik: string; icerik: string }[]) ?? [],
+            pairFaq: (pair?.faq as { s: string; c: string }[]) ?? [],
           }}
         />
       </div>

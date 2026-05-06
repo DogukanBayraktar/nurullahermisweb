@@ -8,6 +8,17 @@ type Stat = { label: string; val: string };
 type TreatmentSection = { baslik: string; icerik: string };
 type FaqItem = { s: string; c: string };
 
+type LangForm = {
+  title: string;
+  slug: string;
+  category: string;
+  descRaw: string;
+  symptomsRaw: string;
+  stats: Stat[];
+  treatment: TreatmentSection[];
+  faq: FaqItem[];
+};
+
 type TreatmentFormProps = {
   defaultValues?: {
     id?: number;
@@ -21,6 +32,16 @@ type TreatmentFormProps = {
     treatment?: TreatmentSection[];
     faq?: FaqItem[];
     published?: boolean;
+    lang?: string;
+    pairId?: number;
+    pairSlug?: string;
+    pairTitle?: string;
+    pairCategory?: string;
+    pairDesc?: string[];
+    pairSymptoms?: string[];
+    pairStats?: Stat[];
+    pairTreatment?: TreatmentSection[];
+    pairFaq?: FaqItem[];
   };
 };
 
@@ -40,327 +61,297 @@ function Field({ label, required, children }: { label: string; required?: boolea
 export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps) {
   const router = useRouter();
   const isEdit = !!defaultValues.id;
+  const primaryLang = (defaultValues.lang ?? 'tr') as 'tr' | 'en';
 
-  const [form, setForm] = useState({
-    slug: defaultValues.slug ?? '',
-    title: defaultValues.title ?? '',
-    img: defaultValues.img ?? '',
-    category: defaultValues.category ?? '',
-    published: defaultValues.published ?? true,
-    symptomsRaw: (defaultValues.symptoms ?? []).join('\n'),
-  });
-
-  // desc — string[] (her paragraf ayrı)
-  const [descParagraphs, setDescParagraphs] = useState<string[]>(
-    defaultValues.desc && defaultValues.desc.length > 0 ? defaultValues.desc : ['']
-  );
-
-  const [stats, setStats] = useState<Stat[]>(defaultValues.stats ?? [{ label: '', val: '' }]);
-  const [treatment, setTreatment] = useState<TreatmentSection[]>(
-    defaultValues.treatment ?? [{ baslik: '', icerik: '' }]
-  );
-  const [faq, setFaq] = useState<FaqItem[]>(defaultValues.faq ?? [{ s: '', c: '' }]);
+  const [activeTab, setActiveTab] = useState<'tr' | 'en'>(primaryLang);
+  const [img, setImg] = useState(defaultValues.img ?? '');
+  const [published, setPublished] = useState(defaultValues.published ?? true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
 
-  function updateDesc(index: number, value: string) {
-    setDescParagraphs((p) => p.map((v, i) => (i === index ? value : v)));
+  const [trForm, setTrForm] = useState<LangForm>(() =>
+    primaryLang === 'tr'
+      ? {
+          title: defaultValues.title ?? '',
+          slug: (defaultValues.slug ?? '').replace(/_tr$/, '').replace(/_en$/, ''),
+          category: defaultValues.category ?? '',
+          descRaw: (defaultValues.desc ?? []).join('\n\n'),
+          symptomsRaw: (defaultValues.symptoms ?? []).join('\n'),
+          stats: defaultValues.stats ?? [{ label: '', val: '' }],
+          treatment: defaultValues.treatment ?? [{ baslik: '', icerik: '' }],
+          faq: defaultValues.faq ?? [{ s: '', c: '' }],
+        }
+      : {
+          title: defaultValues.pairTitle ?? '',
+          slug: (defaultValues.pairSlug ?? '').replace(/_tr$/, '').replace(/_en$/, ''),
+          category: defaultValues.pairCategory ?? '',
+          descRaw: (defaultValues.pairDesc ?? []).join('\n\n'),
+          symptomsRaw: (defaultValues.pairSymptoms ?? []).join('\n'),
+          stats: defaultValues.pairStats ?? [{ label: '', val: '' }],
+          treatment: defaultValues.pairTreatment ?? [{ baslik: '', icerik: '' }],
+          faq: defaultValues.pairFaq ?? [{ s: '', c: '' }],
+        }
+  );
+
+  const [enForm, setEnForm] = useState<LangForm>(() =>
+    primaryLang === 'en'
+      ? {
+          title: defaultValues.title ?? '',
+          slug: (defaultValues.slug ?? '').replace(/_tr$/, '').replace(/_en$/, ''),
+          category: defaultValues.category ?? '',
+          descRaw: (defaultValues.desc ?? []).join('\n\n'),
+          symptomsRaw: (defaultValues.symptoms ?? []).join('\n'),
+          stats: defaultValues.stats ?? [{ label: '', val: '' }],
+          treatment: defaultValues.treatment ?? [{ baslik: '', icerik: '' }],
+          faq: defaultValues.faq ?? [{ s: '', c: '' }],
+        }
+      : {
+          title: defaultValues.pairTitle ?? '',
+          slug: (defaultValues.pairSlug ?? '').replace(/_tr$/, '').replace(/_en$/, ''),
+          category: defaultValues.pairCategory ?? '',
+          descRaw: (defaultValues.pairDesc ?? []).join('\n\n'),
+          symptomsRaw: (defaultValues.pairSymptoms ?? []).join('\n'),
+          stats: defaultValues.pairStats ?? [{ label: '', val: '' }],
+          treatment: defaultValues.pairTreatment ?? [{ baslik: '', icerik: '' }],
+          faq: defaultValues.pairFaq ?? [{ s: '', c: '' }],
+        }
+  );
+
+  const getForm = (lang: 'tr' | 'en') => lang === 'tr' ? trForm : enForm;
+  const setForm = (lang: 'tr' | 'en', update: Partial<LangForm>) => {
+    if (lang === 'tr') setTrForm((f) => ({ ...f, ...update }));
+    else setEnForm((f) => ({ ...f, ...update }));
+  };
+
+  function buildPayload(form: LangForm, lang: 'tr' | 'en') {
+    const canonical = form.slug.replace(/_tr$/, '').replace(/_en$/, '');
+    return {
+      slug: lang === 'tr' ? canonical : `${canonical}_en`,
+      title: form.title,
+      img,
+      images: [],
+      category: form.category,
+      published,
+      desc: form.descRaw.split('\n\n').map((p) => p.trim()).filter(Boolean),
+      symptoms: form.symptomsRaw.split('\n').map((s) => s.trim()).filter(Boolean),
+      stats: form.stats,
+      treatment: form.treatment,
+      faq: form.faq,
+    };
   }
-  function addDesc() { setDescParagraphs((p) => [...p, '']); }
-  function removeDesc(index: number) { setDescParagraphs((p) => p.filter((_, i) => i !== index)); }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     setSaving(true);
     setError('');
+    try {
+      const trPayload = buildPayload(trForm, 'tr');
+      const enPayload = buildPayload(enForm, 'en');
 
-    const payload = {
-      slug: form.slug,
-      title: form.title,
-      img: form.img,
-      images: [],
-      category: form.category,
-      published: form.published,
-      desc: descParagraphs.filter((p) => p.trim()),
-      symptoms: form.symptomsRaw.split('\n').map((s) => s.trim()).filter(Boolean),
-      stats,
-      treatment,
-      faq,
-    };
+      if (isEdit) {
+        const primaryPayload = primaryLang === 'tr' ? trPayload : enPayload;
+        const r1 = await fetch(`/api/admin/tedaviler/${defaultValues.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(primaryPayload),
+        });
+        if (!r1.ok) throw new Error((await r1.json()).error ?? 'Güncelleme hatası');
 
-    const url = isEdit ? `/api/admin/tedaviler/${defaultValues.id}` : '/api/admin/tedaviler';
-    const method = isEdit ? 'PUT' : 'POST';
-
-    const res = await fetch(url, {
-      method,
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-    });
-
-    if (res.ok) {
+        const secondaryPayload = primaryLang === 'tr' ? enPayload : trPayload;
+        if (defaultValues.pairId) {
+          const r2 = await fetch(`/api/admin/tedaviler/${defaultValues.pairId}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(secondaryPayload),
+          });
+          if (!r2.ok) throw new Error((await r2.json()).error ?? 'Karşı dil güncelleme hatası');
+        } else if (secondaryPayload.title) {
+          const r2 = await fetch('/api/admin/tedaviler', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(secondaryPayload),
+          });
+          if (!r2.ok) throw new Error((await r2.json()).error ?? 'EN oluşturma hatası');
+        }
+      } else {
+        const r1 = await fetch('/api/admin/tedaviler', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(trPayload),
+        });
+        if (!r1.ok) throw new Error((await r1.json()).error ?? 'TR kayıt hatası');
+        if (enForm.title) {
+          const r2 = await fetch('/api/admin/tedaviler', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(enPayload),
+          });
+          if (!r2.ok) throw new Error((await r2.json()).error ?? 'EN kayıt hatası');
+        }
+      }
       router.push('/admin/tedaviler');
       router.refresh();
-    } else {
-      const data = await res.json();
-      setError(data.error ?? 'Bir hata oluştu.');
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Bir hata oluştu.');
       setSaving(false);
     }
   }
 
+  const tabs = [
+    { lang: 'tr' as const, label: 'Türkçe', flag: '🇹🇷' },
+    { lang: 'en' as const, label: 'English', flag: '🇬🇧' },
+  ];
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">{error}</div>
+      {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">{error}</div>}
+
+      {/* Sekme */}
+      <div className="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit">
+        {tabs.map(({ lang, label, flag }) => (
+          <button key={lang} type="button" onClick={() => setActiveTab(lang)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === lang ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>
+            {flag} {label}
+            {lang === 'en' && getForm('en').title && <span className="w-1.5 h-1.5 rounded-full bg-green-400" />}
+          </button>
+        ))}
+      </div>
+
+      {/* Ortak */}
+      <div className="bg-white border border-slate-100 rounded-2xl p-6">
+        <h2 className="text-sm font-semibold text-slate-700 mb-3">Ortak Alanlar</h2>
+        <div className="grid grid-cols-2 gap-4">
+          <Field label="Görsel URL">
+            <input value={img} onChange={(e) => setImg(e.target.value)} placeholder="/images/tedavi.avif" className={inputCls} />
+          </Field>
+          <div className="flex items-end pb-2">
+            <label className="flex items-center gap-2 cursor-pointer">
+              <input type="checkbox" checked={published} onChange={(e) => setPublished(e.target.checked)} className="rounded" />
+              <span className="text-sm text-slate-700">Yayınla</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      {/* Dil bazlı içerik */}
+      {tabs.map(({ lang }) => (
+        <div key={lang} className={activeTab === lang ? 'space-y-6' : 'hidden'}>
+
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
+            <h2 className="text-sm font-semibold text-slate-700">Temel — {lang === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'}</h2>
+            <div className="grid grid-cols-2 gap-4">
+              <Field label="Başlık" required={lang === 'tr'}>
+                <input value={getForm(lang).title} onChange={(e) => setForm(lang, { title: e.target.value })}
+                  placeholder={lang === 'tr' ? 'Tedavi başlığı' : 'Treatment title'} className={inputCls} required={lang === 'tr'} />
+              </Field>
+              <Field label="Slug" required={lang === 'tr'}>
+                <input value={getForm(lang).slug}
+                  onChange={(e) => setForm(lang, { slug: e.target.value.replace(/_tr$/, '').replace(/_en$/, '') })}
+                  placeholder={lang === 'tr' ? 'tedavi-slug' : 'treatment-slug'} className={inputCls} required={lang === 'tr'} />
+              </Field>
+            </div>
+            <Field label="Kategori">
+              <input value={getForm(lang).category} onChange={(e) => setForm(lang, { category: e.target.value })}
+                placeholder={lang === 'tr' ? 'Omurga Cerrahisi' : 'Spine Surgery'} className={inputCls} />
+            </Field>
+          </div>
+
+          {/* İstatistikler */}
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-3">
+            <div className="flex justify-between items-center">
+              <h2 className="text-sm font-semibold text-slate-700">İstatistikler</h2>
+              <button type="button" onClick={() => setForm(lang, { stats: [...getForm(lang).stats, { label: '', val: '' }] })} className="text-xs text-blue-600 font-medium">+ Ekle</button>
+            </div>
+            {getForm(lang).stats.map((stat, i) => (
+              <div key={i} className="grid grid-cols-2 gap-3 items-center">
+                <input value={stat.label} onChange={(e) => setForm(lang, { stats: getForm(lang).stats.map((s, j) => j === i ? { ...s, label: e.target.value } : s) })}
+                  placeholder={lang === 'tr' ? 'Etiket' : 'Label'} className={inputCls} />
+                <div className="flex gap-2">
+                  <input value={stat.val} onChange={(e) => setForm(lang, { stats: getForm(lang).stats.map((s, j) => j === i ? { ...s, val: e.target.value } : s) })}
+                    placeholder="%90+" className={inputCls} />
+                  {getForm(lang).stats.length > 1 && (
+                    <button type="button" onClick={() => setForm(lang, { stats: getForm(lang).stats.filter((_, j) => j !== i) })} className="text-red-400 text-xs px-2">Sil</button>
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Açıklama */}
+          <div className="bg-white border border-slate-100 rounded-2xl p-6">
+            <h2 className="text-sm font-semibold text-slate-700 mb-1">Açıklama (desc)</h2>
+            <p className="text-xs text-slate-400 mb-3">Paragrafları boş satırla (Enter×2) ayır.</p>
+            <textarea value={getForm(lang).descRaw} onChange={(e) => setForm(lang, { descRaw: e.target.value })}
+              rows={10} className={inputCls}
+              placeholder={lang === 'tr' ? 'Birinci paragraf...\n\nİkinci paragraf...' : 'First paragraph...\n\nSecond paragraph...'} />
+          </div>
+
+          {/* Belirtiler */}
+          <div className="bg-white border border-slate-100 rounded-2xl p-6">
+            <h2 className="text-sm font-semibold text-slate-700 mb-1">Belirtiler</h2>
+            <p className="text-xs text-slate-400 mb-3">Her satır ayrı belirti.</p>
+            <textarea value={getForm(lang).symptomsRaw} onChange={(e) => setForm(lang, { symptomsRaw: e.target.value })}
+              rows={5} className={inputCls}
+              placeholder={lang === 'tr' ? 'Sırt ağrısı\nUyuşma' : 'Back pain\nNumbness'} />
+          </div>
+
+          {/* Tedavi Yöntemleri */}
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-sm font-semibold text-slate-700">Tedavi Yöntemleri</h2>
+              <button type="button" onClick={() => setForm(lang, { treatment: [...getForm(lang).treatment, { baslik: '', icerik: '' }] })} className="text-xs text-blue-600 font-medium">+ Ekle</button>
+            </div>
+            {getForm(lang).treatment.map((t, i) => (
+              <div key={i} className="border border-slate-100 rounded-xl p-4 space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-xs text-slate-400">Yöntem {i + 1}</span>
+                  {getForm(lang).treatment.length > 1 && (
+                    <button type="button" onClick={() => setForm(lang, { treatment: getForm(lang).treatment.filter((_, j) => j !== i) })} className="text-xs text-red-400">Sil</button>
+                  )}
+                </div>
+                <input value={t.baslik} onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, baslik: e.target.value } : s) })}
+                  placeholder={lang === 'tr' ? 'Yöntem başlığı' : 'Method title'} className={inputCls} />
+                <textarea value={t.icerik} onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, icerik: e.target.value } : s) })}
+                  rows={4} placeholder={lang === 'tr' ? 'Açıklama' : 'Description'} className={inputCls} />
+              </div>
+            ))}
+          </div>
+
+          {/* SSS */}
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
+            <div className="flex justify-between items-center">
+              <h2 className="text-sm font-semibold text-slate-700">Sıkça Sorulan Sorular</h2>
+              <button type="button" onClick={() => setForm(lang, { faq: [...getForm(lang).faq, { s: '', c: '' }] })} className="text-xs text-blue-600 font-medium">+ Ekle</button>
+            </div>
+            {getForm(lang).faq.map((f, i) => (
+              <div key={i} className="border border-slate-100 rounded-xl p-4 space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-xs text-slate-400">Soru {i + 1}</span>
+                  {getForm(lang).faq.length > 1 && (
+                    <button type="button" onClick={() => setForm(lang, { faq: getForm(lang).faq.filter((_, j) => j !== i) })} className="text-xs text-red-400">Sil</button>
+                  )}
+                </div>
+                <input value={f.s} onChange={(e) => setForm(lang, { faq: getForm(lang).faq.map((q, j) => j === i ? { ...q, s: e.target.value } : q) })}
+                  placeholder={lang === 'tr' ? 'Soru' : 'Question'} className={inputCls} />
+                <textarea value={f.c} onChange={(e) => setForm(lang, { faq: getForm(lang).faq.map((q, j) => j === i ? { ...q, c: e.target.value } : q) })}
+                  rows={3} placeholder={lang === 'tr' ? 'Cevap' : 'Answer'} className={inputCls} />
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+
+      {!isEdit && (
+        <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 text-xs text-blue-700">
+          💡 TR içeriği zorunlu. EN sekmesi isteğe bağlı — boş bırakılırsa sadece Türkçe kaydedilir.
+        </div>
       )}
 
-      {/* Temel Bilgiler */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
-        <h2 className="text-sm font-semibold text-slate-700">Temel Bilgiler</h2>
-        <div className="grid grid-cols-2 gap-4">
-          <Field label="Başlık" required>
-            <input
-              value={form.title}
-              onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
-              className={inputCls}
-              required
-              placeholder="Tedavi başlığı"
-            />
-          </Field>
-          <Field label="Slug" required>
-            <input
-              value={form.slug}
-              onChange={(e) => setForm((f) => ({ ...f, slug: e.target.value }))}
-              className={inputCls}
-              required
-              placeholder="tedavi-slug"
-            />
-          </Field>
-        </div>
-        <div className="grid grid-cols-2 gap-4">
-          <Field label="Kategori">
-            <input
-              value={form.category}
-              onChange={(e) => setForm((f) => ({ ...f, category: e.target.value }))}
-              className={inputCls}
-              placeholder="Omurga Cerrahisi"
-            />
-          </Field>
-          <Field label="Görsel URL">
-            <input
-              value={form.img}
-              onChange={(e) => setForm((f) => ({ ...f, img: e.target.value }))}
-              className={inputCls}
-              placeholder="/images/tedavi.avif"
-            />
-          </Field>
-        </div>
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            id="pub"
-            checked={form.published}
-            onChange={(e) => setForm((f) => ({ ...f, published: e.target.checked }))}
-            className="rounded"
-          />
-          <label htmlFor="pub" className="text-sm text-slate-700">Yayınla</label>
-        </div>
-      </div>
-
-      {/* İstatistikler */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-slate-700">İstatistikler</h2>
-          <button
-            type="button"
-            onClick={() => setStats((p) => [...p, { label: '', val: '' }])}
-            className="text-xs text-blue-600 hover:text-blue-700 font-medium"
-          >
-            + Ekle
-          </button>
-        </div>
-        {stats.map((stat, i) => (
-          <div key={i} className="grid grid-cols-2 gap-3 items-center">
-            <input
-              value={stat.label}
-              onChange={(e) => setStats((p) => p.map((s, j) => j === i ? { ...s, label: e.target.value } : s))}
-              placeholder="Başarı oranı"
-              className={inputCls}
-            />
-            <div className="flex gap-2">
-              <input
-                value={stat.val}
-                onChange={(e) => setStats((p) => p.map((s, j) => j === i ? { ...s, val: e.target.value } : s))}
-                placeholder="%90+"
-                className={inputCls}
-              />
-              {stats.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => setStats((p) => p.filter((_, j) => j !== i))}
-                  className="text-red-400 hover:text-red-600 text-xs px-2"
-                >
-                  Sil
-                </button>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Açıklama Paragrafları */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h2 className="text-sm font-semibold text-slate-700">Açıklama (desc)</h2>
-            <p className="text-xs text-slate-400 mt-0.5">Her kutu ayrı bir paragraf. Detay sayfasında sırayla gösterilir.</p>
-          </div>
-          <button
-            type="button"
-            onClick={addDesc}
-            className="text-xs text-blue-600 hover:text-blue-700 font-medium"
-          >
-            + Paragraf ekle
-          </button>
-        </div>
-        {descParagraphs.map((para, i) => (
-          <div key={i} className="border border-slate-100 rounded-xl p-3 space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-400 font-medium">Paragraf {i + 1}</span>
-              {descParagraphs.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => removeDesc(i)}
-                  className="text-xs text-red-400 hover:text-red-600"
-                >
-                  Sil
-                </button>
-              )}
-            </div>
-            <textarea
-              value={para}
-              onChange={(e) => updateDesc(i, e.target.value)}
-              rows={4}
-              className={inputCls}
-              placeholder="Tedavi açıklaması..."
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* Belirtiler */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6">
-        <h2 className="text-sm font-semibold text-slate-700 mb-1">Belirtiler</h2>
-        <p className="text-xs text-slate-400 mb-3">Her satır ayrı belirti olarak kaydedilir.</p>
-        <textarea
-          value={form.symptomsRaw}
-          onChange={(e) => setForm((f) => ({ ...f, symptomsRaw: e.target.value }))}
-          rows={6}
-          className={inputCls}
-          placeholder={'Sırt ağrısı\nYürümekte güçlük\nUyuşma'}
-        />
-      </div>
-
-      {/* Tedavi Yöntemleri */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-slate-700">Tedavi Yöntemleri</h2>
-          <button
-            type="button"
-            onClick={() => setTreatment((p) => [...p, { baslik: '', icerik: '' }])}
-            className="text-xs text-blue-600 hover:text-blue-700 font-medium"
-          >
-            + Ekle
-          </button>
-        </div>
-        {treatment.map((t, i) => (
-          <div key={i} className="border border-slate-100 rounded-xl p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-400 font-medium">Yöntem {i + 1}</span>
-              {treatment.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => setTreatment((p) => p.filter((_, j) => j !== i))}
-                  className="text-xs text-red-400 hover:text-red-600"
-                >
-                  Sil
-                </button>
-              )}
-            </div>
-            <input
-              value={t.baslik}
-              onChange={(e) => setTreatment((p) => p.map((s, j) => j === i ? { ...s, baslik: e.target.value } : s))}
-              placeholder="Yöntem başlığı"
-              className={inputCls}
-            />
-            <textarea
-              value={t.icerik}
-              onChange={(e) => setTreatment((p) => p.map((s, j) => j === i ? { ...s, icerik: e.target.value } : s))}
-              rows={4}
-              placeholder="Yöntem açıklaması"
-              className={inputCls}
-            />
-          </div>
-        ))}
-      </div>
-
-      {/* SSS */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold text-slate-700">Sıkça Sorulan Sorular</h2>
-          <button
-            type="button"
-            onClick={() => setFaq((p) => [...p, { s: '', c: '' }])}
-            className="text-xs text-blue-600 hover:text-blue-700 font-medium"
-          >
-            + Ekle
-          </button>
-        </div>
-        {faq.map((f, i) => (
-          <div key={i} className="border border-slate-100 rounded-xl p-4 space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-xs text-slate-400 font-medium">Soru {i + 1}</span>
-              {faq.length > 1 && (
-                <button
-                  type="button"
-                  onClick={() => setFaq((p) => p.filter((_, j) => j !== i))}
-                  className="text-xs text-red-400 hover:text-red-600"
-                >
-                  Sil
-                </button>
-              )}
-            </div>
-            <input
-              value={f.s}
-              onChange={(e) => setFaq((p) => p.map((q, j) => j === i ? { ...q, s: e.target.value } : q))}
-              placeholder="Soru"
-              className={inputCls}
-            />
-            <textarea
-              value={f.c}
-              onChange={(e) => setFaq((p) => p.map((q, j) => j === i ? { ...q, c: e.target.value } : q))}
-              rows={3}
-              placeholder="Cevap"
-              className={inputCls}
-            />
-          </div>
-        ))}
-      </div>
-
       <div className="flex items-center gap-3">
-        <button
-          type="submit"
-          disabled={saving}
-          className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-medium px-6 py-2.5 rounded-xl text-sm transition-colors"
-        >
+        <button type="submit" disabled={saving} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-medium px-6 py-2.5 rounded-xl text-sm">
           {saving ? 'Kaydediliyor...' : isEdit ? 'Güncelle' : 'Kaydet'}
         </button>
-        <button
-          type="button"
-          onClick={() => router.back()}
-          className="text-slate-500 hover:text-slate-700 text-sm px-4 py-2.5"
-        >
-          İptal
-        </button>
+        <button type="button" onClick={() => router.back()} className="text-slate-500 hover:text-slate-700 text-sm px-4 py-2.5">İptal</button>
       </div>
     </form>
   );
