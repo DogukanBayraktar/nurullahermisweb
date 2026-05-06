@@ -617,12 +617,13 @@ export const TREATMENTS_TRANSLATIONS: Record<string, Record<string, LocalizedTre
 
 export function getLocalizedTreatmentContent(slug: string, language?: string): LocalizedTreatmentContent | null {
   const locale = language?.toLowerCase().startsWith("en") ? "en" : "tr";
+  const normalizedSlug = slug.replace(/_tr$/, '').replace(/_en$/, '');
 
   if (locale === "tr") {
     return null;
   }
 
-  return TREATMENTS_TRANSLATIONS[locale]?.[slug] ?? null;
+  return TREATMENTS_TRANSLATIONS[locale]?.[normalizedSlug] ?? null;
 }
 
 export function getLocalizedTreatmentCard<T extends { slug: string; title: string; category?: string; description?: string[] }>(

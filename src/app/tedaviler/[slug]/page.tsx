@@ -6,15 +6,28 @@ import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 
 export const revalidate = 60;
 
-export default async function TedaviDetayPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function TedaviDetayPage({
+  params,
+  language = 'tr',
+}: {
+  params: Promise<{ slug: string }>;
+  language?: 'tr' | 'en';
+}) {
   const { slug } = await params;
   let dbTreatment = null;
 
   try {
     if (hasDatabaseUrl) {
+      const dbSlug = language === 'en' ? `${slug}_en` : slug;
       dbTreatment = await prisma.treatment.findUnique({
-        where: { slug },
+        where: { slug: dbSlug },
       });
+
+      if (!dbTreatment && language === 'en') {
+        dbTreatment = await prisma.treatment.findUnique({
+          where: { slug },
+        });
+      }
     }
   } catch {
     // DB hazir degilse statik veriye dus.

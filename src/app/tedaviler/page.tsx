@@ -5,7 +5,7 @@ import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 
 export const revalidate = 60;
 
-export default async function TedavilerPage() {
+export default async function TedavilerPage({ language = 'tr' }: { language?: 'tr' | 'en' }) {
   let combinedTreatments: {
     _id: string;
     title: string;
@@ -23,8 +23,12 @@ export default async function TedavilerPage() {
         })
       : [];
 
-    if (dbRows.length > 0) {
-      combinedTreatments = dbRows.map((t) => ({
+    const filteredRows = dbRows.filter((t) =>
+      language === 'en' ? t.slug.endsWith('_en') : !t.slug.endsWith('_en')
+    );
+
+    if (filteredRows.length > 0) {
+      combinedTreatments = filteredRows.map((t) => ({
         _id: `db-${t.id}`,
         title: t.title,
         slug: t.slug,

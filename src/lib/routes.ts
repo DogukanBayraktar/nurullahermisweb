@@ -34,6 +34,10 @@ const treatmentSlugMap: Record<string, string> = {
   'artroskopik-cerrahi': 'arthroscopic-surgery',
 };
 
+function normalizeTreatmentSlug(slug: string) {
+  return slug.replace(/_tr$/, '').replace(/_en$/, '');
+}
+
 let articleSlugMap: Record<string, string> = { ...articleSlugMapData };
 
 // Dinamik slug çözümü: DB'den gelen EN makalelerin slug'larını da işle
@@ -70,13 +74,15 @@ function normalizeArticleSlug(slug: string) {
 }
 
 export function localizeTreatmentSlug(slug: string, language?: string) {
+  const normalizedSlug = normalizeTreatmentSlug(slug);
   const lang = getSiteLang(language);
-  if (lang === 'en') return treatmentSlugMap[slug] ?? slug;
-  return reverseTreatmentSlugMap[slug] ?? slug;
+  if (lang === 'en') return treatmentSlugMap[normalizedSlug] ?? normalizedSlug;
+  return reverseTreatmentSlugMap[normalizedSlug] ?? normalizedSlug;
 }
 
 export function canonicalTreatmentSlug(slug: string) {
-  return reverseTreatmentSlugMap[slug] ?? slug;
+  const normalizedSlug = normalizeTreatmentSlug(slug);
+  return reverseTreatmentSlugMap[normalizedSlug] ?? normalizedSlug;
 }
 
 export function localizeArticleSlug(slug: string, language?: string) {

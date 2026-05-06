@@ -6,7 +6,7 @@
 import { loadEnvConfig } from '@next/env';
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
-import { TREATMENTS_DATA } from '../src/lib/treatments';
+import { TREATMENTS_DATA, TREATMENTS_TRANSLATIONS } from '../src/lib/treatments';
 
 loadEnvConfig(process.cwd());
 
@@ -334,6 +334,40 @@ async function main() {
     });
   }
   console.log(`✅ ${TREATMENTS_DATA.length} treatments seeded`);
+
+  const enTreatments = TREATMENTS_TRANSLATIONS.en;
+  for (const [slug, content] of Object.entries(enTreatments)) {
+    const trTreatment = TREATMENTS_DATA.find((t) => t.slug === slug);
+    if (!trTreatment) continue;
+    await prisma.treatment.upsert({
+      where: { slug: `${slug}_en` },
+      update: {
+        title: content.title,
+        img: trTreatment.img,
+        images: trTreatment.images ?? [],
+        category: content.category,
+        stats: content.stats,
+        desc: content.desc,
+        symptoms: content.symptoms,
+        treatment: content.treatment,
+        faq: content.faq,
+      },
+      create: {
+        slug: `${slug}_en`,
+        title: content.title,
+        img: trTreatment.img,
+        images: trTreatment.images ?? [],
+        category: content.category,
+        stats: content.stats,
+        desc: content.desc,
+        symptoms: content.symptoms,
+        treatment: content.treatment,
+        faq: content.faq,
+        published: true,
+      },
+    });
+  }
+  console.log(`✅ ${Object.keys(enTreatments).length} EN treatments seeded`);
 
   // ─── PRESS ITEMS ─────────────────────────────────────────────────────────────
   const pressItems = [

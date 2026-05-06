@@ -42,7 +42,8 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
       ) : (
         <div className="grid auto-rows-[220px] grid-cols-1 gap-6 md:auto-rows-[250px] md:grid-cols-12">
           {initialTreatments.map((item, i) => {
-            const gridClass = getBentoClass(item.slug);
+            const normalizedSlug = item.slug.replace(/_tr$/, '').replace(/_en$/, '');
+            const gridClass = getBentoClass(normalizedSlug);
             const localizedItem = getLocalizedTreatmentCard(item, i18n.language);
 
             return (
