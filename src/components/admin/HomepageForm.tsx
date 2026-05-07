@@ -92,7 +92,7 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
   const updateProcessStep = (lang: 'tr' | 'en', index: number, field: string, value: string) => {
     setData(prev => {
       const steps = [...prev[lang].process.steps];
-      steps[index] = { ...stats[index], [field]: value };
+      steps[index] = { ...steps[index], [field]: value };
       return { ...prev, [lang]: { ...prev[lang], process: { ...prev[lang].process, steps } } };
     });
   };

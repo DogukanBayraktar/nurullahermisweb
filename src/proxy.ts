@@ -1,24 +1,26 @@
-import { withAuth } from 'next-auth/middleware';
-import { NextResponse } from 'next/server';
+import { getToken } from 'next-auth/jwt';
+import { NextRequest, NextResponse } from 'next/server';
 
-export default withAuth(
-  function middleware(req) {
-    // Admin layout'unun Navbar/Footer'ı gizleyebilmesi için pathname header'ı ekle
-    const requestHeaders = new Headers(req.headers);
-    requestHeaders.set('x-pathname', req.nextUrl.pathname);
-    return NextResponse.next({ request: { headers: requestHeaders } });
-  },
-  {
-    callbacks: {
-      authorized({ token, req }) {
-        const { pathname } = req.nextUrl;
-        if (pathname === '/admin/login') return true;
-        if (pathname.startsWith('/admin')) return !!token;
-        return true;
-      },
-    },
+export default async function middleware(req: NextRequest) {
+  const token = await getToken({ req });
+  const { pathname } = req.nextUrl;
+
+  // Eğer kullanıcı /admin sayfalarına gitmeye çalışıyorsa ve giriş yapmamışsa
+  if (pathname.startsWith('/admin') && pathname !== '/admin/login' && !token) {
+    // Manuel yönlendirme yaparak callbackUrl parametresinden kurtuluyoruz
+    return NextResponse.redirect(new URL('/admin/login', req.url));
   }
-);
+
+  // Admin layout'u için pathname bilgisini header'a ekle
+  const requestHeaders = new Headers(req.headers);
+  requestHeaders.set('x-pathname', pathname);
+
+  return NextResponse.next({
+    request: {
+      headers: requestHeaders,
+    },
+  });
+}
 
 export const config = {
   matcher: ['/admin/:path*'],
