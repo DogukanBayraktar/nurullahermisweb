@@ -1,0 +1,180 @@
+{
+  "tr": {
+    "hero": {
+      "badge": "Ortopedi & Travmatoloji Uzmanı",
+      "title": "Prof. Dr. Nurullah Ermiş",
+      "subtitle": "20 yılı aşkın cerrahi tecrübem ve güncel rehabilitasyon yöntemleri ile skolyoz, bel fıtığı ve eklem sorunlarınızda daima yanınızdayım.",
+      "cta": "Hemen Randevu Al"
+    },
+    "stats": [
+      {
+        "value": "20+",
+        "label": "Yıllık Tecrübe"
+      },
+      {
+        "value": "Prof.",
+        "label": "Prof. Dr."
+      },
+      {
+        "value": "UCSF",
+        "label": "ABD Eğitimi"
+      }
+    ],
+    "treatments": {
+      "badge": "Tedavi Alanları",
+      "title": "Uzmanlık Alanlarımız",
+      "subtitle": "Ortopedi, omurga cerrahisi ve çocuk ortopedisi alanlarında kapsamlı cerrahi çözümler."
+    },
+    "about": {
+      "badge": "Hakkımda",
+      "title": "Bilimsel Tecrübe & Uluslararası Eğitim",
+      "subtitle": "Uluslararası standartlarda cerrahi tecrübe.",
+      "description": "Hacettepe Üniversitesi'nden mezun olup ABD (UCSF) ve Belçika'da ileri cerrahi eğitimler alan Prof. Dr. Ermiş, 20 yılı aşkın tecrübesiyle binlerce başarılı operasyona imza atmıştır.",
+      "viewCareer": "Kariyerini ve Akademik Geçmişini İncele"
+    },
+    "center": {
+      "badge": "Omurga Sağlığı Merkezi",
+      "titlePrefix": "Omurga Sağlığı İçin",
+      "titleAccent": "Güvenilir Adres",
+      "description": "Birçok branşın entegre çalıştığı merkezimizde, omurga sağlığınız için kanıta dayalı klinik uygulamalarla en uygun tedavi programlarını sunuyoruz. Uzman ekibimiz size özel çözümler üretiyor.",
+      "primaryCta": "Tedavileri İncele",
+      "secondaryCta": "Randevu Al",
+      "stats": [
+        {
+          "value": "5000+",
+          "label": "Başarılı Operasyon"
+        },
+        {
+          "value": "20+",
+          "label": "Yıl Deneyim"
+        },
+        {
+          "value": "3",
+          "label": "Hastane Kampüsü"
+        }
+      ]
+    },
+    "process": {
+      "badge": "Tedavi Süreci",
+      "title": "İlk Muayeneden Taburculuğa",
+      "steps": [
+        {
+          "step": "01",
+          "title": "Muayene",
+          "desc": "Fizik muayene ve görüntüleme ile tanı."
+        },
+        {
+          "step": "02",
+          "title": "Plan",
+          "desc": "Kişiye özel tedavi yolu belirlenir."
+        },
+        {
+          "step": "03",
+          "title": "Tedavi",
+          "desc": "Minimal invaziv cerrahi uygulanır."
+        },
+        {
+          "step": "04",
+          "title": "İyileşme",
+          "desc": "Fizyoterapi ve düzenli kontroller."
+        }
+      ]
+    },
+    "cta": {
+      "badge": "İletişime Geçin",
+      "title": "Sağlığınız İçin\nProfesyonel Adım Atın",
+      "subtitle": "MR ve röntgen sonuçlarınızın değerlendirilmesi için Prof. Dr. Nurullah Ermiş'e hemen ulaşabilir, online randevunuzu kolayca oluşturabilirsiniz.",
+      "appointmentBtn": "Muayene Randevusu Al",
+      "callBtn": "Hemen Arayın"
+    }
+  },
+  "en": {
+    "hero": {
+      "badge": "Orthopedics & Traumatology Specialist",
+      "title": "Prof. Dr. Nurullah Ermiş",
+      "subtitle": "With over 20 years of surgical experience and modern rehabilitation methods, I am always with you for scoliosis, disc herniation, and joint problems.",
+      "cta": "Book an Appointment"
+    },
+    "stats": [
+      {
+        "value": "20+",
+        "label": "Years Experience"
+      },
+      {
+        "value": "Prof.",
+        "label": "Prof. Dr."
+      },
+      {
+        "value": "UCSF",
+        "label": "US Training"
+      }
+    ],
+    "treatments": {
+      "badge": "Treatment Areas",
+      "title": "Our Specialties",
+      "subtitle": "Comprehensive surgical solutions in orthopedics, spine surgery, and pediatric orthopedics."
+    },
+    "about": {
+      "badge": "About Me",
+      "title": "Scientific Experience & International Education",
+      "subtitle": "Surgical experience at international standards.",
+      "description": "Graduated from Hacettepe University and received advanced surgical training in the USA (UCSF) and Belgium, Prof. Dr. Ermiş has performed thousands of successful operations with over 20 years of experience.",
+      "viewCareer": "Review Career and Academic Background"
+    },
+    "center": {
+      "badge": "Spine Health Center",
+      "titlePrefix": "For Spine Health",
+      "titleAccent": "A Reliable Address",
+      "description": "In our center where many branches work integrated, we offer the most appropriate treatment programs with evidence-based clinical applications for your spine health. Our expert team produces special solutions for you.",
+      "primaryCta": "Review Treatments",
+      "secondaryCta": "Get Appointment",
+      "stats": [
+        {
+          "value": "5000+",
+          "label": "Successful Operations"
+        },
+        {
+          "value": "20+",
+          "label": "Years Experience"
+        },
+        {
+          "value": "3",
+          "label": "Hospital Campus"
+        }
+      ]
+    },
+    "process": {
+      "badge": "Treatment Process",
+      "title": "From First Examination to Discharge",
+      "steps": [
+        {
+          "step": "01",
+          "title": "Examination",
+          "desc": "Diagnosis with physical examination and imaging."
+        },
+        {
+          "step": "02",
+          "title": "Plan",
+          "desc": "Personalized treatment path is determined."
+        },
+        {
+          "step": "03",
+          "title": "Treatment",
+          "desc": "Minimal invasive surgery is applied."
+        },
+        {
+          "step": "04",
+          "title": "Recovery",
+          "desc": "Physiotherapy and regular checks."
+        }
+      ]
+    },
+    "cta": {
+      "badge": "Contact Us",
+      "title": "Take a Professional Step\nFor Your Health",
+      "subtitle": "You can reach Prof. Dr. Nurullah Ermiş immediately for the evaluation of your MRI and X-ray results, and easily create your online appointment.",
+      "appointmentBtn": "Get Appointment",
+      "callBtn": "Call Now"
+    }
+  }
+}

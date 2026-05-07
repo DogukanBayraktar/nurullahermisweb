@@ -1,0 +1,438 @@
+{
+  "tr": {
+    "hero": {
+      "badge": "Hakkında",
+      "name": "Prof. Dr. Nurullah Ermiş",
+      "title": "Ortopedi ve Omurga Cerrahisi Uzmanı — Central Hospital, İstanbul",
+      "bio1": "Prof. Dr. Nurullah Ermiş, 2002 yılında Hacettepe Üniversitesi Tıp Fakültesi’nden mezun olmuş ve uzmanlık eğitimini 2008 yılında Baltalimanı Metin Sabancı Kemik Hastalıkları Hastanesi'nde tamamlamıştır. Uzmanlık sonrası kariyerinde uluslararası düzeyde kendini daima geliştirmiş; Belçika Gent Üniversitesi ve ABD California Üniversitesi (UCSF)’nde omurga cerrahisi alanında ileri eğitimler almıştır. 2019 yılından bu yana Central Hospital İstanbul’da kurucu hekim olarak görev yapmaktadır.",
+      "bio2": "Prof. Dr. Ermiş, özellikle skolyoz (VBT dahil), bel ve boyun fıtığı, diz ve kalça protezi, artroskopik cerrahi, çocuk ortopedisi ve boy uzatma cerrahisi alanlarında uzmanlaşmıştır. Hastalarına modern cerrahi teknikler ve multidisipliner yaklaşımlar ile en yüksek kalitede bakım sunmayı amaçlamakta; hem yetişkin hem de çocuk ortopedisi alanında geniş bir deneyime sahiptir.",
+      "bio3": "“Hekimlik sanatında geçirdiğim uzun yıllar bana en temel gerçeği, belki de en basit haliyle öğretti: Hayat, harekettir. Bir Ortopedi ve Travmatoloji uzmanı olarak, omurganın dik duruşunun sadece anatomik bir başarı değil, insanın hayata karşı sergilediği güçlü bir tavır olduğunu her zaman savundum ve savunmaya devam edeceğim.”"
+    },
+    "education": {
+      "badge": "Biyografi",
+      "title": "Eğitim & Kariyer Geçmişi",
+      "columnTitle": "Eğitim ve Uzmanlık",
+      "items": [
+        {
+          "year": "2002",
+          "title": "Hacettepe Üniversitesi Tıp Fakültesi",
+          "subtitle": "Tıp Eğitimi — Ankara"
+        },
+        {
+          "year": "2005",
+          "title": "Gent Üniversitesi",
+          "subtitle": "Yurtdışı Eğitim — Belçika"
+        },
+        {
+          "year": "2008",
+          "title": "Baltalimanı Ortopedi Hastanesi",
+          "subtitle": "Uzmanlık Eğitimi — İstanbul"
+        },
+        {
+          "year": "2012",
+          "title": "California Üniversitesi (UCSF)",
+          "subtitle": "Yurtdışı Eğitim — San Francisco, ABD"
+        }
+      ]
+    },
+    "experience": {
+      "columnTitle": "Mesleki Deneyim",
+      "items": [
+        {
+          "period": "2019 – Halen",
+          "title": "Central Hospital, İstanbul",
+          "subtitle": "Kurucu Hekim — Ortopedi ve Travmatoloji"
+        },
+        {
+          "period": "2015 – 2018",
+          "title": "Maltepe Üniversitesi Hastanesi",
+          "subtitle": "İstanbul"
+        },
+        {
+          "period": "2013 – 2015",
+          "title": "Acıbadem Üniversitesi Hastanesi",
+          "subtitle": "İstanbul"
+        },
+        {
+          "period": "2011 – 2013",
+          "title": "Maltepe Üniversitesi Hastanesi",
+          "subtitle": "İstanbul"
+        },
+        {
+          "period": "2008 – 2011",
+          "title": "Haydarpaşa Numune EAH",
+          "subtitle": "İstanbul"
+        },
+        {
+          "period": "2008",
+          "title": "Metin Sabancı Baltalimanı Ortopedi Hastanesi",
+          "subtitle": "İstanbul"
+        }
+      ]
+    },
+    "certificates": {
+      "title": "Kurslar & Sertifikalar",
+      "items": [
+        {
+          "year": "2010",
+          "title": "Ekstremite Rekonstrüksiyon Yöntemleri"
+        },
+        {
+          "year": "2008",
+          "title": "Mikrocerrahi Temel Kursu"
+        },
+        {
+          "year": "2007",
+          "title": "Ayak ve Ayak Bileği Cerrahisi"
+        },
+        {
+          "year": "2006",
+          "title": "Kalça Displazisi Tedavisinde Güncel Yaklaşımlar"
+        },
+        {
+          "year": "2003",
+          "title": "Eklem İçi Enjeksiyon Eğitimi"
+        }
+      ]
+    },
+    "expertise": {
+      "badge": "Uzmanlık",
+      "title": "Tıbbi İlgi Alanları",
+      "subtitle": "Ortopedi ve travmatoloji alanının tüm alt dallarında kapsamlı cerrahi deneyim.",
+      "items": [
+        {
+          "title": "Omurga Cerrahisi",
+          "desc": "Skolyoz, Kifoz, VBT, Bel Fıtığı, Boyun Fıtığı, Omurga Kırıkları, Spinal Stenoz"
+        },
+        {
+          "title": "Eklem Cerrahisi",
+          "desc": "Diz & Kalça Protezi (robotik), Artroskopik Cerrahi, Menisküs, Ön Çapraz Bağ (ACL)"
+        },
+        {
+          "title": "Çocuk Ortopedisi",
+          "desc": "Gelişimsel Kalça Displazisi, Çarpık Ayak (Ponseti), Doğumsal Deformiteler, Büyüme Bozuklukları"
+        },
+        {
+          "title": "Deformite & Boy Uzatma",
+          "desc": "Kemik Deformitesi Düzeltme, İlizarov, Taylor Spatial Frame, PRECICE Çivi ile Boy Uzatma"
+        }
+      ]
+    },
+    "publications": {
+      "badge": "Bilimsel Çalışmalar",
+      "title": "Uluslararası Akademik Yayınlar",
+      "subtitle": "PubMed, Scopus ve hakemli dergilerde yayımlanmış bilimsel makaleler.",
+      "items": [
+        {
+          "year": "2024",
+          "title": "Short-term results of hip prosthesis with shortening osteotomy in patients with Crowe Type IV dysplastic coxarthrosis",
+          "journal": "Medicine Science, Cilt 13, Sayı 4, ss. 873–878",
+          "authors": "Polat Ö., Sanel S., Ermiş M.N., Solakoğlu C."
+        },
+        {
+          "year": "2018",
+          "title": "Combination of lumbar erector spinae plane block and transmuscular quadratus lumborum block for surgical anaesthesia in hemiarthroplasty",
+          "journal": "Indian Journal of Anaesthesia, Cilt 62, Sayı 10",
+          "authors": "Tulgar S., Ermiş M.N., Özer Z."
+        },
+        {
+          "year": "2018",
+          "title": "Comparison of ultrasound-guided lumbar erector spinae plane block and transmuscular quadratus lumborum block for postoperative analgesia",
+          "journal": "Anesthesia: Essays and Researches",
+          "authors": "Tulgar S., Köse H.C., Selvi O., Şentürk Ö., Thomas D.T., Ermiş M.N. ve ark."
+        },
+        {
+          "year": "2017",
+          "title": "Spine Research and Case Analysis",
+          "journal": "Journal of Turkish Spinal Surgery, Cilt 28, Sayı 4, ss. 283–288",
+          "authors": "Ermiş N., Erler K., Benli İ.T."
+        },
+        {
+          "year": "2012",
+          "title": "Konjenital kalp hastalığı nedeniyle sternotomi veya torakotomi yapılmış hastalarda skolyoz ve kifoz gelişimi",
+          "journal": "Journal of Turkish Spinal Surgery",
+          "authors": "Ermiş M.N., Solakoğlu C., Coşar Y. ve ark."
+        },
+        {
+          "year": "2011",
+          "title": "Irreducible open posterolateral knee dislocation due to medial meniscus interposition",
+          "journal": "Acta Orthopaedica et Traumatologica Turcica",
+          "authors": "Durakbaşa M.O., Ülkü K., Ermiş M.N."
+        },
+        {
+          "year": "2010",
+          "title": "Irreducible fracture dislocation of the ankle caused by tibialis posterior tendon interposition",
+          "journal": "Journal of Foot and Ankle Surgery",
+          "authors": "Ermiş M.N. ve ark."
+        }
+      ]
+    },
+    "books": {
+      "title": "Kitap Bölümleri",
+      "items": [
+        {
+          "title": "Anterolateral Yaklaşım",
+          "book": "Kalça Cerrahisi",
+          "detail": "Nobel Tıp Yayınları, 2009"
+        },
+        {
+          "title": "Konik Stem",
+          "book": "Kalça Cerrahisi",
+          "detail": "Nobel Tıp Yayınları, 2009"
+        },
+        {
+          "title": "GKD'de Modüler Stem",
+          "book": "Kalça Cerrahisi",
+          "detail": "Nobel Tıp Yayınları, 2009"
+        }
+      ]
+    },
+    "congresses": {
+      "title": "Uluslararası Kongre Sunumları",
+      "items": [
+        {
+          "year": "2011",
+          "title": "Türk Omurga Kongresi",
+          "topic": "Skolyoz, kifoz, osteotomi cerrahisi"
+        },
+        {
+          "year": "2008",
+          "title": "SICOT — Hong Kong",
+          "topic": "Skolyoz, epifiz kayması, vertebra tüberkülozu"
+        },
+        {
+          "year": "2007",
+          "title": "SICOT (Fas) / POSNA (ABD) / EFORT (İtalya)",
+          "topic": "Kalça displazisi, bağ yaralanmaları"
+        }
+      ]
+    },
+    "memberships": {
+      "title": "Mesleki Üyelikler",
+      "items": [
+        "Türk Omurga Derneği",
+        "Türk Kemik ve Eklem Cerrahisi Derneği",
+        "Türk Kemik ve Eklem Eğitim Derneği",
+        "Türk Pediatrik Ortopedi Derneği"
+      ]
+    }
+  },
+  "en": {
+    "hero": {
+      "badge": "About",
+      "name": "Prof. Dr. Nurullah Ermiş",
+      "title": "Orthopedics and Spine Surgery Specialist — Central Hospital, Istanbul",
+      "bio1": "Prof. Dr. Nurullah Ermiş graduated from Hacettepe University Faculty of Medicine in 2002 and completed his specialty training in 2008 at Baltalimanı Metin Sabancı Bone Diseases Hospital. Following his specialization, he continuously advanced his career on an international level, receiving advanced spine surgery training at Ghent University in Belgium and the University of California (UCSF) in the United States. Since 2019, he has been serving as a founding physician at Central Hospital Istanbul.",
+      "bio2": "Prof. Dr. Ermiş specializes particularly in scoliosis (including VBT), lumbar and cervical disc herniation, knee and hip replacement, arthroscopic surgery, pediatric orthopedics, and limb lengthening surgery. He aims to provide the highest quality of care to his patients through modern surgical techniques and multidisciplinary approaches, with extensive experience in both adult and pediatric orthopedics.",
+      "bio3": "\"The many years I have spent in the art of medicine have taught me the most fundamental truth, perhaps in its simplest form: Life is movement. As an Orthopedics and Traumatology specialist, I have always believed—and will continue to believe—that the upright posture of the spine is not merely an anatomical achievement, but also a powerful reflection of a person’s stance toward life.\""
+    },
+    "education": {
+      "badge": "Biography",
+      "title": "Education & Career Background",
+      "columnTitle": "Education and Specialization",
+      "items": [
+        {
+          "year": "2002",
+          "title": "Hacettepe University Faculty of Medicine",
+          "subtitle": "Medical Education — Ankara"
+        },
+        {
+          "year": "2005",
+          "title": "Ghent University",
+          "subtitle": "International Training — Belgium"
+        },
+        {
+          "year": "2008",
+          "title": "Baltalimanı Orthopedics Hospital",
+          "subtitle": "Specialty Training — Istanbul"
+        },
+        {
+          "year": "2012",
+          "title": "University of California (UCSF)",
+          "subtitle": "International Training — San Francisco, USA"
+        }
+      ]
+    },
+    "experience": {
+      "columnTitle": "Professional Experience",
+      "items": [
+        {
+          "period": "2019 – Present",
+          "title": "Central Hospital, Istanbul",
+          "subtitle": "Founding Physician — Orthopedics and Traumatology"
+        },
+        {
+          "period": "2015 – 2018",
+          "title": "Maltepe University Hospital",
+          "subtitle": "Istanbul"
+        },
+        {
+          "period": "2013 – 2015",
+          "title": "Acıbadem University Hospital",
+          "subtitle": "Istanbul"
+        },
+        {
+          "period": "2011 – 2013",
+          "title": "Maltepe University Hospital",
+          "subtitle": "Istanbul"
+        },
+        {
+          "period": "2008 – 2011",
+          "title": "Haydarpaşa Numune Training and Research Hospital",
+          "subtitle": "Istanbul"
+        },
+        {
+          "period": "2008",
+          "title": "Metin Sabancı Baltalimanı Orthopedics Hospital",
+          "subtitle": "Istanbul"
+        }
+      ]
+    },
+    "certificates": {
+      "title": "Courses & Certificates",
+      "items": [
+        {
+          "year": "2010",
+          "title": "Extremity Reconstruction Methods"
+        },
+        {
+          "year": "2008",
+          "title": "Microsurgery Basic Course"
+        },
+        {
+          "year": "2007",
+          "title": "Foot and Ankle Surgery"
+        },
+        {
+          "year": "2006",
+          "title": "Current Approaches in Hip Dysplasia Treatment"
+        },
+        {
+          "year": "2003",
+          "title": "Intra-Articular Injection Training"
+        }
+      ]
+    },
+    "expertise": {
+      "badge": "Expertise",
+      "title": "Medical Areas of Interest",
+      "subtitle": "Comprehensive surgical experience across all subfields of orthopedics and traumatology.",
+      "items": [
+        {
+          "title": "Spine Surgery",
+          "desc": "Scoliosis, kyphosis, VBT, lumbar herniation, cervical herniation, spinal fractures, spinal stenosis"
+        },
+        {
+          "title": "Joint Surgery",
+          "desc": "Knee & hip replacement (robotic), arthroscopic surgery, meniscus, anterior cruciate ligament (ACL)"
+        },
+        {
+          "title": "Pediatric Orthopedics",
+          "desc": "Developmental hip dysplasia, clubfoot (Ponseti), congenital deformities, growth disorders"
+        },
+        {
+          "title": "Deformity & Limb Lengthening",
+          "desc": "Bone deformity correction, Ilizarov, Taylor Spatial Frame, limb lengthening with PRECICE nail"
+        }
+      ]
+    },
+    "publications": {
+      "badge": "Scientific Work",
+      "title": "International Academic Publications",
+      "subtitle": "Scientific articles published in PubMed, Scopus, and peer-reviewed journals.",
+      "items": [
+        {
+          "year": "2024",
+          "title": "Short-term results of hip prosthesis with shortening osteotomy in patients with Crowe Type IV dysplastic coxarthrosis",
+          "journal": "Medicine Science, Vol. 13, Issue 4, pp. 873–878",
+          "authors": "Polat Ö., Sanel S., Ermiş M.N., Solakoğlu C."
+        },
+        {
+          "year": "2018",
+          "title": "Combination of lumbar erector spinae plane block and transmuscular quadratus lumborum block for surgical anaesthesia in hemiarthroplasty",
+          "journal": "Indian Journal of Anaesthesia, Vol. 62, Issue 10",
+          "authors": "Tulgar S., Ermiş M.N., Özer Z."
+        },
+        {
+          "year": "2018",
+          "title": "Comparison of ultrasound-guided lumbar erector spinae plane block and transmuscular quadratus lumborum block for postoperative analgesia",
+          "journal": "Anesthesia: Essays and Researches",
+          "authors": "Tulgar S., Köse H.C., Selvi O., Şentürk Ö., Thomas D.T., Ermiş M.N. et al."
+        },
+        {
+          "year": "2017",
+          "title": "Spine Research and Case Analysis",
+          "journal": "Journal of Turkish Spinal Surgery, Vol. 28, Issue 4, pp. 283–288",
+          "authors": "Ermiş N., Erler K., Benli İ.T."
+        },
+        {
+          "year": "2012",
+          "title": "Development of scoliosis and kyphosis in patients who underwent sternotomy or thoracotomy due to congenital heart disease",
+          "journal": "Journal of Turkish Spinal Surgery",
+          "authors": "Ermiş M.N., Solakoğlu C., Coşar Y. et al."
+        },
+        {
+          "year": "2011",
+          "title": "Irreducible open posterolateral knee dislocation due to medial meniscus interposition",
+          "journal": "Acta Orthopaedica et Traumatologica Turcica",
+          "authors": "Durakbaşa M.O., Ülkü K., Ermiş M.N."
+        },
+        {
+          "year": "2010",
+          "title": "Irreducible fracture dislocation of the ankle caused by tibialis posterior tendon interposition",
+          "journal": "Journal of Foot and Ankle Surgery",
+          "authors": "Ermiş M.N. et al."
+        }
+      ]
+    },
+    "books": {
+      "title": "Book Chapters",
+      "items": [
+        {
+          "title": "Anterolateral Approach",
+          "book": "Hip Surgery",
+          "detail": "Nobel Medical Publications, 2009"
+        },
+        {
+          "title": "Conical Stem",
+          "book": "Hip Surgery",
+          "detail": "Nobel Medical Publications, 2009"
+        },
+        {
+          "title": "Modular Stem in DDH",
+          "book": "Hip Surgery",
+          "detail": "Nobel Medical Publications, 2009"
+        }
+      ]
+    },
+    "congresses": {
+      "title": "International Congress Presentations",
+      "items": [
+        {
+          "year": "2011",
+          "title": "Turkish Spine Congress",
+          "topic": "Scoliosis, kyphosis, osteotomy surgery"
+        },
+        {
+          "year": "2008",
+          "title": "SICOT — Hong Kong",
+          "topic": "Scoliosis, epiphyseal slip, vertebral tuberculosis"
+        },
+        {
+          "year": "2007",
+          "title": "SICOT (Morocco) / POSNA (USA) / EFORT (Italy)",
+          "topic": "Hip dysplasia, ligament injuries"
+        }
+      ]
+    },
+    "memberships": {
+      "title": "Professional Memberships",
+      "items": [
+        "Turkish Spine Society",
+        "Turkish Society of Bone and Joint Surgery",
+        "Turkish Bone and Joint Education Society",
+        "Turkish Pediatric Orthopedics Association"
+      ]
+    }
+  }
+}

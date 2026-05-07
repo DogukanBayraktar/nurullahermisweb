@@ -3,6 +3,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { CheckCircle, Info, Trash2 } from 'lucide-react';
 import { canonicalTreatmentSlug } from '@/lib/routes';
 
 type Stat = { label: string; val: string };
@@ -46,12 +47,12 @@ type TreatmentFormProps = {
   };
 };
 
-const inputCls = 'w-full px-3 py-2 rounded-lg border border-slate-200 bg-white text-slate-900 text-sm placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-shadow';
+const inputCls = 'w-full px-4 py-2.5 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm placeholder:text-slate-400 outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all shadow-sm';
 
 function Field({ label, required, children }: { label: string; required?: boolean; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-slate-600 mb-1.5">
+      <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1.5 ml-1">
         {label}{required && <span className="text-red-400 ml-0.5">*</span>}
       </label>
       {children}
@@ -69,6 +70,8 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
   const [published, setPublished] = useState(defaultValues.published ?? true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
+  const [deleteNotify, setDeleteNotify] = useState(false);
 
   const [trForm, setTrForm] = useState<LangForm>(() =>
     primaryLang === 'tr'
@@ -147,6 +150,7 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
     e.preventDefault();
     setSaving(true);
     setError('');
+    setSuccess(false);
     try {
       const trPayload = buildPayload(trForm, 'tr');
       const enPayload = buildPayload(enForm, 'en');
@@ -192,8 +196,11 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
           if (!r2.ok) throw new Error((await r2.json()).error ?? 'EN kayıt hatası');
         }
       }
-      router.push('/admin/tedaviler');
-      router.refresh();
+      setSuccess(true);
+      setTimeout(() => {
+        router.push('/admin/tedaviler');
+        router.refresh();
+      }, 1500);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Bir hata oluştu.');
       setSaving(false);
@@ -205,9 +212,40 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
     { lang: 'en' as const, label: 'English', flag: '🇬🇧' },
   ];
 
+  const handleAddList = (lang: 'tr' | 'en', field: 'stats' | 'treatment' | 'faq', template: any) => {
+    setForm(lang, { [field]: [template, ...getForm(lang)[field]] });
+  };
+
+  const handleRemoveList = (lang: 'tr' | 'en', field: 'stats' | 'treatment' | 'faq', index: number) => {
+    if (!confirm('Bu öğeyi silmek istediğinize emin misiniz?')) return;
+    setForm(lang, { [field]: getForm(lang)[field].filter((_, i) => i !== index) });
+    setDeleteNotify(true);
+    setTimeout(() => setDeleteNotify(false), 2500);
+  };
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      {error && <div className="bg-red-50 border border-red-200 text-red-700 text-sm rounded-xl px-4 py-3">{error}</div>}
+    <form onSubmit={handleSubmit} className="space-y-6 pb-12">
+      {/* Notifications */}
+      <div className="fixed top-24 right-8 z-[100] flex flex-col gap-3 pointer-events-none">
+        {success && (
+          <div className="bg-green-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-right-4 duration-300">
+            <CheckCircle className="w-5 h-5" />
+            <span className="font-bold text-sm tracking-wide">Değişiklikler Başarıyla Kaydedildi!</span>
+          </div>
+        )}
+        {deleteNotify && (
+          <div className="bg-slate-800 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-right-4 duration-300">
+            <Info className="w-5 h-5 text-blue-400" />
+            <span className="font-bold text-sm tracking-wide">Öğe Listeden Silindi.</span>
+          </div>
+        )}
+        {error && (
+          <div className="bg-red-600 text-white px-6 py-4 rounded-2xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-right-4 duration-300">
+            <Info className="w-5 h-5" />
+            <span className="font-bold text-sm tracking-wide">{error}</span>
+          </div>
+        )}
+      </div>
 
       {/* Sekme */}
       <div className="flex gap-1 bg-slate-100 p-1 rounded-xl w-fit">
@@ -221,17 +259,15 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
       </div>
 
       {/* Ortak */}
-      <div className="bg-white border border-slate-100 rounded-2xl p-6">
-        <h2 className="text-sm font-semibold text-slate-700 mb-3">Ortak Alanlar</h2>
-        <div className="grid grid-cols-2 gap-4">
+      <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+        <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Ortak Alanlar</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Field label="Görsel URL">
             <input value={img} onChange={(e) => setImg(e.target.value)} placeholder="/images/tedavi.avif" className={inputCls} />
           </Field>
-          <div className="flex items-end pb-2">
-            <label className="flex items-center gap-2 cursor-pointer">
-              <input type="checkbox" checked={published} onChange={(e) => setPublished(e.target.checked)} className="rounded" />
-              <span className="text-sm text-slate-700">Yayınla</span>
-            </label>
+          <div className="flex items-center gap-3 pt-6">
+            <input type="checkbox" id="published" checked={published} onChange={(e) => setPublished(e.target.checked)} className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+            <label htmlFor="published" className="text-sm font-bold text-slate-700 cursor-pointer uppercase tracking-wide">Yayında</label>
           </div>
         </div>
       </div>
@@ -240,9 +276,9 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
       {tabs.map(({ lang }) => (
         <div key={lang} className={activeTab === lang ? 'space-y-6' : 'hidden'}>
 
-          <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
-            <h2 className="text-sm font-semibold text-slate-700">Temel — {lang === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'}</h2>
-            <div className="grid grid-cols-2 gap-4">
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-6">
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Temel Bilgiler — {lang === 'tr' ? '🇹🇷 Türkçe' : '🇬🇧 English'}</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <Field label="Başlık" required={lang === 'tr'}>
                 <input value={getForm(lang).title} onChange={(e) => setForm(lang, { title: e.target.value })}
                   placeholder={lang === 'tr' ? 'Tedavi başlığı' : 'Treatment title'} className={inputCls} required={lang === 'tr'} />
@@ -260,58 +296,49 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
           </div>
 
           {/* İstatistikler */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-3">
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-sm font-semibold text-slate-700">İstatistikler</h2>
-              <button type="button" onClick={() => setForm(lang, { stats: [...getForm(lang).stats, { label: '', val: '' }] })} className="text-xs text-blue-600 font-medium">+ Ekle</button>
+              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">İstatistikler</h2>
+              <button type="button" onClick={() => handleAddList(lang, 'stats', { label: '', val: '' })} className="flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg transition-all">+ Ekle</button>
             </div>
             {getForm(lang).stats.map((stat, i) => (
-              <div key={i} className="grid grid-cols-2 gap-3 items-center">
+              <div key={i} className="flex gap-4 items-center bg-slate-50 p-4 rounded-xl border border-slate-100/50">
                 <input value={stat.label} onChange={(e) => setForm(lang, { stats: getForm(lang).stats.map((s, j) => j === i ? { ...s, label: e.target.value } : s) })}
                   placeholder={lang === 'tr' ? 'Etiket' : 'Label'} className={inputCls} />
-                <div className="flex gap-2">
-                  <input value={stat.val} onChange={(e) => setForm(lang, { stats: getForm(lang).stats.map((s, j) => j === i ? { ...s, val: e.target.value } : s) })}
-                    placeholder="%90+" className={inputCls} />
-                  {getForm(lang).stats.length > 1 && (
-                    <button type="button" onClick={() => setForm(lang, { stats: getForm(lang).stats.filter((_, j) => j !== i) })} className="text-red-400 text-xs px-2">Sil</button>
-                  )}
-                </div>
+                <input value={stat.val} onChange={(e) => setForm(lang, { stats: getForm(lang).stats.map((s, j) => j === i ? { ...s, val: e.target.value } : s) })}
+                  placeholder="%90+" className={inputCls} />
+                <button type="button" onClick={() => handleRemoveList(lang, 'stats', i)} className="text-slate-400 hover:text-red-600 p-2 transition-all"><Trash2 className="w-5 h-5" /></button>
               </div>
             ))}
           </div>
 
           {/* Açıklama */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6">
-            <h2 className="text-sm font-semibold text-slate-700 mb-1">Açıklama (desc)</h2>
-            <p className="text-xs text-slate-400 mb-3">Paragrafları boş satırla (Enter×2) ayır.</p>
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Açıklama (desc)</h2>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Paragrafları boş satırla (Enter×2) ayır.</p>
             <textarea value={getForm(lang).descRaw} onChange={(e) => setForm(lang, { descRaw: e.target.value })}
-              rows={10} className={inputCls}
+              rows={8} className={inputCls}
               placeholder={lang === 'tr' ? 'Birinci paragraf...\n\nİkinci paragraf...' : 'First paragraph...\n\nSecond paragraph...'} />
           </div>
 
           {/* Belirtiler */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6">
-            <h2 className="text-sm font-semibold text-slate-700 mb-1">Belirtiler</h2>
-            <p className="text-xs text-slate-400 mb-3">Her satır ayrı belirti.</p>
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Belirtiler</h2>
+            <p className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-4">Her satır ayrı bir belirtidir.</p>
             <textarea value={getForm(lang).symptomsRaw} onChange={(e) => setForm(lang, { symptomsRaw: e.target.value })}
-              rows={5} className={inputCls}
+              rows={4} className={inputCls}
               placeholder={lang === 'tr' ? 'Sırt ağrısı\nUyuşma' : 'Back pain\nNumbness'} />
           </div>
 
           {/* Tedavi Yöntemleri */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-sm font-semibold text-slate-700">Tedavi Yöntemleri</h2>
-              <button type="button" onClick={() => setForm(lang, { treatment: [...getForm(lang).treatment, { baslik: '', icerik: '' }] })} className="text-xs text-blue-600 font-medium">+ Ekle</button>
+              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Tedavi Yöntemleri</h2>
+              <button type="button" onClick={() => handleAddList(lang, 'treatment', { baslik: '', icerik: '' })} className="flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg transition-all">+ Ekle</button>
             </div>
             {getForm(lang).treatment.map((t, i) => (
-              <div key={i} className="border border-slate-100 rounded-xl p-4 space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-xs text-slate-400">Yöntem {i + 1}</span>
-                  {getForm(lang).treatment.length > 1 && (
-                    <button type="button" onClick={() => setForm(lang, { treatment: getForm(lang).treatment.filter((_, j) => j !== i) })} className="text-xs text-red-400">Sil</button>
-                  )}
-                </div>
+              <div key={i} className="bg-slate-50 border border-slate-100/50 rounded-2xl p-4 space-y-3 relative group">
+                <button type="button" onClick={() => handleRemoveList(lang, 'treatment', i)} className="absolute top-4 right-4 text-slate-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all"><Trash2 className="w-5 h-5" /></button>
                 <input value={t.baslik} onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, baslik: e.target.value } : s) })}
                   placeholder={lang === 'tr' ? 'Yöntem başlığı' : 'Method title'} className={inputCls} />
                 <textarea value={t.icerik} onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, icerik: e.target.value } : s) })}
@@ -321,19 +348,14 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
           </div>
 
           {/* SSS */}
-          <div className="bg-white border border-slate-100 rounded-2xl p-6 space-y-4">
+          <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm space-y-4">
             <div className="flex justify-between items-center">
-              <h2 className="text-sm font-semibold text-slate-700">Sıkça Sorulan Sorular</h2>
-              <button type="button" onClick={() => setForm(lang, { faq: [...getForm(lang).faq, { s: '', c: '' }] })} className="text-xs text-blue-600 font-medium">+ Ekle</button>
+              <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Sıkça Sorulan Sorular</h2>
+              <button type="button" onClick={() => handleAddList(lang, 'faq', { s: '', c: '' })} className="flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg transition-all">+ Ekle</button>
             </div>
             {getForm(lang).faq.map((f, i) => (
-              <div key={i} className="border border-slate-100 rounded-xl p-4 space-y-3">
-                <div className="flex justify-between">
-                  <span className="text-xs text-slate-400">Soru {i + 1}</span>
-                  {getForm(lang).faq.length > 1 && (
-                    <button type="button" onClick={() => setForm(lang, { faq: getForm(lang).faq.filter((_, j) => j !== i) })} className="text-xs text-red-400">Sil</button>
-                  )}
-                </div>
+              <div key={i} className="bg-slate-50 border border-slate-100/50 rounded-2xl p-4 space-y-3 relative group">
+                <button type="button" onClick={() => handleRemoveList(lang, 'faq', i)} className="absolute top-4 right-4 text-slate-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all"><Trash2 className="w-5 h-5" /></button>
                 <input value={f.s} onChange={(e) => setForm(lang, { faq: getForm(lang).faq.map((q, j) => j === i ? { ...q, s: e.target.value } : q) })}
                   placeholder={lang === 'tr' ? 'Soru' : 'Question'} className={inputCls} />
                 <textarea value={f.c} onChange={(e) => setForm(lang, { faq: getForm(lang).faq.map((q, j) => j === i ? { ...q, c: e.target.value } : q) })}
@@ -345,16 +367,17 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
       ))}
 
       {!isEdit && (
-        <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 text-xs text-blue-700">
-          💡 TR içeriği zorunlu. EN sekmesi isteğe bağlı — boş bırakılırsa sadece Türkçe kaydedilir.
+        <div className="bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 text-xs font-bold text-blue-700 uppercase tracking-widest flex items-center gap-3">
+          <Info className="w-4 h-4" />
+          💡 TR içeriği zorunlu. EN sekmesi boş bırakılırsa sadece Türkçe kaydedilir.
         </div>
       )}
 
-      <div className="flex items-center gap-3">
-        <button type="submit" disabled={saving} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-medium px-6 py-2.5 rounded-xl text-sm">
-          {saving ? 'Kaydediliyor...' : isEdit ? 'Güncelle' : 'Kaydet'}
+      <div className="sticky bottom-4 flex items-center justify-end gap-3 bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-slate-100 shadow-xl">
+        <button type="button" onClick={() => router.back()} className="text-slate-500 hover:text-slate-700 font-bold text-sm px-6 py-2.5 transition-all">İptal</button>
+        <button type="submit" disabled={saving} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold px-10 py-3 rounded-xl text-sm shadow-lg shadow-blue-600/20 active:scale-95 transition-all">
+          {saving ? 'Kaydediliyor...' : isEdit ? 'Değişiklikleri Güncelle' : 'Tedaviyi Kaydet'}
         </button>
-        <button type="button" onClick={() => router.back()} className="text-slate-500 hover:text-slate-700 text-sm px-4 py-2.5">İptal</button>
       </div>
     </form>
   );
