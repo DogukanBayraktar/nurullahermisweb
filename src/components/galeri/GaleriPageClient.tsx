@@ -165,7 +165,7 @@ export default function GaleriPageClient({ initialCategories }: { initialCategor
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 md:p-5 xl:grid-cols-3">
-                  {item.images.map((image, imageIndex) => (
+                  {item.images.map((image: string, imageIndex: number) => (
                     <button
                       type="button"
                       key={`${item.slug}-${image}-${imageIndex}`}
@@ -265,7 +265,7 @@ export default function GaleriPageClient({ initialCategories }: { initialCategor
             </div>
 
             <div className="flex flex-wrap gap-3 overflow-x-auto pb-1">
-              {activeCategory.images.map((image, thumbIndex) => {
+              {activeCategory.images.map((image: string, thumbIndex: number) => {
                 const isActive = thumbIndex === activeImage.imageIndex;
 
                 return (
