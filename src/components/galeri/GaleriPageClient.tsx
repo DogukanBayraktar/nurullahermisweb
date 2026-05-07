@@ -10,11 +10,19 @@ import { FadeIn } from '@/components/ui/fade-in';
 import { getLocalizedGalleryCategories, type GalleryCategory } from '@/lib/gallery';
 import { getLocalizedPath } from '@/lib/routes';
 
-export default function GaleriPageClient({ initialCategories }: { initialCategories: GalleryCategory[] }) {
+export default function GaleriPageClient({ initialCategories }: { initialCategories: any[] }) {
   const { t, i18n } = useTranslation();
-  const categories = getLocalizedGalleryCategories(i18n.language).filter((item) =>
-    initialCategories.some((category) => category.slug === item.slug)
-  );
+  
+  const categories = useMemo(() => {
+    const isEn = i18n.language.startsWith('en');
+    return initialCategories.map(cat => ({
+      slug: cat.slug,
+      title: isEn ? (cat.title_en || cat.title_tr) : cat.title_tr,
+      category: isEn ? (cat.category_en || cat.category_tr) : cat.category_tr,
+      images: cat.images
+    }));
+  }, [initialCategories, i18n.language]);
+
   const [activeImage, setActiveImage] = useState<{ categorySlug: string; imageIndex: number } | null>(null);
 
   const activeCategory = useMemo(

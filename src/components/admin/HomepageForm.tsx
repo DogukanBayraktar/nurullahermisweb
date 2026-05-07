@@ -3,6 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, Info } from 'lucide-react';
+import ImageUpload from './ImageUpload';
+import HomeResultsManager from './HomeResultsManager';
 
 type HomepageContent = {
   tr: any;
@@ -51,6 +53,26 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
     }));
   };
 
+  const updateSharedField = (section: string, field: string, value: string) => {
+    setData((prev) => ({
+      ...prev,
+      tr: {
+        ...prev.tr,
+        [section]: {
+          ...prev.tr[section],
+          [field]: value,
+        },
+      },
+      en: {
+        ...prev.en,
+        [section]: {
+          ...prev.en[section],
+          [field]: value,
+        },
+      },
+    }));
+  };
+
   const updateStat = (lang: 'tr' | 'en', index: number, field: string, value: string) => {
     setData(prev => {
       const stats = [...prev[lang].stats];
@@ -70,7 +92,7 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
   const updateProcessStep = (lang: 'tr' | 'en', index: number, field: string, value: string) => {
     setData(prev => {
       const steps = [...prev[lang].process.steps];
-      steps[index] = { ...steps[index], [field]: value };
+      steps[index] = { ...stats[index], [field]: value };
       return { ...prev, [lang]: { ...prev[lang], process: { ...prev[lang].process, steps } } };
     });
   };
@@ -98,17 +120,25 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
         <button onClick={() => setActiveTab('en')} className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${activeTab === 'en' ? 'bg-white text-slate-900 shadow-sm' : 'text-slate-500 hover:text-slate-700'}`}>🇬🇧 English</button>
       </div>
 
-      <div className="space-y-8">
+      <div className="space-y-8 pb-20">
         {/* HERO */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Hero Bölümü</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Field label="Rozet">
-              <input value={data[activeTab].hero.badge} onChange={(e) => updateNestedField(activeTab, 'hero', 'badge', e.target.value)} className={inputCls} />
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Hero Bölümü</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <Field label="Görsel (Opsiyonel)">
+              <ImageUpload 
+                value={data[activeTab].hero.image || ''} 
+                onChange={(url) => updateSharedField('hero', 'image', url)} 
+              />
             </Field>
-            <Field label="Başlık">
-              <input value={data[activeTab].hero.title} onChange={(e) => updateNestedField(activeTab, 'hero', 'title', e.target.value)} className={inputCls} />
-            </Field>
+            <div className="space-y-4">
+              <Field label="Rozet">
+                <input value={data[activeTab].hero.badge} onChange={(e) => updateNestedField(activeTab, 'hero', 'badge', e.target.value)} className={inputCls} />
+              </Field>
+              <Field label="Başlık">
+                <input value={data[activeTab].hero.title} onChange={(e) => updateNestedField(activeTab, 'hero', 'title', e.target.value)} className={inputCls} />
+              </Field>
+            </div>
             <Field label="Alt Başlık" className="md:col-span-2">
               <textarea value={data[activeTab].hero.subtitle} onChange={(e) => updateNestedField(activeTab, 'hero', 'subtitle', e.target.value)} className={inputCls} rows={3} />
             </Field>
@@ -117,10 +147,10 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
 
         {/* HERO STATS */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Hero İstatistikleri</h2>
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Hero İstatistikleri</h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {data[activeTab].stats.map((stat: any, i: number) => (
-              <div key={i} className="p-4 bg-slate-50 rounded-xl space-y-2">
+              <div key={i} className="p-4 bg-slate-50 rounded-xl space-y-2 border border-slate-100/50">
                 <Field label={`Değer ${i+1}`}>
                   <input value={stat.value} onChange={(e) => updateStat(activeTab, i, 'value', e.target.value)} className={inputCls} />
                 </Field>
@@ -134,29 +164,46 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
 
         {/* ANA SAYFA HAKKIMDA */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Ana Sayfa Hakkımda Bölümü</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Field label="Rozet">
-              <input value={data[activeTab].about.badge} onChange={(e) => updateNestedField(activeTab, 'about', 'badge', e.target.value)} className={inputCls} />
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Ana Sayfa Hakkımda Bölümü</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <Field label="Bölüm Görseli">
+              <ImageUpload 
+                value={data[activeTab].about.image || ''} 
+                onChange={(url) => updateSharedField('about', 'image', url)} 
+              />
             </Field>
-            <Field label="Başlık">
-              <input value={data[activeTab].about.title} onChange={(e) => updateNestedField(activeTab, 'about', 'title', e.target.value)} className={inputCls} />
-            </Field>
-            <Field label="Alt Başlık">
-              <input value={data[activeTab].about.subtitle} onChange={(e) => updateNestedField(activeTab, 'about', 'subtitle', e.target.value)} className={inputCls} />
-            </Field>
-            <Field label="Buton Metni">
-              <input value={data[activeTab].about.viewCareer} onChange={(e) => updateNestedField(activeTab, 'about', 'viewCareer', e.target.value)} className={inputCls} />
-            </Field>
-            <Field label="Açıklama" className="md:col-span-2">
-              <textarea value={data[activeTab].about.description} onChange={(e) => updateNestedField(activeTab, 'about', 'description', e.target.value)} className={inputCls} rows={4} />
-            </Field>
+            <div className="grid grid-cols-1 gap-4">
+              <Field label="Rozet">
+                <input value={data[activeTab].about.badge} onChange={(e) => updateNestedField(activeTab, 'about', 'badge', e.target.value)} className={inputCls} />
+              </Field>
+              <Field label="Başlık">
+                <input value={data[activeTab].about.title} onChange={(e) => updateNestedField(activeTab, 'about', 'title', e.target.value)} className={inputCls} />
+              </Field>
+              <Field label="Alt Başlık">
+                <input value={data[activeTab].about.subtitle} onChange={(e) => updateNestedField(activeTab, 'about', 'subtitle', e.target.value)} className={inputCls} />
+              </Field>
+            </div>
+            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+               <Field label="Açıklama">
+                <textarea value={data[activeTab].about.description} onChange={(e) => updateNestedField(activeTab, 'about', 'description', e.target.value)} className={inputCls} rows={4} />
+              </Field>
+              <Field label="Buton Metni">
+                <input value={data[activeTab].about.viewCareer} onChange={(e) => updateNestedField(activeTab, 'about', 'viewCareer', e.target.value)} className={inputCls} />
+              </Field>
+            </div>
           </div>
         </section>
 
+        {/* HOME RESULTS SLIDER - MOVED HERE */}
+        <div className="py-4">
+          <div className="h-px bg-slate-100 mb-8" />
+          <HomeResultsManager />
+          <div className="h-px bg-slate-100 mt-8" />
+        </div>
+
         {/* OMURGA SAĞLIĞI MERKEZİ */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Omurga Sağlığı Merkezi</h2>
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Omurga Sağlığı Merkezi</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Field label="Rozet">
               <input value={data[activeTab].center.badge} onChange={(e) => updateNestedField(activeTab, 'center', 'badge', e.target.value)} className={inputCls} />
@@ -179,7 +226,7 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             {data[activeTab].center.stats.map((stat: any, i: number) => (
-              <div key={i} className="p-4 bg-slate-50 rounded-xl space-y-2">
+              <div key={i} className="p-4 bg-slate-50 rounded-xl space-y-2 border border-slate-100/50">
                 <Field label={`İstatistik ${i+1} Değer`}>
                   <input value={stat.value} onChange={(e) => updateCenterStat(activeTab, i, 'value', e.target.value)} className={inputCls} />
                 </Field>
@@ -193,10 +240,10 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
 
         {/* PROCESS */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Tedavi Süreci Steps</h2>
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Tedavi Süreci Steps</h2>
           <div className="space-y-4">
             {data[activeTab].process.steps.map((step: any, i: number) => (
-              <div key={i} className="p-4 bg-slate-50 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div key={i} className="p-4 bg-slate-50 rounded-xl grid grid-cols-1 md:grid-cols-3 gap-4 border border-slate-100/50">
                 <Field label="Adım No">
                   <input value={step.step} onChange={(e) => updateProcessStep(activeTab, i, 'step', e.target.value)} className={inputCls} />
                 </Field>
@@ -213,7 +260,7 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
 
         {/* CTA */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Alt CTA Alanı</h2>
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Alt CTA Alanı</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Field label="Başlık (Satır başı \n ile)">
               <textarea value={data[activeTab].cta.title} onChange={(e) => updateNestedField(activeTab, 'cta', 'title', e.target.value)} className={inputCls} rows={2} />
@@ -231,9 +278,9 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
         </section>
       </div>
 
-      <div className="sticky bottom-8 flex justify-end gap-3 pt-6 border-t border-slate-100 bg-slate-50/80 backdrop-blur-sm p-4 rounded-2xl">
-        <button onClick={() => router.back()} className="px-6 py-2.5 text-slate-600 font-medium hover:text-slate-900 transition-all">İptal</button>
-        <button onClick={handleSave} disabled={saving} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold px-8 py-2.5 rounded-xl shadow-lg shadow-blue-600/20 transition-all active:scale-95">{saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}</button>
+      <div className="fixed bottom-4 right-8 left-64 flex justify-end gap-3 bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-slate-100 shadow-xl z-50 lg:left-72">
+        <button onClick={() => router.back()} className="px-6 py-2.5 text-slate-600 font-bold text-sm hover:text-slate-900 transition-all">İptal</button>
+        <button onClick={handleSave} disabled={saving} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold px-10 py-3 rounded-xl text-sm shadow-lg shadow-blue-600/20 transition-all active:scale-95">{saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}</button>
       </div>
     </div>
   );

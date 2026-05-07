@@ -5,7 +5,7 @@ import AdminShell from '@/components/admin/AdminShell';
 import Link from 'next/link';
 import {
   FileText, Stethoscope, User, Home,
-  Newspaper, PresentationIcon, ArrowRight,
+  Newspaper, PresentationIcon, ArrowRight, Image as ImageIcon,
 } from 'lucide-react';
 
 const sections = [
@@ -28,24 +28,6 @@ const sections = [
     iconColor: 'text-blue-600',
   },
   {
-    label: 'Basın & Medya',
-    desc: 'Haber ve röportaj ekle',
-    href: '/admin/basin',
-    icon: Newspaper,
-    bg: 'bg-purple-50',
-    text: 'text-purple-700',
-    iconColor: 'text-purple-600',
-  },
-  {
-    label: 'Sunumlar',
-    desc: 'Kongre ve sunum ekle',
-    href: '/admin/sunumlar',
-    icon: PresentationIcon,
-    bg: 'bg-indigo-50',
-    text: 'text-indigo-700',
-    iconColor: 'text-indigo-600',
-  },
-  {
     label: 'Hakkımda',
     desc: 'Eğitim, deneyim, yayınlar',
     href: '/admin/hakkimda',
@@ -63,6 +45,15 @@ const sections = [
     text: 'text-rose-700',
     iconColor: 'text-rose-600',
   },
+  {
+    label: 'Galeri',
+    desc: 'Vaka fotoğrafları, Galeri yönetimi',
+    href: '/admin/galeri',
+    icon: ImageIcon,
+    bg: 'bg-indigo-50',
+    text: 'text-indigo-700',
+    iconColor: 'text-indigo-600',
+  },
 ];
 
 export default async function DashboardPage() {
@@ -71,7 +62,7 @@ export default async function DashboardPage() {
 
   return (
     <AdminShell>
-      <div className="p-8 max-w-5xl mx-auto">
+      <div className="px-4 py-6 md:p-8 max-w-5xl mx-auto">
 
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-900">Hoş geldiniz 👋</h1>

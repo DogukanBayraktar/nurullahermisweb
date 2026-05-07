@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, Info, Trash2 } from 'lucide-react';
 import { canonicalTreatmentSlug } from '@/lib/routes';
+import ImageUpload from './ImageUpload';
 
 type Stat = { label: string; val: string };
 type TreatmentSection = { baslik: string; icerik: string };
@@ -261,11 +262,13 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
       {/* Ortak */}
       <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
         <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Ortak Alanlar</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Field label="Görsel URL">
-            <input value={img} onChange={(e) => setImg(e.target.value)} placeholder="/images/tedavi.avif" className={inputCls} />
-          </Field>
-          <div className="flex items-center gap-3 pt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <ImageUpload 
+            label="Kapak Görseli" 
+            value={img} 
+            onChange={(url) => setImg(url)} 
+          />
+          <div className="flex items-center gap-3 md:pt-8">
             <input type="checkbox" id="published" checked={published} onChange={(e) => setPublished(e.target.checked)} className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
             <label htmlFor="published" className="text-sm font-bold text-slate-700 cursor-pointer uppercase tracking-wide">Yayında</label>
           </div>

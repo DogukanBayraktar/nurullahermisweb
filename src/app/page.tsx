@@ -1,8 +1,12 @@
 import { getStaticContent } from '@/lib/content';
 import HomeClient from '@/components/home/HomeClient';
+import { prisma } from '@/lib/prisma';
 
 export default async function Home() {
   const homepageData = getStaticContent('homepage.json');
+  const homeResults = await prisma.homeResult.findMany({
+    orderBy: { order: 'asc' }
+  });
   
   if (!homepageData) {
     return (
@@ -12,5 +16,5 @@ export default async function Home() {
     );
   }
 
-  return <HomeClient homepageData={homepageData} />;
+  return <HomeClient homepageData={homepageData} initialResults={homeResults} />;
 }

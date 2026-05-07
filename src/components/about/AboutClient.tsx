@@ -57,7 +57,7 @@ export default function AboutClient({ aboutData }: { aboutData: any }) {
             <FadeIn direction="right" delay={0.1} className="w-full lg:w-5/12">
               <div className="relative">
                 <img
-                  src="/nurullah-hoca3.avif"
+                  src={content.hero.image || "/nurullah-hoca3.avif"}
                   alt={t('aboutPage.hero.imageAlt')}
                   className="relative aspect-[4/5] w-full rounded-3xl border-4 border-white object-cover object-top shadow-2xl"
                 />

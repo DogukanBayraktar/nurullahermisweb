@@ -4,6 +4,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, Info, Trash2 } from 'lucide-react';
+import ImageUpload from './ImageUpload';
 
 type Section = { h2: string; content: string };
 
@@ -305,16 +306,13 @@ export default function ArticleForm({ defaultValues = {} }: ArticleFormProps) {
       {/* Ortak Alan: Görsel */}
       <div className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
         <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Ortak Alanlar</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Field label="Görsel URL">
-            <input
-              value={img}
-              onChange={(e) => setImg(e.target.value)}
-              placeholder="/images/saglik/makale.avif"
-              className={inputCls}
-            />
-          </Field>
-          <div className="flex items-center gap-3 pt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+          <ImageUpload 
+            label="Kapak Görseli" 
+            value={img} 
+            onChange={(url) => setImg(url)} 
+          />
+          <div className="flex items-center gap-3 md:pt-8">
             <input
               type="checkbox"
               id="published"

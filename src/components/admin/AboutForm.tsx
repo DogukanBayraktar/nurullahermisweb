@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Plus, Trash2, CheckCircle, Info } from 'lucide-react';
+import ImageUpload from './ImageUpload';
 
 type AboutContent = {
   tr: any;
@@ -49,6 +50,14 @@ export default function AboutForm({ initialData }: { initialData: AboutContent }
     }));
   };
 
+  const updateSharedHero = (field: string, value: string) => {
+    setData(prev => ({
+      ...prev,
+      tr: { ...prev.tr, hero: { ...prev.tr.hero, [field]: value } },
+      en: { ...prev.en, hero: { ...prev.en.hero, [field]: value } }
+    }));
+  };
+
   const updateList = (section: string, index: number, field: string | null, value: string) => {
     setData(prev => {
       const newList = [...prev[activeTab][section].items];
@@ -74,7 +83,7 @@ export default function AboutForm({ initialData }: { initialData: AboutContent }
         ...prev[activeTab],
         [section]: {
           ...prev[activeTab][section],
-          items: [template, ...prev[activeTab][section].items] // NEW ITEM AT TOP
+          items: [template, ...prev[activeTab][section].items]
         }
       }
     }));
@@ -129,26 +138,36 @@ export default function AboutForm({ initialData }: { initialData: AboutContent }
       <div className="space-y-8">
         {/* HERO */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
-          <h2 className="text-lg font-bold text-slate-900 mb-4">Üst Bölüm & Biyografi</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Field label="Rozet">
-              <input value={data[activeTab].hero.badge} onChange={(e) => updateHero('badge', e.target.value)} className={inputCls} />
+          <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Üst Bölüm & Biyografi</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+            <Field label="Profil Görseli">
+              <ImageUpload 
+                value={data[activeTab].hero.image || ''} 
+                onChange={(url) => updateSharedHero('image', url)} 
+              />
             </Field>
-            <Field label="Ad Soyad">
-              <input value={data[activeTab].hero.name} onChange={(e) => updateHero('name', e.target.value)} className={inputCls} />
-            </Field>
-            <Field label="Ünvan" className="md:col-span-2">
-              <input value={data[activeTab].hero.title} onChange={(e) => updateHero('title', e.target.value)} className={inputCls} />
-            </Field>
-            <Field label="Biyografi Paragraf 1" className="md:col-span-2">
-              <textarea value={data[activeTab].hero.bio1} onChange={(e) => updateHero('bio1', e.target.value)} className={inputCls} rows={3} />
-            </Field>
-            <Field label="Biyografi Paragraf 2" className="md:col-span-2">
-              <textarea value={data[activeTab].hero.bio2} onChange={(e) => updateHero('bio2', e.target.value)} className={inputCls} rows={3} />
-            </Field>
-            <Field label="Alıntı (Motto)" className="md:col-span-2">
-              <textarea value={data[activeTab].hero.bio3} onChange={(e) => updateHero('bio3', e.target.value)} className={inputCls} rows={3} />
-            </Field>
+            <div className="space-y-4">
+              <Field label="Rozet">
+                <input value={data[activeTab].hero.badge} onChange={(e) => updateHero('badge', e.target.value)} className={inputCls} />
+              </Field>
+              <Field label="Ad Soyad">
+                <input value={data[activeTab].hero.name} onChange={(e) => updateHero('name', e.target.value)} className={inputCls} />
+              </Field>
+              <Field label="Ünvan">
+                <input value={data[activeTab].hero.title} onChange={(e) => updateHero('title', e.target.value)} className={inputCls} />
+              </Field>
+            </div>
+            <div className="md:col-span-2 space-y-4">
+              <Field label="Biyografi Paragraf 1">
+                <textarea value={data[activeTab].hero.bio1} onChange={(e) => updateHero('bio1', e.target.value)} className={inputCls} rows={3} />
+              </Field>
+              <Field label="Biyografi Paragraf 2">
+                <textarea value={data[activeTab].hero.bio2} onChange={(e) => updateHero('bio2', e.target.value)} className={inputCls} rows={3} />
+              </Field>
+              <Field label="Alıntı (Motto)">
+                <textarea value={data[activeTab].hero.bio3} onChange={(e) => updateHero('bio3', e.target.value)} className={inputCls} rows={3} />
+              </Field>
+            </div>
           </div>
         </section>
 
@@ -225,7 +244,7 @@ export default function AboutForm({ initialData }: { initialData: AboutContent }
         {/* ÜYELİKLER */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-bold text-slate-900">Mesleki Üyelikler</h2>
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Mesleki Üyelikler</h2>
             <button onClick={() => addListItem('memberships', '')} className="flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg transition-all"><Plus className="w-3.5 h-3.5" /> Ekle</button>
           </div>
           <div className="space-y-3">
@@ -239,9 +258,9 @@ export default function AboutForm({ initialData }: { initialData: AboutContent }
         </section>
       </div>
 
-      <div className="sticky bottom-8 flex justify-end gap-3 pt-6 border-t border-slate-100 bg-slate-50/80 backdrop-blur-sm p-4 rounded-2xl">
-        <button onClick={() => router.back()} className="px-6 py-2.5 text-slate-600 font-medium hover:text-slate-900 transition-all">İptal</button>
-        <button onClick={handleSave} disabled={saving} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold px-8 py-2.5 rounded-xl shadow-lg shadow-blue-600/20 transition-all active:scale-95">{saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}</button>
+      <div className="fixed bottom-4 right-8 left-64 flex justify-end gap-3 bg-white/80 backdrop-blur-md p-4 rounded-2xl border border-slate-100 shadow-xl z-50 lg:left-72">
+        <button onClick={() => router.back()} className="px-6 py-2.5 text-slate-600 font-bold text-sm hover:text-slate-900 transition-all">İptal</button>
+        <button onClick={handleSave} disabled={saving} className="bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white font-bold px-10 py-3 rounded-xl text-sm shadow-lg shadow-blue-600/20 transition-all active:scale-95">{saving ? 'Kaydediliyor...' : 'Değişiklikleri Kaydet'}</button>
       </div>
     </div>
   );
@@ -251,7 +270,7 @@ function ListSection({ title, items, onUpdate, onAdd, onRemove, fields }: { titl
   return (
     <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-lg font-bold text-slate-900">{title}</h2>
+        <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">{title}</h2>
         <button onClick={onAdd} className="flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-blue-50 px-3 py-1.5 rounded-lg transition-all"><Plus className="w-3.5 h-3.5" /> Ekle</button>
       </div>
       <div className="space-y-4">

@@ -13,7 +13,7 @@ export default async function HakkimdaAdminPage() {
 
   return (
     <AdminShell>
-      <div className="mx-auto max-w-5xl p-8">
+      <div className="mx-auto max-w-5xl px-4 py-6 md:p-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-900">Hakkımda Yönetimi</h1>
           <p className="mt-1 text-sm text-slate-500">Biyografi, eğitim ve deneyim bilgilerini buradan güncelleyebilirsiniz.</p>

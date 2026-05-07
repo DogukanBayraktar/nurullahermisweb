@@ -69,3 +69,26 @@ model Presentation {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model GalleryItem {
+  id          Int      @id @default(autoincrement())
+  img         String
+  title_tr    String
+  title_en    String?
+  category_tr String
+  category_en String?
+  order       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+model HomeResult {
+  id        Int      @id @default(autoincrement())
+  img       String
+  label_tr  String
+  label_en  String?
+  desc_tr   String
+  desc_en   String?
+  order     Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

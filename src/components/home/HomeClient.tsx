@@ -9,13 +9,6 @@ import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getLocalizedPath } from '@/lib/routes';
 
-const BEFORE_AFTER = [
-  { img: "/images/69b7fcf232c107d58afb5fbe_skolyoz-3.jpg.avif" },
-  { img: "/images/69b7fcf298c193a1b456984e_skolyoz-2.jpg.avif" },
-  { img: "/images/69b80d3d2324c321ba53cae5_Kyphosis-before-after-1.jpg.avif" },
-  { img: "/images/69b803d47b548c348c11664f_diz-protezi-before-after-1.jpg.avif" },
-  { img: "/images/69b8010e9d8850fbd786d629_kyphoscoliosis-2.jpg.avif" },
-];
 
 const PATIENT_STORIES = [
   { age: 14, tagColor: "bg-blue-600", img: "/images/mehmet.avif" },
@@ -149,9 +142,11 @@ function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: num
   );
 }
 
-export default function HomeClient({ homepageData }: { homepageData: any }) {
+export default function HomeClient({ homepageData, initialResults }: { homepageData: any, initialResults: any[] }) {
   const { t, i18n } = useTranslation();
   const currentLang = i18n?.resolvedLanguage || i18n?.language || 'tr';
+  const isEn = currentLang.startsWith('en');
+  
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
   const [selectedVideoId, setSelectedVideoId] = useState(YOUTUBE_VIDEOS[0].id);
   const [videoListStart, setVideoListStart] = useState(0);
@@ -161,10 +156,10 @@ export default function HomeClient({ homepageData }: { homepageData: any }) {
 
   const testimonials = t('testimonialsData', { returnObjects: true }) as Array<{ text: string; author: string; detail: string }>;
 
-  const beforeAfter = BEFORE_AFTER.map((item, index) => ({
-    ...item,
-    label: t(`home.results.items.${index}.label`),
-    desc: t(`home.results.items.${index}.desc`),
+  const beforeAfter = (initialResults || []).map((item) => ({
+    img: item.img,
+    label: isEn ? (item.label_en || item.label_tr) : item.label_tr,
+    desc: isEn ? (item.desc_en || item.desc_tr) : item.desc_tr,
   }));
 
   const patientStories = PATIENT_STORIES.map((item, index) => ({
@@ -264,7 +259,7 @@ export default function HomeClient({ homepageData }: { homepageData: any }) {
               <FadeIn delay={0.35} direction="left" className="w-full lg:flex lg:justify-end">
                 <div className="relative mt-2 sm:mt-0 w-full sm:w-auto">
                   <div className="absolute -inset-4 rounded-[3rem] opacity-30 blur-2xl pointer-events-none" style={{ background: 'linear-gradient(135deg, #0ea5e9, #14b8a6)' }} />
-                  <img src="/nurullah-hoca3.avif" alt="Prof. Dr. Nurullah Ermiş" className="relative rounded-3xl shadow-2xl shadow-black/30 object-cover w-full sm:w-full sm:max-w-sm lg:max-w-md aspect-[3/4] object-top border-2 border-white/20" />
+                  <img src={content.hero.image || "/nurullah-hoca3.avif"} alt="Prof. Dr. Nurullah Ermiş" className="relative rounded-3xl shadow-2xl shadow-black/30 object-cover w-full sm:w-full sm:max-w-sm lg:max-w-md aspect-[3/4] object-top border-2 border-white/20" />
                 </div>
               </FadeIn>
             </div>
@@ -457,7 +452,7 @@ export default function HomeClient({ homepageData }: { homepageData: any }) {
             <div className="flex flex-col lg:flex-row items-center gap-14 lg:gap-24">
               <FadeIn direction="right" delay={0.2} className="w-full lg:w-5/12 relative">
                 <img
-                  src="/nurullah-hoca1.avif"
+                  src={content.about.image || "/nurullah-hoca1.avif"}
                   alt="Prof. Dr. Nurullah Ermiş"
                   className="rounded-3xl shadow-2xl shadow-slate-200/80 object-cover w-full aspect-[4/5] z-10 relative object-top"
                   style={{ objectPosition: "center 70%" }}
