@@ -19,8 +19,8 @@ const navItems = [
   { label: 'Genel Bakış',    href: '/admin/dashboard',      icon: LayoutDashboard },
   { label: 'Sağlık Rehberi', href: '/admin/saglik-rehberi', icon: FileText },
   { label: 'Tedaviler',       href: '/admin/tedaviler',      icon: Stethoscope },
-  { label: 'Basın & Medya',  href: '/admin/basin',          icon: Newspaper },
-  { label: 'Sunumlar',        href: '/admin/sunumlar',       icon: PresentationIcon },
+  // { label: 'Basın & Medya',  href: '/admin/basin',          icon: Newspaper },
+  // { label: 'Sunumlar',        href: '/admin/sunumlar',       icon: PresentationIcon },
   { label: 'Hakkımda',        href: '/admin/hakkimda',       icon: User },
   { label: 'Ana Sayfa',       href: '/admin/anasayfa',       icon: Home },
 ];
