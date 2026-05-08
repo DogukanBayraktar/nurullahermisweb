@@ -15,7 +15,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Filename is required' }, { status: 400 });
   }
 
-  const content = getStaticContent(filename);
+  const content = await getStaticContent(filename);
   if (!content) {
     return NextResponse.json({ error: 'File not found' }, { status: 404 });
   }

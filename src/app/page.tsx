@@ -3,7 +3,7 @@ import HomeClient from '@/components/home/HomeClient';
 import { prisma } from '@/lib/prisma';
 
 export default async function Home() {
-  const homepageData = getStaticContent('homepage.json');
+  const homepageData = await getStaticContent('homepage.json');
   const homeResults = await prisma.homeResult.findMany({
     orderBy: { order: 'asc' }
   });

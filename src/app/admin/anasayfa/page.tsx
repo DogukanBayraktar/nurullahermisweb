@@ -9,7 +9,7 @@ export default async function AnasayfaAdminPage() {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/admin/login');
 
-  const content = getStaticContent('homepage.json');
+  const content = await getStaticContent('homepage.json');
 
   return (
     <AdminShell>

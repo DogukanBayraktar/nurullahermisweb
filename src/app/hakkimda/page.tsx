@@ -2,7 +2,7 @@ import { getStaticContent } from '@/lib/content';
 import AboutClient from '@/components/about/AboutClient';
 
 export default async function HakkimdaPage() {
-  const aboutData = getStaticContent('about.json');
+  const aboutData = await getStaticContent('about.json');
   
   if (!aboutData) {
     return (

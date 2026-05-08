@@ -9,7 +9,7 @@ export default async function HakkimdaAdminPage() {
   const session = await getServerSession(authOptions);
   if (!session) redirect('/admin/login');
 
-  const content = getStaticContent('about.json');
+  const content = await getStaticContent('about.json');
 
   return (
     <AdminShell>
