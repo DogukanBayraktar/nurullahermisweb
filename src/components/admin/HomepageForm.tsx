@@ -2,7 +2,8 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CheckCircle, Info } from 'lucide-react';
+import { CheckCircle, Info, Trash2 } from 'lucide-react';
+
 import ImageUpload from './ImageUpload';
 import HomeResultsManager from './HomeResultsManager';
 
@@ -40,16 +41,16 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
     }
   };
 
-  const updateNestedField = (lang: 'tr' | 'en', section: string, field: string, value: string) => {
-    setData((prev) => ({
+  const updateNestedField = (lang: 'tr' | 'en', section: string, field: string, value: any) => {
+    setData(prev => ({
       ...prev,
       [lang]: {
         ...prev[lang],
         [section]: {
-          ...prev[lang][section],
-          [field]: value,
-        },
-      },
+          ...(prev[lang][section] || {}),
+          [field]: value
+        }
+      }
     }));
   };
 
@@ -96,6 +97,52 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
       return { ...prev, [lang]: { ...prev[lang], process: { ...prev[lang].process, steps } } };
     });
   };
+
+  const updateTestimonial = (lang: 'tr' | 'en', index: number, field: string, value: string) => {
+    setData(prev => {
+      const items = [...prev[lang].testimonials.items];
+      items[index] = { ...items[index], [field]: value };
+      return { ...prev, [lang]: { ...prev[lang], testimonials: { ...prev[lang].testimonials, items } } };
+    });
+  };
+
+  const addTestimonial = (lang: 'tr' | 'en') => {
+    setData(prev => {
+      const items = [...prev[lang].testimonials.items, { text: '', author: '', detail: '' }];
+      return { ...prev, [lang]: { ...prev[lang], testimonials: { ...prev[lang].testimonials, items } } };
+    });
+  };
+
+  const removeTestimonial = (lang: 'tr' | 'en', index: number) => {
+    setData(prev => {
+      const items = prev[lang].testimonials.items.filter((_: any, i: number) => i !== index);
+      return { ...prev, [lang]: { ...prev[lang], testimonials: { ...prev[lang].testimonials, items } } };
+    });
+  };
+
+  const updatePatientStory = (lang: 'tr' | 'en', index: number, field: string, value: string) => {
+    setData(prev => {
+      const items = [...(prev[lang].patientStories.items || [])];
+      items[index] = { ...items[index], [field]: value };
+      return { ...prev, [lang]: { ...prev[lang], patientStories: { ...prev[lang].patientStories, items } } };
+    });
+  };
+
+  const addPatientStory = (lang: 'tr' | 'en') => {
+    setData(prev => {
+      const items = [...(prev[lang].patientStories.items || []), { id: Date.now().toString(), name: '', summary: '', story: '', result: '', image: '' }];
+      return { ...prev, [lang]: { ...prev[lang], patientStories: { ...prev[lang].patientStories, items } } };
+    });
+  };
+
+  const removePatientStory = (lang: 'tr' | 'en', index: number) => {
+    setData(prev => {
+      const items = prev[lang].patientStories.items.filter((_: any, i: number) => i !== index);
+      return { ...prev, [lang]: { ...prev[lang], patientStories: { ...prev[lang].patientStories, items } } };
+    });
+  };
+
+
 
   return (
     <div className="space-y-6">
@@ -197,9 +244,144 @@ export default function HomepageForm({ initialData }: { initialData: HomepageCon
         {/* HOME RESULTS SLIDER - MOVED HERE */}
         <div className="py-4">
           <div className="h-px bg-slate-100 mb-8" />
+          
+          <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm mb-8">
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4">Tedavi Sonuçları (Hasta Deneyimleri) Başlıkları</h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <Field label="Rozet">
+                <input value={data[activeTab].results?.badge} onChange={(e) => updateNestedField(activeTab, 'results', 'badge', e.target.value)} className={inputCls} />
+              </Field>
+              <Field label="Başlık">
+                <input value={data[activeTab].results?.title} onChange={(e) => updateNestedField(activeTab, 'results', 'title', e.target.value)} className={inputCls} />
+              </Field>
+              <Field label="Alt Başlık">
+                <input value={data[activeTab].results?.subtitle} onChange={(e) => updateNestedField(activeTab, 'results', 'subtitle', e.target.value)} className={inputCls} />
+              </Field>
+            </div>
+          </section>
+
           <HomeResultsManager />
           <div className="h-px bg-slate-100 mt-8" />
         </div>
+
+        {/* PATIENT STORIES SECTION */}
+        <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Hasta Hikayeleri (Gerçek Hikayeler)</h2>
+            <button
+              onClick={() => addPatientStory(activeTab)}
+              className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold hover:bg-blue-100 transition-all"
+            >
+              + Yeni Hikaye Ekle
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <Field label="Rozet">
+              <input value={data[activeTab].patientStories?.badge} onChange={(e) => updateNestedField(activeTab, 'patientStories', 'badge', e.target.value)} className={inputCls} />
+            </Field>
+            <Field label="Başlık">
+              <input value={data[activeTab].patientStories?.title} onChange={(e) => updateNestedField(activeTab, 'patientStories', 'title', e.target.value)} className={inputCls} />
+            </Field>
+            <Field label="Alt Başlık">
+              <input value={data[activeTab].patientStories?.subtitle} onChange={(e) => updateNestedField(activeTab, 'patientStories', 'subtitle', e.target.value)} className={inputCls} />
+            </Field>
+          </div>
+
+          <div className="space-y-6">
+            {data[activeTab].patientStories?.items?.map((item: any, i: number) => (
+              <div key={i} className="p-6 bg-slate-50 rounded-2xl border border-slate-100 relative group">
+                <button
+                  onClick={() => removePatientStory(activeTab, i)}
+                  className="absolute top-4 right-4 p-1 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </button>
+                
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                  <div className="lg:col-span-1">
+                    <Field label="Hikaye Görseli">
+                      <ImageUpload 
+                        value={item.image || ''} 
+                        onChange={(url) => updatePatientStory(activeTab, i, 'image', url)} 
+                      />
+                    </Field>
+                  </div>
+                  
+                  <div className="lg:col-span-3 space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <Field label="Hasta Adı">
+                        <input value={item.name} onChange={(e) => updatePatientStory(activeTab, i, 'name', e.target.value)} className={inputCls} />
+                      </Field>
+                      <Field label="Sonuç (Örn: 58° → 9° düzelme)">
+                        <input value={item.result} onChange={(e) => updatePatientStory(activeTab, i, 'result', e.target.value)} className={inputCls} />
+                      </Field>
+                    </div>
+                    <Field label="Özet Cümle (Tırnak İçindeki Kısım)">
+                      <input value={item.summary} onChange={(e) => updatePatientStory(activeTab, i, 'summary', e.target.value)} className={inputCls} />
+                    </Field>
+                    <Field label="Hikaye Metni">
+                      <textarea value={item.story} onChange={(e) => updatePatientStory(activeTab, i, 'story', e.target.value)} className={inputCls} rows={4} />
+                    </Field>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+
+        {/* TESTIMONIALS */}
+        <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-sm font-bold text-slate-900 uppercase tracking-wider">Hasta Görüşleri</h2>
+            <button
+              onClick={() => addTestimonial(activeTab)}
+              className="px-3 py-1.5 bg-blue-50 text-blue-600 rounded-lg text-xs font-bold hover:bg-blue-100 transition-all"
+            >
+              + Yeni Görüş Ekle
+            </button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <Field label="Rozet">
+              <input value={data[activeTab].testimonials?.badge} onChange={(e) => updateNestedField(activeTab, 'testimonials', 'badge', e.target.value)} className={inputCls} />
+            </Field>
+            <Field label="Başlık">
+              <input value={data[activeTab].testimonials?.title} onChange={(e) => updateNestedField(activeTab, 'testimonials', 'title', e.target.value)} className={inputCls} />
+            </Field>
+            <Field label="Alt Başlık">
+              <input value={data[activeTab].testimonials?.subtitle} onChange={(e) => updateNestedField(activeTab, 'testimonials', 'subtitle', e.target.value)} className={inputCls} />
+            </Field>
+          </div>
+
+          <div className="space-y-4">
+            {data[activeTab].testimonials?.items.map((item: any, i: number) => (
+              <div key={i} className="p-4 bg-slate-50 rounded-xl border border-slate-100 relative group">
+                <button
+                  onClick={() => removeTestimonial(activeTab, i)}
+                  className="absolute top-2 right-2 p-1 text-slate-300 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-all"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-4">
+                    <Field label="Yazar (Ad Soyad)">
+                      <input value={item.author} onChange={(e) => updateTestimonial(activeTab, i, 'author', e.target.value)} className={inputCls} />
+                    </Field>
+                    <Field label="Detay (Örn: Skolyoz Hastası)">
+                      <input value={item.detail} onChange={(e) => updateTestimonial(activeTab, i, 'detail', e.target.value)} className={inputCls} />
+                    </Field>
+                  </div>
+                  <Field label="Görüş Metni">
+                    <textarea value={item.text} onChange={(e) => updateTestimonial(activeTab, i, 'text', e.target.value)} className={inputCls} rows={4} />
+                  </Field>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+
 
         {/* OMURGA SAĞLIĞI MERKEZİ */}
         <section className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm">

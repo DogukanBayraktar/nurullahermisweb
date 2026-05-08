@@ -1,4 +1,6 @@
+export const dynamic = 'force-dynamic';
 import { getServerSession } from 'next-auth';
+
 import { redirect } from 'next/navigation';
 import { authOptions } from '@/lib/auth';
 import AdminShell from '@/components/admin/AdminShell';

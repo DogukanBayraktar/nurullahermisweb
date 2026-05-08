@@ -10,14 +10,8 @@ import '@/lib/i18n';
 import { getLocalizedPath } from '@/lib/routes';
 
 
-const PATIENT_STORIES = [
-  { age: 14, tagColor: "bg-blue-600", img: "/images/mehmet.avif" },
-  { age: 52, tagColor: "bg-teal-600", img: "/images/ayse.avif", imagePosition: "70% center" },
-  { age: 68, tagColor: "bg-indigo-600", img: "/images/huseyin-toprak.avif", imagePosition: "74% center" },
-  { age: 73, tagColor: "bg-indigo-600", img: "/images/sahika.avif", imagePosition: "74% center" },
-];
-
 const YOUTUBE_VIDEOS = [
+
   { id: "who-is-nurullah-ermis", order: 1, titleKey: "home.videos.whoIsNurullahErmis", videoId: "4kZKY8hnwDo", isShort: false, thumb: "https://img.youtube.com/vi/4kZKY8hnwDo/maxresdefault.jpg" },
   { id: "knee-surgery", order: 2, titleKey: "home.videos.kneeSurgery", videoId: "gryuYiNd6WI", isShort: false, thumb: "https://img.youtube.com/vi/gryuYiNd6WI/maxresdefault.jpg" },
   { id: "scoliosis-surgery", order: 3, titleKey: "home.videos.scoliosisSurgery", videoId: "MOw6U2iJQew", isShort: false, thumb: "https://img.youtube.com/vi/MOw6U2iJQew/maxresdefault.jpg" },
@@ -71,7 +65,7 @@ function ResultsSlider({ items }: { items: Array<{ img: string; label: string; d
   );
 }
 
-function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: number; tag: string; tagColor: string; summary: string; story: string; result: string; img: string; date: string; imagePosition?: string }> }) {
+function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: number; tag: string; tagColor: string; summary: string; story: string; result: string; image: string; date: string; imagePosition?: string }> }) {
   const { t } = useTranslation();
   const [current, setCurrent] = useState(0);
   const total = items.length;
@@ -94,7 +88,8 @@ function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: num
         <div className="flex flex-col lg:flex-row min-h-[520px]">
           <div className="w-full lg:w-2/5 relative min-h-[280px] lg:min-h-full">
             <img
-              src={story.img}
+              src={story.image}
+
               alt={story.name}
               className="absolute inset-0 w-full h-full object-cover"
               style={{ objectPosition: story.imagePosition ?? "center center" }}
@@ -153,8 +148,8 @@ export default function HomeClient({ homepageData, initialResults }: { homepageD
   const visibleVideoCount = 3;
   
   const content = homepageData[currentLang] || homepageData['tr'];
+  const testimonials = (content.testimonials?.items || []) as Array<{ text: string; author: string; detail: string }>;
 
-  const testimonials = t('testimonialsData', { returnObjects: true }) as Array<{ text: string; author: string; detail: string }>;
 
   const beforeAfter = (initialResults || []).map((item) => ({
     img: item.img,
@@ -162,20 +157,8 @@ export default function HomeClient({ homepageData, initialResults }: { homepageD
     desc: isEn ? (item.desc_en || item.desc_tr) : item.desc_tr,
   }));
 
-  const patientStories = PATIENT_STORIES.map((item, index) => ({
-    ...item,
-    name: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.name`),
-    tag: t([
-      'home.patientStories.scoliosisSurgery',
-      'home.patientStories.herniation',
-      'home.patientStories.kneeProsthesis',
-      'home.patientStories.hipProsthesis',
-    ][index]),
-    summary: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.summary`),
-    story: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.story`),
-    result: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.result`),
-    date: t(`patientStoriesData.${['mehmet', 'ayse', 'huseyin',"sahika"][index]}.date`),
-  }));
+  const patientStories = (content.patientStories?.items || []) as Array<{ id: string; name: string; summary: string; story: string; result: string; image: string }>;
+
 
   const mediaHighlights = currentLang.startsWith('en')
     ? [
@@ -355,61 +338,66 @@ export default function HomeClient({ homepageData, initialResults }: { homepageD
         </section>
 
         {/* Testimonials */}
-        <section className="section-ghost relative py-20 overflow-hidden">
-          <div className="section-grid absolute inset-0 opacity-30 pointer-events-none" />
-          <div className="container mx-auto px-4 max-w-4xl relative z-10">
-            <FadeIn direction="up" className="text-center mb-14">
-              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.testimonials.badge")}</p>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">{t("home.testimonials.title")}</h2>
-            </FadeIn>
-            <div className="section-panel relative rounded-[2.5rem] border border-white/80 p-8 md:p-14">
-              <Quote className="w-14 h-14 text-blue-50 absolute top-7 left-7 opacity-20" />
-              <div className="min-h-[200px] flex flex-col justify-center items-center text-center relative z-10">
-                <div className="flex mb-6 gap-0.5">
-                  {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-500 fill-yellow-500" />)}
+        {testimonials.length > 0 && (
+          <section className="section-ghost relative py-20 overflow-hidden">
+            <div className="section-grid absolute inset-0 opacity-30 pointer-events-none" />
+            <div className="container mx-auto px-4 max-w-4xl relative z-10">
+              <FadeIn direction="up" className="text-center mb-14">
+                <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{content.testimonials?.badge}</p>
+                <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900">{content.testimonials?.title}</h2>
+              </FadeIn>
+              <div className="section-panel relative rounded-[2.5rem] border border-white/80 p-8 md:p-14">
+                <Quote className="w-14 h-14 text-blue-50 absolute top-7 left-7 opacity-20" />
+                <div className="min-h-[200px] flex flex-col justify-center items-center text-center relative z-10">
+                  <div className="flex mb-6 gap-0.5">
+                    {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-500 fill-yellow-500" />)}
+                  </div>
+                  <p className="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed mb-8 italic px-4">&ldquo;{testimonials[currentTestimonial]?.text}&rdquo;</p>
+                  <div>
+                    <p className="font-extrabold text-slate-900 text-lg">{testimonials[currentTestimonial]?.author}</p>
+                    <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mt-1">{testimonials[currentTestimonial]?.detail}</p>
+                  </div>
                 </div>
-                <p className="text-xl md:text-2xl font-medium text-slate-800 leading-relaxed mb-8 italic px-4">&ldquo;{testimonials[currentTestimonial].text}&rdquo;</p>
-                <div>
-                  <p className="font-extrabold text-slate-900 text-lg">{testimonials[currentTestimonial].author}</p>
-                  <p className="text-blue-600 text-xs font-bold uppercase tracking-widest mt-1">{testimonials[currentTestimonial].detail}</p>
+                <div className="flex items-center justify-between mt-10">
+                  <button onClick={() => setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
+                  <div className="flex gap-2">
+                    {testimonials.map((_, i) => (
+                      <button key={i} onClick={() => setCurrentTestimonial(i)} className={`h-1.5 rounded-full transition-all duration-300 ${i === currentTestimonial ? 'w-10 bg-blue-600' : 'w-2 bg-blue-100 hover:bg-blue-200'}`} />
+                    ))}
+                  </div>
+                  <button onClick={() => setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm"><ChevronRight className="w-6 h-6" /></button>
                 </div>
-              </div>
-              <div className="flex items-center justify-between mt-10">
-                <button onClick={() => setCurrentTestimonial((prev) => (prev - 1 + testimonials.length) % testimonials.length)} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm"><ChevronLeft className="w-6 h-6" /></button>
-                <div className="flex gap-2">
-                  {testimonials.map((_, i) => (
-                    <button key={i} onClick={() => setCurrentTestimonial(i)} className={`h-1.5 rounded-full transition-all duration-300 ${i === currentTestimonial ? 'w-10 bg-blue-600' : 'w-2 bg-blue-100 hover:bg-blue-200'}`} />
-                  ))}
-                </div>
-                <button onClick={() => setCurrentTestimonial((prev) => (prev + 1) % testimonials.length)} className="w-12 h-12 rounded-xl bg-blue-50 hover:bg-blue-100 border border-blue-100 flex items-center justify-center transition-all duration-300 text-blue-600 shadow-sm"><ChevronRight className="w-6 h-6" /></button>
               </div>
             </div>
-          </div>
-        </section>
+          </section>
+        )}
+
 
         {/* Results */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
-              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.results.badge")}</p>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.results.title")}</h2>
-              <p className="text-slate-500 text-lg">{t("home.results.subtitle")}</p>
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{content.results?.badge}</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{content.results?.title}</h2>
+              <p className="text-slate-500 text-lg">{content.results?.subtitle}</p>
             </FadeIn>
             <ResultsSlider items={beforeAfter} />
           </div>
         </section>
 
+
         {/* Patient Stories */}
         <section className="section-ghost relative py-20 overflow-hidden">
           <div className="container relative z-10 mx-auto px-4 max-w-6xl">
             <FadeIn direction="up" className="text-center mb-16 max-w-3xl mx-auto">
-              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{t("home.patientStories.badge")}</p>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{t("home.patientStories.title")}</h2>
-              <p className="text-slate-500 text-lg">{t("home.patientStories.subtitle")}</p>
+              <p className="text-blue-600 font-bold uppercase tracking-[0.18em] text-xs mb-3">{content.patientStories?.badge}</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4">{content.patientStories?.title}</h2>
+              <p className="text-slate-500 text-lg">{content.patientStories?.subtitle}</p>
             </FadeIn>
             <PatientStoriesSlider items={patientStories} />
           </div>
         </section>
+
 
         {/* Center Intro Bento */}
         <section className="section-ghost relative py-20 overflow-hidden">

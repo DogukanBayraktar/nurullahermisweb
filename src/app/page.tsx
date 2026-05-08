@@ -1,5 +1,7 @@
 import { getStaticContent } from '@/lib/content';
+export const dynamic = 'force-dynamic';
 import HomeClient from '@/components/home/HomeClient';
+
 import { prisma } from '@/lib/prisma';
 
 export default async function Home() {
