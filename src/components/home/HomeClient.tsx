@@ -65,7 +65,7 @@ function ResultsSlider({ items }: { items: Array<{ img: string; label: string; d
   );
 }
 
-function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: number; tag: string; tagColor: string; summary: string; story: string; result: string; image: string; date: string; imagePosition?: string }> }) {
+function PatientStoriesSlider({ items }: { items: Array<{ name: string; age?: number; tag?: string; tagColor?: string; summary: string; story: string; result: string; image: string; date?: string; imagePosition?: string }> }) {
   const { t } = useTranslation();
   const [current, setCurrent] = useState(0);
   const total = items.length;
@@ -96,16 +96,22 @@ function PatientStoriesSlider({ items }: { items: Array<{ name: string; age: num
             />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-900/70 via-slate-900/20 to-transparent" />
             <div className="absolute bottom-5 left-5 right-5">
-              <span className={`inline-block text-[10px] font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full mb-3 ${story.tagColor}`}>
-                {story.tag}
-              </span>
+              {story.tag && (
+                <span className={`inline-block text-[10px] font-bold uppercase tracking-widest text-white px-3 py-1.5 rounded-full mb-3 ${story.tagColor || 'bg-blue-600'}`}>
+                  {story.tag}
+                </span>
+              )}
+
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center font-extrabold text-white text-sm">
                   {story.name.charAt(0)}
                 </div>
                 <div>
                   <p className="text-white font-bold text-base">{story.name}</p>
-                  <p className="text-white/70 text-sm">{story.age} {t("home.patientStories.yearsOld")} · {story.date}</p>
+                  <p className="text-white/70 text-sm">
+                    {story.age && <>{story.age} {t("home.patientStories.yearsOld")} {story.date && ' · '}</>}
+                    {story.date}
+                  </p>
                 </div>
               </div>
             </div>
