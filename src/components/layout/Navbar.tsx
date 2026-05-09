@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getAlternateLocalizedPath, getLangFromPathname, getLocalizedPath } from '@/lib/routes';
 
-export default function Navbar() {
+export default function Navbar({ initialData }: { initialData?: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { t, i18n } = useTranslation();
@@ -31,7 +31,10 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  const navLinks = [
+  const navLinks = initialData?.navbar?.links?.map((link: any) => ({
+    name: currentLang === 'en' ? (link.label_en || link.label_tr) : link.label_tr,
+    href: link.href.startsWith('http') ? link.href : getLocalizedPath(link.href.replace(/^\/(tr|en)/, '').replace(/^\//, '') || 'home', i18n.language)
+  })) || [
     { name: t('nav.home'), href: currentLang === 'en' ? '/en' : '/' },
     { name: t('nav.about'), href: getLocalizedPath('about', i18n.language) },
     { name: t('nav.treatments'), href: getLocalizedPath('treatments', i18n.language) },

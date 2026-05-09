@@ -44,6 +44,8 @@ export async function PUT(req: NextRequest) {
       } else if (filename === 'about.json') {
         revalidatePath('/hakkimda');
         revalidatePath('/en/about');
+      } else if (filename === 'nav-footer.json') {
+        revalidatePath('/', 'layout');
       }
       
       return NextResponse.json({ success: true });

@@ -12,6 +12,8 @@ import {
   LogOut,
   ExternalLink,
   Image as ImageIcon,
+  Menu as MenuIcon,
+  Settings,
 } from 'lucide-react';
 
 const navItems = [
@@ -21,6 +23,7 @@ const navItems = [
   { label: 'Hakkımda',        href: '/admin/hakkimda',       icon: User },
   { label: 'Galeri',          href: '/admin/galeri',         icon: ImageIcon },
   { label: 'Ana Sayfa',       href: '/admin/anasayfa',       icon: Home },
+  { label: 'Menü & İletişim', href: '/admin/nav-footer',     icon: Settings },
 ];
 
 export default function AdminSidebar({ onNavItemClick }: { onNavItemClick?: () => void }) {

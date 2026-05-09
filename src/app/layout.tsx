@@ -7,6 +7,7 @@ import Footer from "@/components/layout/Footer";
 import WhatsAppButton from "@/components/ui/whatsapp-button";
 import I18nRouteSync from "@/components/layout/I18nRouteSync";
 import { headers } from "next/headers";
+import { getStaticContent } from "@/lib/content";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,6 +25,8 @@ export default async function RootLayout({
   const pathname = headersList.get('x-pathname') ?? headersList.get('x-invoke-path') ?? '';
   const isAdmin = pathname.startsWith('/admin');
 
+  const navFooterData = await getStaticContent('nav-footer.json');
+
   return (
     <html lang="tr">
       <body
@@ -32,12 +35,12 @@ export default async function RootLayout({
       >
         <I18nRouteSync />
         {!isAdmin && <Topline />}
-        {!isAdmin && <Navbar />}
+        {!isAdmin && <Navbar initialData={navFooterData} />}
         <main className={isAdmin ? 'flex-1 flex flex-col' : 'flex-1'}>
           {children}
         </main>
         {!isAdmin && <WhatsAppButton />}
-        {!isAdmin && <Footer />}
+        {!isAdmin && <Footer initialData={navFooterData} />}
       </body>
     </html>
   );
