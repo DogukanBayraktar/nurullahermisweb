@@ -31,7 +31,7 @@ export default function Navbar({ initialData }: { initialData?: any }) {
     };
   }, [isOpen]);
 
-  const navLinks = initialData?.navbar?.links?.map((link: any) => ({
+  const navLinks: { name: string; href: string }[] = initialData?.navbar?.links?.map((link: any) => ({
     name: currentLang === 'en' ? (link.label_en || link.label_tr) : link.label_tr,
     href: link.href.startsWith('http') ? link.href : getLocalizedPath(link.href.replace(/^\/(tr|en)/, '').replace(/^\//, '') || 'home', i18n.language)
   })) || [
@@ -65,7 +65,7 @@ export default function Navbar({ initialData }: { initialData?: any }) {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-10 text-[15px] font-bold text-slate-700">
-          {navLinks.map((link) => (
+          {navLinks.map((link: { name: string; href: string }) => (
             <Link 
               key={link.href} 
               href={link.href} 
@@ -110,7 +110,7 @@ export default function Navbar({ initialData }: { initialData?: any }) {
             <div className="flex-1 overflow-y-auto px-6 py-10 space-y-8">
               {/* Links */}
               <nav className="flex flex-col space-y-6">
-                {navLinks.map((link, i) => (
+                {navLinks.map((link: { name: string; href: string }, i: number) => (
                   <motion.div
                     key={link.href}
                     initial={{ opacity: 0, x: -20 }}

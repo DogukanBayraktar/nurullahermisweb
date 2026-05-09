@@ -10,7 +10,7 @@ export default function Footer({ initialData }: { initialData?: any }) {
   const { t, i18n } = useTranslation();
   const isEn = i18n.language?.startsWith('en');
 
-  const pages = initialData?.footer?.quickLinks?.map((link: any) => ({
+  const pages: { href: string; label: string }[] = initialData?.footer?.quickLinks?.map((link: any) => ({
     href: link.href.startsWith('http') ? link.href : getLocalizedPath(link.href.replace(/^\/(tr|en)/, '').replace(/^\//, '') || 'home', i18n.language),
     label: isEn ? (link.label_en || link.label_tr) : link.label_tr
   })) || [
@@ -21,7 +21,7 @@ export default function Footer({ initialData }: { initialData?: any }) {
     { href: getLocalizedPath('contact', i18n.language), label: t('footer.contact') },
   ];
 
-  const treatments = initialData?.footer?.treatments?.map((link: any) => ({
+  const treatments: { href: string; label: string }[] = initialData?.footer?.treatments?.map((link: any) => ({
     href: link.href.startsWith('http') ? link.href : getLocalizedPath(link.href.replace(/^\/(tr|en)/, '').replace(/^\//, '') || 'home', i18n.language),
     label: isEn ? (link.label_en || link.label_tr) : link.label_tr
   })) || [
