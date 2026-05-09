@@ -4,16 +4,24 @@ import Link from 'next/link';
 import { MapPin, Phone, Mail, Instagram, Facebook, Youtube, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
-import { getLocalizedPath } from '@/lib/routes';
+import { getLocalizedPath, resolveRouteKey } from '@/lib/routes';
 
 export default function Footer({ initialData }: { initialData?: any }) {
   const { t, i18n } = useTranslation();
   const isEn = i18n.language?.startsWith('en');
 
-  const pages: { href: string; label: string }[] = initialData?.footer?.quickLinks?.map((link: any) => ({
-    href: link.href.startsWith('http') ? link.href : getLocalizedPath(link.href.replace(/^\/(tr|en)/, '').replace(/^\//, '') || 'home', i18n.language),
-    label: isEn ? (link.label_en || link.label_tr) : link.label_tr
-  })) || [
+  const pages: { href: string; label: string }[] = initialData?.footer?.quickLinks?.map((link: any) => {
+    const isExternal = link.href.startsWith('http');
+    const label = isEn ? (link.label_en || link.label_tr) : link.label_tr;
+    let href = link.href;
+
+    if (!isExternal) {
+      const key = resolveRouteKey(link.href);
+      href = getLocalizedPath(key, i18n.language);
+    }
+
+    return { href, label };
+  }) || [
     { href: getLocalizedPath('about', i18n.language), label: t('nav.about') },
     { href: getLocalizedPath('treatments', i18n.language), label: t('footer.treatments') },
     { href: getLocalizedPath('gallery', i18n.language), label: t('footer.gallery') },
@@ -21,10 +29,18 @@ export default function Footer({ initialData }: { initialData?: any }) {
     { href: getLocalizedPath('contact', i18n.language), label: t('footer.contact') },
   ];
 
-  const treatments: { href: string; label: string }[] = initialData?.footer?.treatments?.map((link: any) => ({
-    href: link.href.startsWith('http') ? link.href : getLocalizedPath(link.href.replace(/^\/(tr|en)/, '').replace(/^\//, '') || 'home', i18n.language),
-    label: isEn ? (link.label_en || link.label_tr) : link.label_tr
-  })) || [
+  const treatments: { href: string; label: string }[] = initialData?.footer?.treatments?.map((link: any) => {
+    const isExternal = link.href.startsWith('http');
+    const label = isEn ? (link.label_en || link.label_tr) : link.label_tr;
+    let href = link.href;
+
+    if (!isExternal) {
+      const key = resolveRouteKey(link.href);
+      href = getLocalizedPath(key, i18n.language);
+    }
+
+    return { href, label };
+  }) || [
     { href: getLocalizedPath('treatments', i18n.language, 'skolyoz-kifoz-cerrahisi', 'treatment'), label: t('home.treatments.cards.scoliosis.title') },
     { href: getLocalizedPath('treatments', i18n.language, 'boyun-fitigi-cerrahisi', 'treatment'), label: t('home.treatments.cards.herniation.title') },
     { href: getLocalizedPath('treatments', i18n.language, 'artroskopik-cerrahi', 'treatment'), label: t('home.treatments.cards.arthroscopy.title') },

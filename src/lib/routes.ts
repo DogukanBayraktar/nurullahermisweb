@@ -8,6 +8,7 @@ export function getSiteLang(language?: string): SiteLang {
 
 const routeSegments = {
   tr: {
+    home: '',
     about: 'hakkimda',
     treatments: 'tedaviler',
     gallery: 'galeri',
@@ -16,6 +17,7 @@ const routeSegments = {
     media: 'basinda-biz',
   },
   en: {
+    home: 'en',
     about: 'about',
     treatments: 'treatments',
     gallery: 'gallery',
@@ -129,6 +131,24 @@ export function getLangFromPathname(pathname: string): SiteLang {
   }
 
   return 'tr';
+}
+
+export function resolveRouteKey(path: string): keyof typeof routeSegments.tr {
+  const cleanPath = path.replace(/^\/(tr|en)/, '').replace(/^\//, '') || 'home';
+  
+  if (cleanPath === 'home') return 'home';
+
+  // Find the key in routeSegments
+  const entry = Object.entries(routeSegments.tr).find(([_, value]) => value === cleanPath) ||
+                Object.entries(routeSegments.en).find(([_, value]) => value === cleanPath);
+  
+  if (entry) return entry[0] as keyof typeof routeSegments.tr;
+  
+  // Fallback for treatments/health guide which might have slugs
+  if (cleanPath.startsWith('tedaviler') || cleanPath.startsWith('treatments')) return 'treatments';
+  if (cleanPath.startsWith('saglik-rehberi') || cleanPath.startsWith('health-guide')) return 'healthGuide';
+
+  return 'home'; // Safe fallback
 }
 
 export function getLocalizedPath(
