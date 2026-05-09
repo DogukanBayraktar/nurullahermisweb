@@ -6,9 +6,16 @@ import { prisma } from '@/lib/prisma';
 
 export default async function Home() {
   const homepageData = await getStaticContent('homepage.json');
-  const homeResults = await prisma.homeResult.findMany({
-    orderBy: { order: 'asc' }
-  });
+  // DB bağlantısı yoksa veya sorgu patlarsa boş dizi döndür,
+  // sayfa yine de açılsın.
+  let homeResults: any[] = [];
+  try {
+    homeResults = await prisma.homeResult.findMany({
+      orderBy: { order: 'asc' },
+    });
+  } catch (err) {
+    console.error('[HomeResult] DB sorgusu başarısız, boş dizi kullanılıyor:', err);
+  }
   
   if (!homepageData) {
     return (
