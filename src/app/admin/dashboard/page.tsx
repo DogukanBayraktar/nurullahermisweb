@@ -5,18 +5,18 @@ import AdminShell from '@/components/admin/AdminShell';
 import Link from 'next/link';
 import {
   FileText, Stethoscope, User, Home,
-  Newspaper, PresentationIcon, ArrowRight, Image as ImageIcon,
+  MapPin, Settings, ArrowRight, Image as ImageIcon,
 } from 'lucide-react';
 
 const sections = [
   {
-    label: 'Sağlık Rehberi',
-    desc: 'Makale ekle, düzenle, sil',
-    href: '/admin/saglik-rehberi',
-    icon: FileText,
-    bg: 'bg-teal-50',
-    text: 'text-teal-700',
-    iconColor: 'text-teal-600',
+    label: 'Ana Sayfa',
+    desc: 'Hero metin, istatistikler, videolar',
+    href: '/admin/anasayfa',
+    icon: Home,
+    bg: 'bg-rose-50',
+    text: 'text-rose-700',
+    iconColor: 'text-rose-600',
   },
   {
     label: 'Tedaviler',
@@ -28,22 +28,13 @@ const sections = [
     iconColor: 'text-blue-600',
   },
   {
-    label: 'Hakkımda',
-    desc: 'Eğitim, deneyim, yayınlar',
-    href: '/admin/hakkimda',
-    icon: User,
-    bg: 'bg-amber-50',
-    text: 'text-amber-700',
-    iconColor: 'text-amber-600',
-  },
-  {
-    label: 'Ana Sayfa',
-    desc: 'Hero metin, istatistikler, videolar',
-    href: '/admin/anasayfa',
-    icon: Home,
-    bg: 'bg-rose-50',
-    text: 'text-rose-700',
-    iconColor: 'text-rose-600',
+    label: 'Sağlık Rehberi',
+    desc: 'Makale ekle, düzenle, sil',
+    href: '/admin/saglik-rehberi',
+    icon: FileText,
+    bg: 'bg-teal-50',
+    text: 'text-teal-700',
+    iconColor: 'text-teal-600',
   },
   {
     label: 'Galeri',
@@ -53,6 +44,33 @@ const sections = [
     bg: 'bg-indigo-50',
     text: 'text-indigo-700',
     iconColor: 'text-indigo-600',
+  },
+  {
+    label: 'Hakkımda',
+    desc: 'Eğitim, deneyim, yayınlar',
+    href: '/admin/hakkimda',
+    icon: User,
+    bg: 'bg-amber-50',
+    text: 'text-amber-700',
+    iconColor: 'text-amber-600',
+  },
+  {
+    label: 'İletişim Sayfası',
+    desc: 'Lokasyonlar, haritalar ve iletişim bilgileri',
+    href: '/admin/iletisim',
+    icon: MapPin,
+    bg: 'bg-emerald-50',
+    text: 'text-emerald-700',
+    iconColor: 'text-emerald-600',
+  },
+  {
+    label: 'Menü & Footer',
+    desc: 'Navigasyon menüsü ve alt bilgi yönetimi',
+    href: '/admin/nav-footer',
+    icon: Settings,
+    bg: 'bg-slate-50',
+    text: 'text-slate-700',
+    iconColor: 'text-slate-600',
   },
 ];
 

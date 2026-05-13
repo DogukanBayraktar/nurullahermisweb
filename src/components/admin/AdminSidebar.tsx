@@ -12,18 +12,19 @@ import {
   LogOut,
   ExternalLink,
   Image as ImageIcon,
-  Menu as MenuIcon,
+  MapPin,
   Settings,
 } from 'lucide-react';
 
 const navItems = [
   { label: 'Genel Bakış',    href: '/admin/dashboard',      icon: LayoutDashboard },
-  { label: 'Sağlık Rehberi', href: '/admin/saglik-rehberi', icon: FileText },
-  { label: 'Tedaviler',       href: '/admin/tedaviler',      icon: Stethoscope },
-  { label: 'Hakkımda',        href: '/admin/hakkimda',       icon: User },
-  { label: 'Galeri',          href: '/admin/galeri',         icon: ImageIcon },
   { label: 'Ana Sayfa',       href: '/admin/anasayfa',       icon: Home },
-  { label: 'Menü & İletişim', href: '/admin/nav-footer',     icon: Settings },
+  { label: 'Tedaviler',       href: '/admin/tedaviler',      icon: Stethoscope },
+  { label: 'Sağlık Rehberi', href: '/admin/saglik-rehberi', icon: FileText },
+  { label: 'Galeri',          href: '/admin/galeri',         icon: ImageIcon },
+  { label: 'Hakkımda',        href: '/admin/hakkimda',       icon: User },
+  { label: 'İletişim Sayfası', href: '/admin/iletisim',      icon: MapPin },
+  { label: 'Menü & Footer',   href: '/admin/nav-footer',     icon: Settings },
 ];
 
 export default function AdminSidebar({ onNavItemClick }: { onNavItemClick?: () => void }) {
