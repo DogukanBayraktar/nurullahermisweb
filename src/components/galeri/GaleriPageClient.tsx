@@ -10,7 +10,13 @@ import { FadeIn } from '@/components/ui/fade-in';
 import { getLocalizedGalleryCategories, type GalleryCategory } from '@/lib/gallery';
 import { getLocalizedPath } from '@/lib/routes';
 
-export default function GaleriPageClient({ initialCategories }: { initialCategories: any[] }) {
+export default function GaleriPageClient({ 
+  initialCategories,
+  language 
+}: { 
+  initialCategories: any[];
+  language?: string;
+}) {
   const { t, i18n } = useTranslation();
   
   const categories = useMemo(() => {
