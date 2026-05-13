@@ -19,8 +19,12 @@ export async function GET(req: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(items);
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 

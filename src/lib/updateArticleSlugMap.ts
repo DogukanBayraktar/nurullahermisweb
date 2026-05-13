@@ -1,13 +1,11 @@
-import { promises as fs } from 'fs';
-import path from 'path';
+import { prisma } from './prisma';
 
 /**
- * Admin'de yeni makale eklenince articleSlugMap.json'u otomatik güncelle
- * TR slug (bel-fitigi_tr) ve EN slug (lumbar-disc_en) alıp mapa ekle
+ * Admin'de yeni makale eklenince slug map'i DB'deki SiteContent tablosunda güncelle.
+ * TR slug (bel-fitigi_tr) ve EN slug (lumbar-disc_en) alıp mapa ekle.
+ * Vercel (serverless) ortamında fs.writeFile çalışmadığı için DB kullanıyoruz.
  */
-export async function updateArticleSlugMapJson(trSlug: string, enSlug: string) {
-  const mapPath = path.join(process.cwd(), 'src', 'lib', 'articleSlugMap.json');
-  
+export async function updateArticleSlugMapDb(trSlug: string, enSlug: string) {
   // "_tr", "_en" suffix'lerini kaldır
   const trClean = trSlug.replace(/_tr$/, '');
   const enClean = enSlug.replace(/_en$/, '');
@@ -18,16 +16,29 @@ export async function updateArticleSlugMapJson(trSlug: string, enSlug: string) {
   }
   
   try {
-    const content = await fs.readFile(mapPath, 'utf-8');
-    const map = JSON.parse(content) as Record<string, string>;
+    // DB'den mevcut map'i al
+    const record = await prisma.siteContent.findUnique({
+      where: { filename: 'articleSlugMap' }
+    });
     
-    // Eğer TR slug mapa yoksa ve EN slug'u farklıysa ekle
+    let map = (record?.content as Record<string, string>) || {};
+    
+    // Eğer TR slug mapa yoksa veya EN slug'u farklıysa güncelle
     if (!map[trClean] || map[trClean] !== enClean) {
       map[trClean] = enClean;
-      await fs.writeFile(mapPath, JSON.stringify(map, null, 2));
-      console.log(`[updateArticleSlugMap] Eklendi: ${trClean} → ${enClean}`);
+      
+      await prisma.siteContent.upsert({
+        where: { filename: 'articleSlugMap' },
+        update: { content: map },
+        create: { 
+          filename: 'articleSlugMap',
+          content: map 
+        }
+      });
+      
+      console.log(`[updateArticleSlugMap] DB Güncellendi: ${trClean} → ${enClean}`);
     }
   } catch (error) {
-    console.error('[updateArticleSlugMap] JSON güncellemesi başarısız:', error);
+    console.error('[updateArticleSlugMap] DB güncellemesi başarısız:', error);
   }
 }

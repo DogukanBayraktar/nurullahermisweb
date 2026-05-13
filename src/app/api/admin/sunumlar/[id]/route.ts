@@ -30,7 +30,11 @@ export async function DELETE(_req: NextRequest, { params }: IdContext) {
     const { id } = await params;
     await prisma.presentation.delete({ where: { id: Number(id) } });
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

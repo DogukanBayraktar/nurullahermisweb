@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { revalidatePath } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { updateArticleSlugMapJson } from '@/lib/updateArticleSlugMap';
+import { updateArticleSlugMapDb } from '@/lib/updateArticleSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -20,8 +20,12 @@ export async function GET(req: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(articles);
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -47,7 +51,7 @@ export async function POST(req: NextRequest) {
     const enArticle = relatedArticles.find(a => a.slug.endsWith('_en'));
     
     if (trArticle && enArticle) {
-      await updateArticleSlugMapJson(trArticle.slug, enArticle.slug);
+      await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
     }
 
     revalidatePath(`/saglik-rehberi/${canonicalSlug}`);

@@ -42,6 +42,32 @@ function normalizeTreatmentSlug(slug: string) {
 
 let articleSlugMap: Record<string, string> = { ...articleSlugMapData };
 
+/**
+ * DB'den güncel slug map'i yükler (Server-side only)
+ */
+export async function loadArticleSlugMapFromDb() {
+  if (typeof window !== 'undefined') return articleSlugMap;
+  
+  try {
+    const { prisma } = await import('./prisma');
+    const record = await prisma.siteContent.findUnique({
+      where: { filename: 'articleSlugMap' }
+    });
+    
+    if (record && record.content) {
+      articleSlugMap = { 
+        ...articleSlugMapData, 
+        ...(record.content as Record<string, string>) 
+      };
+      // Reverse map'i de güncellemek gerekirse burada yapılabilir
+      // Ama mevcut fonksiyonlar resolve ederken güncel map'e bakıyor
+    }
+  } catch (error) {
+    console.error('[routes] Slug map yüklenemedi:', error);
+  }
+  return articleSlugMap;
+}
+
 // Dinamik slug çözümü: DB'den gelen EN makalelerin slug'larını da işle
 // EN slug → TR canonical: "lumbar-disc-surgery" → "bel-fitigi-ameliyati"
 // Bu fonksiyon hem statik map'i hem de runtime'da gelen slugları destekler
@@ -69,10 +95,15 @@ function invertMap(map: Record<string, string>) {
 }
 
 const reverseTreatmentSlugMap = invertMap(treatmentSlugMap);
-const reverseArticleSlugMap = invertMap(articleSlugMap);
+
+// reverseArticleSlugMap'i bir fonksiyon haline getirelim ki güncel veriye baksın
+function getReverseArticleSlugMap() {
+  return invertMap(articleSlugMap);
+}
 
 function normalizeArticleSlug(slug: string) {
-  return reverseArticleSlugMap[slug] ?? legacyArticleSlugMap[slug] ?? slug;
+  const reverseMap = getReverseArticleSlugMap();
+  return reverseMap[slug] ?? legacyArticleSlugMap[slug] ?? slug;
 }
 
 export function localizeTreatmentSlug(slug: string, language?: string) {
@@ -99,7 +130,8 @@ export function canonicalArticleSlug(slug: string) {
   const legacy = legacyArticleSlugMap[slug];
   if (legacy) return legacy;
   // EN slug → TR canonical (ters map)
-  const fromEn = reverseArticleSlugMap[slug];
+  const reverseMap = getReverseArticleSlugMap();
+  const fromEn = reverseMap[slug];
   if (fromEn) return fromEn;
   // Zaten TR canonical
   return slug;

@@ -1,31 +1,16 @@
 import { MetadataRoute } from 'next';
 import { getDefaultLocalArticles } from '@/lib/healthGuideTranslations';
 import { TREATMENTS_DATA } from '@/lib/treatments';
+import { localizeArticleSlug, localizeTreatmentSlug, loadArticleSlugMapFromDb } from '@/lib/routes';
 
 const BASE_URL = 'https://www.nurullahermis.com';
-
-const treatmentSlugMapEN: Record<string, string> = {
-  'skolyoz-kifoz-cerrahisi': 'scoliosis-kyphosis-surgery',
-  'bel-fitigi-tedavisi': 'lumbar-herniated-disc-treatment',
-  'boyun-fitigi-cerrahisi': 'cervical-disc-surgery',
-  'diz-kalca-protezi': 'knee-hip-replacement',
-  'cocuk-ortopedisi': 'pediatric-orthopedics',
-  'artroskopik-cerrahi': 'arthroscopic-surgery',
-};
-
-const articleSlugMapEN: Record<string, string> = {
-  'bel-fitigi-ameliyati': 'lumbar-disc-surgery',
-  'skolyoz-belirtileri-tedavisi': 'scoliosis-symptoms-treatment',
-  'diz-protezi-ameliyati': 'knee-replacement-surgery',
-  'boyun-fitiginiz-mi-var': 'do-you-have-a-cervical-disc-herniation',
-  'cocuklarda-kalca-cikigini-nasil-anlariz': 'how-can-we-recognize-hip-dislocation-in-children',
-  'acl-cop-bag-ameliyati': 'acl-surgery',
-  'skolyoz-egzersizleri': 'scoliosis-exercises',
-};
 
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  // DB'den güncel slug map'i yükle (Server-side)
+  await loadArticleSlugMapFromDb();
+  
   const now = new Date();
   const allTreatmentSlugs = [...new Set(TREATMENTS_DATA.map((t) => t.slug))];
   const allArticleSlugs = [...new Set(getDefaultLocalArticles().map((a) => a.slug))];
@@ -108,7 +93,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternates: {
       languages: {
         tr: `${BASE_URL}/tedaviler/${slug}`,
-        en: `${BASE_URL}/treatments/${treatmentSlugMapEN[slug] ?? slug}`,
+        en: `${BASE_URL}/treatments/${localizeTreatmentSlug(slug, 'en')}`,
       },
     },
   }));
@@ -121,7 +106,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternates: {
       languages: {
         tr: `${BASE_URL}/saglik-rehberi/${slug}`,
-        en: `${BASE_URL}/health-guide/${articleSlugMapEN[slug] ?? slug}`,
+        en: `${BASE_URL}/health-guide/${localizeArticleSlug(slug, 'en')}`,
       },
     },
   }));

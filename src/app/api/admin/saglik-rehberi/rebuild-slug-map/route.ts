@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { updateArticleSlugMapJson } from '@/lib/updateArticleSlugMap';
+import { updateArticleSlugMapDb } from '@/lib/updateArticleSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
       const enArticle = group.find(a => a.slug.endsWith('_en'));
 
       if (trArticle && enArticle) {
-        await updateArticleSlugMapJson(trArticle.slug, enArticle.slug);
+        await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
         updated++;
       }
     }
@@ -46,8 +46,11 @@ export async function POST(req: NextRequest) {
       { message: `Harita güncellendi: ${updated} makale çifti`, updated },
       { status: 200 }
     );
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : 'Unknown error';
-    return NextResponse.json({ error: msg }, { status: 400 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

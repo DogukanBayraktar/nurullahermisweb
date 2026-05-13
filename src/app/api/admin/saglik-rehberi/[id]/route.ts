@@ -19,8 +19,12 @@ export async function GET(_req: NextRequest, { params }: IdContext) {
     const article = await prisma.healthArticle.findUnique({ where: { id: Number(id) } });
     if (!article) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(article);
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -52,8 +56,16 @@ export async function DELETE(_req: NextRequest, { params }: IdContext) {
     await requireAdmin();
     const { id } = await params;
     await prisma.healthArticle.delete({ where: { id: Number(id) } });
+    
+    revalidatePath('/saglik-rehberi');
+    revalidatePath('/health-guide');
+    
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

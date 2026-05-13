@@ -17,8 +17,12 @@ export async function GET() {
       ] 
     });
     return NextResponse.json(items);
-  } catch (err) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
