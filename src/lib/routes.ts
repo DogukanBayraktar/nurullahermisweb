@@ -1,4 +1,3 @@
-import articleSlugMapData from './articleSlugMap.json';
 
 export type SiteLang = 'tr' | 'en';
 
@@ -40,7 +39,7 @@ function normalizeTreatmentSlug(slug: string) {
   return slug.replace(/_tr$/, '').replace(/_en$/, '');
 }
 
-let articleSlugMap: Record<string, string> = { ...articleSlugMapData };
+let articleSlugMap: Record<string, string> = {};
 
 /**
  * DB'den güncel slug map'i yükler (Server-side only)
@@ -56,11 +55,8 @@ export async function loadArticleSlugMapFromDb() {
     
     if (record && record.content) {
       articleSlugMap = { 
-        ...articleSlugMapData, 
         ...(record.content as Record<string, string>) 
       };
-      // Reverse map'i de güncellemek gerekirse burada yapılabilir
-      // Ama mevcut fonksiyonlar resolve ederken güncel map'e bakıyor
     }
   } catch (error) {
     console.error('[routes] Slug map yüklenemedi:', error);

@@ -10,7 +10,7 @@ async function requireAdmin() {
 }
 
 /**
- * Tüm healthArticles'ları okuyup articleSlugMap.json'u rebuild et
+ * Tüm healthArticles'ları okuyup DB'deki articleSlugMap'i rebuild et
  * Admin Dashboard'dan tıklanabilir
  */
 export async function POST(req: NextRequest) {

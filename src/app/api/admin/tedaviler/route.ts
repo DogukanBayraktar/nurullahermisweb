@@ -29,8 +29,11 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const treatment = await prisma.treatment.create({ data: body });
     return NextResponse.json(treatment, { status: 201 });
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : 'Unknown error';
-    return NextResponse.json({ error: msg }, { status: 400 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
 
     const canonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
     
-    // Yeni makale eklenince articleSlugMap.json'u otomatik güncelle
+    // Yeni makale eklenince DB'deki articleSlugMap'i otomatik güncelle
     // TR ve EN pair'larını bulup mapa ekle
     const relatedArticles = await prisma.healthArticle.findMany({
       where: {
@@ -60,8 +60,11 @@ export async function POST(req: NextRequest) {
     revalidatePath('/health-guide');
 
     return NextResponse.json(article, { status: 201 });
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : 'Unknown error';
-    return NextResponse.json({ error: msg }, { status: 400 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

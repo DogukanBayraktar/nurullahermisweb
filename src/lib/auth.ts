@@ -1,48 +1,73 @@
 import type { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-
-// Giriş bilgileri — değiştirmek istersen buradan değiştir
-const ADMIN_USERNAME = 'admin';
-const ADMIN_PASSWORD = 'nurullah2025';
+import { compare } from 'bcryptjs';
+import { prisma } from './prisma';
 
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
-      name: 'Admin Girisi',
+      name: 'Admin Girişi',
       credentials: {
-        username: { label: 'Kullanici Adi', type: 'text' },
-        password: { label: 'Sifre', type: 'password' },
+        username: { label: 'Kullanıcı Adı', type: 'text' },
+        password: { label: 'Şifre', type: 'password' },
       },
       async authorize(credentials) {
         if (!credentials?.username || !credentials?.password) return null;
 
-        if (
-          credentials.username === ADMIN_USERNAME &&
-          credentials.password === ADMIN_PASSWORD
-        ) {
-          return { id: '1', name: 'Admin', email: 'admin@nurullahermis.com' };
-        }
+        try {
+          // Veritabanından kullanıcıyı sorgula
+          const user = await prisma.user.findUnique({
+            where: { username: credentials.username },
+          });
 
-        return null;
+          if (!user) {
+            console.warn('[Auth] Kullanıcı bulunamadı:', credentials.username);
+            return null;
+          }
+
+          // Şifre doğrulaması
+          const isPasswordCorrect = await compare(credentials.password, user.password);
+
+          if (!isPasswordCorrect) {
+            console.warn('[Auth] Hatalı şifre denemesi:', credentials.username);
+            return null;
+          }
+
+          return {
+            id: user.id.toString(),
+            name: user.username,
+            email: `${user.username}@nurullahermis.com`,
+            role: user.role,
+          };
+        } catch (error) {
+          console.error('[Auth] Veritabanı hatası:', error);
+          return null;
+        }
       },
     }),
   ],
   session: {
     strategy: 'jwt',
-    maxAge: 60 * 60 * 8,
+    maxAge: 60 * 60 * 8, // 8 saat
   },
   pages: {
     signIn: '/admin/login',
     error: '/admin/login',
   },
-  secret: process.env.NEXTAUTH_SECRET ?? 'fallback-secret-change-in-production',
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async jwt({ token, user }) {
-      if (user) token.id = user.id;
+      if (user) {
+        token.id = user.id;
+        token.role = (user as any).role;
+      }
       return token;
     },
     async session({ session, token }) {
-      if (session.user) (session.user as { id?: string }).id = token.id as string;
+      if (session.user) {
+        (session.user as any).id = token.id;
+        (session.user as any).role = token.role;
+      }
       return session;
     },
   },
