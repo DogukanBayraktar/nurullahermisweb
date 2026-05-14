@@ -48,7 +48,7 @@ export async function renderHealthGuideDetailPage({
       // Önce hedeflenen dildeki makaleyi bul
       // Suffix'li (skolyoz_tr) veya direkt (skolyoz) olabilir
       const targetSuffix = forceLang === 'en' ? '_en' : '_tr';
-      
+
       const dbArticle = await prisma.healthArticle.findFirst({
         where: {
           OR: [
@@ -60,16 +60,6 @@ export async function renderHealthGuideDetailPage({
             { slug: rawSlug, lang: forceLang || 'tr', published: true },
           ],
         },
-      });
-
-      console.log('DEBUG: renderHealthGuideDetailPage', {
-        rawSlug,
-        slug,
-        forceLang,
-        targetSuffix,
-        foundId: dbArticle?.id,
-        foundSlug: dbArticle?.slug,
-        foundLang: dbArticle?.lang
       });
 
       if (dbArticle) {
@@ -109,7 +99,7 @@ export async function renderHealthGuideDetailPage({
           },
           select: { slug: true }
         });
-        
+
         if (pairArticle) {
           alternateSlug = pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '');
         }
@@ -137,7 +127,7 @@ export async function renderHealthGuideDetailPage({
   if (!article) {
     const langToUse = forceLang || 'tr';
     const local = getTranslatedLocalArticle(slug, langToUse);
-    
+
     if (!local) notFound();
 
     article = {

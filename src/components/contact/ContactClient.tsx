@@ -274,8 +274,7 @@ export default function ContactClient({
                     </div>
                     <div>
                       <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">{t('contact.info.hours')}</p>
-                      <p className="text-sm font-extrabold text-slate-900 leading-tight">{t('contact.locations.weekdays')}</p>
-                      <p className="text-xs text-slate-400 mt-0.5">{t('contact.locations.saturday')}</p>
+                      <p className="text-sm font-extrabold text-slate-900 leading-tight whitespace-pre-line">{loc.workingHours}</p>
                     </div>
                   </div>
                 </div>
@@ -376,8 +375,7 @@ export default function ContactClient({
                         </div>
                         <div>
                           <p className="text-[11px] font-bold text-slate-400 uppercase tracking-wide mb-0.5">{t('contact.info.hours')}</p>
-                          <p className="text-sm text-slate-800 font-medium">{t('contact.locations.weekdays')}</p>
-                          <p className="text-sm text-slate-500">{t('contact.locations.saturday')}</p>
+                          <p className="text-sm text-slate-800 font-medium whitespace-pre-line">{loc.workingHours}</p>
                         </div>
                       </div>
                     </div>
