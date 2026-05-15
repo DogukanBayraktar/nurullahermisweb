@@ -6,7 +6,7 @@ import { NextRequest, NextResponse } from 'next/server';
 const handler = NextAuth(authOptions);
 
 // Login denemelerini rate limit ile koru
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest, context: any) {
     const { pathname } = req.nextUrl;
 
     // Sadece credentials login endpoint'ine uygula
@@ -30,7 +30,7 @@ export async function POST(req: NextRequest) {
         }
     }
 
-    return handler(req as any, {} as any);
+    return handler(req, context);
 }
 
 export { handler as GET };
