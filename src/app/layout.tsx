@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Topline from "@/components/layout/Topline";
@@ -29,15 +30,18 @@ export default async function RootLayout({
 
   return (
     <html lang="tr">
-      <!-- Google tag (gtag.js) -->
-      <script async src="https://www.googletagmanager.com/gtag/js?id=G-912DXY8E7D"></script>
-      <script>
+    <Script
+      src="https://www.googletagmanager.com/gtag/js?id=G-912DXY8E7D"
+      strategy="afterInteractive"
+    />
+    <Script id="google-analytics" strategy="afterInteractive">
+      {`
         window.dataLayer = window.dataLayer || [];
         function gtag(){dataLayer.push(arguments);}
         gtag('js', new Date());
-
         gtag('config', 'G-912DXY8E7D');
-      </script>
+      `}
+    </Script>
       <body
         suppressHydrationWarning
         className={`${inter.className} min-h-screen flex flex-col antialiased bg-slate-50 text-slate-900 ${isAdmin ? '' : 'md:pt-12'}`}
