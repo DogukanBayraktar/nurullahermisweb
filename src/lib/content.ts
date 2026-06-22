@@ -4,7 +4,23 @@ import path from 'path';
 
 const CONTENT_PATH = path.join(process.cwd(), 'content');
 
+import { prisma } from '@/lib/prisma';
+import fs from 'fs';
+import path from 'path';
+
+const CONTENT_PATH = path.join(process.cwd(), 'content');
+
+// In-memory cache
+const memoryCache: Record<string, { data: any; cachedAt: number }> = {};
+const CACHE_TTL = 86400 * 1000; // 24 saat
+
 export async function getStaticContent(filename: string) {
+  // Önce memory cache'e bak
+  const cached = memoryCache[filename];
+  if (cached && Date.now() - cached.cachedAt < CACHE_TTL) {
+    return cached.data;
+  }
+
   try {
     // 1. Try DB first
     const record = await prisma.siteContent.findUnique({
@@ -12,6 +28,7 @@ export async function getStaticContent(filename: string) {
     });
 
     if (record) {
+      memoryCache[filename] = { data: record.content, cachedAt: Date.now() };
       return record.content;
     }
 
@@ -21,7 +38,6 @@ export async function getStaticContent(filename: string) {
       const fileContent = fs.readFileSync(filePath, 'utf8');
       const content = JSON.parse(fileContent);
       
-      // Seed DB with this content so it works in production
       try {
         await prisma.siteContent.upsert({
           where: { filename },
@@ -31,7 +47,8 @@ export async function getStaticContent(filename: string) {
       } catch (dbError) {
         console.error(`Error migrating ${filename} to DB:`, dbError);
       }
-      
+
+      memoryCache[filename] = { data: content, cachedAt: Date.now() };
       return content;
     }
 
@@ -44,12 +61,14 @@ export async function getStaticContent(filename: string) {
 
 export async function updateStaticContent(filename: string, content: any) {
   try {
-    // Save to Database only (Production-safe)
     await prisma.siteContent.upsert({
       where: { filename },
       update: { content },
       create: { filename, content },
     });
+
+    // Admin değişiklik yapınca cache'i temizle
+    delete memoryCache[filename];
     
     return { success: true };
   } catch (error) {
