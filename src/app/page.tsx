@@ -1,5 +1,5 @@
 import { getStaticContent } from '@/lib/content';
-export const dynamic = 'force-dynamic';
+export const revalidate = 86400;
 import HomeClient from '@/components/home/HomeClient';
 
 import { prisma } from '@/lib/prisma';

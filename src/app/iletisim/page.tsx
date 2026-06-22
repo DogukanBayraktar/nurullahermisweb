@@ -49,7 +49,7 @@ const DEFAULT_LOCATIONS = [
   },
 ];
 
-export const revalidate = 60;
+export const revalidate = 86400;
 
 export default async function IletisimPage({ lang = 'tr' }: { lang?: 'tr' | 'en' }) {
   let contactData = {

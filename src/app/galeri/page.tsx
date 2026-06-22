@@ -1,7 +1,7 @@
 import GaleriPageClient from '@/components/galeri/GaleriPageClient';
 import { prisma } from '@/lib/prisma';
 
-export const revalidate = 0; 
+export const revalidate = 86400; 
 
 export default async function GaleriPage() {
   const items = await prisma.galleryItem.findMany({

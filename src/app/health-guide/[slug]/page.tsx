@@ -1,6 +1,6 @@
 import { renderHealthGuideDetailPage } from '../../saglik-rehberi/[slug]/page';
 
-export const revalidate = 60;
+export const revalidate = 86400;
 
 export default async function EnglishHealthGuideDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolved = await params;

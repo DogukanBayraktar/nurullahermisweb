@@ -3,7 +3,7 @@ import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { getDefaultLocalArticles, getAllTranslatedLocalArticles } from '@/lib/healthGuideTranslations';
 import HealthGuidePageClient from '@/components/blog/HealthGuidePageClient';
 
-export const revalidate = 60;
+export const revalidate = 86400;
 
 type LocalArticle = {
   _id: string;
