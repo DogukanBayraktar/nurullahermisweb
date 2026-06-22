@@ -4,12 +4,6 @@ import path from 'path';
 
 const CONTENT_PATH = path.join(process.cwd(), 'content');
 
-import { prisma } from '@/lib/prisma';
-import fs from 'fs';
-import path from 'path';
-
-const CONTENT_PATH = path.join(process.cwd(), 'content');
-
 // In-memory cache
 const memoryCache: Record<string, { data: any; cachedAt: number }> = {};
 const CACHE_TTL = 86400 * 1000; // 24 saat
