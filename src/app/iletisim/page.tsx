@@ -1,4 +1,4 @@
-import { prisma } from '@/lib/prisma';
+import { getStaticContent } from '@/lib/content';
 import ContactClient from '@/components/contact/ContactClient';
 
 const DEFAULT_LOCATIONS = [
@@ -60,11 +60,9 @@ export default async function IletisimPage({ lang = 'tr' }: { lang?: 'tr' | 'en'
   };
 
   try {
-    const record = await prisma.siteContent.findUnique({
-      where: { filename: 'contact.json' }
-    });
-    if (record?.content) {
-      contactData = record.content as any;
+    const record = await getStaticContent('contact.json');
+    if (record) {
+      contactData = record as any;
     }
   } catch (error) {
     console.error('Error fetching contact content:', error);

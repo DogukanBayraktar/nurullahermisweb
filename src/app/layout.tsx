@@ -12,6 +12,8 @@ import { getStaticContent } from "@/lib/content";
 
 const inter = Inter({ subsets: ["latin"] });
 
+export const revalidate = 86400;
+
 export const metadata: Metadata = {
   title: "Prof. Dr. Nurullah Ermiş | Ortopedi ve Omurga Cerrahisi Uzmanı",
   description: "Prof. Dr. Nurullah Ermiş - Ortopedi ve Travmatoloji Uzmanı. Skolyoz, bel fıtığı, boyun fıtığı, diz-kalça protezi ve çocuk ortopedisi alanında uzman cerrahi çözümler. Eren Hastanesi, Ataşehir/İstanbul.",
