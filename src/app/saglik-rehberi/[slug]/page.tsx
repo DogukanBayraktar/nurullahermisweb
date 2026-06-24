@@ -4,6 +4,7 @@ import { getTranslatedLocalArticle, getAllTranslatedLocalArticles, type LocalArt
 import { canonicalArticleSlug } from '@/lib/routes';
 import HealthGuideDetailClient from '@/components/blog/HealthGuideDetailClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
+import { unstable_cache } from 'next/cache';
 
 export const revalidate = 86400;
 
@@ -28,6 +29,50 @@ type ArticleDetail = {
   _localContent?: LocalArticle;
 };
 
+const getHealthArticleBundle = unstable_cache(
+  async (slug: string, rawSlug: string, forceLang: 'tr' | 'en' | undefined) => {
+    const targetSuffix = forceLang === 'en' ? '_en' : '_tr';
+
+    const dbArticle = await prisma.healthArticle.findFirst({
+      where: {
+        OR: [
+          { slug: `${slug}${targetSuffix}`, published: true },
+          { slug: `${rawSlug}${targetSuffix}`, published: true },
+          { slug: rawSlug, lang: forceLang || 'tr', published: true },
+        ],
+      },
+    });
+
+    if (!dbArticle) {
+      return { dbArticle: null, pairArticle: null, related: [] };
+    }
+
+    const otherLang = forceLang === 'en' ? 'tr' : 'en';
+    const otherSuffix = otherLang === 'en' ? '_en' : '_tr';
+
+    const [pairArticle, related] = await Promise.all([
+      prisma.healthArticle.findFirst({
+        where: {
+          OR: [
+            { slug: `${slug}${otherSuffix}`, published: true },
+            { slug: slug, lang: otherLang, published: true },
+          ],
+        },
+        select: { slug: true },
+      }),
+      prisma.healthArticle.findMany({
+        where: { published: true, lang: forceLang || 'tr', NOT: { id: dbArticle.id } },
+        take: 4,
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
+
+    return { dbArticle, pairArticle, related };
+  },
+  ['health-article-detail-bundle'],
+  { revalidate: 86400 }
+);
+
 export async function renderHealthGuideDetailPage({
   params,
   forceLang,
@@ -45,22 +90,7 @@ export async function renderHealthGuideDetailPage({
   // DB'den dene
   try {
     if (hasDatabaseUrl) {
-      // Önce hedeflenen dildeki makaleyi bul
-      // Suffix'li (skolyoz_tr) veya direkt (skolyoz) olabilir
-      const targetSuffix = forceLang === 'en' ? '_en' : '_tr';
-
-      const dbArticle = await prisma.healthArticle.findFirst({
-        where: {
-          OR: [
-            // TR canonical slug ile: bel-fitigi-ameliyati_tr
-            { slug: `${slug}${targetSuffix}`, published: true },
-            // EN makaleler için rawSlug direkt: lumbar-disc-surgery_en
-            { slug: `${rawSlug}${targetSuffix}`, published: true },
-            // Suffix olmadan lang ile
-            { slug: rawSlug, lang: forceLang || 'tr', published: true },
-          ],
-        },
-      });
+      const { dbArticle, pairArticle, related } = await getHealthArticleBundle(slug, rawSlug, forceLang);
 
       if (dbArticle) {
         const localContent: LocalArticle = {
@@ -87,29 +117,10 @@ export async function renderHealthGuideDetailPage({
           coverImage: dbArticle.img,
         };
 
-        // Karşı dildeki slug'ı bul (Navbar için ipucu olabilir)
-        const otherLang = forceLang === 'en' ? 'tr' : 'en';
-        const otherSuffix = otherLang === 'en' ? '_en' : '_tr';
-        const pairArticle = await prisma.healthArticle.findFirst({
-          where: {
-            OR: [
-              { slug: `${slug}${otherSuffix}`, published: true },
-              { slug: slug, lang: otherLang, published: true },
-            ],
-          },
-          select: { slug: true }
-        });
-
         if (pairArticle) {
           alternateSlug = pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '');
         }
 
-        // Related articles from DB
-        const related = await prisma.healthArticle.findMany({
-          where: { published: true, lang: forceLang || 'tr', NOT: { id: dbArticle.id } },
-          take: 4,
-          orderBy: { createdAt: 'desc' },
-        });
         otherArticles = related.map((r) => ({
           title: r.title,
           slug: r.slug.replace(/_tr$/, '').replace(/_en$/, ''),

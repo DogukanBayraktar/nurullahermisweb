@@ -3,8 +3,38 @@ import { notFound } from 'next/navigation';
 import { TREATMENTS_DATA } from '@/lib/treatments';
 import TedaviDetayClient from '@/components/tedaviler/TedaviDetayClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
+import { unstable_cache } from 'next/cache';
 
 export const revalidate = 86400;
+
+const getTreatmentEn = unstable_cache(
+  async (slug: string, normalizedOriginal: string | undefined) => {
+    const candidateSlugs = [`${slug}_en`];
+    if (normalizedOriginal && normalizedOriginal !== slug) {
+      candidateSlugs.push(`${normalizedOriginal}_en`);
+    }
+
+    const found = await prisma.treatment.findFirst({
+      where: {
+        OR: candidateSlugs.map((candidate) => ({ slug: candidate })),
+      },
+    });
+
+    if (found) return found;
+
+    return await prisma.treatment.findUnique({ where: { slug } });
+  },
+  ['treatment-detail-en'],
+  { revalidate: 86400 }
+);
+
+const getTreatmentTr = unstable_cache(
+  async (slug: string) => {
+    return await prisma.treatment.findUnique({ where: { slug } });
+  },
+  ['treatment-detail-tr'],
+  { revalidate: 86400 }
+);
 
 export default async function TedaviDetayPage({
   params,
@@ -19,27 +49,10 @@ export default async function TedaviDetayPage({
   try {
     if (hasDatabaseUrl) {
       if (language === 'en') {
-        const candidateSlugs = [`${slug}_en`];
         const normalizedOriginal = originalSlug?.replace(/_tr$/, '').replace(/_en$/, '');
-        if (normalizedOriginal && normalizedOriginal !== slug) {
-          candidateSlugs.push(`${normalizedOriginal}_en`);
-        }
-
-        dbTreatment = await prisma.treatment.findFirst({
-          where: {
-            OR: candidateSlugs.map((candidate) => ({ slug: candidate })),
-          },
-        });
-
-        if (!dbTreatment) {
-          dbTreatment = await prisma.treatment.findUnique({
-            where: { slug },
-          });
-        }
+        dbTreatment = await getTreatmentEn(slug, normalizedOriginal);
       } else {
-        dbTreatment = await prisma.treatment.findUnique({
-          where: { slug },
-        });
+        dbTreatment = await getTreatmentTr(slug);
       }
     }
   } catch {

@@ -2,8 +2,20 @@
 import { TREATMENTS_DATA } from '@/lib/treatments';
 import TedavilerPageClient from '@/components/tedaviler/TedavilerPageClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
+import { unstable_cache } from 'next/cache';
 
 export const revalidate = 86400;
+
+const getPublishedTreatments = unstable_cache(
+  async () => {
+    return await prisma.treatment.findMany({
+      where: { published: true },
+      orderBy: { createdAt: 'asc' },
+    });
+  },
+  ['treatments-published'],
+  { revalidate: 86400 }
+);
 
 export default async function TedavilerPage({ language = 'tr' }: { language?: 'tr' | 'en' }) {
   let combinedTreatments: {
@@ -16,12 +28,7 @@ export default async function TedavilerPage({ language = 'tr' }: { language?: 't
   }[] = [];
 
   try {
-    const dbRows = hasDatabaseUrl
-      ? await prisma.treatment.findMany({
-          where: { published: true },
-          orderBy: { createdAt: 'asc' },
-        })
-      : [];
+    const dbRows = hasDatabaseUrl ? await getPublishedTreatments() : [];
 
     const filteredRows = dbRows.filter((t) =>
       language === 'en' ? t.slug.endsWith('_en') : !t.slug.endsWith('_en')
