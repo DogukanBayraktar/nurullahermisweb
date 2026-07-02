@@ -4,14 +4,11 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // ÖNEMLİ: Prisma 7 + driver adapter (@prisma/adapter-pg) kullanılıyor
-  // olsa da (bkz. src/lib/prisma.ts), `prisma generate` / `prisma migrate`
-  // / `prisma db push` gibi CLI komutları schema.prisma'da bir `url` alanı
-  // BEKLER — yoksa şema doğrulaması ve migration üretimi başarısız olabilir.
-  // Gerçek çalışma zamanı bağlantısı yine de PrismaPg adapter'a verilen
-  // connectionString (POSTGRES_PRISMA_URL / DATABASE_URL) üzerinden kurulur;
-  // buradaki url sadece CLI/tooling için gereklidir.
-  url      = env("DATABASE_URL")
+  // NOT: Prisma 7'de datasource bloğunda `url` alanı KALDIRILDI (artık
+  // desteklenmiyor, P1012 hatası verir). Bağlantı URL'i migrate/CLI için
+  // `prisma.config.ts` üzerinden, runtime client için ise src/lib/prisma.ts
+  // içindeki PrismaPg adapter'a verilen connectionString üzerinden sağlanıyor.
+  // Buraya url eklemeyin.
 }
 
 model HealthArticle {
