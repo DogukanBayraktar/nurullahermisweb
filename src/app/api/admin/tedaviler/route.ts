@@ -1,6 +1,7 @@
 // src/app/api/admin/tedaviler/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -28,6 +29,13 @@ export async function POST(req: NextRequest) {
     await requireAdmin();
     const body = await req.json();
     const treatment = await prisma.treatment.create({ data: body });
+
+    // Yeni tedavi eklenince allow-list ve ilgili liste sayfalarının cache'i
+    // temizlenmeli, aksi halde yeni slug 24 saat boyunca 404 dönebilir.
+    revalidateTag('treatment-slug-allowlist');
+    revalidatePath('/tedaviler');
+    revalidatePath('/treatments');
+
     return NextResponse.json(treatment, { status: 201 });
   } catch (e) {
     if (e instanceof Error && e.message === 'Unauthorized') {

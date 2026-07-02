@@ -1,7 +1,7 @@
 // src/app/api/admin/saglik-rehberi/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -40,9 +40,13 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
 
     // Slug'dan suffix'i temizleyerek canonical slug'ı bul
     const canonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
-    // Detay ve liste sayfalarının cache'ini temizle
+    // Detay ve liste sayfalarının cache'ini temizle (hem data cache tag'i
+    // hem route cache path'i)
+    revalidateTag('health-article-detail');
     revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
     revalidatePath('/saglik-rehberi');
+    revalidatePath(`/health-guide/${canonicalSlug}`);
+    revalidatePath('/health-guide');
 
     return NextResponse.json(article);
   } catch (e) {
@@ -59,10 +63,12 @@ export async function DELETE(_req: NextRequest, { params }: IdContext) {
     await requireAdmin();
     const { id } = await params;
     await prisma.healthArticle.delete({ where: { id: Number(id) } });
-    
+
+    revalidateTag('health-article-detail');
+    revalidateTag('health-article-slug-allowlist');
     revalidatePath('/saglik-rehberi');
     revalidatePath('/health-guide');
-    
+
     return NextResponse.json({ ok: true });
   } catch (e) {
     if (e instanceof Error && e.message === 'Unauthorized') {

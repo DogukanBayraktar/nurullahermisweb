@@ -6,22 +6,33 @@ import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
 
 export const revalidate = 86400;
-export const dynamicParams = true; 
+export const dynamic = 'force-static';
+export const dynamicParams = true;
 
-
-const getAllTreatmentSlugs = unstable_cache(
+// treatments/[slug]/page.tsx (EN mirror) generateStaticParams'ta da
+// kullanabilsin diye export ediliyor.
+export const getAllTreatmentSlugs = unstable_cache(
   async () => {
     const rows = await prisma.treatment.findMany({ select: { slug: true } });
     return new Set(rows.map((r) => r.slug));
   },
   ['treatment-slug-allowlist'],
-  { revalidate: 86400 }
+  { revalidate: 86400, tags: ['treatment-slug-allowlist'] }
 );
 
 export async function generateStaticParams() {
   try {
     const slugs = await getAllTreatmentSlugs();
-    return Array.from(slugs).map((slug) => ({ slug }));
+    // DB'deki slug'lar '_tr' / '_en' son ekiyle tutuluyor (örn. 'xxx_tr').
+    // Gerçek TR URL'i son eksiz olduğu için (saglik-rehberi ile tutarlı
+    // şekilde) burada da temizliyoruz; aksi halde build zamanında
+    // '/tedaviler/xxx_tr' gibi hiç ziyaret edilmeyecek path'ler statik
+    // üretilirken gerçek '/tedaviler/xxx' path'i dynamicParams fallback'e
+    // düşüp her seferinde ilk istekte SSR ediliyordu.
+    const canonicalSlugs = new Set(
+      Array.from(slugs).map((slug) => slug.replace(/_tr$/, '').replace(/_en$/, ''))
+    );
+    return Array.from(canonicalSlugs).map((slug) => ({ slug }));
   } catch {
     return [];
   }
@@ -45,7 +56,7 @@ const getTreatmentEn = unstable_cache(
     return await prisma.treatment.findUnique({ where: { slug } });
   },
   ['treatment-detail-en'],
-  { revalidate: 86400 }
+  { revalidate: 86400, tags: ['treatment-detail'] }
 );
 
 const getTreatmentTr = unstable_cache(
@@ -53,7 +64,7 @@ const getTreatmentTr = unstable_cache(
     return await prisma.treatment.findUnique({ where: { slug } });
   },
   ['treatment-detail-tr'],
-  { revalidate: 86400 }
+  { revalidate: 86400, tags: ['treatment-detail'] }
 );
 
 export default async function TedaviDetayPage({

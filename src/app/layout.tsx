@@ -2,12 +2,8 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Topline from "@/components/layout/Topline";
-import Navbar from "@/components/layout/Navbar";
-import Footer from "@/components/layout/Footer";
-import WhatsAppButton from "@/components/ui/whatsapp-button";
 import I18nRouteSync from "@/components/layout/I18nRouteSync";
-import { headers } from "next/headers";
+import ConditionalChrome from "@/components/layout/ConditionalChrome";
 import { getStaticContent } from "@/lib/content";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -24,10 +20,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  const pathname = headersList.get('x-pathname') ?? headersList.get('x-invoke-path') ?? '';
-  const isAdmin = pathname.startsWith('/admin');
-
+  // NOT: Burada bilerek headers()/cookies() KULLANILMIYOR. Root layout tüm
+  // route ağacını sardığı için, burada yapılacak bir headers() çağrısı
+  // Next.js'i /tedaviler/[slug], /saglik-rehberi/[slug] gibi statik/ISR
+  // olması gereken TÜM alt sayfaları da dynamic (SSR-per-request) render
+  // etmeye zorlar ve Vercel edge cache'i her zaman MISS döner. Admin/site
+  // ayrımı artık ConditionalChrome içinde client-side usePathname ile
+  // yapılıyor; bu, statik render'ı bozmaz.
   const navFooterData = await getStaticContent('nav-footer.json');
 
   return (
@@ -46,16 +45,10 @@ export default async function RootLayout({
     </Script>
       <body
         suppressHydrationWarning
-        className={`${inter.className} min-h-screen flex flex-col antialiased bg-slate-50 text-slate-900 ${isAdmin ? '' : 'md:pt-12'}`}
+        className={`${inter.className} antialiased bg-slate-50 text-slate-900`}
       >
         <I18nRouteSync />
-        {!isAdmin && <Topline />}
-        {!isAdmin && <Navbar initialData={navFooterData} />}
-        <main className={isAdmin ? 'flex-1 flex flex-col' : 'flex-1'}>
-          {children}
-        </main>
-        {!isAdmin && <WhatsAppButton />}
-        {!isAdmin && <Footer initialData={navFooterData} />}
+        <ConditionalChrome navFooterData={navFooterData}>{children}</ConditionalChrome>
       </body>
     </html>
   );

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { updateArticleSlugMapDb } from '@/lib/updateArticleSlugMap';
@@ -54,6 +54,8 @@ export async function POST(req: NextRequest) {
       await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
     }
 
+    revalidateTag('health-article-slug-allowlist');
+    revalidateTag('health-article-detail');
     revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
     revalidatePath('/saglik-rehberi');
     revalidatePath(`/health-guide/${canonicalSlug}`);

@@ -4,6 +4,14 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // ÖNEMLİ: Prisma 7 + driver adapter (@prisma/adapter-pg) kullanılıyor
+  // olsa da (bkz. src/lib/prisma.ts), `prisma generate` / `prisma migrate`
+  // / `prisma db push` gibi CLI komutları schema.prisma'da bir `url` alanı
+  // BEKLER — yoksa şema doğrulaması ve migration üretimi başarısız olabilir.
+  // Gerçek çalışma zamanı bağlantısı yine de PrismaPg adapter'a verilen
+  // connectionString (POSTGRES_PRISMA_URL / DATABASE_URL) üzerinden kurulur;
+  // buradaki url sadece CLI/tooling için gereklidir.
+  url      = env("DATABASE_URL")
 }
 
 model HealthArticle {
@@ -22,6 +30,12 @@ model HealthArticle {
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // getHealthArticleBundle() içindeki "related articles" sorgusu
+  // (where: { published, lang }, orderBy: { createdAt: 'desc' }) bu
+  // index olmadan sıralı full-table scan yapıyordu. slug zaten @unique
+  // olduğu için ayrıca index gerekmiyor.
+  @@index([lang, published, createdAt])
 }
 
 model Treatment {
@@ -40,6 +54,10 @@ model Treatment {
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Liste sayfası (/tedaviler, /treatments) ve olası "ilgili tedaviler"
+  // sorguları için.
+  @@index([lang, published])
 }
 
 model PressItem {
@@ -55,6 +73,8 @@ model PressItem {
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([lang, published])
 }
 
 model Presentation {
@@ -81,6 +101,7 @@ model GalleryItem {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
 model HomeResult {
   id        Int      @id @default(autoincrement())
   img       String
@@ -99,6 +120,7 @@ model SiteContent {
   content   Json
   updatedAt DateTime @updatedAt
 }
+
 model User {
   id        Int      @id @default(autoincrement())
   username  String   @unique

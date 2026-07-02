@@ -7,18 +7,21 @@ import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
 
 export const revalidate = 86400;
+export const dynamic = 'force-static';
 export const dynamicParams = true;
 
 // Hafif allow-list sorgusu: sadece slug kolonu (24 saat cache).
 // Bot/scraper rastgele slug denediğinde ağır findFirst/findMany sorgularını
 // tetiklemeden notFound()'a/local fallback'e düşmeyi sağlar.
-const getAllArticleSlugs = unstable_cache(
+// health-guide/[slug]/page.tsx (EN mirror) generateStaticParams'ta da
+// kullanabilsin diye export ediliyor.
+export const getAllArticleSlugs = unstable_cache(
   async () => {
     const rows = await prisma.healthArticle.findMany({ select: { slug: true } });
     return new Set(rows.map((r) => r.slug));
   },
   ['health-article-slug-allowlist'],
-  { revalidate: 86400 }
+  { revalidate: 86400, tags: ['health-article-slug-allowlist'] }
 );
 
 // Build zamanında bilinen tüm makale slug'larını statik üretir (DB'ye prod trafiğinde gidilmez).
@@ -93,7 +96,7 @@ const getHealthArticleBundle = unstable_cache(
     return { dbArticle, pairArticle, related };
   },
   ['health-article-detail-bundle'],
-  { revalidate: 86400 }
+  { revalidate: 86400, tags: ['health-article-detail'] }
 );
 
 export async function renderHealthGuideDetailPage({
