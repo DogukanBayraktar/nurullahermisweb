@@ -6,6 +6,26 @@ import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
 
 export const revalidate = 86400;
+export const dynamicParams = true; 
+
+
+const getAllTreatmentSlugs = unstable_cache(
+  async () => {
+    const rows = await prisma.treatment.findMany({ select: { slug: true } });
+    return new Set(rows.map((r) => r.slug));
+  },
+  ['treatment-slug-allowlist'],
+  { revalidate: 86400 }
+);
+
+export async function generateStaticParams() {
+  try {
+    const slugs = await getAllTreatmentSlugs();
+    return Array.from(slugs).map((slug) => ({ slug }));
+  } catch {
+    return [];
+  }
+}
 
 const getTreatmentEn = unstable_cache(
   async (slug: string, normalizedOriginal: string | undefined) => {
@@ -48,15 +68,24 @@ export default async function TedaviDetayPage({
 
   try {
     if (hasDatabaseUrl) {
-      if (language === 'en') {
-        const normalizedOriginal = originalSlug?.replace(/_tr$/, '').replace(/_en$/, '');
-        dbTreatment = await getTreatmentEn(slug, normalizedOriginal);
-      } else {
-        dbTreatment = await getTreatmentTr(slug);
+     
+      const knownSlugs = await getAllTreatmentSlugs();
+      const normalizedOriginal = originalSlug?.replace(/_tr$/, '').replace(/_en$/, '');
+      const possiblyInDb =
+        knownSlugs.has(slug) ||
+        knownSlugs.has(`${slug}_en`) ||
+        (normalizedOriginal ? knownSlugs.has(`${normalizedOriginal}_en`) : false);
+
+      if (possiblyInDb) {
+        if (language === 'en') {
+          dbTreatment = await getTreatmentEn(slug, normalizedOriginal);
+        } else {
+          dbTreatment = await getTreatmentTr(slug);
+        }
       }
     }
   } catch {
-    // DB hazir degilse statik veriye dus.
+   
   }
 
   if (dbTreatment) {
@@ -71,8 +100,7 @@ export default async function TedaviDetayPage({
       treatments: dbTreatment.treatment as { baslik: string; icerik: string }[],
       faq: dbTreatment.faq as { s: string; c: string }[],
     };
-    // DB content should be rendered as-is; static translation fallback is only for local data.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    
     return <TedaviDetayClient treatment={treatment as any} isLocal={false} />;
   }
 

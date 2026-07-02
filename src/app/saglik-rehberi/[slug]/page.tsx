@@ -7,6 +7,29 @@ import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
 
 export const revalidate = 86400;
+export const dynamicParams = true;
+
+// Hafif allow-list sorgusu: sadece slug kolonu (24 saat cache).
+// Bot/scraper rastgele slug denediğinde ağır findFirst/findMany sorgularını
+// tetiklemeden notFound()'a/local fallback'e düşmeyi sağlar.
+const getAllArticleSlugs = unstable_cache(
+  async () => {
+    const rows = await prisma.healthArticle.findMany({ select: { slug: true } });
+    return new Set(rows.map((r) => r.slug));
+  },
+  ['health-article-slug-allowlist'],
+  { revalidate: 86400 }
+);
+
+// Build zamanında bilinen tüm makale slug'larını statik üretir (DB'ye prod trafiğinde gidilmez).
+export async function generateStaticParams() {
+  try {
+    const slugs = await getAllArticleSlugs();
+    return Array.from(slugs).map((slug) => ({ slug: slug.replace(/_tr$/, '').replace(/_en$/, '') }));
+  } catch {
+    return [];
+  }
+}
 
 type RelatedArticle = {
   title: string;
@@ -90,7 +113,16 @@ export async function renderHealthGuideDetailPage({
   // DB'den dene
   try {
     if (hasDatabaseUrl) {
-      const { dbArticle, pairArticle, related } = await getHealthArticleBundle(slug, rawSlug, forceLang);
+      const knownSlugs = await getAllArticleSlugs();
+      const possiblyInDb =
+        knownSlugs.has(`${slug}_tr`) ||
+        knownSlugs.has(`${slug}_en`) ||
+        knownSlugs.has(`${rawSlug}_tr`) ||
+        knownSlugs.has(`${rawSlug}_en`) ||
+        knownSlugs.has(rawSlug);
+
+      if (possiblyInDb) {
+        const { dbArticle, pairArticle, related } = await getHealthArticleBundle(slug, rawSlug, forceLang);
 
       if (dbArticle) {
         const localContent: LocalArticle = {
@@ -128,6 +160,7 @@ export async function renderHealthGuideDetailPage({
           publishedAt: r.date,
           coverImage: r.img,
         }));
+      }
       }
     }
   } catch (error) {
