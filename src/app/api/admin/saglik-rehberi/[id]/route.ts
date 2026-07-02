@@ -42,7 +42,7 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
     const canonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
     // Detay ve liste sayfalarının cache'ini temizle (hem data cache tag'i
     // hem route cache path'i)
-    revalidateTag('health-article-detail');
+    revalidateTag('health-article-detail', { expire: 0 });
     revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
     revalidatePath('/saglik-rehberi');
     revalidatePath(`/health-guide/${canonicalSlug}`);
@@ -64,8 +64,8 @@ export async function DELETE(_req: NextRequest, { params }: IdContext) {
     const { id } = await params;
     await prisma.healthArticle.delete({ where: { id: Number(id) } });
 
-    revalidateTag('health-article-detail');
-    revalidateTag('health-article-slug-allowlist');
+    revalidateTag('health-article-detail', { expire: 0 });
+    revalidateTag('health-article-slug-allowlist', { expire: 0 });
     revalidatePath('/saglik-rehberi');
     revalidatePath('/health-guide');
 

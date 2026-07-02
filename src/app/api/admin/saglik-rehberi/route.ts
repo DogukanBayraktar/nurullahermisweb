@@ -54,8 +54,8 @@ export async function POST(req: NextRequest) {
       await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
     }
 
-    revalidateTag('health-article-slug-allowlist');
-    revalidateTag('health-article-detail');
+    revalidateTag('health-article-slug-allowlist', { expire: 0 });
+    revalidateTag('health-article-detail', { expire: 0 });
     revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
     revalidatePath('/saglik-rehberi');
     revalidatePath(`/health-guide/${canonicalSlug}`);

@@ -40,8 +40,8 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
     // revalidate süresi dolana kadar eski içeriği göstermeye devam
     // ediyordu. Şimdi hem data cache (tag) hem route cache (path)
     // temizleniyor.
-    revalidateTag('treatment-detail');
-    revalidateTag('treatment-slug-allowlist');
+    revalidateTag('treatment-detail', { expire: 0 });
+    revalidateTag('treatment-slug-allowlist', { expire: 0 });
     revalidatePath(`/tedaviler/${item.slug}`);
     revalidatePath('/tedaviler');
     revalidatePath('/treatments');
@@ -62,8 +62,8 @@ export async function DELETE(_req: NextRequest, { params }: IdContext) {
     const { id } = await params;
     await prisma.treatment.delete({ where: { id: Number(id) } });
 
-    revalidateTag('treatment-detail');
-    revalidateTag('treatment-slug-allowlist');
+    revalidateTag('treatment-detail', { expire: 0 });
+    revalidateTag('treatment-slug-allowlist', { expire: 0 });
     revalidatePath('/tedaviler');
     revalidatePath('/treatments');
 

@@ -77,5 +77,5 @@ function revalidateContentTag() {
   // kullanılabileceğinden revalidateTag'i sadece ihtiyaç anında çağırıyoruz.
   // eslint-disable-next-line @typescript-eslint/no-var-requires
   const { revalidateTag } = require('next/cache');
-  revalidateTag('site-content');
+  revalidateTag('site-content', { expire: 0 });
 }
