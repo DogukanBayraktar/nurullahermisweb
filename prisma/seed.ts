@@ -166,7 +166,7 @@ async function main() {
   // ─── HEALTH ARTICLES (EN) ───────────────────────────────────────────────────
   const enArticles = [
     {
-      slug: 'bel-fitigi-ameliyati',
+      slug: 'lumbar-disc-surgery',
       title: 'Lumbar Disc Herniation Surgery: Walking on the Same Day with Microsurgery',
       img: '/images/saglik/bel-fitigi.avif',
       date: 'March 12, 2025',
