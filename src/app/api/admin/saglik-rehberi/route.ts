@@ -36,21 +36,27 @@ export async function POST(req: NextRequest) {
     const article = await prisma.healthArticle.create({ data: body });
 
     const canonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
-    
-    // Yeni makale eklenince DB'deki articleSlugMap'i otomatik güncelle
-    // TR ve EN pair'larını bulup mapa ekle
-    const relatedArticles = await prisma.healthArticle.findMany({
+    const pairLang = article.lang === 'tr' ? 'en' : 'tr';
+
+    // Yeni makale eklenince DB'deki articleSlugMap'i otomatik güncelle.
+    // NOT: TR ve EN slug'ları kasıtlı olarak FARKLI metinler olabilir
+    // (örn. bel-fitigi-ameliyati_tr / lumbar-disc-surgery_en), bu yüzden
+    // eşi "aynı canonical slug metnini paylaşan kayıt" diye aramak yanlış
+    // sonuç verir. Admin düzenleme sayfasındaki mantıkla aynı şekilde,
+    // aynı `img` değerini paylaşan karşı-dil kaydını buluyoruz.
+    const pairArticle = await prisma.healthArticle.findFirst({
       where: {
+        lang: pairLang,
         OR: [
-          { slug: { contains: canonicalSlug } },
+          { slug: `${canonicalSlug}_${pairLang}` },
+          ...(article.img ? [{ img: article.img }] : []),
         ],
       },
     });
-    
-    const trArticle = relatedArticles.find(a => a.slug.endsWith('_tr'));
-    const enArticle = relatedArticles.find(a => a.slug.endsWith('_en'));
-    
-    if (trArticle && enArticle) {
+
+    if (pairArticle) {
+      const trArticle = article.lang === 'tr' ? article : pairArticle;
+      const enArticle = article.lang === 'en' ? article : pairArticle;
       await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
     }
 
@@ -59,6 +65,9 @@ export async function POST(req: NextRequest) {
     revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
     revalidatePath('/saglik-rehberi');
     revalidatePath(`/health-guide/${canonicalSlug}`);
+    if (pairArticle) {
+      revalidatePath(`/health-guide/${pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '')}`);
+    }
     revalidatePath('/health-guide');
 
     return NextResponse.json(article, { status: 201 });

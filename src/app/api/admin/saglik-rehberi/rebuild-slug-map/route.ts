@@ -20,9 +20,38 @@ export async function POST(req: NextRequest) {
     // Tüm makaleleri oku
     const articles = await prisma.healthArticle.findMany();
 
-    // Canonical slug'a göre grup'la (bel-fitigi → bel-fitigi_tr, bel-fitigi_en)
-    const slugGroups = new Map<string, typeof articles>();
+    const pairedIds = new Set<number>();
+    let updated = 0;
+
+    // 1) Öncelikli eşleştirme: aynı `img` değerini paylaşan TR/EN kaydı bul.
+    // TR ve EN slug'ları kasıtlı olarak farklı metinler olabileceği için
+    // (örn. bel-fitigi-ameliyati_tr / lumbar-disc-surgery_en), pairing
+    // için slug metnine değil, admin formunda ikisi için de ortak olan
+    // `img` alanına güveniyoruz.
+    const byImg = new Map<string, typeof articles>();
     articles.forEach((article) => {
+      if (!article.img) return;
+      if (!byImg.has(article.img)) byImg.set(article.img, []);
+      byImg.get(article.img)!.push(article);
+    });
+
+    for (const group of byImg.values()) {
+      const trArticle = group.find((a) => a.lang === 'tr');
+      const enArticle = group.find((a) => a.lang === 'en');
+      if (trArticle && enArticle) {
+        await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
+        pairedIds.add(trArticle.id);
+        pairedIds.add(enArticle.id);
+        updated++;
+      }
+    }
+
+    // 2) Yedek eşleştirme: img eşleşmesiyle bulunamayan (örn. img boş
+    // bırakılmış) kayıtlar için, aynı canonical slug metnini paylaşanları
+    // eşleştir (bel-fitigi_tr / bel-fitigi_en gibi çevrilmemiş slug'lar).
+    const remaining = articles.filter((a) => !pairedIds.has(a.id));
+    const slugGroups = new Map<string, typeof articles>();
+    remaining.forEach((article) => {
       const canonical = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
       if (!slugGroups.has(canonical)) {
         slugGroups.set(canonical, []);
@@ -30,8 +59,6 @@ export async function POST(req: NextRequest) {
       slugGroups.get(canonical)!.push(article);
     });
 
-    // Her grup'ta TR ve EN var mı kontrol etme
-    let updated = 0;
     for (const group of slugGroups.values()) {
       const trArticle = group.find(a => a.slug.endsWith('_tr'));
       const enArticle = group.find(a => a.slug.endsWith('_en'));

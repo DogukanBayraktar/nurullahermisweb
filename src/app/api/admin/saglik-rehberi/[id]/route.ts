@@ -41,16 +41,28 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
 
     // Slug'dan suffix'i temizleyerek canonical slug'ı bul
     const canonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
+    const pairLang = article.lang === 'tr' ? 'en' : 'tr';
 
     // Slug değişmiş olabilir (örn. yanlış girilen bir EN slug düzeltilmiş
     // olabilir) — TR/EN eşini bulup articleSlugMap'i güncelle, aksi halde
     // eski/yanlış eşleme DB'de kalmaya devam eder.
-    const relatedArticles = await prisma.healthArticle.findMany({
-      where: { OR: [{ slug: { contains: canonicalSlug } }] },
+    // NOT: TR ve EN slug'ları kasıtlı olarak FARKLI metinler olabilir, bu
+    // yüzden "aynı canonical slug metnini içeren kayıt" araması yanlış
+    // sonuç verir (hiç eşleşme bulamaz). Admin düzenleme sayfasındaki
+    // mantıkla aynı şekilde, aynı `img` değerini paylaşan karşı-dil
+    // kaydını buluyoruz.
+    const pairArticle = await prisma.healthArticle.findFirst({
+      where: {
+        lang: pairLang,
+        OR: [
+          { slug: `${canonicalSlug}_${pairLang}` },
+          ...(article.img ? [{ img: article.img }] : []),
+        ],
+      },
     });
-    const trArticle = relatedArticles.find((a) => a.slug.endsWith('_tr'));
-    const enArticle = relatedArticles.find((a) => a.slug.endsWith('_en'));
-    if (trArticle && enArticle) {
+    if (pairArticle) {
+      const trArticle = article.lang === 'tr' ? article : pairArticle;
+      const enArticle = article.lang === 'en' ? article : pairArticle;
       await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
     }
 
@@ -61,6 +73,9 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
     revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
     revalidatePath('/saglik-rehberi');
     revalidatePath(`/health-guide/${canonicalSlug}`);
+    if (pairArticle) {
+      revalidatePath(`/health-guide/${pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '')}`);
+    }
     revalidatePath('/health-guide');
 
     return NextResponse.json(article);
