@@ -183,7 +183,7 @@ async function main() {
       lang: 'en',
     },
     {
-      slug: 'skolyoz-belirtileri-tedavisi',
+      slug: 'scoliosis-symptoms-treatment',
       title: 'Should we be afraid of scoliosis?',
       img: '/images/saglik/skolyoz-cerrahi.avif',
       date: 'February 28, 2025',
@@ -200,7 +200,7 @@ async function main() {
       lang: 'en',
     },
     {
-      slug: 'diz-protezi-ameliyati',
+      slug: 'knee-replacement-surgery',
       title: 'What is knee replacement surgery?',
       img: '/images/saglik/diz-cerrahi.avif',
       date: 'January 10, 2025',
@@ -219,7 +219,7 @@ async function main() {
       lang: 'en',
     },
     {
-      slug: 'boyun-fitiginiz-mi-var',
+      slug: 'do-you-have-a-cervical-disc-herniation',
       title: 'Do You Have a Cervical Disc Herniation? No Need to Panic…',
       img: '/images/saglik/boyun-cerrahi.avif',
       date: 'November 5, 2024',
@@ -237,7 +237,7 @@ async function main() {
       lang: 'en',
     },
     {
-      slug: 'cocuklarda-kalca-cikigini-nasil-anlariz',
+      slug: 'how-can-we-recognize-hip-dislocation-in-children',
       title: 'How Can We Recognize Hip Dislocation in Children?',
       img: '/images/saglik/cocuk.avif',
       date: 'September 20, 2024',
@@ -256,7 +256,7 @@ async function main() {
       lang: 'en',
     },
     {
-      slug: 'skolyoz-egzersizleri',
+      slug: 'scoliosis-exercises',
       title: 'Scoliosis Exercises: Movements That Support the Spine',
       img: '/images/saglik/skolyoz-cerrahi.avif',
       date: 'March 28, 2025',
@@ -275,7 +275,7 @@ async function main() {
       lang: 'en',
     },
     {
-      slug: 'acl-cop-bag-ameliyati',
+      slug: 'acl-surgery',
       title: 'Be Careful with Sports Injuries!',
       img: '/images/saglik/on-capraz.avif',
       date: 'August 3, 2024',
