@@ -6,12 +6,15 @@ import { Phone, Mail, ChevronDown, Globe } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getAlternateLocalizedPath, getLangFromPathname } from '@/lib/routes';
+import { useRouteTranslation } from '@/lib/RouteTranslationContext';
 
 export default function Topline() {
   const { t } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
   const currentLang = getLangFromPathname(pathname || '/');
+  const translationContext = useRouteTranslation();
+  const alternatePaths = translationContext?.alternatePaths;
   const [isLanguageOpen, setIsLanguageOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,8 +43,8 @@ export default function Topline() {
   };
 
   const languageOptions = [
-    { code: 'tr' as const, label: 'Türkçe', href: getAlternateLocalizedPath(pathname || '/', 'tr') },
-    { code: 'en' as const, label: 'English', href: getAlternateLocalizedPath(pathname || '/', 'en') },
+    { code: 'tr' as const, label: 'Türkçe', href: alternatePaths?.tr || getAlternateLocalizedPath(pathname || '/', 'tr') },
+    { code: 'en' as const, label: 'English', href: alternatePaths?.en || getAlternateLocalizedPath(pathname || '/', 'en') },
   ];
 
   return (

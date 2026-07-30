@@ -8,15 +8,20 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getAlternateLocalizedPath, getLangFromPathname, getLocalizedPath, resolveRouteKey } from '@/lib/routes';
+import { useRouteTranslation } from '@/lib/RouteTranslationContext';
 
 export default function Navbar({ initialData }: { initialData?: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { t, i18n } = useTranslation();
   const currentLang = getLangFromPathname(pathname || '/');
+  
+  const translationContext = useRouteTranslation();
+  const alternatePaths = translationContext?.alternatePaths;
 
   // Sayfa değişiminde veya link tıklandığında menüyü kapat
   const closeMenu = () => setIsOpen(false);
+
 
 
   // Menü açıkken sayfa kaydırmayı engelle
@@ -52,8 +57,8 @@ export default function Navbar({ initialData }: { initialData?: any }) {
   ];
 
   const languageOptions = [
-    { code: 'tr' as const, label: 'Türkçe', href: getAlternateLocalizedPath(pathname || '/', 'tr') },
-    { code: 'en' as const, label: 'English', href: getAlternateLocalizedPath(pathname || '/', 'en') },
+    { code: 'tr' as const, label: 'Türkçe', href: alternatePaths?.tr || getAlternateLocalizedPath(pathname || '/', 'tr') },
+    { code: 'en' as const, label: 'English', href: alternatePaths?.en || getAlternateLocalizedPath(pathname || '/', 'en') },
   ];
 
   return (

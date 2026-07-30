@@ -26,7 +26,7 @@ const routeSegments = {
   },
 } as const;
 
-const treatmentSlugMap: Record<string, string> = {
+let treatmentSlugMap: Record<string, string> = {
   'skolyoz-kifoz-cerrahisi': 'scoliosis-kyphosis-surgery',
   'bel-fitigi-tedavisi': 'lumbar-herniated-disc-treatment',
   'boyun-fitigi-cerrahisi': 'cervical-disc-surgery',
@@ -34,6 +34,35 @@ const treatmentSlugMap: Record<string, string> = {
   'cocuk-ortopedisi': 'pediatric-orthopedics',
   'artroskopik-cerrahi': 'arthroscopic-surgery',
 };
+
+export async function loadTreatmentSlugMapFromDb() {
+  if (typeof window !== 'undefined') return treatmentSlugMap;
+  
+  try {
+    const { prisma } = await import('./prisma');
+    const record = await prisma.siteContent.findUnique({
+      where: { filename: 'treatmentSlugMap' }
+    });
+    
+    if (record && record.content) {
+      treatmentSlugMap = {
+        ...treatmentSlugMap,
+        ...(record.content as Record<string, string>)
+      };
+    } else if (!record) {
+      // Otomatik ilk değer ataması
+      await prisma.siteContent.create({
+        data: {
+          filename: 'treatmentSlugMap',
+          content: treatmentSlugMap,
+        }
+      });
+    }
+  } catch (error) {
+    console.error('[routes] Treatment slug map yüklenemedi:', error);
+  }
+  return treatmentSlugMap;
+}
 
 function normalizeTreatmentSlug(slug: string) {
   return slug.replace(/_tr$/, '').replace(/_en$/, '');
@@ -90,7 +119,9 @@ function invertMap(map: Record<string, string>) {
   return Object.fromEntries(Object.entries(map).map(([key, value]) => [value, key]));
 }
 
-const reverseTreatmentSlugMap = invertMap(treatmentSlugMap);
+function getReverseTreatmentSlugMap() {
+  return invertMap(treatmentSlugMap);
+}
 
 // reverseArticleSlugMap'i bir fonksiyon haline getirelim ki güncel veriye baksın
 function getReverseArticleSlugMap() {
@@ -106,12 +137,14 @@ export function localizeTreatmentSlug(slug: string, language?: string) {
   const normalizedSlug = normalizeTreatmentSlug(slug);
   const lang = getSiteLang(language);
   if (lang === 'en') return treatmentSlugMap[normalizedSlug] ?? normalizedSlug;
-  return reverseTreatmentSlugMap[normalizedSlug] ?? normalizedSlug;
+  const reverseMap = getReverseTreatmentSlugMap();
+  return reverseMap[normalizedSlug] ?? normalizedSlug;
 }
 
 export function canonicalTreatmentSlug(slug: string) {
   const normalizedSlug = normalizeTreatmentSlug(slug);
-  return reverseTreatmentSlugMap[normalizedSlug] ?? normalizedSlug;
+  const reverseMap = getReverseTreatmentSlugMap();
+  return reverseMap[normalizedSlug] ?? normalizedSlug;
 }
 
 export function localizeArticleSlug(slug: string, language?: string) {
