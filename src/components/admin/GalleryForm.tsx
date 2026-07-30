@@ -38,6 +38,10 @@ export default function GalleryForm({ initialData, onCancel, onSuccess }: Galler
   const [titleEn, setTitleEn] = useState(initialData?.title_en ?? '');
   const [catTr, setCatTr] = useState(initialData?.category_tr ?? '');
   const [catEn, setCatEn] = useState(initialData?.category_en ?? '');
+  const [isCustomCat, setIsCustomCat] = useState(() => {
+    const initial = initialData?.category_tr ?? '';
+    return initial !== '' && !CATEGORIES.some((c) => c.tr === initial);
+  });
   const [order, setOrder] = useState(initialData?.order ?? 0);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
@@ -112,15 +116,21 @@ export default function GalleryForm({ initialData, onCancel, onSuccess }: Galler
           </Field>
           <Field label="Kategori (TR)" required>
             <div className="relative group/sel">
-              <select 
-                value={catTr} 
+              <select
+                value={isCustomCat ? 'custom' : catTr}
                 onChange={(e) => {
                   const val = e.target.value;
+                  if (val === 'custom') {
+                    setIsCustomCat(true);
+                    setCatTr('');
+                    return;
+                  }
+                  setIsCustomCat(false);
                   setCatTr(val);
                   // Otomatik İngilizce karşılığını setle
                   const found = CATEGORIES.find(c => c.tr === val);
                   if (found) setCatEn(found.en);
-                }} 
+                }}
                 className={inputCls}
                 required
               >
@@ -131,9 +141,9 @@ export default function GalleryForm({ initialData, onCancel, onSuccess }: Galler
                 <option value="custom">-- Özel Kategori Ekle --</option>
               </select>
             </div>
-            {catTr === 'custom' && (
-              <input 
-                value={catTr === 'custom' ? '' : catTr}
+            {isCustomCat && (
+              <input
+                value={catTr}
                 onChange={(e) => setCatTr(e.target.value)}
                 placeholder="Özel Kategori Yazın..."
                 className={`${inputCls} mt-2`}
