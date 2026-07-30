@@ -83,6 +83,7 @@ export async function POST(request: Request): Promise<NextResponse> {
       access: 'public',
       token: process.env.BLOB_READ_WRITE_TOKEN,
       contentType: detectedMime,
+      addRandomSuffix: true,
     });
 
     return NextResponse.json(blob);
