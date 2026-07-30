@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { updateArticleSlugMapDb } from '@/lib/updateArticleSlugMap';
+import { syncArticlePairSlugMap } from '@/lib/updateArticleSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -34,49 +34,42 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
     await requireAdmin();
     const { id } = await params;
     const body = await req.json();
+    const before = await prisma.healthArticle.findUnique({ where: { id: Number(id) } });
+    const oldOwnCanonicalSlug = before?.slug.replace(/_tr$/, '').replace(/_en$/, '');
+
     const article = await prisma.healthArticle.update({
       where: { id: Number(id) },
       data: body,
     });
 
-    // Slug'dan suffix'i temizleyerek canonical slug'ı bul
-    const canonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
-    const pairLang = article.lang === 'tr' ? 'en' : 'tr';
+    // Slug değişmiş olabilir (örn. baştan Türkçe kalmış bir EN slug artık
+    // gerçek İngilizce bir metinle düzeltilmiş olabilir — bu durumda TR ve
+    // EN slug'lar metinsel olarak birbirine benzemez). Bu yüzden eşi
+    // slug metnine bakarak DEĞİL, img alanına göre buluyoruz
+    // (bkz. lib/updateArticleSlugMap.ts) — aksi halde eski/yanlış eşleme
+    // DB'de kalmaya devam eder ve articleSlugMap hiç güncellenmez.
+    const pair = await syncArticlePairSlugMap(article);
 
-    // Slug değişmiş olabilir (örn. yanlış girilen bir EN slug düzeltilmiş
-    // olabilir) — TR/EN eşini bulup articleSlugMap'i güncelle, aksi halde
-    // eski/yanlış eşleme DB'de kalmaya devam eder.
-    // NOT: TR ve EN slug'ları kasıtlı olarak FARKLI metinler olabilir, bu
-    // yüzden "aynı canonical slug metnini içeren kayıt" araması yanlış
-    // sonuç verir (hiç eşleşme bulamaz). Admin düzenleme sayfasındaki
-    // mantıkla aynı şekilde, aynı `img` değerini paylaşan karşı-dil
-    // kaydını buluyoruz.
-    const pairArticle = await prisma.healthArticle.findFirst({
-      where: {
-        lang: pairLang,
-        OR: [
-          { slug: `${canonicalSlug}_${pairLang}` },
-          ...(article.img ? [{ img: article.img }] : []),
-        ],
-      },
-    });
-    if (pairArticle) {
-      const trArticle = article.lang === 'tr' ? article : pairArticle;
-      const enArticle = article.lang === 'en' ? article : pairArticle;
-      await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
-    }
+    const ownCanonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
+    const trSlug = article.lang === 'tr' ? ownCanonicalSlug : pair?.slug.replace(/_tr$/, '');
+    const enSlug = article.lang === 'en' ? ownCanonicalSlug : pair?.slug.replace(/_en$/, '');
 
     // Detay ve liste sayfalarının cache'ini temizle (hem data cache tag'i
-    // hem route cache path'i)
+    // hem route cache path'i). Slug değiştiyse eski path'i de temizle ki
+    // eski URL'de bayat/kırık bir statik sayfa asılı kalmasın.
     revalidateTag('health-article-detail', { expire: 0 });
     revalidateTag('health-article-slug-allowlist', { expire: 0 });
-    revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
+    if (trSlug) revalidatePath(`/saglik-rehberi/${trSlug}`);
     revalidatePath('/saglik-rehberi');
-    revalidatePath(`/health-guide/${canonicalSlug}`);
-    if (pairArticle) {
-      revalidatePath(`/health-guide/${pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '')}`);
-    }
+    if (enSlug) revalidatePath(`/health-guide/${enSlug}`);
     revalidatePath('/health-guide');
+    if (oldOwnCanonicalSlug && oldOwnCanonicalSlug !== ownCanonicalSlug) {
+      revalidatePath(
+        before?.lang === 'en'
+          ? `/health-guide/${oldOwnCanonicalSlug}`
+          : `/saglik-rehberi/${oldOwnCanonicalSlug}`
+      );
+    }
 
     return NextResponse.json(article);
   } catch (e) {

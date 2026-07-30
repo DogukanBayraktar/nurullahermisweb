@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { updateArticleSlugMapDb } from '@/lib/updateArticleSlugMap';
+import { syncArticlePairSlugMap } from '@/lib/updateArticleSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -35,39 +35,20 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const article = await prisma.healthArticle.create({ data: body });
 
-    const canonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
-    const pairLang = article.lang === 'tr' ? 'en' : 'tr';
-
     // Yeni makale eklenince DB'deki articleSlugMap'i otomatik güncelle.
-    // NOT: TR ve EN slug'ları kasıtlı olarak FARKLI metinler olabilir
-    // (örn. bel-fitigi-ameliyati_tr / lumbar-disc-surgery_en), bu yüzden
-    // eşi "aynı canonical slug metnini paylaşan kayıt" diye aramak yanlış
-    // sonuç verir. Admin düzenleme sayfasındaki mantıkla aynı şekilde,
-    // aynı `img` değerini paylaşan karşı-dil kaydını buluyoruz.
-    const pairArticle = await prisma.healthArticle.findFirst({
-      where: {
-        lang: pairLang,
-        OR: [
-          { slug: `${canonicalSlug}_${pairLang}` },
-          ...(article.img ? [{ img: article.img }] : []),
-        ],
-      },
-    });
-
-    if (pairArticle) {
-      const trArticle = article.lang === 'tr' ? article : pairArticle;
-      const enArticle = article.lang === 'en' ? article : pairArticle;
-      await updateArticleSlugMapDb(trArticle.slug, enArticle.slug);
-    }
+    // EN slug, TR slug'dan farklı (gerçek İngilizce) bir metin olsa bile
+    // img alanına göre doğru eşi bulur (bkz. lib/updateArticleSlugMap.ts).
+    const pair = await syncArticlePairSlugMap(article);
+    const trArticle = article.lang === 'tr' ? article : pair;
+    const enArticle = article.lang === 'en' ? article : pair;
+    const trSlug = trArticle?.slug.replace(/_tr$/, '');
+    const enSlug = enArticle?.slug.replace(/_en$/, '');
 
     revalidateTag('health-article-slug-allowlist', { expire: 0 });
     revalidateTag('health-article-detail', { expire: 0 });
-    revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
+    if (trSlug) revalidatePath(`/saglik-rehberi/${trSlug}`);
     revalidatePath('/saglik-rehberi');
-    revalidatePath(`/health-guide/${canonicalSlug}`);
-    if (pairArticle) {
-      revalidatePath(`/health-guide/${pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '')}`);
-    }
+    if (enSlug) revalidatePath(`/health-guide/${enSlug}`);
     revalidatePath('/health-guide');
 
     return NextResponse.json(article, { status: 201 });
