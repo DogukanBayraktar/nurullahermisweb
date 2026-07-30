@@ -1,7 +1,7 @@
 // src/app/saglik-rehberi/[slug]/page.tsx
 import { notFound } from 'next/navigation';
 import { getTranslatedLocalArticle, getAllTranslatedLocalArticles, type LocalArticleShape } from '@/lib/healthGuideTranslations';
-import { canonicalArticleSlug } from '@/lib/routes';
+import { canonicalArticleSlug, loadArticleSlugMapFromDb } from '@/lib/routes';
 import HealthGuideDetailClient from '@/components/blog/HealthGuideDetailClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
@@ -106,6 +106,9 @@ export async function renderHealthGuideDetailPage({
   params: Promise<{ slug: string }>;
   forceLang?: 'tr' | 'en';
 }) {
+  // Slug map'i DB'den yükle ki EN slug → TR canonical dönüşümü doğru çalışsın
+  await loadArticleSlugMapFromDb().catch(() => {});
+
   const { slug: rawSlug } = await params;
   const slug = canonicalArticleSlug(rawSlug);
 

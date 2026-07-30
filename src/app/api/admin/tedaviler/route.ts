@@ -4,6 +4,7 @@ import { getServerSession } from 'next-auth';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { syncTreatmentPairSlugMap } from '@/lib/updateTreatmentSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -29,6 +30,9 @@ export async function POST(req: NextRequest) {
     await requireAdmin();
     const body = await req.json();
     const treatment = await prisma.treatment.create({ data: body });
+
+    // Yeni tedavi eklenince slug eşleşmesini ve DB haritasını güncelle
+    await syncTreatmentPairSlugMap(treatment).catch(console.error);
 
     // Yeni tedavi eklenince allow-list ve ilgili liste sayfalarının cache'i
     // temizlenmeli, aksi halde yeni slug 24 saat boyunca 404 dönebilir.

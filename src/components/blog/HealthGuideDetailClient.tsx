@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Calendar, UserRound, Clock, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getCurrentLanguage, getTranslatedLocalArticle, healthGuideUi } from '@/lib/healthGuideTranslations';
 import { getLocalizedPath } from '@/lib/routes';
+import { useRouteTranslation } from '@/lib/RouteTranslationContext';
 
 type RelatedArticle = {
   title: string;
@@ -49,8 +50,31 @@ export default function HealthGuideDetailClient({
   const { i18n } = useTranslation();
   const lang = getCurrentLanguage(i18n.language);
   const ui = healthGuideUi[lang];
+  const translationContext = useRouteTranslation();
 
   const translatedLocal = getTranslatedLocalArticle(article.slug, lang);
+
+  // Dil değiştirme butonunun doğru URL'e yönlendirmesi için alternatif yolları kaydet
+  useEffect(() => {
+    if (!translationContext) return;
+    const { setAlternatePaths } = translationContext;
+    const cleanSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
+    const cleanAlt = alternateSlug ? alternateSlug.replace(/_tr$/, '').replace(/_en$/, '') : null;
+
+    if (lang === 'en') {
+      setAlternatePaths({
+        tr: `/saglik-rehberi/${cleanAlt || cleanSlug}`,
+        en: `/health-guide/${cleanSlug}`,
+      });
+    } else {
+      setAlternatePaths({
+        tr: `/saglik-rehberi/${cleanSlug}`,
+        en: `/health-guide/${cleanAlt || cleanSlug}`,
+      });
+    }
+
+    return () => setAlternatePaths(null);
+  }, [article.slug, alternateSlug, lang, translationContext]);
 
   const displayArticle = useMemo(() => {
     // Sunucudan gelen içerik her zaman öncelikli olmalı (DB veya Local Fallback fark etmez)

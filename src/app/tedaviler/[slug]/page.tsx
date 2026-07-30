@@ -4,6 +4,8 @@ import { TREATMENTS_DATA } from '@/lib/treatments';
 import TedaviDetayClient from '@/components/tedaviler/TedaviDetayClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
+import { loadTreatmentSlugMapFromDb } from '@/lib/routes';
+import { findTreatmentPair } from '@/lib/updateTreatmentSlugMap';
 
 export const revalidate = 86400;
 export const dynamic = 'force-static';
@@ -74,8 +76,12 @@ export default async function TedaviDetayPage({
   params: Promise<{ slug: string; originalSlug?: string }>;
   language?: 'tr' | 'en';
 }) {
+  // Slug haritasını DB'den yükle ki TR<->EN çevirisi doğru yapılsın
+  await loadTreatmentSlugMapFromDb().catch(() => {});
+
   const { slug, originalSlug } = await params;
   let dbTreatment = null;
+  let alternateSlug: string | null = null;
 
   try {
     if (hasDatabaseUrl) {
@@ -92,6 +98,14 @@ export default async function TedaviDetayPage({
           dbTreatment = await getTreatmentEn(slug, normalizedOriginal);
         } else {
           dbTreatment = await getTreatmentTr(slug);
+        }
+
+        // Karşı dildeki eşi bul (alternateSlug için)
+        if (dbTreatment) {
+          const pair = await findTreatmentPair(dbTreatment).catch(() => null);
+          if (pair) {
+            alternateSlug = pair.slug.replace(/_tr$/, '').replace(/_en$/, '');
+          }
         }
       }
     }
@@ -112,7 +126,8 @@ export default async function TedaviDetayPage({
       faq: dbTreatment.faq as { s: string; c: string }[],
     };
     
-    return <TedaviDetayClient treatment={treatment as any} isLocal={false} />;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return <TedaviDetayClient treatment={treatment as any} isLocal={false} alternateSlug={alternateSlug} />;
   }
 
   const local = TREATMENTS_DATA.find((t) => t.slug === slug);
@@ -131,5 +146,5 @@ export default async function TedaviDetayPage({
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <TedaviDetayClient treatment={treatment as any} isLocal={true} />;
+  return <TedaviDetayClient treatment={treatment as any} isLocal={true} alternateSlug={null} />;
 }

@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from 'react';
 import '@/lib/i18n';
 import { getLocalizedTreatmentDetail } from '@/lib/treatments';
 import { getLocalizedPath } from '@/lib/routes';
+import { useRouteTranslation } from '@/lib/RouteTranslationContext';
 
 interface TreatmentStat {
   label: string;
@@ -179,12 +180,38 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
 export default function TedaviDetayClient({
   treatment,
   isLocal,
+  alternateSlug,
 }: {
   treatment: TreatmentDetail;
   isLocal: boolean;
+  alternateSlug?: string | null;
 }) {
   const { t, i18n } = useTranslation();
   const localizedTreatment = isLocal ? getLocalizedTreatmentDetail(treatment, i18n.language) : treatment;
+  const translationContext = useRouteTranslation();
+
+  // Dil değiştirme butonunun doğru URL'e yönlendirmesi için alternatif yolları kaydet
+  useEffect(() => {
+    if (!translationContext) return;
+    const { setAlternatePaths } = translationContext;
+    const currentLang = i18n.language.startsWith('en') ? 'en' : 'tr';
+    const displaySlug = treatment.slug.replace(/_tr$/, '').replace(/_en$/, '');
+    const altSlugClean = alternateSlug ? alternateSlug.replace(/_tr$/, '').replace(/_en$/, '') : null;
+
+    if (currentLang === 'en') {
+      setAlternatePaths({
+        tr: `/tedaviler/${altSlugClean || displaySlug}`,
+        en: `/treatments/${displaySlug}`,
+      });
+    } else {
+      setAlternatePaths({
+        tr: `/tedaviler/${displaySlug}`,
+        en: `/treatments/${altSlugClean || displaySlug}`,
+      });
+    }
+
+    return () => setAlternatePaths(null);
+  }, [treatment.slug, alternateSlug, i18n.language, translationContext]);
 
   return (
     <div className="min-h-screen bg-slate-50 py-20">
