@@ -2,6 +2,7 @@
 import { notFound } from 'next/navigation';
 import { getTranslatedLocalArticle, getAllTranslatedLocalArticles, localArticleTranslations, type LocalArticleShape } from '@/lib/healthGuideTranslations';
 import { canonicalArticleSlug, loadArticleSlugMapFromDb } from '@/lib/routes';
+import { findArticlePair } from '@/lib/updateArticleSlugMap';
 import HealthGuideDetailClient from '@/components/blog/HealthGuideDetailClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
@@ -73,19 +74,8 @@ const getHealthArticleBundle = unstable_cache(
       return { dbArticle: null, pairArticle: null, related: [] };
     }
 
-    const otherLang = forceLang === 'en' ? 'tr' : 'en';
-    const otherSuffix = otherLang === 'en' ? '_en' : '_tr';
-
     const [pairArticle, related] = await Promise.all([
-      prisma.healthArticle.findFirst({
-        where: {
-          OR: [
-            { slug: `${slug}${otherSuffix}`, published: true },
-            { slug: slug, lang: otherLang, published: true },
-          ],
-        },
-        select: { slug: true },
-      }),
+      findArticlePair(dbArticle),
       prisma.healthArticle.findMany({
         where: { published: true, lang: forceLang || 'tr', NOT: { id: dbArticle.id } },
         take: 4,
@@ -146,7 +136,7 @@ export async function renderHealthGuideDetailPage({
 
         article = {
           title: dbArticle.title,
-          slug,
+          slug: dbArticle.slug.replace(/_tr$/, '').replace(/_en$/, ''),
           category: dbArticle.category,
           summary: dbArticle.desc,
           _localContent: localContent,
@@ -155,7 +145,7 @@ export async function renderHealthGuideDetailPage({
           coverImage: dbArticle.img,
         };
 
-        if (pairArticle) {
+        if (pairArticle && pairArticle.published) {
           alternateSlug = pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '');
         }
 
