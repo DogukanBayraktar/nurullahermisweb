@@ -90,6 +90,7 @@ model Presentation {
 model GalleryItem {
   id          Int      @id @default(autoincrement())
   img         String
+  mediaType   String   @default("image") // "image" | "video"
   title_tr    String
   title_en    String?
   category_tr String

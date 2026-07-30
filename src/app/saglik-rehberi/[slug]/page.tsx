@@ -1,6 +1,6 @@
 // src/app/saglik-rehberi/[slug]/page.tsx
 import { notFound } from 'next/navigation';
-import { getTranslatedLocalArticle, getAllTranslatedLocalArticles, type LocalArticleShape } from '@/lib/healthGuideTranslations';
+import { getTranslatedLocalArticle, getAllTranslatedLocalArticles, localArticleTranslations, type LocalArticleShape } from '@/lib/healthGuideTranslations';
 import { canonicalArticleSlug, loadArticleSlugMapFromDb } from '@/lib/routes';
 import HealthGuideDetailClient from '@/components/blog/HealthGuideDetailClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
@@ -179,6 +179,14 @@ export async function renderHealthGuideDetailPage({
     const local = getTranslatedLocalArticle(slug, langToUse);
 
     if (!local) notFound();
+
+    // Karşı dildeki yerel makalenin slug'ı farklı olabilir (örn. acl-cop-bag-ameliyati -> acl-surgery).
+    // Dil değiştirme butonu doğru URL'e gitsin diye bunu da hesaplayıp alternateSlug olarak geçiyoruz.
+    const otherLangToUse = langToUse === 'en' ? 'tr' : 'en';
+    const otherLocal = localArticleTranslations[otherLangToUse][slug];
+    if (otherLocal) {
+      alternateSlug = otherLocal.slug;
+    }
 
     article = {
       title: local.title,

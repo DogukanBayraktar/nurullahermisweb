@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ArrowLeft, ArrowRight, ArrowUpRight, Images, X, ZoomIn } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Images, Play, X, ZoomIn } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { FadeIn } from '@/components/ui/fade-in';
@@ -36,7 +36,8 @@ export default function GaleriPageClient({
     [categories, activeImage]
   );
 
-  const activeImageSrc = activeCategory && activeImage ? activeCategory.images[activeImage.imageIndex] : null;
+  const activeMedia = activeCategory && activeImage ? activeCategory.images[activeImage.imageIndex] : null;
+  const activeImageSrc = activeMedia?.url ?? null;
 
   useEffect(() => {
     if (!activeCategory || !activeImage) {
@@ -171,23 +172,31 @@ export default function GaleriPageClient({
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 md:p-5 xl:grid-cols-3">
-                  {item.images.map((image: string, imageIndex: number) => (
+                  {item.images.map((image: { url: string; type?: string }, imageIndex: number) => (
                     <button
                       type="button"
-                      key={`${item.slug}-${image}-${imageIndex}`}
+                      key={`${item.slug}-${image.url}-${imageIndex}`}
                       onClick={() => openLightbox(item.slug, imageIndex)}
                       className="group relative overflow-hidden rounded-[1.5rem] bg-slate-100 text-left"
                     >
-                      <Image
-                        src={image}
-                        alt={`${item.title} ${imageIndex + 1}`}
-                        width={1200}
-                        height={900}
-                        className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                      />
+                      {image.type === 'video' ? (
+                        <video
+                          src={image.url}
+                          muted
+                          className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                        />
+                      ) : (
+                        <Image
+                          src={image.url}
+                          alt={`${item.title} ${imageIndex + 1}`}
+                          width={1200}
+                          height={900}
+                          className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
+                        />
+                      )}
                       <div className="absolute inset-0 bg-gradient-to-t from-slate-950/55 via-slate-900/10 to-transparent" />
                       <div className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-white/15 text-white backdrop-blur-md transition-all duration-300 group-hover:scale-105 group-hover:bg-white/25">
-                        <ZoomIn className="h-5 w-5" />
+                        {image.type === 'video' ? <Play className="h-5 w-5" /> : <ZoomIn className="h-5 w-5" />}
                       </div>
                       <div className="absolute inset-x-0 bottom-0 p-5">
                         <p className="text-xs font-bold uppercase tracking-[0.18em] text-sky-200">
@@ -260,18 +269,28 @@ export default function GaleriPageClient({
             </div>
 
             <div className="overflow-hidden rounded-[2rem] border border-white/10 bg-black/30 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.7)]">
-              <Image
-                src={activeImageSrc}
-                alt={`${activeCategory.title} ${activeImage.imageIndex + 1}`}
-                width={1600}
-                height={1200}
-                priority
-                className="max-h-[75vh] w-full object-contain"
-              />
+              {activeMedia?.type === 'video' ? (
+                <video
+                  key={activeImageSrc}
+                  src={activeImageSrc}
+                  controls
+                  autoPlay
+                  className="max-h-[75vh] w-full object-contain"
+                />
+              ) : (
+                <Image
+                  src={activeImageSrc}
+                  alt={`${activeCategory.title} ${activeImage.imageIndex + 1}`}
+                  width={1600}
+                  height={1200}
+                  priority
+                  className="max-h-[75vh] w-full object-contain"
+                />
+              )}
             </div>
 
             <div className="flex flex-wrap gap-3 overflow-x-auto pb-1">
-              {activeCategory.images.map((image: string, thumbIndex: number) => {
+              {activeCategory.images.map((image: { url: string; type?: string }, thumbIndex: number) => {
                 const isActive = thumbIndex === activeImage.imageIndex;
 
                 return (
@@ -285,13 +304,22 @@ export default function GaleriPageClient({
                         : 'border-white/10 opacity-75 hover:opacity-100'
                     }`}
                   >
-                    <Image
-                      src={image}
-                      alt={`${activeCategory.title} küçük görsel ${thumbIndex + 1}`}
-                      width={160}
-                      height={120}
-                      className="h-20 w-28 object-cover"
-                    />
+                    {image.type === 'video' ? (
+                      <>
+                        <video src={image.url} muted className="h-20 w-28 object-cover" />
+                        <div className="absolute inset-0 flex items-center justify-center bg-black/20">
+                          <Play className="h-5 w-5 text-white" />
+                        </div>
+                      </>
+                    ) : (
+                      <Image
+                        src={image.url}
+                        alt={`${activeCategory.title} küçük görsel ${thumbIndex + 1}`}
+                        width={160}
+                        height={120}
+                        className="h-20 w-28 object-cover"
+                      />
+                    )}
                   </button>
                 );
               })}

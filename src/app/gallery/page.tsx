@@ -40,7 +40,7 @@ export default async function GalleryPage() {
         images: []
       };
     }
-    categoriesMap[slug].images.push(item.img);
+    categoriesMap[slug].images.push({ url: item.img, type: item.mediaType || 'image' });
   });
 
   const categories = Object.values(categoriesMap);

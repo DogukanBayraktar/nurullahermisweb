@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import ImageUpload from './ImageUpload';
+import MediaUpload from './MediaUpload';
 import { X } from 'lucide-react';
 
 const CATEGORIES = [
@@ -34,6 +34,7 @@ function Field({ label, required, children }: { label: string; required?: boolea
 
 export default function GalleryForm({ initialData, onCancel, onSuccess }: GalleryFormProps) {
   const [img, setImg] = useState(initialData?.img ?? '');
+  const [mediaType, setMediaType] = useState<'image' | 'video'>(initialData?.mediaType ?? 'image');
   const [titleTr, setTitleTr] = useState(initialData?.title_tr ?? '');
   const [titleEn, setTitleEn] = useState(initialData?.title_en ?? '');
   const [catTr, setCatTr] = useState(initialData?.category_tr ?? '');
@@ -48,13 +49,14 @@ export default function GalleryForm({ initialData, onCancel, onSuccess }: Galler
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!img) return setError('Görsel yüklemek zorunludur.');
+    if (!img) return setError(mediaType === 'video' ? 'Video yüklemek zorunludur.' : 'Görsel yüklemek zorunludur.');
     
     setSaving(true);
     setError('');
 
     const payload = {
       img,
+      mediaType,
       title_tr: titleTr,
       title_en: titleEn,
       category_tr: catTr,
@@ -83,16 +85,18 @@ export default function GalleryForm({ initialData, onCancel, onSuccess }: Galler
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div className="flex items-center justify-between mb-2">
-        <h2 className="text-xl font-extrabold text-slate-900">{initialData ? 'Görseli Düzenle' : 'Yeni Görsel Ekle'}</h2>
+        <h2 className="text-xl font-extrabold text-slate-900">{initialData ? 'Görsel/Videoyu Düzenle' : 'Yeni Görsel/Video Ekle'}</h2>
         <button type="button" onClick={onCancel} className="p-2 text-slate-400 hover:text-slate-600 transition-all"><X className="w-6 h-6" /></button>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
         <div className="space-y-4">
-          <ImageUpload 
-            label="Galeri Görseli" 
-            value={img} 
-            onChange={(url) => setImg(url)} 
+          <MediaUpload
+            label="Galeri Görseli / Videosu"
+            value={img}
+            mediaType={mediaType}
+            onChange={(url) => setImg(url)}
+            onMediaTypeChange={(type) => setMediaType(type)}
           />
           <Field label="Sıralama (Küçük olan üstte çıkar)">
             <input 
