@@ -74,7 +74,7 @@ export default function HealthGuideDetailClient({
     }
 
     return () => setAlternatePaths(null);
-  }, [article.slug, alternateSlug, lang, translationContext]);
+  }, [article.slug, alternateSlug, lang, translationContext?.setAlternatePaths]);
 
   const displayArticle = useMemo(() => {
     // Sunucudan gelen içerik her zaman öncelikli olmalı (DB veya Local Fallback fark etmez)

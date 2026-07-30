@@ -1,6 +1,6 @@
 'use client';
 
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useMemo, useState } from 'react';
 
 type AlternatePaths = {
   tr?: string;
@@ -16,9 +16,10 @@ const RouteTranslationContext = createContext<RouteTranslationContextType | unde
 
 export function RouteTranslationProvider({ children }: { children: React.ReactNode }) {
   const [alternatePaths, setAlternatePaths] = useState<AlternatePaths>(null);
+  const value = useMemo(() => ({ alternatePaths, setAlternatePaths }), [alternatePaths]);
 
   return (
-    <RouteTranslationContext.Provider value={{ alternatePaths, setAlternatePaths }}>
+    <RouteTranslationContext.Provider value={value}>
       {children}
     </RouteTranslationContext.Provider>
   );

@@ -211,7 +211,7 @@ export default function TedaviDetayClient({
     }
 
     return () => setAlternatePaths(null);
-  }, [treatment.slug, alternateSlug, i18n.language, translationContext]);
+  }, [treatment.slug, alternateSlug, i18n.language, translationContext?.setAlternatePaths]);
 
   return (
     <div className="min-h-screen bg-slate-50 py-20">
