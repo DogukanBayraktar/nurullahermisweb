@@ -51,6 +51,7 @@ export function buildArticleSlugMapFromPairs(
     const en = enSlug.replace(/_en$/, '');
     if (tr && en && !articleSlugMap[tr]) {
       articleSlugMap[tr] = en;
+      reverseArticleSlugMap[en] = tr;
     }
   });
 }
@@ -67,7 +68,7 @@ function invertMap(map: Record<string, string>) {
 }
 
 const reverseTreatmentSlugMap = invertMap(treatmentSlugMap);
-const reverseArticleSlugMap = invertMap(articleSlugMap);
+let reverseArticleSlugMap = invertMap(articleSlugMap);
 
 function normalizeArticleSlug(slug: string) {
   return reverseArticleSlugMap[slug] ?? legacyArticleSlugMap[slug] ?? slug;

@@ -13,22 +13,33 @@ const treatmentSlugMapEN: Record<string, string> = {
   'artroskopik-cerrahi': 'arthroscopic-surgery',
 };
 
-const articleSlugMapEN: Record<string, string> = {
-  'bel-fitigi-ameliyati': 'lumbar-disc-surgery',
-  'skolyoz-belirtileri-tedavisi': 'scoliosis-symptoms-treatment',
-  'diz-protezi-ameliyati': 'knee-replacement-surgery',
-  'boyun-fitiginiz-mi-var': 'do-you-have-a-cervical-disc-herniation',
-  'cocuklarda-kalca-cikigini-nasil-anlariz': 'how-can-we-recognize-hip-dislocation-in-children',
-  'acl-cop-bag-ameliyati': 'acl-surgery',
-  'skolyoz-egzersizleri': 'scoliosis-exercises',
-};
+import articleSlugMapEN from '@/lib/articleSlugMap.json';
 
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
-  const allTreatmentSlugs = [...new Set(TREATMENTS_DATA.map((t) => t.slug))];
-  const allArticleSlugs = [...new Set(getDefaultLocalArticles().map((a) => a.slug))];
+  
+  // 1. Get treatment slugs
+  let allTreatmentSlugs = [...new Set(TREATMENTS_DATA.map((t) => t.slug))];
+  
+  // 2. Get article slugs from local + DB
+  let allArticleSlugs = [...new Set(getDefaultLocalArticles().map((a) => a.slug))];
+  
+  try {
+    // We import this dynamically or assume it is available if prisma is imported
+    const { hasDatabaseUrl, prisma } = await import('@/lib/prisma');
+    if (hasDatabaseUrl) {
+      const dbArticles = await prisma.healthArticle.findMany({
+        where: { published: true, lang: 'tr' }, // Sadece TR olanları alıp, onların ana slug'ını çıkaralım
+        select: { slug: true }
+      });
+      const dbSlugs = dbArticles.map(a => a.slug.replace(/_tr$/, ''));
+      allArticleSlugs = [...new Set([...allArticleSlugs, ...dbSlugs])];
+    }
+  } catch (e) {
+    console.error('Error fetching articles for sitemap', e);
+  }
 
   const staticPages: MetadataRoute.Sitemap = [
     {
@@ -121,7 +132,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternates: {
       languages: {
         tr: `${BASE_URL}/saglik-rehberi/${slug}`,
-        en: `${BASE_URL}/health-guide/${articleSlugMapEN[slug] ?? slug}`,
+        en: `${BASE_URL}/health-guide/${(articleSlugMapEN as Record<string, string>)[slug] ?? slug}`,
       },
     },
   }));

@@ -3,24 +3,39 @@ import { getDefaultLocalArticles } from '@/lib/healthGuideTranslations';
 
 const BASE_URL = 'https://www.nurullahermis.com';
 
-const articleSlugMapEN: Record<string, string> = {
-  'bel-fitigi-ameliyati': 'lumbar-disc-surgery',
-  'skolyoz-belirtileri-tedavisi': 'scoliosis-symptoms-treatment',
-  'diz-protezi-ameliyati': 'knee-replacement-surgery',
-  'boyun-fitiginiz-mi-var': 'do-you-have-a-cervical-disc-herniation',
-  'cocuklarda-kalca-cikigini-nasil-anlariz': 'how-can-we-recognize-hip-dislocation-in-children',
-  'acl-cop-bag-ameliyati': 'acl-surgery',
-  'skolyoz-egzersizleri': 'scoliosis-exercises',
-};
+import articleSlugMapEN from '@/lib/articleSlugMap.json';
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const articles = getDefaultLocalArticles();
-  const article = articles.find((a) => a.slug === slug);
+  let article: { title: string; desc?: string; category: string; img?: string } | undefined;
+  
+  try {
+    const { hasDatabaseUrl, prisma } = await import('@/lib/prisma');
+    if (hasDatabaseUrl) {
+      const dbArticle = await prisma.healthArticle.findFirst({
+        where: { OR: [{ slug: `${slug}_tr` }, { slug }] }
+      });
+      if (dbArticle) {
+        article = {
+          title: dbArticle.title,
+          desc: dbArticle.desc,
+          category: dbArticle.category,
+          img: dbArticle.img,
+        };
+      }
+    }
+  } catch (e) {
+    console.error('Error fetching layout metadata from DB', e);
+  }
+
+  if (!article) {
+    const articles = getDefaultLocalArticles();
+    article = articles.find((a) => a.slug === slug);
+  }
 
   if (!article) return { title: 'Makale | Prof. Dr. Nurullah Ermiş' };
 
-  const enSlug = articleSlugMapEN[slug] ?? slug;
+  const enSlug = (articleSlugMapEN as Record<string, string>)[slug] ?? slug;
 
   return {
     title: `${article.title} | Prof. Dr. Nurullah Ermiş`,

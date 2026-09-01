@@ -1,9 +1,9 @@
 {
-  "bel-fitigi-ameliyati": "bel-fitigi-ameliyati",
-  "skolyoz-belirtileri-tedavisi": "skolyoz-belirtileri-tedavisi",
-  "diz-protezi-ameliyati": "diz-protezi-ameliyati",
-  "boyun-fitiginiz-mi-var": "boyun-fitiginiz-mi-var",
-  "cocuklarda-kalca-cikigini-nasil-anlariz": "cocuklarda-kalca-cikigini-nasil-anlariz",
-  "acl-cop-bag-ameliyati": "acl-cop-bag-ameliyati",
-  "skolyoz-egzersizleri": "skolyoz-egzersizleri"
+  "bel-fitigi-ameliyati": "lumbar-disc-herniation-surgery",
+  "skolyoz-belirtileri-tedavisi": "scoliosis-symptoms-treatment",
+  "diz-protezi-ameliyati": "knee-replacement-surgery",
+  "boyun-fitiginiz-mi-var": "do-you-have-a-neck-hernia",
+  "cocuklarda-kalca-cikigini-nasil-anlariz": "how-to-recognize-hip-dislocation-in-children",
+  "acl-cop-bag-ameliyati": "acl-cruciate-ligament-surgery",
+  "skolyoz-egzersizleri": "scoliosis-exercises"
 }
