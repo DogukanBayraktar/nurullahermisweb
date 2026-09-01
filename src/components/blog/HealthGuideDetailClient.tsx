@@ -2,11 +2,12 @@
 
 import React, { useMemo, useEffect } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ArrowLeft, Calendar, UserRound, Clock, ChevronRight } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { getCurrentLanguage, getTranslatedLocalArticle, healthGuideUi } from '@/lib/healthGuideTranslations';
-import { getLocalizedPath } from '@/lib/routes';
+import { getLocalizedPath, getLangFromPathname } from '@/lib/routes';
 import { useRouteTranslation } from '@/lib/RouteTranslationContext';
 
 type RelatedArticle = {
@@ -48,20 +49,32 @@ export default function HealthGuideDetailClient({
   alternateSlug?: string | null;
 }) {
   const { i18n } = useTranslation();
+  const pathname = usePathname();
+
+  // ÖNEMLİ: İçerik dili (metinler, UI çevirileri) için i18n.language kullanılabilir,
+  // ama "hangi dil sayfasındayız" tespiti Navbar'la AYNI kaynaktan (URL) gelmeli.
+  // i18n.language, tarayıcı dil algılama / localStorage yüzünden URL ile senkron
+  // olmayabilir (örn. TR sayfasındayken i18n.language 'en' olabilir). Bu senkronsuzluk
+  // dil değiştirme linkinin yanlış slug üretmesine (TR slug'ın EN linke sızmasına) sebep oluyordu.
+  const urlLang = getLangFromPathname(pathname || '/');
   const lang = getCurrentLanguage(i18n.language);
   const ui = healthGuideUi[lang];
   const translationContext = useRouteTranslation();
 
   const translatedLocal = getTranslatedLocalArticle(article.slug, lang);
 
-  // Dil değiştirme butonunun doğru URL'e yönlendirmesi için alternatif yolları kaydet
+  // Dil değiştirme butonunun doğru URL'e yönlendirmesi için alternatif yolları kaydet.
+  // Burada mutlaka urlLang kullanılıyor, i18n.language DEĞİL — çünkü sunucu bu sayfayı
+  // hangi dille render ettiyse (forceLang), article.slug ve alternateSlug o dile göre
+  // hesaplanmış durumda. URL ile tutarlı olmayan bir "lang" değeri branch'i tersine
+  // çevirip TR slug'ı EN path'e yazdırabiliyordu.
   useEffect(() => {
     if (!translationContext) return;
     const { setAlternatePaths } = translationContext;
     const cleanSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
     const cleanAlt = alternateSlug ? alternateSlug.replace(/_tr$/, '').replace(/_en$/, '') : null;
 
-    if (lang === 'en') {
+    if (urlLang === 'en') {
       setAlternatePaths({
         tr: `/saglik-rehberi/${cleanAlt || cleanSlug}`,
         en: `/health-guide/${cleanSlug}`,
@@ -74,7 +87,7 @@ export default function HealthGuideDetailClient({
     }
 
     return () => setAlternatePaths(null);
-  }, [article.slug, alternateSlug, lang, translationContext?.setAlternatePaths]);
+  }, [article.slug, alternateSlug, urlLang, translationContext?.setAlternatePaths]);
 
   const displayArticle = useMemo(() => {
     // Sunucudan gelen içerik her zaman öncelikli olmalı (DB veya Local Fallback fark etmez)
