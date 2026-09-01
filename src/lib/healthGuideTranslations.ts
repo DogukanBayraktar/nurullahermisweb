@@ -284,7 +284,7 @@ Doğum sonrası bebeklerde kalça bölgelerinde asimetri fark ettiniz mi? Bacakl
   },
   en: {
     'bel-fitigi-ameliyati': {
-      slug: 'bel-fitigi-ameliyati',
+      slug: 'herniated-disc-surgery',
       title: 'Lumbar Disc Herniation Surgery: Walking on the Same Day with Microsurgery',
       img: '/images/saglik/bel-fitigi.avif',
       date: 'March 12, 2025',
@@ -311,7 +311,7 @@ Are you experiencing lower back pain, numbness radiating to the legs, or weaknes
       tags: ['Lumbar Disc Herniation', 'Microdiscectomy', 'Sciatica', 'Lumbar Disc', 'Spine Surgery'],
     },
     'skolyoz-belirtileri-tedavisi': {
-      slug: 'skolyoz-belirtileri-tedavisi',
+      slug: 'scoliosis-symptoms-and-treatment',
       title: 'Should we be afraid of scoliosis?',
       img: '/images/saglik/skolyoz-cerrahi.avif',
       date: 'February 28, 2025',
@@ -337,7 +337,7 @@ Scoliosis is a condition characterized by a sideways curvature of the spine and 
       tags: ['Scoliosis', 'VBT', 'Kyphosis', 'Spinal Curvature', 'Pediatric Orthopedics', 'Spine Surgery'],
     },
     'diz-protezi-ameliyati': {
-      slug: 'diz-protezi-ameliyati',
+      slug: 'what-is-knee-replacement-surgery',
       title: 'What is knee replacement surgery?',
       img: '/images/saglik/diz-cerrahi.avif',
       date: 'January 10, 2025',
@@ -373,7 +373,7 @@ Do you experience persistent knee pain, swelling, limited movement, or difficult
       tags: ['Knee Replacement', 'Robotic Surgery', 'Osteoarthritis', 'Arthrosis', 'Joint Replacement'],
     },
     'boyun-fitiginiz-mi-var': {
-      slug: 'boyun-fitiginiz-mi-var',
+      slug: 'do-you-have-a-neck-hernia',
       title: 'Do You Have a Cervical Disc Herniation? No Need to Panic…',
       img: '/images/saglik/boyun-cerrahi.avif',
       date: 'November 5, 2024',
@@ -405,7 +405,7 @@ However, today it has also become widespread among desk workers and younger peop
       tags: ['Cervical Disc Herniation', 'Cervical Disc', 'ACDF', 'Artificial Disc', 'Spine Surgery'],
     },
     'cocuklarda-kalca-cikigini-nasil-anlariz': {
-      slug: 'cocuklarda-kalca-cikigini-nasil-anlariz',
+      slug: 'how-can-we-recognize-hip-dislocation-in-children',
       title: 'How Can We Recognize Hip Dislocation in Children?',
       img: '/images/saglik/cocuk.avif',
       date: 'September 20, 2024',
@@ -440,7 +440,7 @@ Have you noticed asymmetry in your baby’s hip area after birth? Differences in
       tags: ['Hip Dislocation', 'DDH', 'Pediatric Orthopedics', 'Pavlik Harness', 'Infant Hip Dysplasia'],
     },
     'skolyoz-egzersizleri': {
-      slug: 'skolyoz-egzersizleri',
+      slug: 'scoliosis-exercises',
       title: 'Scoliosis Exercises: Movements That Support the Spine',
       img: '/images/saglik/skolyoz-cerrahi.avif',
       date: 'March 28, 2025',
