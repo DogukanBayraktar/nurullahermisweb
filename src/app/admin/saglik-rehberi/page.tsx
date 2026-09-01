@@ -5,7 +5,7 @@ import { authOptions } from '@/lib/auth';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import AdminShell from '@/components/admin/AdminShell';
 import AdminNotice from '@/components/admin/AdminNotice';
-import { RebuildSlugMapButton } from '@/components/admin/RebuildSlugMapButton';
+
 import Link from 'next/link';
 import { Plus, Pencil, Eye, EyeOff } from 'lucide-react';
 
@@ -28,7 +28,7 @@ export default async function SaglikRehberiAdminPage() {
             <p className="text-slate-500 mt-1 text-sm">{articles.length} makale</p>
           </div>
           <div className="flex items-center gap-3">
-            <RebuildSlugMapButton />
+            
             <Link
               href="/admin/saglik-rehberi/yeni"
               className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-medium px-4 py-2.5 rounded-xl transition-colors"

@@ -2,8 +2,9 @@
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { getDefaultLocalArticles, getAllTranslatedLocalArticles } from '@/lib/healthGuideTranslations';
 import HealthGuidePageClient from '@/components/blog/HealthGuidePageClient';
+import { unstable_cache } from 'next/cache';
 
-export const revalidate = 60;
+export const revalidate = 86400;
 
 type LocalArticle = {
   _id: string;
@@ -16,17 +17,23 @@ type LocalArticle = {
   coverImage?: string;
 };
 
+const getHealthArticles = unstable_cache(
+  async (lang: 'tr' | 'en') => {
+    return await prisma.healthArticle.findMany({
+      where: { lang, published: true },
+      orderBy: { createdAt: 'desc' },
+    });
+  },
+  ['health-articles-list'],
+  { revalidate: 86400 }
+);
+
 export default async function HealthGuidePage({ lang: forceLang }: { lang?: 'tr' | 'en' }) {
   const lang = forceLang ?? 'tr';
 
   let dbArticles: LocalArticle[] = [];
   try {
-    const rows = hasDatabaseUrl
-      ? await prisma.healthArticle.findMany({
-          where: { lang, published: true },
-          orderBy: { createdAt: 'desc' },
-        })
-      : [];
+    const rows = hasDatabaseUrl ? await getHealthArticles(lang) : [];
     if (rows.length > 0) {
       dbArticles = rows.map((a) => ({
         _id: `db-${a.id}`,

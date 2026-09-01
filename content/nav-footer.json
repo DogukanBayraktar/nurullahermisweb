@@ -1,0 +1,43 @@
+{
+  "navbar": {
+    "links": [
+      { "label_tr": "Ana Sayfa", "label_en": "Home", "href": "/" },
+      { "label_tr": "Hakkımda", "label_en": "About", "href": "/hakkimda" },
+      { "label_tr": "Tedaviler", "label_en": "Treatments", "href": "/tedaviler" },
+      { "label_tr": "Galeri", "label_en": "Gallery", "href": "/galeri" },
+      { "label_tr": "Sağlık Rehberi", "label_en": "Health Guide", "href": "/saglik-rehberi" },
+      { "label_tr": "İletişim", "label_en": "Contact", "href": "/iletisim" }
+    ]
+  },
+  "footer": {
+    "aboutText_tr": "Prof. Dr. Nurullah Ermiş, omurga cerrahisi ve çocuk ortopedisi alanında uzmanlaşmış, uluslararası deneyime sahip bir ortopedi ve travmatoloji uzmanıdır.",
+    "aboutText_en": "Prof. Dr. Nurullah Ermiş is an orthopedic and traumatology specialist with international experience, specializing in spinal surgery and pediatric orthopedics.",
+    "quickLinks": [
+      { "label_tr": "Hakkımda", "label_en": "About", "href": "/hakkimda" },
+      { "label_tr": "Tedaviler", "label_en": "Treatments", "href": "/tedaviler" },
+      { "label_tr": "Galeri", "label_en": "Gallery", "href": "/galeri" },
+      { "label_tr": "Sağlık Rehberi", "label_en": "Health Guide", "href": "/saglik-rehberi" },
+      { "label_tr": "İletişim", "label_en": "Contact", "href": "/iletisim" }
+    ],
+    "treatments": [
+      { "label_tr": "Skolyoz & Kifoz Cerrahisi", "label_en": "Scoliosis & Kyphosis Surgery", "href": "/tedaviler/skolyoz-kifoz-cerrahisi" },
+      { "label_tr": "Boyun Fıtığı Cerrahisi", "label_en": "Cervical Disc Herniation", "href": "/tedaviler/boyun-fitigi-cerrahisi" },
+      { "label_tr": "Artroskopik Cerrahi", "label_en": "Arthroscopic Surgery", "href": "/tedaviler/artroskopik-cerrahi" },
+      { "label_tr": "Diz & Kalça Protezi", "label_en": "Knee & Hip Replacement", "href": "/tedaviler/diz-kalca-protezi" },
+      { "label_tr": "Çocuk Ortopedisi", "label_en": "Pediatric Orthopedics", "href": "/tedaviler/cocuk-ortopedisi" }
+    ],
+    "contact": {
+      "hospitalName": "Central Hospital Etiler",
+      "address": "Nispetiye Cad., Aydın Sok. No:1, 34470 Beşiktaş / İstanbul",
+      "phone": "0532 205 16 37",
+      "workingHours_tr": "Pzt - Cum: 08:00 - 20:00",
+      "workingHours_en": "Mon - Fri: 08:00 - 20:00",
+      "email": "nurullahermis@central.com.tr"
+    },
+    "social": {
+      "instagram": "https://www.instagram.com/prof.dr.nurullah.ermis/",
+      "facebook": "https://facebook.com/ortopediveomurga",
+      "youtube": "https://www.youtube.com/@centralhospitaltr"
+    }
+  }
+}

@@ -473,7 +473,7 @@ Have you noticed asymmetry in your baby’s hip area after birth? Differences in
       tags: ['Scoliosis', 'Scoliosis Exercises', 'Schroth', 'Core Exercise', 'Spine Health', 'Posture'],
     },
     'acl-cop-bag-ameliyati': {
-      slug: 'acl-cop-bag-ameliyati',
+      slug: 'acl-surgery',
       title: 'Be Careful with Sports Injuries! ',
       img: '/images/saglik/on-capraz.avif',
       date: 'August 3, 2024',

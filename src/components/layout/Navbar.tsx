@@ -7,16 +7,21 @@ import { Menu, X, Calendar, Phone, ArrowRight, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
-import { getAlternateLocalizedPath, getLangFromPathname, getLocalizedPath } from '@/lib/routes';
+import { getAlternateLocalizedPath, getLangFromPathname, getLocalizedPath, resolveRouteKey } from '@/lib/routes';
+import { useRouteTranslation } from '@/lib/RouteTranslationContext';
 
-export default function Navbar() {
+export default function Navbar({ initialData }: { initialData?: any }) {
   const [isOpen, setIsOpen] = useState(false);
   const pathname = usePathname();
   const { t, i18n } = useTranslation();
   const currentLang = getLangFromPathname(pathname || '/');
+  
+  const translationContext = useRouteTranslation();
+  const alternatePaths = translationContext?.alternatePaths;
 
   // Sayfa değişiminde veya link tıklandığında menüyü kapat
   const closeMenu = () => setIsOpen(false);
+
 
 
   // Menü açıkken sayfa kaydırmayı engelle
@@ -31,7 +36,18 @@ export default function Navbar() {
     };
   }, [isOpen]);
 
-  const navLinks = [
+  const navLinks: { name: string; href: string }[] = initialData?.navbar?.links?.map((link: any) => {
+    const isExternal = link.href.startsWith('http');
+    const name = currentLang === 'en' ? (link.label_en || link.label_tr) : link.label_tr;
+    let href = link.href;
+
+    if (!isExternal) {
+      const key = resolveRouteKey(link.href);
+      href = getLocalizedPath(key, i18n.language);
+    }
+
+    return { name, href };
+  }) || [
     { name: t('nav.home'), href: currentLang === 'en' ? '/en' : '/' },
     { name: t('nav.about'), href: getLocalizedPath('about', i18n.language) },
     { name: t('nav.treatments'), href: getLocalizedPath('treatments', i18n.language) },
@@ -41,8 +57,8 @@ export default function Navbar() {
   ];
 
   const languageOptions = [
-    { code: 'tr' as const, label: 'Türkçe', href: getAlternateLocalizedPath(pathname || '/', 'tr') },
-    { code: 'en' as const, label: 'English', href: getAlternateLocalizedPath(pathname || '/', 'en') },
+    { code: 'tr' as const, label: 'Türkçe', href: alternatePaths?.tr || getAlternateLocalizedPath(pathname || '/', 'tr') },
+    { code: 'en' as const, label: 'English', href: alternatePaths?.en || getAlternateLocalizedPath(pathname || '/', 'en') },
   ];
 
   return (
@@ -62,7 +78,7 @@ export default function Navbar() {
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center space-x-10 text-[15px] font-bold text-slate-700">
-          {navLinks.map((link) => (
+          {navLinks.map((link: { name: string; href: string }) => (
             <Link 
               key={link.href} 
               href={link.href} 
@@ -107,7 +123,7 @@ export default function Navbar() {
             <div className="flex-1 overflow-y-auto px-6 py-10 space-y-8">
               {/* Links */}
               <nav className="flex flex-col space-y-6">
-                {navLinks.map((link, i) => (
+                {navLinks.map((link: { name: string; href: string }, i: number) => (
                   <motion.div
                     key={link.href}
                     initial={{ opacity: 0, x: -20 }}

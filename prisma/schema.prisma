@@ -4,6 +4,11 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // NOT: Prisma 7'de datasource bloğunda `url` alanı KALDIRILDI (artık
+  // desteklenmiyor, P1012 hatası verir). Bağlantı URL'i migrate/CLI için
+  // `prisma.config.ts` üzerinden, runtime client için ise src/lib/prisma.ts
+  // içindeki PrismaPg adapter'a verilen connectionString üzerinden sağlanıyor.
+  // Buraya url eklemeyin.
 }
 
 model HealthArticle {
@@ -22,6 +27,12 @@ model HealthArticle {
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // getHealthArticleBundle() içindeki "related articles" sorgusu
+  // (where: { published, lang }, orderBy: { createdAt: 'desc' }) bu
+  // index olmadan sıralı full-table scan yapıyordu. slug zaten @unique
+  // olduğu için ayrıca index gerekmiyor.
+  @@index([lang, published, createdAt])
 }
 
 model Treatment {
@@ -40,6 +51,10 @@ model Treatment {
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  // Liste sayfası (/tedaviler, /treatments) ve olası "ilgili tedaviler"
+  // sorguları için.
+  @@index([lang, published])
 }
 
 model PressItem {
@@ -55,6 +70,8 @@ model PressItem {
   published Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([lang, published])
 }
 
 model Presentation {
@@ -73,6 +90,7 @@ model Presentation {
 model GalleryItem {
   id          Int      @id @default(autoincrement())
   img         String
+  mediaType   String   @default("image") // "image" | "video"
   title_tr    String
   title_en    String?
   category_tr String
@@ -81,6 +99,7 @@ model GalleryItem {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 }
+
 model HomeResult {
   id        Int      @id @default(autoincrement())
   img       String
@@ -100,3 +119,11 @@ model SiteContent {
   updatedAt DateTime @updatedAt
 }
 
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  password  String
+  role      String   @default("ADMIN")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

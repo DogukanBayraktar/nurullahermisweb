@@ -1,15 +1,24 @@
 import GaleriPageClient from '@/components/galeri/GaleriPageClient';
 import { prisma } from '@/lib/prisma';
+import { unstable_cache } from 'next/cache';
 
-export const revalidate = 0; 
+export const revalidate = 86400; 
+
+const getGalleryItems = unstable_cache(
+  async () => {
+    return await prisma.galleryItem.findMany({
+      orderBy: [
+        { order: 'asc' },
+        { createdAt: 'desc' }
+      ]
+    });
+  },
+  ['gallery-items-tr'],
+  { revalidate: 86400 }
+);
 
 export default async function GaleriPage() {
-  const items = await prisma.galleryItem.findMany({
-    orderBy: [
-      { order: 'asc' },
-      { createdAt: 'desc' }
-    ]
-  });
+  const items = await getGalleryItems();
 
   // Group by category to maintain the "topic-based" structure
   const categoriesMap: Record<string, any> = {};
@@ -31,7 +40,7 @@ export default async function GaleriPage() {
         images: []
       };
     }
-    categoriesMap[slug].images.push(item.img);
+    categoriesMap[slug].images.push({ url: item.img, type: item.mediaType || 'image' });
   });
 
   const categories = Object.values(categoriesMap);

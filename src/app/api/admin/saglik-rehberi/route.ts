@@ -1,9 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { updateArticleSlugMapJson } from '@/lib/updateArticleSlugMap';
+import { syncArticlePairSlugMap } from '@/lib/updateArticleSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -20,8 +20,12 @@ export async function GET(req: NextRequest) {
       orderBy: { createdAt: 'desc' },
     });
     return NextResponse.json(articles);
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -31,33 +35,28 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const article = await prisma.healthArticle.create({ data: body });
 
-    const canonicalSlug = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
-    
-    // Yeni makale eklenince articleSlugMap.json'u otomatik güncelle
-    // TR ve EN pair'larını bulup mapa ekle
-    const relatedArticles = await prisma.healthArticle.findMany({
-      where: {
-        OR: [
-          { slug: { contains: canonicalSlug } },
-        ],
-      },
-    });
-    
-    const trArticle = relatedArticles.find(a => a.slug.endsWith('_tr'));
-    const enArticle = relatedArticles.find(a => a.slug.endsWith('_en'));
-    
-    if (trArticle && enArticle) {
-      await updateArticleSlugMapJson(trArticle.slug, enArticle.slug);
-    }
+    // Yeni makale eklenince DB'deki articleSlugMap'i otomatik güncelle.
+    // EN slug, TR slug'dan farklı (gerçek İngilizce) bir metin olsa bile
+    // img alanına göre doğru eşi bulur (bkz. lib/updateArticleSlugMap.ts).
+    const pair = await syncArticlePairSlugMap(article);
+    const trArticle = article.lang === 'tr' ? article : pair;
+    const enArticle = article.lang === 'en' ? article : pair;
+    const trSlug = trArticle?.slug.replace(/_tr$/, '');
+    const enSlug = enArticle?.slug.replace(/_en$/, '');
 
-    revalidatePath(`/saglik-rehberi/${canonicalSlug}`);
+    revalidateTag('health-article-slug-allowlist', { expire: 0 });
+    revalidateTag('health-article-detail', { expire: 0 });
+    if (trSlug) revalidatePath(`/saglik-rehberi/${trSlug}`);
     revalidatePath('/saglik-rehberi');
-    revalidatePath(`/health-guide/${canonicalSlug}`);
+    if (enSlug) revalidatePath(`/health-guide/${enSlug}`);
     revalidatePath('/health-guide');
 
     return NextResponse.json(article, { status: 201 });
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : 'Unknown error';
-    return NextResponse.json({ error: msg }, { status: 400 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

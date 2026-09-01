@@ -1,14 +1,29 @@
 import { getStaticContent } from '@/lib/content';
-export const dynamic = 'force-dynamic';
+import { unstable_cache } from 'next/cache';
 import HomeClient from '@/components/home/HomeClient';
-
 import { prisma } from '@/lib/prisma';
+
+export const revalidate = 86400;
+
+const getHomeResults = unstable_cache(
+  async () => {
+    return await prisma.homeResult.findMany({
+      orderBy: { order: 'asc' },
+    });
+  },
+  ['home-results'],
+  { revalidate: 86400 }
+);
 
 export default async function Home() {
   const homepageData = await getStaticContent('homepage.json');
-  const homeResults = await prisma.homeResult.findMany({
-    orderBy: { order: 'asc' }
-  });
+
+  let homeResults: any[] = [];
+  try {
+    homeResults = await getHomeResults();
+  } catch (err) {
+    console.error('[HomeResult] DB sorgusu başarısız, boş dizi kullanılıyor:', err);
+  }
   
   if (!homepageData) {
     return (

@@ -1,11 +1,39 @@
 // src/app/saglik-rehberi/[slug]/page.tsx
 import { notFound } from 'next/navigation';
-import { getTranslatedLocalArticle, getAllTranslatedLocalArticles, type LocalArticleShape } from '@/lib/healthGuideTranslations';
-import { canonicalArticleSlug } from '@/lib/routes';
+import { getTranslatedLocalArticle, getAllTranslatedLocalArticles, localArticleTranslations, type LocalArticleShape } from '@/lib/healthGuideTranslations';
+import { canonicalArticleSlug, loadArticleSlugMapFromDb } from '@/lib/routes';
+import { findArticlePair } from '@/lib/updateArticleSlugMap';
 import HealthGuideDetailClient from '@/components/blog/HealthGuideDetailClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
+import { unstable_cache } from 'next/cache';
 
-export const revalidate = 60;
+export const revalidate = 86400;
+export const dynamic = 'force-static';
+export const dynamicParams = true;
+
+// Hafif allow-list sorgusu: sadece slug kolonu (24 saat cache).
+// Bot/scraper rastgele slug denediğinde ağır findFirst/findMany sorgularını
+// tetiklemeden notFound()'a/local fallback'e düşmeyi sağlar.
+// health-guide/[slug]/page.tsx (EN mirror) generateStaticParams'ta da
+// kullanabilsin diye export ediliyor.
+export const getAllArticleSlugs = unstable_cache(
+  async () => {
+    const rows = await prisma.healthArticle.findMany({ select: { slug: true } });
+    return new Set(rows.map((r) => r.slug));
+  },
+  ['health-article-slug-allowlist'],
+  { revalidate: 86400, tags: ['health-article-slug-allowlist'] }
+);
+
+// Build zamanında bilinen tüm makale slug'larını statik üretir (DB'ye prod trafiğinde gidilmez).
+export async function generateStaticParams() {
+  try {
+    const slugs = await getAllArticleSlugs();
+    return Array.from(slugs).map((slug) => ({ slug: slug.replace(/_tr$/, '').replace(/_en$/, '') }));
+  } catch {
+    return [];
+  }
+}
 
 type RelatedArticle = {
   title: string;
@@ -28,6 +56,39 @@ type ArticleDetail = {
   _localContent?: LocalArticle;
 };
 
+const getHealthArticleBundle = unstable_cache(
+  async (slug: string, rawSlug: string, forceLang: 'tr' | 'en' | undefined) => {
+    const targetSuffix = forceLang === 'en' ? '_en' : '_tr';
+
+    const dbArticle = await prisma.healthArticle.findFirst({
+      where: {
+        OR: [
+          { slug: `${slug}${targetSuffix}`, published: true },
+          { slug: `${rawSlug}${targetSuffix}`, published: true },
+          { slug: rawSlug, lang: forceLang || 'tr', published: true },
+        ],
+      },
+    });
+
+    if (!dbArticle) {
+      return { dbArticle: null, pairArticle: null, related: [] };
+    }
+
+    const [pairArticle, related] = await Promise.all([
+      findArticlePair(dbArticle),
+      prisma.healthArticle.findMany({
+        where: { published: true, lang: forceLang || 'tr', NOT: { id: dbArticle.id } },
+        take: 4,
+        orderBy: { createdAt: 'desc' },
+      }),
+    ]);
+
+    return { dbArticle, pairArticle, related };
+  },
+  ['health-article-detail-bundle'],
+  { revalidate: 86400, tags: ['health-article-detail'] }
+);
+
 export async function renderHealthGuideDetailPage({
   params,
   forceLang,
@@ -35,6 +96,9 @@ export async function renderHealthGuideDetailPage({
   params: Promise<{ slug: string }>;
   forceLang?: 'tr' | 'en';
 }) {
+  // Slug map'i DB'den yükle ki EN slug → TR canonical dönüşümü doğru çalışsın
+  await loadArticleSlugMapFromDb().catch(() => {});
+
   const { slug: rawSlug } = await params;
   const slug = canonicalArticleSlug(rawSlug);
 
@@ -45,32 +109,16 @@ export async function renderHealthGuideDetailPage({
   // DB'den dene
   try {
     if (hasDatabaseUrl) {
-      // Önce hedeflenen dildeki makaleyi bul
-      // Suffix'li (skolyoz_tr) veya direkt (skolyoz) olabilir
-      const targetSuffix = forceLang === 'en' ? '_en' : '_tr';
-      
-      const dbArticle = await prisma.healthArticle.findFirst({
-        where: {
-          OR: [
-            // TR canonical slug ile: bel-fitigi-ameliyati_tr
-            { slug: `${slug}${targetSuffix}`, published: true },
-            // EN makaleler için rawSlug direkt: lumbar-disc-surgery_en
-            { slug: `${rawSlug}${targetSuffix}`, published: true },
-            // Suffix olmadan lang ile
-            { slug: rawSlug, lang: forceLang || 'tr', published: true },
-          ],
-        },
-      });
+      const knownSlugs = await getAllArticleSlugs();
+      const possiblyInDb =
+        knownSlugs.has(`${slug}_tr`) ||
+        knownSlugs.has(`${slug}_en`) ||
+        knownSlugs.has(`${rawSlug}_tr`) ||
+        knownSlugs.has(`${rawSlug}_en`) ||
+        knownSlugs.has(rawSlug);
 
-      console.log('DEBUG: renderHealthGuideDetailPage', {
-        rawSlug,
-        slug,
-        forceLang,
-        targetSuffix,
-        foundId: dbArticle?.id,
-        foundSlug: dbArticle?.slug,
-        foundLang: dbArticle?.lang
-      });
+      if (possiblyInDb) {
+        const { dbArticle, pairArticle, related } = await getHealthArticleBundle(slug, rawSlug, forceLang);
 
       if (dbArticle) {
         const localContent: LocalArticle = {
@@ -88,7 +136,7 @@ export async function renderHealthGuideDetailPage({
 
         article = {
           title: dbArticle.title,
-          slug,
+          slug: dbArticle.slug.replace(/_tr$/, '').replace(/_en$/, ''),
           category: dbArticle.category,
           summary: dbArticle.desc,
           _localContent: localContent,
@@ -97,29 +145,10 @@ export async function renderHealthGuideDetailPage({
           coverImage: dbArticle.img,
         };
 
-        // Karşı dildeki slug'ı bul (Navbar için ipucu olabilir)
-        const otherLang = forceLang === 'en' ? 'tr' : 'en';
-        const otherSuffix = otherLang === 'en' ? '_en' : '_tr';
-        const pairArticle = await prisma.healthArticle.findFirst({
-          where: {
-            OR: [
-              { slug: `${slug}${otherSuffix}`, published: true },
-              { slug: slug, lang: otherLang, published: true },
-            ],
-          },
-          select: { slug: true }
-        });
-        
-        if (pairArticle) {
+        if (pairArticle && pairArticle.published) {
           alternateSlug = pairArticle.slug.replace(/_tr$/, '').replace(/_en$/, '');
         }
 
-        // Related articles from DB
-        const related = await prisma.healthArticle.findMany({
-          where: { published: true, lang: forceLang || 'tr', NOT: { id: dbArticle.id } },
-          take: 4,
-          orderBy: { createdAt: 'desc' },
-        });
         otherArticles = related.map((r) => ({
           title: r.title,
           slug: r.slug.replace(/_tr$/, '').replace(/_en$/, ''),
@@ -127,6 +156,7 @@ export async function renderHealthGuideDetailPage({
           publishedAt: r.date,
           coverImage: r.img,
         }));
+      }
       }
     }
   } catch (error) {
@@ -137,8 +167,16 @@ export async function renderHealthGuideDetailPage({
   if (!article) {
     const langToUse = forceLang || 'tr';
     const local = getTranslatedLocalArticle(slug, langToUse);
-    
+
     if (!local) notFound();
+
+    // Karşı dildeki yerel makalenin slug'ı farklı olabilir (örn. acl-cop-bag-ameliyati -> acl-surgery).
+    // Dil değiştirme butonu doğru URL'e gitsin diye bunu da hesaplayıp alternateSlug olarak geçiyoruz.
+    const otherLangToUse = langToUse === 'en' ? 'tr' : 'en';
+    const otherLocal = localArticleTranslations[otherLangToUse][slug];
+    if (otherLocal) {
+      alternateSlug = otherLocal.slug;
+    }
 
     article = {
       title: local.title,

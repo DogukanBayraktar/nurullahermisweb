@@ -23,7 +23,16 @@ function ResultsSlider({ items }: { items: Array<{ img: string; label: string; d
   const prev = () => setCurrent(c => (c - 1 + total) % total);
   const next = () => setCurrent(c => (c + 1) % total);
 
-  const visibleItems = [0, 1].map(offset => items[(current + offset) % total]);
+  // Tablo boşsa hiçbir şey render etme
+  if (total === 0) {
+    return (
+      <div className="flex items-center justify-center h-48 rounded-[2rem] border border-slate-100 bg-slate-50">
+        <p className="text-slate-400 text-sm">Henüz sonuç eklenmemiş.</p>
+      </div>
+    );
+  }
+
+  const visibleItems = [0, 1].map(offset => items[(current + offset) % total]).filter(Boolean);
 
   return (
     <div className="relative w-full">

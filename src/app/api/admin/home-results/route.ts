@@ -14,9 +14,12 @@ export async function GET() {
       orderBy: { order: 'asc' },
     });
     return NextResponse.json(items);
-  } catch (error) {
-    console.error('Home results fetch error:', error);
-    return NextResponse.json({ error: 'Failed to fetch' }, { status: 500 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -28,7 +31,11 @@ export async function POST(req: NextRequest) {
       data: body,
     });
     return NextResponse.json(item);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to create' }, { status: 500 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

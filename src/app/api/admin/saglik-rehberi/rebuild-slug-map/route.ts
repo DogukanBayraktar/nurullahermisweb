@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { updateArticleSlugMapJson } from '@/lib/updateArticleSlugMap';
+import { syncArticlePairSlugMap } from '@/lib/updateArticleSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -10,34 +10,25 @@ async function requireAdmin() {
 }
 
 /**
- * Tüm healthArticles'ları okuyup articleSlugMap.json'u rebuild et
+ * Tüm healthArticles'ları okuyup DB'deki articleSlugMap'i rebuild et
  * Admin Dashboard'dan tıklanabilir
  */
 export async function POST(req: NextRequest) {
   try {
     await requireAdmin();
 
-    // Tüm makaleleri oku
-    const articles = await prisma.healthArticle.findMany();
+    // Sadece TR makaleleri baz alıyoruz; her biri için karşı dildeki (EN)
+    // eşini img'e göre buluyoruz. Slug metinlerinin aynı kelimelerden
+    // oluştuğunu VARSAYMIYORUZ — EN slug gerçek İngilizce bir çeviri olabilir
+    // (örn. TR: acl-cop-bag-ameliyati, EN: acl-anterior-cruciate-ligament-surgery).
+    const trArticles = await prisma.healthArticle.findMany({ where: { lang: 'tr' } });
 
-    // Canonical slug'a göre grup'la (bel-fitigi → bel-fitigi_tr, bel-fitigi_en)
-    const slugGroups = new Map<string, typeof articles>();
-    articles.forEach((article) => {
-      const canonical = article.slug.replace(/_tr$/, '').replace(/_en$/, '');
-      if (!slugGroups.has(canonical)) {
-        slugGroups.set(canonical, []);
-      }
-      slugGroups.get(canonical)!.push(article);
-    });
-
-    // Her grup'ta TR ve EN var mı kontrol etme
     let updated = 0;
-    for (const group of slugGroups.values()) {
-      const trArticle = group.find(a => a.slug.endsWith('_tr'));
-      const enArticle = group.find(a => a.slug.endsWith('_en'));
-
-      if (trArticle && enArticle) {
-        await updateArticleSlugMapJson(trArticle.slug, enArticle.slug);
+    const alreadyPaired = new Set<number>();
+    for (const trArticle of trArticles) {
+      const enArticle = await syncArticlePairSlugMap(trArticle);
+      if (enArticle && !alreadyPaired.has(trArticle.id)) {
+        alreadyPaired.add(trArticle.id);
         updated++;
       }
     }
@@ -46,8 +37,11 @@ export async function POST(req: NextRequest) {
       { message: `Harita güncellendi: ${updated} makale çifti`, updated },
       { status: 200 }
     );
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : 'Unknown error';
-    return NextResponse.json({ error: msg }, { status: 400 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

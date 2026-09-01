@@ -1,8 +1,10 @@
 // src/app/api/admin/tedaviler/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
+import { syncTreatmentPairSlugMap } from '@/lib/updateTreatmentSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -14,8 +16,12 @@ export async function GET() {
     await requireAdmin();
     const treatments = await prisma.treatment.findMany({ orderBy: { createdAt: 'desc' } });
     return NextResponse.json(treatments);
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -24,9 +30,22 @@ export async function POST(req: NextRequest) {
     await requireAdmin();
     const body = await req.json();
     const treatment = await prisma.treatment.create({ data: body });
+
+    // Yeni tedavi eklenince slug eşleşmesini ve DB haritasını güncelle
+    await syncTreatmentPairSlugMap(treatment).catch(console.error);
+
+    // Yeni tedavi eklenince allow-list ve ilgili liste sayfalarının cache'i
+    // temizlenmeli, aksi halde yeni slug 24 saat boyunca 404 dönebilir.
+    revalidateTag('treatment-slug-allowlist', { expire: 0 });
+    revalidatePath('/tedaviler');
+    revalidatePath('/treatments');
+
     return NextResponse.json(treatment, { status: 201 });
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : 'Unknown error';
-    return NextResponse.json({ error: msg }, { status: 400 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

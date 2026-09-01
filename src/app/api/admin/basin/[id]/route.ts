@@ -1,6 +1,7 @@
 // src/app/api/admin/basin/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
+import { revalidatePath } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 
@@ -18,8 +19,12 @@ export async function GET(_req: NextRequest, { params }: IdContext) {
     const item = await prisma.pressItem.findUnique({ where: { id: Number(id) } });
     if (!item) return NextResponse.json({ error: 'Not found' }, { status: 404 });
     return NextResponse.json(item);
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -30,9 +35,12 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
     const body = await req.json();
     const item = await prisma.pressItem.update({ where: { id: Number(id) }, data: body });
     return NextResponse.json(item);
-  } catch (e: unknown) {
-    const msg = e instanceof Error ? e.message : 'Unknown error';
-    return NextResponse.json({ error: msg }, { status: 400 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -41,8 +49,16 @@ export async function DELETE(_req: NextRequest, { params }: IdContext) {
     await requireAdmin();
     const { id } = await params;
     await prisma.pressItem.delete({ where: { id: Number(id) } });
+    
+    revalidatePath('/basinda-biz');
+    revalidatePath('/in-the-media');
+    
     return NextResponse.json({ ok: true });
-  } catch {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

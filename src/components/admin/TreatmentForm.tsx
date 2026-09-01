@@ -129,9 +129,7 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
   };
 
   function buildPayload(form: LangForm, lang: 'tr' | 'en') {
-    const canonical = lang === 'tr'
-      ? form.slug.replace(/_tr$/, '').replace(/_en$/, '')
-      : canonicalTreatmentSlug(form.slug.replace(/_tr$/, '').replace(/_en$/, ''));
+    const canonical = form.slug.replace(/_tr$/, '').replace(/_en$/, '');
     return {
       slug: lang === 'tr' ? canonical : `${canonical}_en`,
       title: form.title,

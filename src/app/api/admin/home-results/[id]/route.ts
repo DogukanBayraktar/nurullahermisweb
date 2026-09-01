@@ -18,8 +18,12 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
       data: body,
     });
     return NextResponse.json(item);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to update' }, { status: 500 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -31,7 +35,11 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
       where: { id: parseInt(id) },
     });
     return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete' }, { status: 500 });
+  } catch (e) {
+    if (e instanceof Error && e.message === 'Unauthorized') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+    console.error(e);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
