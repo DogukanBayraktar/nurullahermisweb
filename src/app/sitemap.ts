@@ -1,17 +1,23 @@
 import { MetadataRoute } from 'next';
 import { getDefaultLocalArticles } from '@/lib/healthGuideTranslations';
 import { TREATMENTS_DATA } from '@/lib/treatments';
-import { localizeArticleSlug, localizeTreatmentSlug, loadArticleSlugMapFromDb } from '@/lib/routes';
 
 const BASE_URL = 'https://www.nurullahermis.com';
 
+const treatmentSlugMapEN: Record<string, string> = {
+  'skolyoz-kifoz-cerrahisi': 'scoliosis-kyphosis-surgery',
+  'bel-fitigi-tedavisi': 'lumbar-herniated-disc-treatment',
+  'boyun-fitigi-cerrahisi': 'cervical-disc-surgery',
+  'diz-kalca-protezi': 'knee-hip-replacement',
+  'cocuk-ortopedisi': 'pediatric-orthopedics',
+  'artroskopik-cerrahi': 'arthroscopic-surgery',
+};
+
+import articleSlugMapEN from '@/lib/articleSlugMap.json';
 
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  // DB'den güncel slug map'i yükle (Server-side)
-  await loadArticleSlugMapFromDb();
-  
   const now = new Date();
   
   // 1. Get treatment slugs
@@ -113,7 +119,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternates: {
       languages: {
         tr: `${BASE_URL}/tedaviler/${slug}`,
-        en: `${BASE_URL}/treatments/${localizeTreatmentSlug(slug, 'en')}`,
+        en: `${BASE_URL}/treatments/${treatmentSlugMapEN[slug] ?? slug}`,
       },
     },
   }));
@@ -126,7 +132,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     alternates: {
       languages: {
         tr: `${BASE_URL}/saglik-rehberi/${slug}`,
-        en: `${BASE_URL}/health-guide/${localizeArticleSlug(slug, 'en')}`,
+        en: `${BASE_URL}/health-guide/${(articleSlugMapEN as Record<string, string>)[slug] ?? slug}`,
       },
     },
   }));

@@ -1,3 +1,4 @@
+import articleSlugMapData from './articleSlugMap.json';
 
 export type SiteLang = 'tr' | 'en';
 
@@ -7,7 +8,6 @@ export function getSiteLang(language?: string): SiteLang {
 
 const routeSegments = {
   tr: {
-    home: '',
     about: 'hakkimda',
     treatments: 'tedaviler',
     gallery: 'galeri',
@@ -16,7 +16,6 @@ const routeSegments = {
     media: 'basinda-biz',
   },
   en: {
-    home: 'en',
     about: 'about',
     treatments: 'treatments',
     gallery: 'gallery',
@@ -26,7 +25,7 @@ const routeSegments = {
   },
 } as const;
 
-let treatmentSlugMap: Record<string, string> = {
+const treatmentSlugMap: Record<string, string> = {
   'skolyoz-kifoz-cerrahisi': 'scoliosis-kyphosis-surgery',
   'bel-fitigi-tedavisi': 'lumbar-herniated-disc-treatment',
   'boyun-fitigi-cerrahisi': 'cervical-disc-surgery',
@@ -35,63 +34,11 @@ let treatmentSlugMap: Record<string, string> = {
   'artroskopik-cerrahi': 'arthroscopic-surgery',
 };
 
-export async function loadTreatmentSlugMapFromDb() {
-  if (typeof window !== 'undefined') return treatmentSlugMap;
-  
-  try {
-    const { prisma } = await import('./prisma');
-    const record = await prisma.siteContent.findUnique({
-      where: { filename: 'treatmentSlugMap' }
-    });
-    
-    if (record && record.content) {
-      treatmentSlugMap = {
-        ...treatmentSlugMap,
-        ...(record.content as Record<string, string>)
-      };
-    } else if (!record) {
-      // Otomatik ilk değer ataması
-      await prisma.siteContent.create({
-        data: {
-          filename: 'treatmentSlugMap',
-          content: treatmentSlugMap,
-        }
-      });
-    }
-  } catch (error) {
-    console.error('[routes] Treatment slug map yüklenemedi:', error);
-  }
-  return treatmentSlugMap;
-}
-
 function normalizeTreatmentSlug(slug: string) {
   return slug.replace(/_tr$/, '').replace(/_en$/, '');
 }
 
-let articleSlugMap: Record<string, string> = {};
-
-/**
- * DB'den güncel slug map'i yükler (Server-side only)
- */
-export async function loadArticleSlugMapFromDb() {
-  if (typeof window !== 'undefined') return articleSlugMap;
-  
-  try {
-    const { prisma } = await import('./prisma');
-    const record = await prisma.siteContent.findUnique({
-      where: { filename: 'articleSlugMap' }
-    });
-    
-    if (record && record.content) {
-      articleSlugMap = { 
-        ...(record.content as Record<string, string>) 
-      };
-    }
-  } catch (error) {
-    console.error('[routes] Slug map yüklenemedi:', error);
-  }
-  return articleSlugMap;
-}
+let articleSlugMap: Record<string, string> = { ...articleSlugMapData };
 
 // Dinamik slug çözümü: DB'den gelen EN makalelerin slug'larını da işle
 // EN slug → TR canonical: "lumbar-disc-surgery" → "bel-fitigi-ameliyati"
@@ -120,32 +67,23 @@ function invertMap(map: Record<string, string>) {
   return Object.fromEntries(Object.entries(map).map(([key, value]) => [value, key]));
 }
 
-function getReverseTreatmentSlugMap() {
-  return invertMap(treatmentSlugMap);
-}
-
-// reverseArticleSlugMap'i bir fonksiyon haline getirelim ki güncel veriye baksın
-function getReverseArticleSlugMap() {
-  return invertMap(articleSlugMap);
-}
+const reverseTreatmentSlugMap = invertMap(treatmentSlugMap);
+let reverseArticleSlugMap = invertMap(articleSlugMap);
 
 function normalizeArticleSlug(slug: string) {
-  const reverseMap = getReverseArticleSlugMap();
-  return reverseMap[slug] ?? legacyArticleSlugMap[slug] ?? slug;
+  return reverseArticleSlugMap[slug] ?? legacyArticleSlugMap[slug] ?? slug;
 }
 
 export function localizeTreatmentSlug(slug: string, language?: string) {
   const normalizedSlug = normalizeTreatmentSlug(slug);
   const lang = getSiteLang(language);
   if (lang === 'en') return treatmentSlugMap[normalizedSlug] ?? normalizedSlug;
-  const reverseMap = getReverseTreatmentSlugMap();
-  return reverseMap[normalizedSlug] ?? normalizedSlug;
+  return reverseTreatmentSlugMap[normalizedSlug] ?? normalizedSlug;
 }
 
 export function canonicalTreatmentSlug(slug: string) {
   const normalizedSlug = normalizeTreatmentSlug(slug);
-  const reverseMap = getReverseTreatmentSlugMap();
-  return reverseMap[normalizedSlug] ?? normalizedSlug;
+  return reverseTreatmentSlugMap[normalizedSlug] ?? normalizedSlug;
 }
 
 export function localizeArticleSlug(slug: string, language?: string) {
@@ -160,8 +98,7 @@ export function canonicalArticleSlug(slug: string) {
   const legacy = legacyArticleSlugMap[slug];
   if (legacy) return legacy;
   // EN slug → TR canonical (ters map)
-  const reverseMap = getReverseArticleSlugMap();
-  const fromEn = reverseMap[slug];
+  const fromEn = reverseArticleSlugMap[slug];
   if (fromEn) return fromEn;
   // Zaten TR canonical
   return slug;
@@ -193,24 +130,6 @@ export function getLangFromPathname(pathname: string): SiteLang {
   }
 
   return 'tr';
-}
-
-export function resolveRouteKey(path: string): keyof typeof routeSegments.tr {
-  const cleanPath = path.replace(/^\/(tr|en)/, '').replace(/^\//, '') || 'home';
-  
-  if (cleanPath === 'home') return 'home';
-
-  // Find the key in routeSegments
-  const entry = Object.entries(routeSegments.tr).find(([_, value]) => value === cleanPath) ||
-                Object.entries(routeSegments.en).find(([_, value]) => value === cleanPath);
-  
-  if (entry) return entry[0] as keyof typeof routeSegments.tr;
-  
-  // Fallback for treatments/health guide which might have slugs
-  if (cleanPath.startsWith('tedaviler') || cleanPath.startsWith('treatments')) return 'treatments';
-  if (cleanPath.startsWith('saglik-rehberi') || cleanPath.startsWith('health-guide')) return 'healthGuide';
-
-  return 'home'; // Safe fallback
 }
 
 export function getLocalizedPath(
