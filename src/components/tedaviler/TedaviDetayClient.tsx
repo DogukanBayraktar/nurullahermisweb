@@ -192,14 +192,9 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
 }
 
 function XrayGallery({ items }: { items: TreatmentGalleryItem[] }) {
-  const [current, setCurrent] = useState(0);
-  const [lightbox, setLightbox] = useState(false);
-  const total = items.length;
+  const [lightbox, setLightbox] = useState<number | null>(null);
 
-  if (!items || total === 0) return null;
-
-  const prev = () => setCurrent((c) => (c - 1 + total) % total);
-  const next = () => setCurrent((c) => (c + 1) % total);
+  if (!items || items.length === 0) return null;
 
   return (
     <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
@@ -208,74 +203,47 @@ function XrayGallery({ items }: { items: TreatmentGalleryItem[] }) {
         <p className="text-sm font-bold text-slate-800">Hasta Röntgenleri</p>
       </div>
 
-      <div className="relative overflow-hidden rounded-xl">
-        <button
-          onClick={() => setLightbox(true)}
-          className="block w-full cursor-zoom-in"
-          aria-label="Görseli büyüt"
-        >
-          <img
-            src={items[current].img}
-            alt={items[current].caption}
-            className="h-72 w-full object-contain bg-slate-900"
-          />
-        </button>
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 to-transparent px-4 pb-3 pt-10">
-          <p className="text-sm font-bold text-white">{items[current].caption}</p>
-          <p className="text-xs font-medium text-white/70">
-            {current + 1} / {total}
-          </p>
-        </div>
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {items.map((item, i) => (
+          <button
+            key={i}
+            onClick={() => setLightbox(i)}
+            className="group cursor-zoom-in overflow-hidden rounded-xl border border-slate-200 bg-slate-900 transition-all hover:border-blue-400"
+            aria-label={item.caption}
+          >
+            <img
+              src={item.img}
+              alt={item.caption}
+              className="h-44 w-full object-contain sm:h-48"
+            />
+            <p className="border-t border-slate-200 bg-white px-3 py-2 text-center text-xs font-bold text-slate-700 transition-colors group-hover:text-blue-700">
+              {item.caption}
+            </p>
+          </button>
+        ))}
       </div>
 
-      {total > 1 && (
-        <div className="mt-4 flex items-center justify-between gap-3">
-          <button
-            onClick={prev}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-all hover:border-blue-300 hover:bg-blue-50"
-            aria-label="Onceki rontgen"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </button>
-
-          <div className="flex flex-1 items-center gap-2 overflow-x-auto px-1">
-            {items.map((item, i) => (
-              <button
-                key={i}
-                onClick={() => setCurrent(i)}
-                className={`relative h-14 w-14 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 transition-all ${
-                  i === current ? 'border-blue-600' : 'border-transparent hover:border-blue-300'
-                }`}
-                aria-label={item.caption}
-              >
-                <img src={item.img} alt="" className="h-full w-full object-cover" />
-              </button>
-            ))}
-          </div>
-
-          <button
-            onClick={next}
-            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-all hover:border-blue-300 hover:bg-blue-50"
-            aria-label="Sonraki rontgen"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </button>
-        </div>
-      )}
-
-      {lightbox && (
-        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/90 p-4" onClick={() => setLightbox(false)}>
+      {lightbox !== null && (
+        <div
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/90 p-4"
+          onClick={() => setLightbox(null)}
+        >
           <div className="relative max-h-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
             <button
-              onClick={() => setLightbox(false)}
+              onClick={() => setLightbox(null)}
               className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-800/80 text-white hover:bg-slate-700"
               aria-label="Kapat"
             >
               <X className="h-5 w-5" />
             </button>
-            <img src={items[current].img} alt={items[current].caption} className="max-h-[85vh] w-auto object-contain" />
-            <p className="mt-3 text-center text-sm font-bold text-white">{items[current].caption}</p>
-            <p className="mt-1 text-center text-xs text-white/60">{current + 1} / {total}</p>
+            <img
+              src={items[lightbox].img}
+              alt={items[lightbox].caption}
+              className="max-h-[85vh] w-auto object-contain"
+            />
+            <p className="mt-3 text-center text-sm font-bold text-white">
+              {items[lightbox].caption}
+            </p>
           </div>
         </div>
       )}
