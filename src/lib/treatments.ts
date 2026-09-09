@@ -45,15 +45,20 @@ export const TREATMENTS_DATA = [
           {
             baslik: "Growing Rod (Büyüyen Çubuk) Yöntemi",
             icerik: "Growing rod, erken başlangıçlı ve ilerleyen konjenital skolyozda omurgaya yerleştirilen, her büyüme döneminde cerrahi olarak uzatılan özel çubuk sistemidir. İlk ameliyatta omurganın üst ve alt kısmına çubuklar sabitlenir, ardından çocuk büyüdükçe düzenli aralıklarla (genellikle her 6–12 ayda bir) küçük uzatma işlemleriyle çubuk boyu artırılır. Bu sayede eğrilik kontrol altında tutulurken omurga ve göğüs kafesi büyümesi kesintisiz sürer. Takipte her yıl düzenli röntgenlerle hem düzelme hem de omurga büyümesi yakından izlenir.",
-            gallery: [
-              { img: "/images/rontgen/burak-ipekci-2020-preop.jpg", caption: "2020 Preop" },
-              { img: "/images/rontgen/burak-ipekci-2020-postop.jpg", caption: "2020 Postop" },
-              { img: "/images/rontgen/burak-ipekci-2021.jpg", caption: "2021" },
-              { img: "/images/rontgen/burak-ipekci-2022.jpg", caption: "2022" },
-              { img: "/images/rontgen/burak-ipekci-2023.jpg", caption: "2023" },
-              { img: "/images/rontgen/burak-ipekci-2024.jpg", caption: "2024" },
-              { img: "/images/rontgen/burak-ipekci-2025.jpg", caption: "2025" },
-              { img: "/images/rontgen/burak-ipekci-2026.jpg", caption: "2026" },
+            patients: [
+              {
+                hastaAdi: "Burak İpekçi",
+                gallery: [
+                  { img: "/images/rontgen/burak-ipekci-2020-preop.jpg", caption: "2020 Preop" },
+                  { img: "/images/rontgen/burak-ipekci-2020-postop.jpg", caption: "2020 Postop" },
+                  { img: "/images/rontgen/burak-ipekci-2021.jpg", caption: "2021" },
+                  { img: "/images/rontgen/burak-ipekci-2022.jpg", caption: "2022" },
+                  { img: "/images/rontgen/burak-ipekci-2023.jpg", caption: "2023" },
+                  { img: "/images/rontgen/burak-ipekci-2024.jpg", caption: "2024" },
+                  { img: "/images/rontgen/burak-ipekci-2025.jpg", caption: "2025" },
+                  { img: "/images/rontgen/burak-ipekci-2026.jpg", caption: "2026" },
+                ],
+              },
             ],
           },
           {
@@ -263,7 +268,8 @@ export const TREATMENTS_DATA = [
 
 type TreatmentStat = { label: string; val: string };
 type TreatmentGalleryItem = { img: string; caption: string };
-type TreatmentSubMethod = { baslik: string; icerik: string; gallery?: TreatmentGalleryItem[] };
+type TreatmentPatient = { hastaAdi: string; gallery: TreatmentGalleryItem[] };
+type TreatmentSubMethod = { baslik: string; icerik: string; patients?: TreatmentPatient[] };
 type TreatmentMethod = { baslik: string; icerik: string; submethods?: TreatmentSubMethod[] };
 type TreatmentFaq = { s: string; c: string };
 
@@ -321,15 +327,20 @@ export const TREATMENTS_TRANSLATIONS: Record<string, Record<string, LocalizedTre
             {
               baslik: "Growing Rod Method",
               icerik: "The growing rod is a dedicated rod system placed on the spine in early-onset progressive congenital scoliosis that is surgically lengthened at each growth phase. During the initial surgery, rods are anchored to the upper and lower spine; then, as the child grows, the rod length is increased through small lengthening procedures at regular intervals (typically every 6 to 12 months). This keeps the curve under control while allowing continuous spinal and chest wall growth. Regular annual X-rays closely monitor both correction and spinal growth over time.",
-              gallery: [
-                { img: "/images/rontgen/burak-ipekci-2020-preop.jpg", caption: "2020 Preop" },
-                { img: "/images/rontgen/burak-ipekci-2020-postop.jpg", caption: "2020 Postop" },
-                { img: "/images/rontgen/burak-ipekci-2021.jpg", caption: "2021" },
-                { img: "/images/rontgen/burak-ipekci-2022.jpg", caption: "2022" },
-                { img: "/images/rontgen/burak-ipekci-2023.jpg", caption: "2023" },
-                { img: "/images/rontgen/burak-ipekci-2024.jpg", caption: "2024" },
-                { img: "/images/rontgen/burak-ipekci-2025.jpg", caption: "2025" },
-                { img: "/images/rontgen/burak-ipekci-2026.jpg", caption: "2026" },
+              patients: [
+                {
+                  hastaAdi: "Burak İpekçi",
+                  gallery: [
+                    { img: "/images/rontgen/burak-ipekci-2020-preop.jpg", caption: "2020 Preop" },
+                    { img: "/images/rontgen/burak-ipekci-2020-postop.jpg", caption: "2020 Postop" },
+                    { img: "/images/rontgen/burak-ipekci-2021.jpg", caption: "2021" },
+                    { img: "/images/rontgen/burak-ipekci-2022.jpg", caption: "2022" },
+                    { img: "/images/rontgen/burak-ipekci-2023.jpg", caption: "2023" },
+                    { img: "/images/rontgen/burak-ipekci-2024.jpg", caption: "2024" },
+                    { img: "/images/rontgen/burak-ipekci-2025.jpg", caption: "2025" },
+                    { img: "/images/rontgen/burak-ipekci-2026.jpg", caption: "2026" },
+                  ],
+                },
               ],
             },
             {

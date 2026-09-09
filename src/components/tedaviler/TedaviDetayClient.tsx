@@ -11,6 +11,7 @@ import {
   FolderOpen,
   HelpCircle,
   Scissors,
+  User,
   X,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
@@ -30,10 +31,15 @@ interface TreatmentGalleryItem {
   caption: string;
 }
 
+interface TreatmentPatient {
+  hastaAdi: string;
+  gallery: TreatmentGalleryItem[];
+}
+
 interface TreatmentSubMethod {
   baslik: string;
   icerik: string;
-  gallery?: TreatmentGalleryItem[];
+  patients?: TreatmentPatient[];
 }
 
 interface TreatmentMethod {
@@ -191,19 +197,25 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
   );
 }
 
-function XrayGallery({ items }: { items: TreatmentGalleryItem[] }) {
+function XrayGallery({ patient }: { patient: TreatmentPatient }) {
   const [lightbox, setLightbox] = useState<number | null>(null);
+  const items = patient.gallery;
 
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
+    <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
       <div className="mb-4 flex items-center gap-2.5">
-        <FolderOpen className="h-4 w-4 text-blue-600" />
-        <p className="text-sm font-bold text-slate-800">Hasta Röntgenleri</p>
+        <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50">
+          <User className="h-4 w-4 text-blue-600" />
+        </div>
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Hasta</p>
+          <p className="text-sm font-bold text-slate-800">{patient.hastaAdi}</p>
+        </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
         {items.map((item, i) => (
           <button
             key={i}
@@ -214,7 +226,7 @@ function XrayGallery({ items }: { items: TreatmentGalleryItem[] }) {
             <img
               src={item.img}
               alt={item.caption}
-              className="h-44 w-full object-contain sm:h-48"
+              className="aspect-[3/4] w-full object-contain sm:aspect-square"
             />
             <p className="border-t border-slate-200 bg-white px-3 py-2 text-center text-xs font-bold text-slate-700 transition-colors group-hover:text-blue-700">
               {item.caption}
@@ -239,7 +251,7 @@ function XrayGallery({ items }: { items: TreatmentGalleryItem[] }) {
             <img
               src={items[lightbox].img}
               alt={items[lightbox].caption}
-              className="max-h-[85vh] w-auto object-contain"
+              className="max-h-[85vh] w-auto max-w-full object-contain"
             />
             <p className="mt-3 text-center text-sm font-bold text-white">
               {items[lightbox].caption}
@@ -262,8 +274,10 @@ function AccordionSubMethods({ submethods }: { submethods: TreatmentSubMethod[] 
           </summary>
           <div className="border-t border-blue-50 px-5 py-4">
             <p className="text-sm leading-relaxed text-slate-600">{sub.icerik}</p>
-            {sub.gallery?.length ? (
-              <XrayGallery items={sub.gallery} />
+            {sub.patients?.length ? (
+              sub.patients.map((patient, pi) => (
+                <XrayGallery key={pi} patient={patient} />
+              ))
             ) : null}
           </div>
         </details>
