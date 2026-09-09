@@ -326,7 +326,7 @@ function AccordionSubMethods({ submethods }: { submethods: TreatmentSubMethod[] 
             >
               <p className="text-sm font-bold text-slate-800">{sub.baslik}</p>
               <ChevronDown className="ml-auto h-4 w-4 text-blue-500 transition-transform duration-200 group-open:rotate-180" />
-              <button
+              {/* <button
                 type="button"
                 onClick={(e) => {
                   e.preventDefault();
@@ -338,7 +338,7 @@ function AccordionSubMethods({ submethods }: { submethods: TreatmentSubMethod[] 
                 title="Bölüm linkini kopyala"
               >
                 <Link2 className="h-3.5 w-3.5" />
-              </button>
+              </button> */}
             </summary>
             <div className="border-t border-blue-50 sm:px-5 sm:py-4">
               <p className="px-5 py-4 text-sm leading-relaxed text-slate-600 sm:px-0 sm:py-0">{sub.icerik}</p>

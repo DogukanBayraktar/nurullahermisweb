@@ -39,3 +39,4 @@
  GET / 200 in 189ms (next.js: 39ms, proxy.ts: 20ms, application-code: 131ms)
  GET /tedaviler/skolyoz-kifoz-cerrahisi 200 in 5.7s (next.js: 902ms, proxy.ts: 1798ms, generate-params: 27ms, application-code: 3.0s)
  GET /tedaviler/skolyoz-kifoz-cerrahisi 200 in 1049ms (next.js: 31ms, proxy.ts: 8ms, generate-params: 11ms, application-code: 1010ms)
+ GET /tedaviler/skolyoz-kifoz-cerrahisi 200 in 938ms (next.js: 62ms, proxy.ts: 21ms, generate-params: 26ms, application-code: 855ms)
