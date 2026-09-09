@@ -42,6 +42,27 @@ export const TREATMENTS_DATA = [
       { baslik: "Posterior Spinal Füzyon (PSF)", icerik: "Posterior Spinal Füzyon (PSF), büyümesini tamamlamış veya Cobb açısı 65° üzerinde olan hastalarda, nöromüsküler ya da konjenital skolyoz gibi ileri vakalarda uygulanan altın standart cerrahi yöntemdir. Sırtın arka tarafından yapılan girişimde, 3 boyutlu bilgisayar destekli navigasyon sistemi ve sürekli nöromonitörizasyon (IOM) eşliğinde eğriliğe dahil her omura pedikül vidaları yerleştirilir. Vidalar, titanyum çubuklar yardımıyla birbirine bağlanır ve omurga eğriliği sagital (yan) ve koronal (ön-arka) düzlemlerin her ikisinde birden düzeltilir. İleri vakalar için posterior yaklaşımın yanı sıra ön yaklaşım (anterior release) da gerekebilir. Ameliyat sonrası hastane yatışı genellikle 3–5 gündür; doğru rehabilitasyon programıyla hastalar 3–6 ay içinde normal yaşam aktivitelerine döner ve çoğu ağır fiziksel iş dışında tüm günlük etkinliklerini gerçekleştirebilir hale gelir." },
       { baslik: "Ameliyat Öncesi Planlama ve Cerrahi Güvenlik", icerik: "Skolyoz ameliyatında başarılı sonuç büyük ölçüde ameliyat öncesi planlamanın kalitesine bağlıdır. Eğriliğin tipi, vertebra seviyeleri, omurga dengesi, nörolojik risk, solunum kapasitesi ve kemik kalitesi ayrıntılı olarak incelenir. Ameliyat sırasında nöromonitörizasyon, 3 boyutlu görüntüleme, modern implant sistemleri ve gerektiğinde kan yönetimi protokolleri kullanılarak hem güvenlik hem de düzeltme kalitesi artırılır. Bu yaklaşım, omuriliğin korunmasına yardımcı olurken omurganın kontrollü ve dengeli biçimde düzeltilmesini sağlar." },
       { baslik: "İyileşme Süreci ve Uzun Dönem Takip", icerik: "Skolyoz ameliyatı sonrası ilk günlerde ağrı kontrolü, akciğer egzersizleri, erken mobilizasyon ve yürüyüş eğitimi tedavinin ayrılmaz parçalarıdır. Çoğu hasta ameliyattan sonraki ilk birkaç gün içinde ayağa kaldırılır ve taburculuk sonrası aşamalı bir yürüme programı uygulanır. Okula dönüş çoğu zaman 4–6 hafta içinde mümkün olurken, spora dönüş cerrahi tekniğe ve kaynama sürecine bağlı olarak 4 aydan 12 aya kadar değişebilir. Uzun dönem takipte radyografik kontroller, omurga dengesi, implantların durumu ve hastanın fonksiyonel iyileşmesi düzenli olarak değerlendirilir." },
+      {
+        baslik: "Konjenital Skolyozda Uygulanan Yöntemler",
+        icerik: "Doğuştan (konjenital) skolyoz, omurganın anne karnındaki gelişimi sırasında oluşan yapısal kusurlar nedeniyle ortaya çıkar; erken yaşta başlayan bu eğrilik, çocuk büyüdükçe omurga dengesini ciddi biçimde bozabilir. Büyüme çağındaki konjenital skolyozda hedef, eğriliği düzeltmekle birlikte çocuğun omurga büyümesini ve göğüs kafesi gelişimini mümkün olan en iyi şekilde korumaktır. Bu amaçla kullanılan iki temel büyüme dostu teknik şunlardır:",
+        submethods: [
+          {
+            baslik: "Growing Rod (Büyüyen Çubuk) Yöntemi",
+            icerik: "Growing rod, erken başlangıçlı ve ilerleyen konjenital skolyozda omurgaya yerleştirilen, her büyüme döneminde cerrahi olarak uzatılan özel çubuk sistemidir. İlk ameliyatta omurganın üst ve alt kısmına çubuklar sabitlenir, ardından çocuk büyüdükçe düzenli aralıklarla (genellikle her 6–12 ayda bir) küçük uzatma işlemleriyle çubuk boyu artırılır. Bu sayede eğrilik kontrol altında tutulurken omurga ve göğüs kafesi büyümesi kesintisiz sürer. Takipte her yıl düzenli röntgenlerle hem düzelme hem de omurga büyümesi yakından izlenir.",
+            gallery: [
+              { img: "/images/rontgen/2019-ilk-rontgen.avif", caption: "2019 — Ameliyat öncesi ilk röntgen" },
+              { img: "/images/rontgen/2020-uzatma.avif", caption: "2020 — İlk uzatma sonrası" },
+              { img: "/images/rontgen/2022-uzatma.avif", caption: "2022 — İkinci uzatma sonrası" },
+              { img: "/images/rontgen/2024-uzatma.avif", caption: "2024 — Takip röntgeni" },
+              { img: "/images/rontgen/2026-son-rontgen.avif", caption: "2026 — Son röntgen" },
+            ],
+          },
+          {
+            baslik: "Shilla Tekniği",
+            icerik: "Shilla tekniği, growing rod yönteminin bir çeşidi olup tek seansta çocuğun büyümesine uyum sağlayan kayar bir çubuk sistemine dayanır. Konvansiyonel growing rod'lardan farklı olarak bu teknikte tekrarlayan uzatma ameliyatlarına gerek kalmaz; çubuk, omurgada özel olarak tasarlanmış kayar bağlantılarla çocuk büyüdükçe kendiliğinden uzar. Bu sayede hasta sayısı azalır, omurga ve akciğer gelişimi desteklenir ve eğrilik düzenli takiplerle kontrol altında tutulur.",
+          },
+        ],
+      },
     ],
     faq: [
       { s: "Skolyoz ameliyat olmadan geçer mi?", c: "25° altındaki hafif eğrilikler büyüme tamamlandıktan sonra duraksayabilir ve belirli bir kısmı kendiliğinden kısmi düzelme gösterir. 25–45° arası vakalarda korse (spinal ortez) aktif büyüme döneminde ilerlemeyi yavaşlatır; ancak eğriliği kalıcı olarak düzeltemez. 45° ve üzerindeki eğrilikler büyüme sürecinde genellikle hızla ilerlemeye devam ettiğinden ve yetişkinlikte de ilerleyebildiğinden, cerrahi bu olgularda tek etkili ve kalıcı tedavi seçeneği olarak öne çıkmaktadır." },
@@ -238,7 +259,9 @@ export const TREATMENTS_DATA = [
 
 
 type TreatmentStat = { label: string; val: string };
-type TreatmentMethod = { baslik: string; icerik: string };
+type TreatmentGalleryItem = { img: string; caption: string };
+type TreatmentSubMethod = { baslik: string; icerik: string; gallery?: TreatmentGalleryItem[] };
+type TreatmentMethod = { baslik: string; icerik: string; submethods?: TreatmentSubMethod[] };
 type TreatmentFaq = { s: string; c: string };
 
 export type LocalizedTreatmentContent = {
@@ -303,6 +326,27 @@ export const TREATMENTS_TRANSLATIONS: Record<string, Record<string, LocalizedTre
         {
           baslik: "Recovery and Long-Term Follow-Up",
           icerik: "Pain control, breathing exercises, early mobilization, and walking training are essential parts of recovery after scoliosis surgery. Most patients are helped out of bed within the first few days, and after discharge they follow a gradual walking and rehabilitation program. Return to school is often possible within 4 to 6 weeks, while return to sports may range from 4 months to 12 months depending on the surgical technique and fusion-healing process. Long-term follow-up includes regular radiographic evaluation, assessment of spinal balance, implant integrity, and the patient's functional recovery over time.",
+        },
+        {
+          baslik: "Methods Used in Congenital Scoliosis",
+          icerik: "Congenital scoliosis results from structural defects that develop in the spine during fetal development; this early-onset curvature can significantly disrupt spinal balance as the child grows. In growing children, the goal is to correct the curve while preserving spinal growth and chest wall development as much as possible. The two primary growth-friendly techniques used for this purpose are:",
+          submethods: [
+            {
+              baslik: "Growing Rod Method",
+              icerik: "The growing rod is a dedicated rod system placed on the spine in early-onset progressive congenital scoliosis that is surgically lengthened at each growth phase. During the initial surgery, rods are anchored to the upper and lower spine; then, as the child grows, the rod length is increased through small lengthening procedures at regular intervals (typically every 6 to 12 months). This keeps the curve under control while allowing continuous spinal and chest wall growth. Regular annual X-rays closely monitor both correction and spinal growth over time.",
+              gallery: [
+                { img: "/images/rontgen/2019-ilk-rontgen.avif", caption: "2019 — First pre-operative X-ray" },
+                { img: "/images/rontgen/2020-uzatma.avif", caption: "2020 — After first lengthening" },
+                { img: "/images/rontgen/2022-uzatma.avif", caption: "2022 — After second lengthening" },
+                { img: "/images/rontgen/2024-uzatma.avif", caption: "2024 — Follow-up X-ray" },
+                { img: "/images/rontgen/2026-son-rontgen.avif", caption: "2026 — Final X-ray" },
+              ],
+            },
+            {
+              baslik: "Shilla Technique",
+              icerik: "The Shilla technique is a variant of the growing rod method based on a sliding rod system that adapts to the child's growth in a single operation. Unlike conventional growing rods, this technique does not require repeated lengthening procedures; the rod extends automatically as the child grows through specially designed sliding connections on the spine. This reduces the number of surgeries, supports spinal and lung development, and keeps the curvature under control during regular follow-up.",
+            },
+          ],
         },
       ],
       faq: [

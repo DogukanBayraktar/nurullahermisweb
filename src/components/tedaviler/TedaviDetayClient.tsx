@@ -8,8 +8,10 @@ import {
   ChevronDown,
   ChevronLeft,
   ChevronRight,
+  FolderOpen,
   HelpCircle,
   Scissors,
+  X,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
@@ -23,9 +25,21 @@ interface TreatmentStat {
   val: string;
 }
 
+interface TreatmentGalleryItem {
+  img: string;
+  caption: string;
+}
+
+interface TreatmentSubMethod {
+  baslik: string;
+  icerik: string;
+  gallery?: TreatmentGalleryItem[];
+}
+
 interface TreatmentMethod {
   baslik: string;
   icerik: string;
+  submethods?: TreatmentSubMethod[];
 }
 
 interface TreatmentFaq {
@@ -177,6 +191,119 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
   );
 }
 
+function XrayGallery({ items }: { items: TreatmentGalleryItem[] }) {
+  const [current, setCurrent] = useState(0);
+  const [lightbox, setLightbox] = useState(false);
+  const total = items.length;
+
+  if (!items || total === 0) return null;
+
+  const prev = () => setCurrent((c) => (c - 1 + total) % total);
+  const next = () => setCurrent((c) => (c + 1) % total);
+
+  return (
+    <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-5">
+      <div className="mb-4 flex items-center gap-2.5">
+        <FolderOpen className="h-4 w-4 text-blue-600" />
+        <p className="text-sm font-bold text-slate-800">Hasta Röntgenleri</p>
+      </div>
+
+      <div className="relative overflow-hidden rounded-xl">
+        <button
+          onClick={() => setLightbox(true)}
+          className="block w-full cursor-zoom-in"
+          aria-label="Görseli büyüt"
+        >
+          <img
+            src={items[current].img}
+            alt={items[current].caption}
+            className="h-72 w-full object-contain bg-slate-900"
+          />
+        </button>
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-slate-950/80 to-transparent px-4 pb-3 pt-10">
+          <p className="text-sm font-bold text-white">{items[current].caption}</p>
+          <p className="text-xs font-medium text-white/70">
+            {current + 1} / {total}
+          </p>
+        </div>
+      </div>
+
+      {total > 1 && (
+        <div className="mt-4 flex items-center justify-between gap-3">
+          <button
+            onClick={prev}
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-all hover:border-blue-300 hover:bg-blue-50"
+            aria-label="Onceki rontgen"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+
+          <div className="flex flex-1 items-center gap-2 overflow-x-auto px-1">
+            {items.map((item, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                className={`relative h-14 w-14 shrink-0 cursor-pointer overflow-hidden rounded-lg border-2 transition-all ${
+                  i === current ? 'border-blue-600' : 'border-transparent hover:border-blue-300'
+                }`}
+                aria-label={item.caption}
+              >
+                <img src={item.img} alt="" className="h-full w-full object-cover" />
+              </button>
+            ))}
+          </div>
+
+          <button
+            onClick={next}
+            className="flex h-9 w-9 items-center justify-center rounded-lg border border-slate-200 bg-white text-slate-600 transition-all hover:border-blue-300 hover:bg-blue-50"
+            aria-label="Sonraki rontgen"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      )}
+
+      {lightbox && (
+        <div className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/90 p-4" onClick={() => setLightbox(false)}>
+          <div className="relative max-h-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setLightbox(false)}
+              className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-800/80 text-white hover:bg-slate-700"
+              aria-label="Kapat"
+            >
+              <X className="h-5 w-5" />
+            </button>
+            <img src={items[current].img} alt={items[current].caption} className="max-h-[85vh] w-auto object-contain" />
+            <p className="mt-3 text-center text-sm font-bold text-white">{items[current].caption}</p>
+            <p className="mt-1 text-center text-xs text-white/60">{current + 1} / {total}</p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AccordionSubMethods({ submethods }: { submethods: TreatmentSubMethod[] }) {
+  return (
+    <div className="mt-4 space-y-3">
+      {submethods.map((sub, i) => (
+        <details key={i} className="group overflow-hidden rounded-xl border border-blue-100 bg-white">
+          <summary className="flex cursor-pointer list-none items-center gap-3 bg-blue-50/60 px-4 py-3.5">
+            <p className="text-sm font-bold text-slate-800">{sub.baslik}</p>
+            <ChevronDown className="ml-auto h-4 w-4 text-blue-500 transition-transform duration-200 group-open:rotate-180" />
+          </summary>
+          <div className="border-t border-blue-50 px-5 py-4">
+            <p className="text-sm leading-relaxed text-slate-600">{sub.icerik}</p>
+            {sub.gallery?.length ? (
+              <XrayGallery items={sub.gallery} />
+            ) : null}
+          </div>
+        </details>
+      ))}
+    </div>
+  );
+}
+
 export default function TedaviDetayClient({
   treatment,
   isLocal,
@@ -295,11 +422,18 @@ export default function TedaviDetayClient({
                     <div key={i} className="rounded-xl border border-blue-100 bg-blue-50/60 p-5 transition-colors hover:border-blue-200">
                       <div className="flex items-start gap-4">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-blue-100 bg-white">
-                          <Scissors className="h-4 w-4 text-blue-600" />
+                          {item.submethods?.length ? (
+                            <FolderOpen className="h-4 w-4 text-blue-600" />
+                          ) : (
+                            <Scissors className="h-4 w-4 text-blue-600" />
+                          )}
                         </div>
-                        <div>
+                        <div className="min-w-0 flex-1">
                           <p className="mb-2 font-bold text-slate-900">{item.baslik}</p>
                           <p className="text-sm leading-relaxed text-slate-600">{item.icerik}</p>
+                          {item.submethods?.length ? (
+                            <AccordionSubMethods submethods={item.submethods} />
+                          ) : null}
                         </div>
                       </div>
                     </div>

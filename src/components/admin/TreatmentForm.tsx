@@ -8,7 +8,9 @@ import { canonicalTreatmentSlug } from '@/lib/routes';
 import ImageUpload from './ImageUpload';
 
 type Stat = { label: string; val: string };
-type TreatmentSection = { baslik: string; icerik: string };
+type GalleryItem = { img: string; caption: string };
+type TreatmentSubSection = { baslik: string; icerik: string; gallery?: GalleryItem[] };
+type TreatmentSection = { baslik: string; icerik: string; submethods?: TreatmentSubSection[] };
 type FaqItem = { s: string; c: string };
 
 type LangForm = {
@@ -343,7 +345,54 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
                 <input value={t.baslik} onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, baslik: e.target.value } : s) })}
                   placeholder={lang === 'tr' ? 'Yöntem başlığı' : 'Method title'} className={inputCls} />
                 <textarea value={t.icerik} onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, icerik: e.target.value } : s) })}
-                  rows={4} placeholder={lang === 'tr' ? 'Açıklama' : 'Description'} className={inputCls} />
+                  rows={4} placeholder={lang === 'tr' ? 'Açıklama (içinde alt yöntemler açılacaksa başlık metni olarak kullanılır)' : 'Description (if it contains sub-methods, this acts as the intro text)'} className={inputCls} />
+
+                {/* Alt Yöntemler (örn. Konjenital Skolyoz) */}
+                <div className="rounded-xl border border-dashed border-blue-200 bg-blue-50/40 p-4 space-y-3">
+                  <div className="flex justify-between items-center">
+                    <p className="text-xs font-bold text-blue-700 uppercase tracking-wider">Alt Yöntemler (açılır listeler)</p>
+                    <button type="button"
+                      onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: [...(s.submethods ?? []), { baslik: '', icerik: '' }] } : s) })}
+                      className="flex items-center gap-1.5 text-xs font-bold text-blue-600 hover:text-blue-700 bg-white px-3 py-1.5 rounded-lg transition-all border border-blue-100">+ Alt Yöntem Ekle</button>
+                  </div>
+
+                  {t.submethods?.map((sub, si) => (
+                    <div key={si} className="bg-white border border-slate-100 rounded-xl p-3 space-y-3 relative group">
+                      <button type="button"
+                        onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.filter((_, x) => x !== si) } : s) })}
+                        className="absolute top-3 right-3 text-slate-400 hover:text-red-600 opacity-0 group-hover:opacity-100 transition-all"><Trash2 className="w-4 h-4" /></button>
+                      <input value={sub.baslik}
+                        onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, baslik: e.target.value } : sm) } : s) })}
+                        placeholder={lang === 'tr' ? 'Alt yöntem başlığı (örn. Growing Rod)' : 'Sub-method title (e.g. Growing Rod)'} className={inputCls} />
+                      <textarea value={sub.icerik}
+                        onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, icerik: e.target.value } : sm) } : s) })}
+                        rows={4} placeholder={lang === 'tr' ? 'Alt yöntem açıklaması' : 'Sub-method description'} className={inputCls} />
+
+                      {/* Röntgen Galerisi */}
+                      <div className="rounded-lg border border-dashed border-slate-200 bg-slate-50 p-3 space-y-2">
+                        <div className="flex justify-between items-center">
+                          <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Röntgen Galerisi</p>
+                          <button type="button"
+                            onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: [...(sm.gallery ?? []), { img: '', caption: '' }] } : sm) } : s) })}
+                            className="flex items-center gap-1.5 text-xs font-bold text-blue-500 hover:text-blue-700 bg-white px-3 py-1 rounded-lg transition-all border border-slate-200">+ Görsel Ekle</button>
+                        </div>
+                        {sub.gallery?.map((g, gi) => (
+                          <div key={gi} className="flex gap-2 items-center">
+                            <input value={g.img}
+                              onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.map((gg, y) => y === gi ? { ...gg, img: e.target.value } : gg) } : sm) } : s) })}
+                              placeholder="/images/rontgen/..." className={inputCls} />
+                            <input value={g.caption}
+                              onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.map((gg, y) => y === gi ? { ...gg, caption: e.target.value } : gg) } : sm) } : s) })}
+                              placeholder={lang === 'tr' ? 'Açıklama (örn. 2020 ilk röntgen)' : 'Caption (e.g. 2020 first X-ray)'} className={inputCls} />
+                            <button type="button"
+                              onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.filter((_, y) => y !== gi) } : sm) } : s) })}
+                              className="text-slate-400 hover:text-red-600 p-2 transition-all"><Trash2 className="w-4 h-4" /></button>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
