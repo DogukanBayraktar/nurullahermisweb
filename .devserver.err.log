@@ -1,0 +1,144 @@
+⨯ ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  [90m10 |[0m [36mexport[0m [36mconst[0m revalidate = [35m86400[0m;
+  [90m11 |[0m [36mconst[0m isDev = process.env.[33mNODE_ENV[0m === [32m'development'[0m;
+[31m[1m>[0m [90m12 |[0m [36mexport[0m [36mconst[0m dynamic = isDev ? [32m'force-dynamic'[0m : [32m'force-static'[0m;
+  [90m   |[0m              [31m[1m^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^[0m
+  [90m13 |[0m [36mexport[0m [36mconst[0m dynamicParams = [36mtrue[0m;
+  [90m14 |[0m
+  [90m15 |[0m [90m// development'da DB değişiklikleri anında görünsün diye önbellek atlanır.[0m
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+
+
+[browser] Uncaught Error: ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+
+
+    at <unknown> (Error: ./src/app/tedaviler/[slug]/page.tsx:12:14)
+    at <unknown> (https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config)
+    at <unknown> (Error: (./src/app/tedaviler/[slug]/page.tsx:12:14)
+    at <unknown> (https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config)
+[browser] ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config 
+[browser] ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config 
+[browser] ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config 
+[browser] ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config 
+[browser] Uncaught Error: ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config
+
+
+    at <unknown> (Error: ./src/app/tedaviler/[slug]/page.tsx:12:14)
+    at <unknown> (https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config)
+    at <unknown> (Error: (./src/app/tedaviler/[slug]/page.tsx:12:14)
+    at <unknown> (https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config)
+[browser] ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config 
+[browser] ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config 
+[browser] ./src/app/tedaviler/[slug]/page.tsx:12:14
+Next.js can't recognize the exported `dynamic` field in route. It needs to be a static string.
+  10 | export const revalidate = 86400;
+  11 | const isDev = process.env.NODE_ENV === 'development';
+> 12 | export const dynamic = isDev ? 'force-dynamic' : 'force-static';
+     |              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 | export const dynamicParams = true;
+  14 |
+  15 | // development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+
+The exported configuration object in a source file needs to have a very specific format from which some properties can be statically parsed at compiled-time.
+
+https://nextjs.org/docs/app/api-reference/file-conventions/route-segment-config 

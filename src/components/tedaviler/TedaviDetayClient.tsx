@@ -10,6 +10,7 @@ import {
   ChevronRight,
   FolderOpen,
   HelpCircle,
+  Link2,
   Scissors,
   User,
   X,
@@ -263,25 +264,93 @@ function XrayGallery({ patient }: { patient: TreatmentPatient }) {
   );
 }
 
+function slugifyTitle(title: string): string {
+  const map: Record<string, string> = {
+    ç: 'c', ğ: 'g', ı: 'i', ö: 'o', ş: 's', ü: 'u',
+    'Ç': 'c', 'Ğ': 'g', 'İ': 'i', 'Ö': 'o', 'Ş': 's', 'Ü': 'u',
+  };
+  return title
+    .toLowerCase()
+    .replace(/[çğıöşü]/g, (ch) => map[ch] ?? ch)
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 function AccordionSubMethods({ submethods }: { submethods: TreatmentSubMethod[] }) {
+  const [openIds, setOpenIds] = useState<Set<string>>(new Set());
+
+  const toggle = (id: string) =>
+    setOpenIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace(/^#/, '');
+      if (!hash) return;
+      const el = document.getElementById(hash);
+      if (el && el.tagName === 'DETAILS') {
+        setOpenIds((prev) => (prev.has(hash) ? prev : new Set(prev).add(hash)));
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 120);
+      }
+    };
+    handleHash();
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
+
+  const copyLink = (id: string) => {
+    const url = `${window.location.pathname}${window.location.search}#${id}`;
+    setOpenIds((prev) => new Set(prev).add(id));
+    window.history.replaceState(null, '', url);
+    navigator.clipboard?.writeText(`${window.location.origin}${url}`).catch(() => {});
+  };
+
   return (
     <div className="mt-4 space-y-3">
-      {submethods.map((sub, i) => (
-        <details key={i} className="group overflow-hidden rounded-xl border border-blue-100 bg-white">
-          <summary className="flex cursor-pointer list-none items-center gap-3 bg-blue-50/60 px-4 py-3.5">
-            <p className="text-sm font-bold text-slate-800">{sub.baslik}</p>
-            <ChevronDown className="ml-auto h-4 w-4 text-blue-500 transition-transform duration-200 group-open:rotate-180" />
-          </summary>
-          <div className="border-t border-blue-50 sm:px-5 sm:py-4">
-            <p className="px-5 py-4 text-sm leading-relaxed text-slate-600 sm:px-0 sm:py-0">{sub.icerik}</p>
-            {sub.patients?.length ? (
-              sub.patients.map((patient, pi) => (
-                <XrayGallery key={pi} patient={patient} />
-              ))
-            ) : null}
-          </div>
-        </details>
-      ))}
+      {submethods.map((sub) => {
+        const id = `metod-${slugifyTitle(sub.baslik)}`;
+        return (
+          <details key={id} id={id} open={openIds.has(id)} className="group scroll-mt-28 overflow-hidden rounded-xl border border-blue-100 bg-white">
+            <summary
+              onClick={(e) => {
+                e.preventDefault();
+                toggle(id);
+              }}
+              className="flex cursor-pointer list-none items-center gap-3 bg-blue-50/60 px-4 py-3.5"
+            >
+              <p className="text-sm font-bold text-slate-800">{sub.baslik}</p>
+              <ChevronDown className="ml-auto h-4 w-4 text-blue-500 transition-transform duration-200 group-open:rotate-180" />
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  copyLink(id);
+                }}
+                className="flex h-7 w-7 items-center justify-center rounded-lg border border-blue-100 bg-white text-slate-400 transition-colors hover:border-blue-300 hover:text-blue-600"
+                aria-label="Bölüm linkini kopyala"
+                title="Bölüm linkini kopyala"
+              >
+                <Link2 className="h-3.5 w-3.5" />
+              </button>
+            </summary>
+            <div className="border-t border-blue-50 sm:px-5 sm:py-4">
+              <p className="px-5 py-4 text-sm leading-relaxed text-slate-600 sm:px-0 sm:py-0">{sub.icerik}</p>
+              {sub.patients?.length ? (
+                sub.patients.map((patient, pi) => (
+                  <XrayGallery key={pi} patient={patient} />
+                ))
+              ) : null}
+            </div>
+          </details>
+        );
+      })}
     </div>
   );
 }
@@ -402,7 +471,7 @@ export default function TedaviDetayClient({
                 <div className="space-y-4">
                   {localizedTreatment.treatments.map((item, i) => (
                     <div key={i} className="rounded-xl border border-blue-100 bg-blue-50/60 p-5 transition-colors hover:border-blue-200">
-                      <div className="flex items-start gap-4">
+                      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:gap-4">
                         <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-blue-100 bg-white">
                           {item.submethods?.length ? (
                             <FolderOpen className="h-4 w-4 text-blue-600" />

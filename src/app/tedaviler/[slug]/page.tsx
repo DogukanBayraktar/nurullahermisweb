@@ -10,10 +10,21 @@ import { findTreatmentPair } from '@/lib/updateTreatmentSlugMap';
 export const revalidate = 86400;
 export const dynamic = 'force-static';
 export const dynamicParams = true;
+const isDev = process.env.NODE_ENV === 'development';
+
+// development'da DB değişiklikleri anında görünsün diye önbellek atlanır.
+function maybeCache<T extends unknown[], R>(
+  fn: (...args: T) => Promise<R>,
+  key: string[],
+  opts: { revalidate: number; tags: string[] }
+): (...args: T) => Promise<R> {
+  if (isDev) return fn;
+  return unstable_cache(fn, key, opts);
+}
 
 // treatments/[slug]/page.tsx (EN mirror) generateStaticParams'ta da
 // kullanabilsin diye export ediliyor.
-export const getAllTreatmentSlugs = unstable_cache(
+export const getAllTreatmentSlugs = maybeCache(
   async () => {
     const rows = await prisma.treatment.findMany({ select: { slug: true } });
     return new Set(rows.map((r) => r.slug));
@@ -40,7 +51,7 @@ export async function generateStaticParams() {
   }
 }
 
-const getTreatmentEn = unstable_cache(
+const getTreatmentEn = maybeCache(
   async (slug: string, normalizedOriginal: string | undefined) => {
     const candidateSlugs = [`${slug}_en`];
     if (normalizedOriginal && normalizedOriginal !== slug) {
@@ -61,7 +72,7 @@ const getTreatmentEn = unstable_cache(
   { revalidate: 86400, tags: ['treatment-detail'] }
 );
 
-const getTreatmentTr = unstable_cache(
+const getTreatmentTr = maybeCache(
   async (slug: string) => {
     return await prisma.treatment.findUnique({ where: { slug } });
   },

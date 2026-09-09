@@ -1,0 +1,35 @@
+
+> spine-surgeon-web@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.0 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://10.30.33.213:3000
+- Environments: .env.local
+✓ Ready in 2.2s
+○ Compiling proxy ...
+
+○ Compiling /tedaviler/[slug] ...
+○ Compiling /_error ...
+✓ Finished writing to filesystem cache in 22.6s
+✓ Finished filesystem cache database compaction in 19.5s
+✓ Finished filesystem cache database compaction in 14.8s
+ GET / 500 in 828ms (next.js: 462ms, proxy.ts: 273ms, application-code: 93ms)
+ GET / 500 in 97ms (next.js: 36ms, proxy.ts: 20ms, application-code: 42ms)
+✓ Compiled in 1010ms
+🌐 i18next is made possible by our own product, Locize — consider powering your project with managed localization (AI, CDN, integrations): https://locize.com 💙
+ GET / 200 in 5.0s (next.js: 401ms, proxy.ts: 71ms, application-code: 4.5s)
+ GET / 200 in 5.0s (next.js: 1672ms, proxy.ts: 76ms, application-code: 3.3s)
+ GET /tedaviler/skolyoz-kifoz-cerrahisi 200 in 3.9s (next.js: 2.5s, proxy.ts: 6ms, generate-params: 2.2s, application-code: 1385ms)
+ GET /tedaviler 200 in 1205ms (next.js: 402ms, proxy.ts: 13ms, application-code: 790ms)
+ GET /tedaviler/skolyoz-kifoz-cerrahisi 200 in 476ms (next.js: 68ms, proxy.ts: 21ms, generate-params: 27ms, application-code: 387ms)
+ GET /images/rontgen/burak-ipekci-2024.jpg 404 in 3.0s (next.js: 1052ms, proxy.ts: 91ms, application-code: 1832ms)
+ GET /images/rontgen/burak-ipekci-2020-postop.jpg 404 in 3.2s (next.js: 1059ms, proxy.ts: 95ms, application-code: 2.0s)
+ GET /images/rontgen/burak-ipekci-2021.jpg 404 in 3.2s (next.js: 886ms, proxy.ts: 96ms, application-code: 2.2s)
+ GET /images/rontgen/burak-ipekci-2020-preop.jpg 404 in 3.2s (next.js: 807ms, proxy.ts: 106ms, application-code: 2.3s)
+ GET /images/rontgen/burak-ipekci-2023.jpg 404 in 3.1s (next.js: 549ms, proxy.ts: 102ms, application-code: 2.4s)
+ GET /images/rontgen/burak-ipekci-2022.jpg 404 in 3.2s (next.js: 2.2s, proxy.ts: 130ms, application-code: 835ms)
+ GET /images/rontgen/burak-ipekci-2026.jpg 404 in 1282ms (next.js: 533ms, proxy.ts: 81ms, application-code: 669ms)
+ GET /images/rontgen/burak-ipekci-2025.jpg 404 in 1290ms (next.js: 416ms, proxy.ts: 71ms, application-code: 803ms)
+ GET /tedaviler/skolyoz-kifoz-cerrahisi 200 in 1267ms (next.js: 126ms, proxy.ts: 9ms, generate-params: 35ms, application-code: 1132ms)
+✓ Compiled in 2.6s
