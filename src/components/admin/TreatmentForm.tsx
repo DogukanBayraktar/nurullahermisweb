@@ -377,16 +377,21 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
                             className="flex items-center gap-1.5 text-xs font-bold text-blue-500 hover:text-blue-700 bg-white px-3 py-1 rounded-lg transition-all border border-slate-200">+ Görsel Ekle</button>
                         </div>
                         {sub.gallery?.map((g, gi) => (
-                          <div key={gi} className="flex gap-2 items-center">
-                            <input value={g.img}
-                              onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.map((gg, y) => y === gi ? { ...gg, img: e.target.value } : gg) } : sm) } : s) })}
-                              placeholder="/images/rontgen/..." className={inputCls} />
-                            <input value={g.caption}
-                              onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.map((gg, y) => y === gi ? { ...gg, caption: e.target.value } : gg) } : sm) } : s) })}
-                              placeholder={lang === 'tr' ? 'Açıklama (örn. 2020 ilk röntgen)' : 'Caption (e.g. 2020 first X-ray)'} className={inputCls} />
-                            <button type="button"
-                              onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.filter((_, y) => y !== gi) } : sm) } : s) })}
-                              className="text-slate-400 hover:text-red-600 p-2 transition-all"><Trash2 className="w-4 h-4" /></button>
+                          <div key={gi} className="rounded-xl border border-slate-100 bg-white p-3 space-y-3">
+                            <div className="flex items-start gap-3">
+                              <div className="w-40 shrink-0">
+                                <ImageUpload value={g.img} onChange={(url) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.map((gg, y) => y === gi ? { ...gg, img: url } : gg) } : sm) } : s) })} />
+                              </div>
+                              <div className="min-w-0 flex-1">
+                                <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Açıklama</label>
+                                <input value={g.caption}
+                                  onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.map((gg, y) => y === gi ? { ...gg, caption: e.target.value } : gg) } : sm) } : s) })}
+                                  placeholder={lang === 'tr' ? 'Açıklama (örn. 2020 ilk röntgen)' : 'Caption (e.g. 2020 first X-ray)'} className={inputCls} />
+                              </div>
+                              <button type="button"
+                                onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, gallery: sm.gallery?.filter((_, y) => y !== gi) } : sm) } : s) })}
+                                className="text-slate-400 hover:text-red-600 p-2 transition-all shrink-0"><Trash2 className="w-4 h-4" /></button>
+                            </div>
                           </div>
                         ))}
                       </div>
