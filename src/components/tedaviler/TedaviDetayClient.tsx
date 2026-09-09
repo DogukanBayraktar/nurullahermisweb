@@ -204,8 +204,8 @@ function XrayGallery({ patient }: { patient: TreatmentPatient }) {
   if (!items || items.length === 0) return null;
 
   return (
-    <div className="mt-6 rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-      <div className="mb-4 flex items-center gap-2.5">
+    <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3 sm:mt-6 sm:rounded-2xl sm:p-5">
+      <div className="mb-3 flex items-center gap-2.5 sm:mb-4">
         <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-blue-50">
           <User className="h-4 w-4 text-blue-600" />
         </div>
@@ -215,7 +215,7 @@ function XrayGallery({ patient }: { patient: TreatmentPatient }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 md:grid-cols-4">
+      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3 md:grid-cols-4">
         {items.map((item, i) => (
           <button
             key={i}
@@ -272,8 +272,8 @@ function AccordionSubMethods({ submethods }: { submethods: TreatmentSubMethod[] 
             <p className="text-sm font-bold text-slate-800">{sub.baslik}</p>
             <ChevronDown className="ml-auto h-4 w-4 text-blue-500 transition-transform duration-200 group-open:rotate-180" />
           </summary>
-          <div className="border-t border-blue-50 px-5 py-4">
-            <p className="text-sm leading-relaxed text-slate-600">{sub.icerik}</p>
+          <div className="border-t border-blue-50 sm:px-5 sm:py-4">
+            <p className="px-5 py-4 text-sm leading-relaxed text-slate-600 sm:px-0 sm:py-0">{sub.icerik}</p>
             {sub.patients?.length ? (
               sub.patients.map((patient, pi) => (
                 <XrayGallery key={pi} patient={patient} />
