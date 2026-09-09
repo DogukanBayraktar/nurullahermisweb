@@ -14,6 +14,7 @@ import {
   Scissors,
   User,
   X,
+  ZoomIn,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
@@ -29,12 +30,12 @@ interface TreatmentStat {
 
 interface TreatmentGalleryItem {
   img: string;
-  caption: string;
 }
 
 interface TreatmentPatient {
   hastaAdi: string;
-  gallery: TreatmentGalleryItem[];
+  img?: string;
+  gallery?: TreatmentGalleryItem[];
 }
 
 interface TreatmentSubMethod {
@@ -199,10 +200,10 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
 }
 
 function XrayGallery({ patient }: { patient: TreatmentPatient }) {
-  const [lightbox, setLightbox] = useState<number | null>(null);
-  const items = patient.gallery;
+  const [lightbox, setLightbox] = useState(false);
+  const img = patient.img ?? patient.gallery?.[0]?.img;
 
-  if (!items || items.length === 0) return null;
+  if (!img) return null;
 
   return (
     <div className="mt-4 rounded-xl border border-slate-200 bg-white p-3 sm:mt-6 sm:rounded-2xl sm:p-5">
@@ -216,47 +217,40 @@ function XrayGallery({ patient }: { patient: TreatmentPatient }) {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-2.5 sm:grid-cols-2 sm:gap-3 md:grid-cols-4">
-        {items.map((item, i) => (
-          <button
-            key={i}
-            onClick={() => setLightbox(i)}
-            className="group cursor-zoom-in overflow-hidden rounded-xl border border-slate-200 bg-slate-900 transition-all hover:border-blue-400"
-            aria-label={item.caption}
-          >
-            <img
-              src={item.img}
-              alt={item.caption}
-              className="aspect-[3/4] w-full object-contain sm:aspect-square"
-            />
-            <p className="border-t border-slate-200 bg-white px-3 py-2 text-center text-xs font-bold text-slate-700 transition-colors group-hover:text-blue-700">
-              {item.caption}
-            </p>
-          </button>
-        ))}
-      </div>
+      <button
+        onClick={() => setLightbox(true)}
+        className="group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-slate-200 bg-slate-900"
+      >
+        <img
+          src={img}
+          alt={patient.hastaAdi}
+          className="h-[320px] w-full object-contain sm:h-[500px]"
+        />
+        <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
+        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-slate-950/70 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm">
+          <ZoomIn className="h-3.5 w-3.5" />
+          Büyütmek için tıkla
+        </div>
+      </button>
 
-      {lightbox !== null && (
+      {lightbox && (
         <div
-          className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/90 p-4"
-          onClick={() => setLightbox(null)}
+          className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/95 p-4"
+          onClick={() => setLightbox(false)}
         >
-          <div className="relative max-h-full max-w-4xl" onClick={(e) => e.stopPropagation()}>
+          <div className="relative max-h-full max-w-5xl" onClick={(e) => e.stopPropagation()}>
             <button
-              onClick={() => setLightbox(null)}
+              onClick={() => setLightbox(false)}
               className="absolute right-2 top-2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-slate-800/80 text-white hover:bg-slate-700"
               aria-label="Kapat"
             >
               <X className="h-5 w-5" />
             </button>
             <img
-              src={items[lightbox].img}
-              alt={items[lightbox].caption}
+              src={img}
+              alt={patient.hastaAdi}
               className="max-h-[85vh] w-auto max-w-full object-contain"
             />
-            <p className="mt-3 text-center text-sm font-bold text-white">
-              {items[lightbox].caption}
-            </p>
           </div>
         </div>
       )}

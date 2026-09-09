@@ -8,8 +8,7 @@ import { canonicalTreatmentSlug } from '@/lib/routes';
 import ImageUpload from './ImageUpload';
 
 type Stat = { label: string; val: string };
-type GalleryItem = { img: string; caption: string };
-type TreatmentPatient = { hastaAdi: string; gallery: GalleryItem[] };
+type TreatmentPatient = { hastaAdi: string; img?: string };
 type TreatmentSubSection = { baslik: string; icerik: string; patients?: TreatmentPatient[] };
 type TreatmentSection = { baslik: string; icerik: string; submethods?: TreatmentSubSection[] };
 type FaqItem = { s: string; c: string };
@@ -374,7 +373,7 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
                         <div className="flex justify-between items-center">
                           <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Hasta Röntgenleri</p>
                           <button type="button"
-                            onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: [...(sm.patients ?? []), { hastaAdi: '', gallery: [] }] } : sm) } : s) })}
+                            onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: [...(sm.patients ?? []), { hastaAdi: '' }] } : sm) } : s) })}
                             className="flex items-center gap-1.5 text-xs font-bold text-blue-500 hover:text-blue-700 bg-white px-3 py-1 rounded-lg transition-all border border-slate-200">+ Hasta Ekle</button>
                         </div>
 
@@ -389,31 +388,8 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
                                 className="text-slate-400 hover:text-red-600 p-2 transition-all shrink-0"><Trash2 className="w-4 h-4" /></button>
                             </div>
 
-                            <div className="flex justify-between items-center">
-                              <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Görseller</p>
-                              <button type="button"
-                                onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: sm.patients?.map((p, y) => y === pi ? { ...p, gallery: [...(p.gallery ?? []), { img: '', caption: '' }] } : p) } : sm) } : s) })}
-                                className="flex items-center gap-1.5 text-xs font-bold text-blue-500 hover:text-blue-700 bg-white px-3 py-1 rounded-lg transition-all border border-slate-200">+ Görsel Ekle</button>
-                            </div>
-
-                            {patient.gallery?.map((g, gi) => (
-                              <div key={gi} className="rounded-xl border border-slate-100 bg-slate-50 p-3 space-y-3">
-                                <div className="flex flex-col gap-3 sm:flex-row sm:items-start">
-                                  <div className="w-full sm:w-40 sm:shrink-0">
-                                    <ImageUpload value={g.img} onChange={(url) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: sm.patients?.map((p, y) => y === pi ? { ...p, gallery: p.gallery?.map((gg, z) => z === gi ? { ...gg, img: url } : gg) } : p) } : sm) } : s) })} />
-                                  </div>
-                                  <div className="min-w-0 flex-1">
-                                    <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Açıklama</label>
-                                    <input value={g.caption}
-                                      onChange={(e) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: sm.patients?.map((p, y) => y === pi ? { ...p, gallery: p.gallery?.map((gg, z) => z === gi ? { ...gg, caption: e.target.value } : gg) } : p) } : sm) } : s) })}
-                                      placeholder={lang === 'tr' ? 'Açıklama (örn. 2020 preop)' : 'Caption (e.g. 2020 preop)'} className={inputCls} />
-                                  </div>
-                                  <button type="button"
-                                    onClick={() => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: sm.patients?.map((p, y) => y === pi ? { ...p, gallery: p.gallery?.filter((_, z) => z !== gi) } : p) } : sm) } : s) })}
-                                    className="text-slate-400 hover:text-red-600 p-2 transition-all shrink-0"><Trash2 className="w-4 h-4" /></button>
-                                </div>
-                              </div>
-                            ))}
+                            <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Röntgen Görseli</label>
+                            <ImageUpload value={patient.img ?? ''} onChange={(url) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: sm.patients?.map((p, y) => y === pi ? { ...p, img: url } : p) } : sm) } : s) })} />
                           </div>
                         ))}
                       </div>

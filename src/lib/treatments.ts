@@ -48,16 +48,7 @@ export const TREATMENTS_DATA = [
             patients: [
               {
                 hastaAdi: "Burak İpekçi",
-                gallery: [
-                  { img: "/images/rontgen/burak-ipekci-2020-preop.jpg", caption: "2020 Preop" },
-                  { img: "/images/rontgen/burak-ipekci-2020-postop.jpg", caption: "2020 Postop" },
-                  { img: "/images/rontgen/burak-ipekci-2021.jpg", caption: "2021" },
-                  { img: "/images/rontgen/burak-ipekci-2022.jpg", caption: "2022" },
-                  { img: "/images/rontgen/burak-ipekci-2023.jpg", caption: "2023" },
-                  { img: "/images/rontgen/burak-ipekci-2024.jpg", caption: "2024" },
-                  { img: "/images/rontgen/burak-ipekci-2025.jpg", caption: "2025" },
-                  { img: "/images/rontgen/burak-ipekci-2026.jpg", caption: "2026" },
-                ],
+                img: "/images/rontgen/burak-ipekci-2020-preop.jpg",
               },
             ],
           },
@@ -267,8 +258,8 @@ export const TREATMENTS_DATA = [
 
 
 type TreatmentStat = { label: string; val: string };
-type TreatmentGalleryItem = { img: string; caption: string };
-type TreatmentPatient = { hastaAdi: string; gallery: TreatmentGalleryItem[] };
+type TreatmentGalleryItem = { img: string };
+type TreatmentPatient = { hastaAdi: string; img?: string; gallery?: TreatmentGalleryItem[] };
 type TreatmentSubMethod = { baslik: string; icerik: string; patients?: TreatmentPatient[] };
 type TreatmentMethod = { baslik: string; icerik: string; submethods?: TreatmentSubMethod[] };
 type TreatmentFaq = { s: string; c: string };
@@ -330,16 +321,7 @@ export const TREATMENTS_TRANSLATIONS: Record<string, Record<string, LocalizedTre
               patients: [
                 {
                   hastaAdi: "Burak İpekçi",
-                  gallery: [
-                    { img: "/images/rontgen/burak-ipekci-2020-preop.jpg", caption: "2020 Preop" },
-                    { img: "/images/rontgen/burak-ipekci-2020-postop.jpg", caption: "2020 Postop" },
-                    { img: "/images/rontgen/burak-ipekci-2021.jpg", caption: "2021" },
-                    { img: "/images/rontgen/burak-ipekci-2022.jpg", caption: "2022" },
-                    { img: "/images/rontgen/burak-ipekci-2023.jpg", caption: "2023" },
-                    { img: "/images/rontgen/burak-ipekci-2024.jpg", caption: "2024" },
-                    { img: "/images/rontgen/burak-ipekci-2025.jpg", caption: "2025" },
-                    { img: "/images/rontgen/burak-ipekci-2026.jpg", caption: "2026" },
-                  ],
+                  img: "/images/rontgen/burak-ipekci-2020-preop.jpg",
                 },
               ],
             },
