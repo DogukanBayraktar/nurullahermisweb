@@ -8,7 +8,7 @@ import { canonicalTreatmentSlug } from '@/lib/routes';
 import ImageUpload from './ImageUpload';
 
 type Stat = { label: string; val: string };
-type TreatmentPatient = { hastaAdi: string; img?: string };
+type TreatmentPatient = { hastaAdi: string; img?: string; gallery?: any[] };
 type TreatmentSubSection = { baslik: string; icerik: string; patients?: TreatmentPatient[] };
 type TreatmentSection = { baslik: string; icerik: string; submethods?: TreatmentSubSection[] };
 type FaqItem = { s: string; c: string };
@@ -85,7 +85,7 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
           descRaw: (defaultValues.desc ?? []).join('\n\n'),
           symptomsRaw: (defaultValues.symptoms ?? []).join('\n'),
           stats: defaultValues.stats ?? [{ label: '', val: '' }],
-          treatment: defaultValues.treatment ?? [{ baslik: '', icerik: '' }],
+          treatment: (defaultValues.treatment as any) ?? [{ baslik: '', icerik: '' }],
           faq: defaultValues.faq ?? [{ s: '', c: '' }],
         }
       : {
@@ -95,7 +95,7 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
           descRaw: (defaultValues.pairDesc ?? []).join('\n\n'),
           symptomsRaw: (defaultValues.pairSymptoms ?? []).join('\n'),
           stats: defaultValues.pairStats ?? [{ label: '', val: '' }],
-          treatment: defaultValues.pairTreatment ?? [{ baslik: '', icerik: '' }],
+          treatment: (defaultValues.pairTreatment as any) ?? [{ baslik: '', icerik: '' }],
           faq: defaultValues.pairFaq ?? [{ s: '', c: '' }],
         }
   );
@@ -109,7 +109,7 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
           descRaw: (defaultValues.desc ?? []).join('\n\n'),
           symptomsRaw: (defaultValues.symptoms ?? []).join('\n'),
           stats: defaultValues.stats ?? [{ label: '', val: '' }],
-          treatment: defaultValues.treatment ?? [{ baslik: '', icerik: '' }],
+          treatment: (defaultValues.treatment as any) ?? [{ baslik: '', icerik: '' }],
           faq: defaultValues.faq ?? [{ s: '', c: '' }],
         }
       : {
@@ -119,7 +119,7 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
           descRaw: (defaultValues.pairDesc ?? []).join('\n\n'),
           symptomsRaw: (defaultValues.pairSymptoms ?? []).join('\n'),
           stats: defaultValues.pairStats ?? [{ label: '', val: '' }],
-          treatment: defaultValues.pairTreatment ?? [{ baslik: '', icerik: '' }],
+          treatment: (defaultValues.pairTreatment as any) ?? [{ baslik: '', icerik: '' }],
           faq: defaultValues.pairFaq ?? [{ s: '', c: '' }],
         }
   );
@@ -129,11 +129,16 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
     if (lang === 'tr') setTrForm((f) => ({ ...f, ...update }));
     else setEnForm((f) => ({ ...f, ...update }));
   };
+  const updateTreatmentList = (lang: 'tr' | 'en', updater: (prev: LangForm['treatment']) => LangForm['treatment']) => {
+    if (lang === 'tr') setTrForm((f) => ({ ...f, treatment: updater(f.treatment) }));
+    else setEnForm((f) => ({ ...f, treatment: updater(f.treatment) }));
+  };
 
   function buildPayload(form: LangForm, lang: 'tr' | 'en') {
     const canonical = form.slug.replace(/_tr$/, '').replace(/_en$/, '');
     return {
       slug: lang === 'tr' ? canonical : `${canonical}_en`,
+      lang,
       title: form.title,
       img,
       images: [],
@@ -389,7 +394,7 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
                             </div>
 
                             <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-1.5 ml-1">Röntgen Görseli</label>
-                            <ImageUpload value={patient.img ?? ''} onChange={(url) => setForm(lang, { treatment: getForm(lang).treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: sm.patients?.map((p, y) => y === pi ? { ...p, img: url } : p) } : sm) } : s) })} />
+                            <ImageUpload value={patient.img ?? ''} onChange={(url) => updateTreatmentList(lang, (treatment) => treatment.map((s, j) => j === i ? { ...s, submethods: s.submethods?.map((sm, x) => x === si ? { ...sm, patients: sm.patients?.map((p, y) => y === pi ? { ...p, img: url } : p) } : sm) } : s))} />
                           </div>
                         ))}
                       </div>

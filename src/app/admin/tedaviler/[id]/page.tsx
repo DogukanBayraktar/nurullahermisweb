@@ -41,7 +41,7 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
             stats: t.stats as { label: string; val: string }[],
             desc: t.desc as string[],
             symptoms: t.symptoms,
-            treatment: t.treatment as { baslik: string; icerik: string }[],
+            treatment: t.treatment as any,
             faq: t.faq as { s: string; c: string }[],
             published: t.published,
             lang: isEn ? 'en' : 'tr',
@@ -53,7 +53,7 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
             pairDesc: (pair?.desc as string[]) ?? [],
             pairSymptoms: pair?.symptoms ?? [],
             pairStats: (pair?.stats as { label: string; val: string }[]) ?? [],
-            pairTreatment: (pair?.treatment as { baslik: string; icerik: string }[]) ?? [],
+            pairTreatment: (pair?.treatment as any) ?? [],
             pairFaq: (pair?.faq as { s: string; c: string }[]) ?? [],
           }}
         />
