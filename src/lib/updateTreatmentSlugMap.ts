@@ -41,30 +41,37 @@ export async function findTreatmentPair(treatment: TreatmentLite) {
   const candidateSlugs = new Set<string>();
 
   if (targetLang === 'en') {
+    // EN kaydı: mutlaka `_en` ile bitmelidir veya lang='en' olmalı.
+    // baseSlug'ı (TR) aday yapmıyoruz — yanlış eşleşmeyi önlemek için.
     candidateSlugs.add(`${baseSlug}_en`);
-    candidateSlugs.add(baseSlug);
     const slugMap = getTreatmentSlugMap();
-    const mapped = slugMap[baseSlug];
+    const mapped = slugMap[baseSlug]; // örn. 'scoliosis-kyphosis-surgery'
     if (mapped) {
       candidateSlugs.add(`${mapped}_en`);
-      candidateSlugs.add(mapped);
+      candidateSlugs.add(mapped); // bazı EN kayıtları _en olmadan da olabilir
     }
   } else {
+    // TR kaydı: `_en` ile bitmemeli.
     candidateSlugs.add(baseSlug);
     candidateSlugs.add(`${baseSlug}_tr`);
     const reverseMap = getReverseTreatmentSlugMap();
-    const mapped = reverseMap[baseSlug];
+    const mapped = reverseMap[baseSlug]; // EN slug → TR slug
     if (mapped) {
       candidateSlugs.add(mapped);
       candidateSlugs.add(`${mapped}_tr`);
     }
   }
 
-  // 1. Slug ile ara (kendi id'si hariç)
+  // 1. Slug ile ara (kendi id'si hariç) + hedef dile göre filtrele
   const bySlug = await prisma.treatment.findFirst({
     where: {
       NOT: { id: treatment.id },
       slug: { in: Array.from(candidateSlugs) },
+      // Hedef dil doğrulaması: yanlış dil kaydıyla eşleşmeyi önle
+      OR:
+        targetLang === 'en'
+          ? [{ lang: 'en' }, { slug: { endsWith: '_en' } }]
+          : [{ lang: 'tr' }, { NOT: { slug: { endsWith: '_en' } } }],
     },
   });
 
@@ -109,10 +116,17 @@ export async function syncTreatmentPairSlugMap(treatment: TreatmentLite) {
 
 /**
  * Tedavi slug eşleşmesini SiteContent tablosunda günceller.
+ * trSlug ve enSlug aynıysa kayıt güncellenmez — bu durum geçersiz bir eşleştirme anlamına gelir.
  */
 export async function updateTreatmentSlugMapDb(trSlug: string, enSlug: string) {
   if (!trSlug || !enSlug) {
     console.warn('[updateTreatmentSlugMap] Geçersiz slug pair:', { trSlug, enSlug });
+    return;
+  }
+
+  // TR slug ve EN slug aynı olmamalı — aynıysa pair bozuk demektir, haritayı bozma
+  if (trSlug === enSlug) {
+    console.warn('[updateTreatmentSlugMap] TR ve EN slug aynı, harita güncellenmedi:', trSlug);
     return;
   }
 

@@ -38,8 +38,10 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
             id: t.id,
             slug: t.slug,
             title: t.title,
-            img: t.img,
-            images: t.images ?? [],
+            // Kapak görseli: bu kayıtta yoksa karşı dildeki eşten al
+            img: t.img || pair?.img || '',
+            // Galeri görselleri: bu kayıtta yoksa karşı dildeki eşten al
+            images: (t.images && (t.images as string[]).length > 0) ? t.images as string[] : (pair?.images as string[] ?? []),
             category: t.category,
             stats: t.stats as { label: string; val: string }[],
             desc: t.desc as string[],
@@ -58,7 +60,7 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
             pairStats: (pair?.stats as { label: string; val: string }[]) ?? [],
             pairTreatment: (pair?.treatment as any) ?? [],
             pairFaq: (pair?.faq as { s: string; c: string }[]) ?? [],
-            pairImages: pair?.images ?? [],
+            pairImages: (pair?.images as string[] ?? []),
           }}
         />
       </div>

@@ -44,8 +44,8 @@ export async function POST(req: NextRequest) {
 
     const { tr, en, shared = {} } = body;
 
-    const img = shared.img ?? '';
-    const images = Array.isArray(shared.images) ? shared.images : [];
+    const sharedImg = shared.img ?? '';
+    const sharedImages = Array.isArray(shared.images) ? shared.images : [];
     const published = shared.published ?? true;
     const sharedModified = Boolean(shared.isModified);
 
@@ -65,22 +65,34 @@ export async function POST(req: NextRequest) {
       // ─── 1. TÜRKÇE KAYIT / GÜNCELLEME ─────────────────────────────────────
       if (tr && tr.title?.trim()) {
         const canonicalSlug = stripSlugSuffix(tr.slug || tr.title);
-        const trData = {
-          title: tr.title.trim(),
-          slug: canonicalSlug,
-          category: tr.category ?? '',
-          img,
-          images,
-          published,
-          stats: tr.stats ?? [],
-          desc: tr.desc ?? [],
-          symptoms: tr.symptoms ?? [],
-          treatment: tr.treatment ?? [],
-          faq: tr.faq ?? [],
-          lang: 'tr',
-        };
 
         if (tr.id) {
+          // Mevcut kaydı önce oku — görsel alanları korumak için
+          const existing = await tx.treatment.findUnique({
+            where: { id: tr.id },
+            select: { img: true, images: true },
+          });
+
+          // shared.img boşsa mevcut DB img'yi koru; doluysa kullan
+          const resolvedImg = sharedImg || existing?.img || '';
+          // shared.images boşsa mevcut DB images'ı koru; doluysa kullan
+          const resolvedImages = sharedImages.length > 0 ? sharedImages : (existing?.images as string[] | null) ?? [];
+
+          const trData = {
+            title: tr.title.trim(),
+            slug: canonicalSlug,
+            category: tr.category ?? '',
+            img: resolvedImg,
+            images: resolvedImages,
+            published,
+            stats: tr.stats ?? [],
+            desc: tr.desc ?? [],
+            symptoms: tr.symptoms ?? [],
+            treatment: tr.treatment ?? [],
+            faq: tr.faq ?? [],
+            lang: 'tr',
+          };
+
           // Güncelleme senaryosu:
           // Eğer TR içeriği değiştirildiyse tam güncelle;
           // Değiştirilmediyse ama sadece ortak alanlar (görsel/yayın) değiştiyse metinlere DOKUNMA!
@@ -92,7 +104,7 @@ export async function POST(req: NextRequest) {
           } else if (sharedModified) {
             savedTr = await tx.treatment.update({
               where: { id: tr.id },
-              data: { img, images, published },
+              data: { img: resolvedImg, images: resolvedImages, published },
             });
           } else {
             savedTr = await tx.treatment.findUnique({ where: { id: tr.id } });
@@ -100,7 +112,20 @@ export async function POST(req: NextRequest) {
         } else {
           // Yeni TR kayıt oluşturma
           savedTr = await tx.treatment.create({
-            data: trData,
+            data: {
+              title: tr.title.trim(),
+              slug: canonicalSlug,
+              category: tr.category ?? '',
+              img: sharedImg,
+              images: sharedImages,
+              published,
+              stats: tr.stats ?? [],
+              desc: tr.desc ?? [],
+              symptoms: tr.symptoms ?? [],
+              treatment: tr.treatment ?? [],
+              faq: tr.faq ?? [],
+              lang: 'tr',
+            },
           });
         }
       }
@@ -111,22 +136,33 @@ export async function POST(req: NextRequest) {
         const cleanEnBase = stripSlugSuffix(en.slug || fallbackBaseSlug);
         const enSlug = `${cleanEnBase}_en`;
 
-        const enData = {
-          title: en.title.trim(),
-          slug: enSlug,
-          category: en.category ?? '',
-          img,
-          images,
-          published,
-          stats: en.stats ?? [],
-          desc: en.desc ?? [],
-          symptoms: en.symptoms ?? [],
-          treatment: en.treatment ?? [],
-          faq: en.faq ?? [],
-          lang: 'en',
-        };
-
         if (en.id) {
+          // Mevcut kaydı önce oku — görsel alanları korumak için
+          const existing = await tx.treatment.findUnique({
+            where: { id: en.id },
+            select: { img: true, images: true },
+          });
+
+          // shared.img boşsa mevcut DB img'yi koru; doluysa kullan
+          const resolvedImg = sharedImg || existing?.img || '';
+          // shared.images boşsa mevcut DB images'ı koru; doluysa kullan
+          const resolvedImages = sharedImages.length > 0 ? sharedImages : (existing?.images as string[] | null) ?? [];
+
+          const enData = {
+            title: en.title.trim(),
+            slug: enSlug,
+            category: en.category ?? '',
+            img: resolvedImg,
+            images: resolvedImages,
+            published,
+            stats: en.stats ?? [],
+            desc: en.desc ?? [],
+            symptoms: en.symptoms ?? [],
+            treatment: en.treatment ?? [],
+            faq: en.faq ?? [],
+            lang: 'en',
+          };
+
           // Güncelleme senaryosu:
           // Eğer EN içeriği değiştirildiyse tam güncelle;
           // Değiştirilmediyse ama sadece ortak alanlar değiştiyse EN metinlerine DOKUNMA!
@@ -138,7 +174,7 @@ export async function POST(req: NextRequest) {
           } else if (sharedModified) {
             savedEn = await tx.treatment.update({
               where: { id: en.id },
-              data: { img, images, published },
+              data: { img: resolvedImg, images: resolvedImages, published },
             });
           } else {
             savedEn = await tx.treatment.findUnique({ where: { id: en.id } });
@@ -146,7 +182,20 @@ export async function POST(req: NextRequest) {
         } else {
           // Yeni EN kayıt oluşturma
           savedEn = await tx.treatment.create({
-            data: enData,
+            data: {
+              title: en.title.trim(),
+              slug: enSlug,
+              category: en.category ?? '',
+              img: sharedImg,
+              images: sharedImages,
+              published,
+              stats: en.stats ?? [],
+              desc: en.desc ?? [],
+              symptoms: en.symptoms ?? [],
+              treatment: en.treatment ?? [],
+              faq: en.faq ?? [],
+              lang: 'en',
+            },
           });
         }
       }
