@@ -5,7 +5,7 @@ import TedaviDetayClient from '@/components/tedaviler/TedaviDetayClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
 import { loadTreatmentSlugMapFromDb } from '@/lib/routes';
-import { findTreatmentPair } from '@/lib/updateTreatmentSlugMap';
+import { findTreatmentPair, stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
 
 export const revalidate = 86400;
 export const dynamic = 'force-static';
@@ -37,13 +37,9 @@ export async function generateStaticParams() {
   try {
     const slugs = await getAllTreatmentSlugs();
     // DB'deki slug'lar '_tr' / '_en' son ekiyle tutuluyor (örn. 'xxx_tr').
-    // Gerçek TR URL'i son eksiz olduğu için (saglik-rehberi ile tutarlı
-    // şekilde) burada da temizliyoruz; aksi halde build zamanında
-    // '/tedaviler/xxx_tr' gibi hiç ziyaret edilmeyecek path'ler statik
-    // üretilirken gerçek '/tedaviler/xxx' path'i dynamicParams fallback'e
-    // düşüp her seferinde ilk istekte SSR ediliyordu.
+    // Gerçek TR URL'i son eksiz olduğu için temizliyoruz.
     const canonicalSlugs = new Set(
-      Array.from(slugs).map((slug) => slug.replace(/_tr$/, '').replace(/_en$/, ''))
+      Array.from(slugs).map((slug) => stripSlugSuffix(slug))
     );
     return Array.from(canonicalSlugs).map((slug) => ({ slug }));
   } catch {
@@ -53,20 +49,29 @@ export async function generateStaticParams() {
 
 const getTreatmentEn = maybeCache(
   async (slug: string, normalizedOriginal: string | undefined) => {
-    const candidateSlugs = [`${slug}_en`];
-    if (normalizedOriginal && normalizedOriginal !== slug) {
-      candidateSlugs.push(`${normalizedOriginal}_en`);
+    const cleanSlug = stripSlugSuffix(slug);
+    const cleanOriginal = normalizedOriginal ? stripSlugSuffix(normalizedOriginal) : undefined;
+
+    const candidateSlugs = [
+      `${cleanSlug}_en`,
+      cleanSlug,
+    ];
+    if (cleanOriginal && cleanOriginal !== cleanSlug) {
+      candidateSlugs.push(`${cleanOriginal}_en`, cleanOriginal);
     }
 
+    // İngilizce tedavi ararken: slug adaylarından biri ve (lang: 'en' veya _en ile biten)
     const found = await prisma.treatment.findFirst({
       where: {
-        OR: candidateSlugs.map((candidate) => ({ slug: candidate })),
+        slug: { in: candidateSlugs },
+        OR: [
+          { lang: 'en' },
+          { slug: { endsWith: '_en' } },
+        ],
       },
     });
 
-    if (found) return found;
-
-    return await prisma.treatment.findUnique({ where: { slug } });
+    return found;
   },
   ['treatment-detail-en'],
   { revalidate: 86400, tags: ['treatment-detail'] }
@@ -74,7 +79,18 @@ const getTreatmentEn = maybeCache(
 
 const getTreatmentTr = maybeCache(
   async (slug: string) => {
-    return await prisma.treatment.findUnique({ where: { slug } });
+    const cleanSlug = stripSlugSuffix(slug);
+    const candidateSlugs = [slug, cleanSlug, `${cleanSlug}_tr`];
+
+    // Türkçe tedavi ararken: EN kaydı olmayanları ara
+    const found = await prisma.treatment.findFirst({
+      where: {
+        slug: { in: candidateSlugs },
+        NOT: { slug: { endsWith: '_en' } },
+      },
+    });
+
+    return found;
   },
   ['treatment-detail-tr'],
   { revalidate: 86400, tags: ['treatment-detail'] }
@@ -96,13 +112,16 @@ export default async function TedaviDetayPage({
 
   try {
     if (hasDatabaseUrl) {
-     
       const knownSlugs = await getAllTreatmentSlugs();
-      const normalizedOriginal = originalSlug?.replace(/_tr$/, '').replace(/_en$/, '');
+      const normalizedOriginal = originalSlug ? stripSlugSuffix(originalSlug) : undefined;
+      const cleanSlug = stripSlugSuffix(slug);
+
       const possiblyInDb =
         knownSlugs.has(slug) ||
-        knownSlugs.has(`${slug}_en`) ||
-        (normalizedOriginal ? knownSlugs.has(`${normalizedOriginal}_en`) : false);
+        knownSlugs.has(cleanSlug) ||
+        knownSlugs.has(`${cleanSlug}_tr`) ||
+        knownSlugs.has(`${cleanSlug}_en`) ||
+        (normalizedOriginal ? knownSlugs.has(`${normalizedOriginal}_en`) || knownSlugs.has(normalizedOriginal) : false);
 
       if (possiblyInDb) {
         if (language === 'en') {
@@ -115,13 +134,13 @@ export default async function TedaviDetayPage({
         if (dbTreatment) {
           const pair = await findTreatmentPair(dbTreatment).catch(() => null);
           if (pair) {
-            alternateSlug = pair.slug.replace(/_tr$/, '').replace(/_en$/, '');
+            alternateSlug = stripSlugSuffix(pair.slug);
           }
         }
       }
     }
   } catch {
-   
+    // DB hatası durumunda yerel veriye fallback
   }
 
   if (dbTreatment) {
@@ -136,12 +155,13 @@ export default async function TedaviDetayPage({
       treatments: dbTreatment.treatment as { baslik: string; icerik: string }[],
       faq: dbTreatment.faq as { s: string; c: string }[],
     };
-    
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     return <TedaviDetayClient treatment={treatment as any} isLocal={false} alternateSlug={alternateSlug} />;
   }
 
-  const local = TREATMENTS_DATA.find((t) => t.slug === slug);
+  const cleanSlug = stripSlugSuffix(slug);
+  const local = TREATMENTS_DATA.find((t) => stripSlugSuffix(t.slug) === cleanSlug);
   if (!local) notFound();
 
   const treatment = {

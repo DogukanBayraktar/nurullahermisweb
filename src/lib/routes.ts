@@ -42,7 +42,11 @@ function normalizeTreatmentSlug(slug: string) {
   return slug.replace(/_tr$/, '').replace(/_en$/, '');
 }
 
-function getReverseTreatmentSlugMap() {
+export function getTreatmentSlugMap(): Record<string, string> {
+  return treatmentSlugMap;
+}
+
+export function getReverseTreatmentSlugMap(): Record<string, string> {
   return invertMap(treatmentSlugMap);
 }
 
@@ -139,8 +143,8 @@ export function buildArticleSlugMapFromPairs(
   pairs: { trSlug: string; enSlug: string }[]
 ) {
   pairs.forEach(({ trSlug, enSlug }) => {
-    const tr = trSlug.replace(/_tr$/, '');
-    const en = enSlug.replace(/_en$/, '');
+    const tr = trSlug.replace(/_tr$/, '').replace(/_en$/, '');
+    const en = enSlug.replace(/_tr$/, '').replace(/_en$/, '');
     if (tr && en && !articleSlugMap[tr]) {
       articleSlugMap[tr] = en;
     }

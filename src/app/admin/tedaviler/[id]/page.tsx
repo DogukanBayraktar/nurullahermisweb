@@ -5,6 +5,8 @@ import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import AdminShell from '@/components/admin/AdminShell';
 import TreatmentForm from '@/components/admin/TreatmentForm';
+import { findTreatmentPair, getTreatmentLanguage } from '@/lib/updateTreatmentSlugMap';
+import { loadTreatmentSlugMapFromDb } from '@/lib/routes';
 
 export default async function EditTreatmentPage({ params }: { params: Promise<{ id: string }> }) {
   const session = await getServerSession(authOptions);
@@ -17,12 +19,12 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
   const t = await prisma.treatment.findUnique({ where: { id } });
   if (!t) notFound();
 
-  // Karşı dil kaydını bul
-  const canonicalSlug = t.slug.replace(/_en$/, '');
-  const isEn = t.slug.endsWith('_en');
-  const pairSlug = isEn ? canonicalSlug : `${canonicalSlug}_en`;
+  // Slug haritasını yükle ve karşı dil kaydını merkezi fonksiyonla bul
+  await loadTreatmentSlugMapFromDb().catch(() => {});
+  const pair = await findTreatmentPair(t).catch(() => null);
 
-  const pair = await prisma.treatment.findUnique({ where: { slug: pairSlug } });
+  const tLang = getTreatmentLanguage(t);
+  const isEn = tLang === 'en';
 
   return (
     <AdminShell>
@@ -37,6 +39,7 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
             slug: t.slug,
             title: t.title,
             img: t.img,
+            images: t.images ?? [],
             category: t.category,
             stats: t.stats as { label: string; val: string }[],
             desc: t.desc as string[],
@@ -55,6 +58,7 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
             pairStats: (pair?.stats as { label: string; val: string }[]) ?? [],
             pairTreatment: (pair?.treatment as any) ?? [],
             pairFaq: (pair?.faq as { s: string; c: string }[]) ?? [],
+            pairImages: pair?.images ?? [],
           }}
         />
       </div>

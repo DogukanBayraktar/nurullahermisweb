@@ -1,31 +1,92 @@
 import { prisma } from './prisma';
+import { getTreatmentSlugMap, getReverseTreatmentSlugMap } from './routes';
 
-type TreatmentLite = {
+export type TreatmentLite = {
   id: number;
   slug: string;
-  lang: string;
-  img: string | null;
+  lang?: string | null;
+  img?: string | null;
 };
 
 /**
+ * Slug sonundaki '_tr' veya '_en' uzantısını güvenli ve tutarlı biçimde temizler.
+ */
+export function stripSlugSuffix(slug: string): string {
+  if (!slug) return '';
+  return slug.replace(/_tr$/, '').replace(/_en$/, '');
+}
+
+/**
+ * Tedavinin dilini öncelikle veritabanındaki `lang` alanına,
+ * geriye dönük uyumluluk için ise slug uzantısına göre belirler.
+ */
+export function getTreatmentLanguage(t: { lang?: string | null; slug?: string | null }): 'tr' | 'en' {
+  if (t.slug?.endsWith('_en')) return 'en';
+  if (t.slug?.endsWith('_tr')) return 'tr';
+  if (t.lang === 'en') return 'en';
+  return 'tr';
+}
+
+/**
  * Bir tedavinin karşı dildeki (TR<->EN) eşini bulur.
- * Eşleştirme için önce slug son ekini temizleyip kontrol ederiz,
- * bulamazsak aynı kapak görseline (img) sahip karşı dildeki kaydı ararız.
+ * Eşleştirme için:
+ * 1. Temiz slug, dil son ekleri ve treatmentSlugMap çeviri karşılıkları ile arama yapılır.
+ * 2. Bulunamazsa aynı kapak görseline (img) sahip karşı dildeki kayıt taranır.
  */
 export async function findTreatmentPair(treatment: TreatmentLite) {
-  const canonicalSlug = treatment.slug.replace(/_tr$/, '').replace(/_en$/, '');
-  const pairLang = treatment.lang === 'tr' ? 'en' : 'tr';
+  const currentLang = getTreatmentLanguage(treatment);
+  const targetLang = currentLang === 'tr' ? 'en' : 'tr';
+  const baseSlug = stripSlugSuffix(treatment.slug);
 
-  return prisma.treatment.findFirst({
+  const candidateSlugs = new Set<string>();
+
+  if (targetLang === 'en') {
+    candidateSlugs.add(`${baseSlug}_en`);
+    candidateSlugs.add(baseSlug);
+    const slugMap = getTreatmentSlugMap();
+    const mapped = slugMap[baseSlug];
+    if (mapped) {
+      candidateSlugs.add(`${mapped}_en`);
+      candidateSlugs.add(mapped);
+    }
+  } else {
+    candidateSlugs.add(baseSlug);
+    candidateSlugs.add(`${baseSlug}_tr`);
+    const reverseMap = getReverseTreatmentSlugMap();
+    const mapped = reverseMap[baseSlug];
+    if (mapped) {
+      candidateSlugs.add(mapped);
+      candidateSlugs.add(`${mapped}_tr`);
+    }
+  }
+
+  // 1. Slug ile ara (kendi id'si hariç)
+  const bySlug = await prisma.treatment.findFirst({
     where: {
-      lang: pairLang,
       NOT: { id: treatment.id },
-      OR: [
-        { slug: pairLang === 'en' ? `${canonicalSlug}_en` : canonicalSlug },
-        ...(treatment.img ? [{ img: treatment.img }] : []),
-      ],
+      slug: { in: Array.from(candidateSlugs) },
     },
   });
+
+  if (bySlug) return bySlug;
+
+  // 2. Slug ile bulunamazsa, aynı kapak görseline (img) sahip karşı dildeki kaydı ara
+  if (treatment.img) {
+    const byImg = await prisma.treatment.findFirst({
+      where: {
+        NOT: { id: treatment.id },
+        img: treatment.img,
+        OR: [
+          { lang: targetLang },
+          ...(targetLang === 'en' ? [{ slug: { endsWith: '_en' } }] : [{ NOT: { slug: { endsWith: '_en' } } }]),
+        ],
+      },
+    });
+
+    if (byImg) return byImg;
+  }
+
+  return null;
 }
 
 /**
@@ -35,11 +96,12 @@ export async function syncTreatmentPairSlugMap(treatment: TreatmentLite) {
   const pair = await findTreatmentPair(treatment);
   if (!pair) return null;
 
-  const trTreatment = treatment.lang === 'tr' ? treatment : pair;
-  const enTreatment = treatment.lang === 'en' ? treatment : pair;
+  const currentLang = getTreatmentLanguage(treatment);
+  const trTreatment = currentLang === 'tr' ? treatment : pair;
+  const enTreatment = currentLang === 'en' ? treatment : pair;
 
-  const trClean = trTreatment.slug.replace(/_tr$/, '').replace(/_en$/, '');
-  const enClean = enTreatment.slug.replace(/_tr$/, '').replace(/_en$/, '');
+  const trClean = stripSlugSuffix(trTreatment.slug);
+  const enClean = stripSlugSuffix(enTreatment.slug);
 
   await updateTreatmentSlugMapDb(trClean, enClean);
   return pair;
@@ -56,7 +118,7 @@ export async function updateTreatmentSlugMapDb(trSlug: string, enSlug: string) {
 
   try {
     const record = await prisma.siteContent.findUnique({
-      where: { filename: 'treatmentSlugMap' }
+      where: { filename: 'treatmentSlugMap' },
     });
 
     let map = (record?.content as Record<string, string>) || {};
@@ -69,8 +131,8 @@ export async function updateTreatmentSlugMapDb(trSlug: string, enSlug: string) {
         update: { content: map },
         create: {
           filename: 'treatmentSlugMap',
-          content: map
-        }
+          content: map,
+        },
       });
 
       console.log(`[updateTreatmentSlugMap] DB Güncellendi: ${trSlug} → ${enSlug}`);

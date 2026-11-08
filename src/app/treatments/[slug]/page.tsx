@@ -1,5 +1,6 @@
 import Page, { getAllTreatmentSlugs } from '../../tedaviler/[slug]/page';
 import { canonicalTreatmentSlug, localizeTreatmentSlug, loadTreatmentSlugMapFromDb } from '@/lib/routes';
+import { stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
 
 export const revalidate = 86400;
 export const dynamic = 'force-static';
@@ -10,7 +11,7 @@ export async function generateStaticParams() {
     await loadTreatmentSlugMapFromDb();
     const slugs = await getAllTreatmentSlugs();
     const canonicalSlugs = new Set(
-      Array.from(slugs).map((slug) => slug.replace(/_tr$/, '').replace(/_en$/, ''))
+      Array.from(slugs).map((slug) => stripSlugSuffix(slug))
     );
     return Array.from(canonicalSlugs).map((slug) => ({
       slug: localizeTreatmentSlug(slug, 'en'),
