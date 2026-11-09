@@ -247,6 +247,10 @@ export default function TreatmentForm({ defaultValues = {} }: TreatmentFormProps
             images,
             published,
             isModified: !isEdit || isSharedModified(),
+            // Bu admin sayfasında asıl düzenlenen kayıt hangi dil ise onu belirtir.
+            // Sunucu, kapak görseli/galeriyi karşı dilin (pair) kaydına ZORLA yazmaz;
+            // pair'in kendi görselleri varsa dokunmaz, sadece boşsa doldurur.
+            primaryLang,
           },
         }),
       });

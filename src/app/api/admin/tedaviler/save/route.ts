@@ -110,6 +110,9 @@ type SharedPayload = {
   images?: string[];
   published?: boolean;
   isModified?: boolean;
+  // Bu kaydı sunan admin sayfasında asıl düzenlenen dil ('tr' | 'en').
+  // Karşı dilin (pair) görselleri bu bilgiye göre korunur.
+  primaryLang?: 'tr' | 'en';
 };
 
 type TreatmentSaveRequest = {
@@ -129,6 +132,27 @@ export async function POST(req: NextRequest) {
     const sharedImages = Array.isArray(shared.images) ? shared.images : [];
     const published = shared.published ?? true;
     const sharedModified = Boolean(shared.isModified);
+    // Hangi dil bu admin sayfasında asıl düzenlenen kayıt (primary)?
+    // Belirtilmemişse (eski istemci/eski build) güvenli taraf: ikisini de primary
+    // kabul et ki önceki davranış bozulmasın — ama normalde TreatmentForm bunu her zaman gönderir.
+    const primaryLang = shared.primaryLang;
+
+    // Pair (karşı dil) kaydının img/images alanı için: kendi mevcut görseli varsa
+    // ASLA sharedImg/sharedImages ile ezilmez — sadece kendi görseli yoksa doldurulur.
+    // Bu, "TR sayfasını kaydedince EN'in görselleri gidiyor / tam tersi" sorununu önler.
+    function resolveImgFor(lang: 'tr' | 'en', existingImg: string | null | undefined) {
+      const isPrimary = !primaryLang || primaryLang === lang;
+      if (isPrimary) return sharedImg || existingImg || '';
+      // Pair: kendi görseli varsa dokunma, yoksa doldur.
+      return existingImg || sharedImg || '';
+    }
+    function resolveImagesFor(lang: 'tr' | 'en', existingImages: string[] | null | undefined) {
+      const isPrimary = !primaryLang || primaryLang === lang;
+      const existing = existingImages ?? [];
+      if (isPrimary) return sharedImages.length > 0 ? sharedImages : existing;
+      // Pair: kendi galerisi doluysa dokunma, boşsa doldur.
+      return existing.length > 0 ? existing : sharedImages;
+    }
 
     if ((!tr || !tr.title?.trim()) && (!en || !en.title?.trim())) {
       return NextResponse.json(
@@ -154,10 +178,9 @@ export async function POST(req: NextRequest) {
             select: { img: true, images: true },
           });
 
-          // shared.img boşsa mevcut DB img'yi koru; doluysa kullan
-          const resolvedImg = sharedImg || existing?.img || '';
-          // shared.images boşsa mevcut DB images'ı koru; doluysa kullan
-          const resolvedImages = sharedImages.length > 0 ? sharedImages : (existing?.images as string[] | null) ?? [];
+          // TR bu sayfada pair (karşı dil) ise kendi görseli asla ezilmez, sadece boşsa doldurulur.
+          const resolvedImg = resolveImgFor('tr', existing?.img);
+          const resolvedImages = resolveImagesFor('tr', existing?.images as string[] | null);
 
           const trData = {
             title: tr.title.trim(),
@@ -224,10 +247,9 @@ export async function POST(req: NextRequest) {
             select: { img: true, images: true },
           });
 
-          // shared.img boşsa mevcut DB img'yi koru; doluysa kullan
-          const resolvedImg = sharedImg || existing?.img || '';
-          // shared.images boşsa mevcut DB images'ı koru; doluysa kullan
-          const resolvedImages = sharedImages.length > 0 ? sharedImages : (existing?.images as string[] | null) ?? [];
+          // EN bu sayfada pair (karşı dil) ise kendi görseli asla ezilmez, sadece boşsa doldurulur.
+          const resolvedImg = resolveImgFor('en', existing?.img);
+          const resolvedImages = resolveImagesFor('en', existing?.images as string[] | null);
 
           // EN treatment'ına TR'deki patients img'lerini merge et
           const mergedEnTreatment = mergePatientImages(
