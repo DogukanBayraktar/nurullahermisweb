@@ -6,7 +6,7 @@ import { hasDatabaseUrl, prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
 import { loadTreatmentSlugMapFromDb } from '@/lib/routes';
 import { findTreatmentPair, stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
-import { mergePatientImages } from '@/lib/mergePatientImages';
+import { syncPatientImages } from '@/lib/mergePatientImages';
 
 export const revalidate = 86400;
 export const dynamic = 'force-static';
@@ -110,7 +110,8 @@ export default async function TedaviDetayPage({
   const { slug, originalSlug } = await params;
   let dbTreatment = null;
   let alternateSlug: string | null = null;
-  let trPairTreatment: unknown = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let trPair: any = null;
 
   try {
     if (hasDatabaseUrl) {
@@ -137,7 +138,7 @@ export default async function TedaviDetayPage({
           const pair = await findTreatmentPair(dbTreatment).catch(() => null);
           if (pair) {
             alternateSlug = stripSlugSuffix(pair.slug);
-            if (language === 'en') trPairTreatment = pair.treatment;
+            if (language === 'en') trPair = pair;
           }
         }
       }
@@ -150,15 +151,17 @@ export default async function TedaviDetayPage({
     const treatment = {
       title: dbTreatment.title,
       slug: dbTreatment.slug,
-      coverImage: dbTreatment.img,
-      images: dbTreatment.images,
+      coverImage: (language === 'en' && trPair?.img) || dbTreatment.img,
+      images: language === 'en' && trPair?.images?.length ? trPair.images : dbTreatment.images,
       stats: dbTreatment.stats as { label: string; val: string }[],
       description: dbTreatment.desc,
       symptoms: dbTreatment.symptoms,
+      // EN sayfada hasta röntgen görselleri her zaman TR kaydından gelir (TR esas alınır).
+      // Metinler EN'de kalır; DB'ye yazılmaz.
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      // EN kaydında eksik hasta/röntgen görsellerini TR eşinden tamamla (DB'ye yazmaz)
-      treatments: (language === 'en' && Array.isArray(trPairTreatment)
-        ? mergePatientImages(dbTreatment.treatment as any[], trPairTreatment as any[])
+      treatments: (language === 'en' && trPair && Array.isArray(trPair.treatment)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        ? syncPatientImages(dbTreatment.treatment as any[], trPair.treatment as any[])
         : dbTreatment.treatment) as { baslik: string; icerik: string }[],
       faq: dbTreatment.faq as { s: string; c: string }[],
     };
