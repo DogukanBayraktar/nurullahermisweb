@@ -15,11 +15,12 @@ import {
   User,
   X,
   ZoomIn,
+  Image as ImageIcon,
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useRef, useState } from 'react';
 import '@/lib/i18n';
-import { getLocalizedTreatmentDetail } from '@/lib/treatments';
+import { getLocalizedTreatmentDetail, TREATMENTS_TRANSLATIONS } from '@/lib/treatments';
 import { getLocalizedPath } from '@/lib/routes';
 import { useRouteTranslation } from '@/lib/RouteTranslationContext';
 
@@ -201,6 +202,7 @@ function ImageSlider({ images, title }: { images: string[]; title: string }) {
 
 function XrayGallery({ patient }: { patient: TreatmentPatient }) {
   const [lightbox, setLightbox] = useState(false);
+  const [imgError, setImgError] = useState(false);
   const img = patient.img ?? patient.gallery?.[0]?.img;
 
   if (!img) return null;
@@ -217,23 +219,31 @@ function XrayGallery({ patient }: { patient: TreatmentPatient }) {
         </div>
       </div>
 
-      <button
-        onClick={() => setLightbox(true)}
-        className="group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-slate-200 bg-slate-900"
-      >
-        <img
-          src={img}
-          alt={patient.hastaAdi}
-          className="h-[320px] w-full object-contain sm:h-[500px]"
-        />
-        <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
-        <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-slate-950/70 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm">
-          <ZoomIn className="h-3.5 w-3.5" />
-          Büyütmek için tıkla
+      {imgError ? (
+        <div className="flex h-48 w-full flex-col items-center justify-center rounded-xl border border-dashed border-slate-200 bg-slate-50 p-4 text-center text-slate-400">
+          <ImageIcon className="h-8 w-8 mb-2 text-slate-300" />
+          <p className="text-xs font-medium">Hasta röntgen görseli yüklenemedi veya hazırlanıyor.</p>
         </div>
-      </button>
+      ) : (
+        <button
+          onClick={() => setLightbox(true)}
+          className="group relative block w-full cursor-zoom-in overflow-hidden rounded-xl border border-slate-200 bg-slate-900"
+        >
+          <img
+            src={img}
+            alt={patient.hastaAdi}
+            onError={() => setImgError(true)}
+            className="h-[320px] w-full object-contain sm:h-[500px]"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
+          <div className="absolute bottom-3 left-1/2 flex -translate-x-1/2 items-center gap-1.5 rounded-full bg-slate-950/70 px-3 py-1.5 text-xs font-bold text-white backdrop-blur-sm">
+            <ZoomIn className="h-3.5 w-3.5" />
+            Büyütmek için tıkla
+          </div>
+        </button>
+      )}
 
-      {lightbox && (
+      {lightbox && !imgError && (
         <div
           className="fixed inset-0 z-[200] flex items-center justify-center bg-slate-950/95 p-4"
           onClick={() => setLightbox(false)}
@@ -359,7 +369,49 @@ export default function TedaviDetayClient({
   alternateSlug?: string | null;
 }) {
   const { t, i18n } = useTranslation();
-  const localizedTreatment = isLocal ? getLocalizedTreatmentDetail(treatment, i18n.language) : treatment;
+
+  // DB'den gelen EN tedavide patients[].img eksikse static çeviriden tamamla
+  function mergeStaticPatients(dbTreatment: TreatmentDetail): TreatmentDetail {
+    if (!dbTreatment.treatments?.length) return dbTreatment;
+    const lang = i18n.language.startsWith('en') ? 'en' : 'tr';
+    if (lang !== 'en') return dbTreatment;
+
+    const cleanSlug = dbTreatment.slug.replace(/_tr$/, '').replace(/_en$/, '');
+    const staticContent = TREATMENTS_TRANSLATIONS?.en?.[cleanSlug];
+    if (!staticContent?.treatment?.length) return dbTreatment;
+
+    const mergedTreatments = dbTreatment.treatments.map((method: TreatmentMethod, mi: number) => {
+      const staticMethod = staticContent.treatment[mi];
+      if (!method.submethods?.length || !staticMethod?.submethods?.length) return method;
+
+      return {
+        ...method,
+        submethods: method.submethods.map((sub: TreatmentSubMethod, si: number) => {
+          const staticSub = staticMethod.submethods?.[si];
+          if (!staticSub?.patients?.length) return sub;
+
+          // DB'deki patients yoksa veya img eksikse static'ten al
+          if (!sub.patients?.length) {
+            return { ...sub, patients: staticSub.patients };
+          }
+
+          const mergedPatients = sub.patients.map((p: TreatmentPatient, pi: number) => {
+            const sp = staticSub.patients?.[pi];
+            if (!p.img && sp?.img) return { ...p, img: sp.img };
+            return p;
+          });
+
+          return { ...sub, patients: mergedPatients };
+        }),
+      };
+    });
+
+    return { ...dbTreatment, treatments: mergedTreatments };
+  }
+
+  const localizedTreatment = isLocal
+    ? getLocalizedTreatmentDetail(treatment, i18n.language)
+    : mergeStaticPatients(treatment);
   const translationContext = useRouteTranslation();
 
   // Dil değiştirme butonunun doğru URL'e yönlendirmesi için alternatif yolları kaydet

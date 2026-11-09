@@ -72,7 +72,7 @@ export default function TedavilerList({ initialTreatments }: { initialTreatments
                         {localizedItem.title}
                       </h3>
                       {localizedItem.description?.[0] ? (
-                        <p className="mb-4 max-w-md line-clamp-2 text-sm leading-relaxed text-white/80">
+                        <p className={`mb-4 max-w-md text-sm leading-relaxed text-white/80 ${gridClass.includes('col-span-7') ? 'line-clamp-3' : 'line-clamp-2'}`}>
                           {localizedItem.description[0]}
                         </p>
                       ) : null}
