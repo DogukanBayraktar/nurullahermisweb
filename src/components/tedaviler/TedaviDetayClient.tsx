@@ -370,6 +370,30 @@ export default function TedaviDetayClient({
 }) {
   const { t, i18n } = useTranslation();
 
+  // İsim/başlık normalize eder (karşılaştırma için)
+  function normKey(s: unknown): string {
+    return String(s ?? '').trim().toLowerCase();
+  }
+
+  // Bir listede isim/başlık alanına göre eşleşen öğeyi bulur; bulunamazsa
+  // (veya isim boşsa) index'e geri döner. Index'e göre DEĞİL isme göre
+  // eşleştirme, TR/EN arasında bölüm sırası veya sayısı farklı olsa bile
+  // görsellerin yanlış bölüme karışmasını önler.
+  function findByNameOrIndex<T extends Record<string, any>>(
+    list: T[] | undefined | null,
+    nameField: string,
+    name: unknown,
+    fallbackIndex: number
+  ): T | undefined {
+    if (!Array.isArray(list)) return undefined;
+    const key = normKey(name);
+    if (key) {
+      const match = list.find((item) => normKey(item?.[nameField]) === key);
+      if (match) return match;
+    }
+    return list[fallbackIndex];
+  }
+
   // DB'den gelen EN tedavide patients[].img eksikse static çeviriden tamamla
   function mergeStaticPatients(dbTreatment: TreatmentDetail): TreatmentDetail {
     if (!dbTreatment.treatments?.length) return dbTreatment;
@@ -381,13 +405,13 @@ export default function TedaviDetayClient({
     if (!staticContent?.treatment?.length) return dbTreatment;
 
     const mergedTreatments = dbTreatment.treatments.map((method: TreatmentMethod, mi: number) => {
-      const staticMethod = staticContent.treatment[mi];
+      const staticMethod = findByNameOrIndex(staticContent.treatment, 'baslik', (method as any)?.baslik, mi);
       if (!method.submethods?.length || !staticMethod?.submethods?.length) return method;
 
       return {
         ...method,
         submethods: method.submethods.map((sub: TreatmentSubMethod, si: number) => {
-          const staticSub = staticMethod.submethods?.[si];
+          const staticSub = findByNameOrIndex(staticMethod.submethods, 'baslik', (sub as any)?.baslik, si);
           if (!staticSub?.patients?.length) return sub;
 
           // DB'deki patients yoksa veya img eksikse static'ten al
@@ -396,7 +420,7 @@ export default function TedaviDetayClient({
           }
 
           const mergedPatients = sub.patients.map((p: TreatmentPatient, pi: number) => {
-            const sp = staticSub.patients?.[pi];
+            const sp = findByNameOrIndex(staticSub.patients, 'hastaAdi', (p as any)?.hastaAdi, pi);
             if (!p.img && sp?.img) return { ...p, img: sp.img };
             return p;
           });

@@ -12,38 +12,76 @@ async function requireAdmin() {
 }
 
 /**
+ * İki metni karşılaştırma için normalize eder (boşluk/case farklarını yok sayar).
+ */
+function normKey(s: unknown): string {
+  return String(s ?? '').trim().toLowerCase();
+}
+
+/**
+ * Bir TR dizisinden (methods/submethods/patients), EN tarafındaki bir öğeyle
+ * eşleşen karşılığı bulur. Önce başlık/isim alanına (ad) göre eşleştirmeyi dener;
+ * isim boşsa veya eşleşme bulunamazsa, index'e (fallbackIndex) geri döner.
+ * Bu sayede TR ve EN'de bölüm/hasta SIRASI veya SAYISI farklı olsa bile
+ * görseller yanlış bölüme/hastaya karışmaz.
+ */
+function findByNameOrIndex<T extends Record<string, any>>(
+  list: T[] | undefined | null,
+  nameField: string,
+  name: unknown,
+  fallbackIndex: number
+): T | undefined {
+  if (!Array.isArray(list)) return undefined;
+  const key = normKey(name);
+  if (key) {
+    const match = list.find((item) => normKey(item?.[nameField]) === key);
+    if (match) return match;
+  }
+  return list[fallbackIndex];
+}
+
+/**
  * EN tedavi methods'una TR'deki patients img değerlerini merge eder.
  * EN çevirisinde hasta röntgen görselleri (patients[].img) genellikle girilmez;
- * bu fonksiyon TR'deki img değerlerini konuma göre EN'e taşır.
+ * bu fonksiyon TR'deki img değerlerini method/submethod başlığına ve hasta adına
+ * göre eşleştirerek EN'e taşır (index'e göre DEĞİL — diller arasında bölüm sırası/
+ * sayısı farklı olduğunda yanlış eşleşmeyi önlemek için).
  */
 function mergePatientImages(enTreatment: any[], trTreatment: any[]): any[] {
   if (!Array.isArray(enTreatment) || !Array.isArray(trTreatment)) return enTreatment ?? [];
 
   return enTreatment.map((enMethod, mi) => {
-    const trMethod = trTreatment[mi];
+    const trMethod = findByNameOrIndex(trTreatment, 'baslik', enMethod?.baslik, mi);
     if (!trMethod || !Array.isArray(enMethod.submethods)) return enMethod;
 
     return {
       ...enMethod,
       submethods: enMethod.submethods.map((enSub: any, si: number) => {
-        const trSub = trMethod.submethods?.[si];
+        const trSub = findByNameOrIndex(trMethod.submethods, 'baslik', enSub?.baslik, si);
         if (!trSub || !Array.isArray(trSub.patients) || trSub.patients.length === 0) return enSub;
 
-        // EN alt bölümde patients yoksa veya img eksikse TR'den al
+        // EN alt bölümde patients yoksa veya img eksikse TR'den al (hasta adına göre eşleştir)
         const mergedPatients = (enSub.patients ?? []).map((enPat: any, pi: number) => {
-          const trPat = trSub.patients?.[pi];
+          const trPat = findByNameOrIndex(trSub.patients, 'hastaAdi', enPat?.hastaAdi, pi);
           if (!enPat.img && trPat?.img) {
             return { ...enPat, img: trPat.img, gallery: trPat.gallery ?? enPat.gallery };
           }
           return enPat;
         });
 
-        // EN'de daha az hasta varsa TR'dekilerden ekle (img ile birlikte)
-        const extraPatients = trSub.patients.slice(mergedPatients.length).map((trPat: any) => ({
-          hastaAdi: trPat.hastaAdi,
-          img: trPat.img,
-          gallery: trPat.gallery,
-        }));
+        // EN'de karşılığı olmayan (isimle eşleşmeyen) TR hastalarını da ekle (img ile birlikte)
+        const usedTrNames = new Set(mergedPatients.map((p: any) => normKey(p?.hastaAdi)).filter(Boolean));
+        const extraPatients = trSub.patients
+          .filter((trPat: any) => {
+            const key = normKey(trPat?.hastaAdi);
+            return !key || !usedTrNames.has(key);
+          })
+          .slice(0, Math.max(0, trSub.patients.length - mergedPatients.length))
+          .map((trPat: any) => ({
+            hastaAdi: trPat.hastaAdi,
+            img: trPat.img,
+            gallery: trPat.gallery,
+          }));
 
         return {
           ...enSub,
