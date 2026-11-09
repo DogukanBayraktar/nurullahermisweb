@@ -4,8 +4,12 @@
 import { useState, useRef, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { CheckCircle, Info, Trash2, Plus, Image as ImageIcon } from 'lucide-react';
-import { stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
 import ImageUpload from './ImageUpload';
+
+function stripSlugSuffix(slug: string): string {
+  if (!slug) return '';
+  return slug.replace(/_tr$/, '').replace(/_en$/, '');
+}
 
 type Stat = { label: string; val: string };
 type TreatmentPatient = { hastaAdi: string; img?: string; gallery?: any[] };
