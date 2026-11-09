@@ -82,3 +82,53 @@ export function mergePatientImages(enTreatment: any[], trTreatment: any[]): any[
     };
   });
 }
+/**
+ * İKİ YÖNLÜ SENKRON: `source` (asıl düzenlenen dil) hasta görsellerini
+ * `target` (karşı dil) kaydına yazar. Source otoritedir.
+ * - Aynı isimli hastada img / gallery source'tan alınır.
+ * - Target'ta olmayan hastalar eklenir.
+ * - Target'ta olup source'ta olmayan hastalara dokunulmaz.
+ * Metinlere (baslik, icerik, hastaAdi) dokunulmaz.
+ */
+export function syncPatientImages(target: any[], source: any[]): any[] {
+  if (!Array.isArray(target) || !Array.isArray(source)) return target ?? [];
+
+  return target.map((tMethod, mi) => {
+    const sMethod = findByNameOrIndex(source, 'baslik', tMethod?.baslik, mi);
+    if (!sMethod || !Array.isArray(tMethod?.submethods)) return tMethod;
+
+    return {
+      ...tMethod,
+      submethods: tMethod.submethods.map((tSub: any, si: number) => {
+        const sSub = findByNameOrIndex(sMethod.submethods, 'baslik', tSub?.baslik, si);
+        const sPatients: any[] = Array.isArray(sSub?.patients) ? sSub.patients : [];
+        if (sPatients.length === 0) return tSub;
+
+        const tPatients: any[] = Array.isArray(tSub?.patients) ? tSub.patients : [];
+        const used = new Set<string>();
+
+        const updated = tPatients.map((tPat) => {
+          const key = normKey(tPat?.hastaAdi);
+          const sPat = key ? sPatients.find((x) => normKey(x?.hastaAdi) === key) : undefined;
+          if (!sPat) return cleanPatient(tPat);
+          used.add(key);
+          const gallery = cleanGallery(sPat.gallery);
+          const out: any = { ...tPat };
+          if (sPat.img) out.img = sPat.img;
+          if (gallery) out.gallery = gallery;
+          else delete out.gallery;
+          return out;
+        });
+
+        const added = sPatients
+          .filter((x) => {
+            const k = normKey(x?.hastaAdi);
+            return k && !used.has(k);
+          })
+          .map((x) => cleanPatient({ hastaAdi: x.hastaAdi, img: x.img, gallery: x.gallery }));
+
+        return { ...tSub, patients: [...updated, ...added] };
+      }),
+    };
+  });
+}
