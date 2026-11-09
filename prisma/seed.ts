@@ -318,6 +318,7 @@ async function main() {
         symptoms: treatment.symptoms,
         treatment: treatment.treatment,
         faq: treatment.faq,
+        lang: 'tr',
       },
       create: {
         slug: treatment.slug,
@@ -330,6 +331,8 @@ async function main() {
         symptoms: treatment.symptoms,
         treatment: treatment.treatment,
         faq: treatment.faq,
+        lang: 'tr',
+        published: true,
       },
     });
   }
@@ -351,6 +354,7 @@ async function main() {
         symptoms: content.symptoms,
         treatment: content.treatment,
         faq: content.faq,
+        lang: 'en',
       },
       create: {
         slug: `${slug}_en`,
@@ -363,6 +367,7 @@ async function main() {
         symptoms: content.symptoms,
         treatment: content.treatment,
         faq: content.faq,
+        lang: 'en',
         published: true,
       },
     });

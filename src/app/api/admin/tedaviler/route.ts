@@ -29,6 +29,9 @@ export async function POST(req: NextRequest) {
   try {
     await requireAdmin();
     const body = await req.json();
+    if (!body.lang) {
+      body.lang = body.slug?.endsWith('_en') ? 'en' : 'tr';
+    }
     const treatment = await prisma.treatment.create({ data: body });
 
     // Yeni tedavi eklenince slug eşleşmesini ve DB haritasını güncelle

@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { syncTreatmentPairSlugMap } from '@/lib/updateTreatmentSlugMap';
+import { syncTreatmentPairSlugMap, stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -39,9 +39,9 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
     // Slug eşleşmesini ve DB haritasını güncelle
     const pair = await syncTreatmentPairSlugMap(item);
 
-    const ownCanonical = item.slug.replace(/_tr$/, '').replace(/_en$/, '');
-    const trSlug = item.lang === 'tr' ? ownCanonical : pair?.slug.replace(/_tr$/, '');
-    const enSlug = item.lang === 'en' ? ownCanonical : pair?.slug.replace(/_en$/, '');
+    const ownCanonical = stripSlugSuffix(item.slug);
+    const trSlug = item.lang === 'tr' ? ownCanonical : (pair ? stripSlugSuffix(pair.slug) : undefined);
+    const enSlug = item.lang === 'en' ? ownCanonical : (pair ? stripSlugSuffix(pair.slug) : undefined);
 
     // ÖNEMLİ: Önceden burada hiç revalidate çağrısı yoktu — bir tedavi
     // güncellendiğinde detay sayfası unstable_cache'in 24 saatlik
