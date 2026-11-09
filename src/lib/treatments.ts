@@ -48,7 +48,9 @@ export const TREATMENTS_DATA = [
             patients: [
               {
                 hastaAdi: "Burak İpekçi",
-                img: "/images/rontgen/burak-ipekci-2020-preop.jpg",
+                // NOT: Buradaki görsel dosyası projede fiziksel olarak mevcut değildi,
+                // bu yüzden tarayıcıda 404 veriyordu. Admin panelinden gerçek röntgen
+                // fotoğrafı yüklenip kaydedilince burada tekrar img alanı eklenebilir.
               },
             ],
           },
@@ -321,7 +323,9 @@ export const TREATMENTS_TRANSLATIONS: Record<string, Record<string, LocalizedTre
               patients: [
                 {
                   hastaAdi: "Burak İpekçi",
-                  img: "/images/rontgen/burak-ipekci-2020-preop.jpg",
+                  // NOTE: This image file does not physically exist in the project,
+                  // which caused a 404 in the browser. Once a real x-ray photo is
+                  // uploaded and saved from the admin panel, add the img field back here.
                 },
               ],
             },
