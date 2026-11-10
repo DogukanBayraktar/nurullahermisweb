@@ -1,0 +1,33 @@
+*** Begin Patch
+*** Update File: src/app/api/admin/tedaviler/save/route.ts
+@@
+           const existing = await tx.treatment.findUnique({
+             where: { id: en.id },
+-            select: { img: true, images: true },
++            select: { img: true, images: true, treatment: true },
+           });
+@@
+           const mergedEnTreatment = mergePatientImages(
+             en.treatment ?? [],
+             savedTr?.treatment as any[] ?? tr?.treatment ?? []
+           );
++          // TR kaydı güncellendiğinde EN formunda metin değişikliği olmasa bile
++          // yeni hasta fotoğraflarını EN kaydına yaz. Aksi halde merge sonucu
++          // hesaplanıyor ancak en.isModified=false olduğu için DB'ye kaydedilmiyordu.
++          const patientImagesChanged =
++            JSON.stringify(existing?.treatment ?? []) !==
++            JSON.stringify(mergedEnTreatment);
+@@
+-          } else if (sharedModified) {
++          } else if (sharedModified || patientImagesChanged) {
+             savedEn = await tx.treatment.update({
+               where: { id: en.id },
+-              data: { img: resolvedImg, images: resolvedImages, published },
++              data: {
++                img: resolvedImg,
++                images: resolvedImages,
++                published,
++                ...(patientImagesChanged ? { treatment: mergedEnTreatment } : {}),
++              },
+             });
+*** End Patch
