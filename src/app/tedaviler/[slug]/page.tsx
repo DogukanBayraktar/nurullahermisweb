@@ -8,7 +8,18 @@ import { loadTreatmentSlugMapFromDb } from '@/lib/routes';
 import { findTreatmentPair, stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
 import { syncPatientImages } from '@/lib/mergePatientImages';
 
-export const revalidate = 86400;
+// ÖNEMLİ: Bu değer önceden 86400 (24 saat) idi. Sayfa "force-static" olduğu için
+// DB okuması bir hiçbir hatasızca başarısız olduğunda (ör. Neon'un boşta kalınca
+// uyuyan veritabanı bağlantısının ilk isteklerde zaman aşımına uğraması gibi geçici
+// bir ağ/DB sorunu) aşağıdaki catch bloğu sessizce yerel örnek veriye düşüyor ve bu
+// YANLIŞ içerik, ISR tarafından koca bir gün boyunca statik sayfa olarak
+// dondurulup sunucuda saklanıyordu. "Dün admin panelinden güncelledim, veriler
+// göründü; ertesi gün baktım gitmiş; tekrar güncelleyince geri geldi" şikayeti tam
+// olarak bu örüntüye uyuyor: gerçek veri kaybı değil, bir günlüğüne donan bozuk
+// önbellek. 86400 yerine 3600 (1 saat) kullanmak, böyle bir hiccup'ın etkisini
+// en kötü ihtimalle 1 saate indirir (bkz. aşağıdaki retry + hataları yutmama
+// değişiklikleriyle birlikte bu senaryonun hiç yaşanmaması hedeflenir).
+export const revalidate = 3600;
 export const dynamic = 'force-static';
 export const dynamicParams = true;
 const isDev = process.env.NODE_ENV === 'development';
@@ -23,15 +34,34 @@ function maybeCache<T extends unknown[], R>(
   return unstable_cache(fn, key, opts);
 }
 
+// Neon gibi "idle'da uyuyan" serverless Postgres'lerde, uzun süre istek
+// gelmeyince veritabanı bağlantısı ilk sorguda birkaç saniye gecikebilir veya
+// tek seferlik geçici bir hata fırlatabilir. Bu durumda hemen pes edip yanlış
+// bir fallback göstermek yerine kısa bir bekleme ile 1-2 kez daha deniyoruz.
+async function withRetry<T>(fn: () => Promise<T>, attempts = 3, delayMs = 400): Promise<T> {
+  let lastError: unknown;
+  for (let i = 0; i < attempts; i++) {
+    try {
+      return await fn();
+    } catch (err) {
+      lastError = err;
+      if (i < attempts - 1) {
+        await new Promise((resolve) => setTimeout(resolve, delayMs * (i + 1)));
+      }
+    }
+  }
+  throw lastError;
+}
+
 // treatments/[slug]/page.tsx (EN mirror) generateStaticParams'ta da
 // kullanabilsin diye export ediliyor.
 export const getAllTreatmentSlugs = maybeCache(
   async () => {
-    const rows = await prisma.treatment.findMany({ select: { slug: true } });
+    const rows = await withRetry(() => prisma.treatment.findMany({ select: { slug: true } }));
     return new Set(rows.map((r) => r.slug));
   },
   ['treatment-slug-allowlist'],
-  { revalidate: 86400, tags: ['treatment-slug-allowlist'] }
+  { revalidate: 3600, tags: ['treatment-slug-allowlist'] }
 );
 
 export async function generateStaticParams() {
@@ -62,20 +92,22 @@ const getTreatmentEn = maybeCache(
     }
 
     // İngilizce tedavi ararken: slug adaylarından biri ve (lang: 'en' veya _en ile biten)
-    const found = await prisma.treatment.findFirst({
-      where: {
-        slug: { in: candidateSlugs },
-        OR: [
-          { lang: 'en' },
-          { slug: { endsWith: '_en' } },
-        ],
-      },
-    });
+    const found = await withRetry(() =>
+      prisma.treatment.findFirst({
+        where: {
+          slug: { in: candidateSlugs },
+          OR: [
+            { lang: 'en' },
+            { slug: { endsWith: '_en' } },
+          ],
+        },
+      })
+    );
 
     return found;
   },
   ['treatment-detail-en'],
-  { revalidate: 86400, tags: ['treatment-detail'] }
+  { revalidate: 3600, tags: ['treatment-detail'] }
 );
 
 const getTreatmentTr = maybeCache(
@@ -84,17 +116,19 @@ const getTreatmentTr = maybeCache(
     const candidateSlugs = [slug, cleanSlug, `${cleanSlug}_tr`];
 
     // Türkçe tedavi ararken: EN kaydı olmayanları ara
-    const found = await prisma.treatment.findFirst({
-      where: {
-        slug: { in: candidateSlugs },
-        NOT: { slug: { endsWith: '_en' } },
-      },
-    });
+    const found = await withRetry(() =>
+      prisma.treatment.findFirst({
+        where: {
+          slug: { in: candidateSlugs },
+          NOT: { slug: { endsWith: '_en' } },
+        },
+      })
+    );
 
     return found;
   },
   ['treatment-detail-tr'],
-  { revalidate: 86400, tags: ['treatment-detail'] }
+  { revalidate: 3600, tags: ['treatment-detail'] }
 );
 
 export default async function TedaviDetayPage({
@@ -113,13 +147,17 @@ export default async function TedaviDetayPage({
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   let trPair: any = null;
 
+  // "Slug zaten bilinen DB kayıtları listesinde var mı" (possiblyInDb) bilgisini
+  // try/catch dışında da kullanabilmek için burada tutuyoruz.
+  let possiblyInDb = false;
+
   try {
     if (hasDatabaseUrl) {
       const knownSlugs = await getAllTreatmentSlugs();
       const normalizedOriginal = originalSlug ? stripSlugSuffix(originalSlug) : undefined;
       const cleanSlug = stripSlugSuffix(slug);
 
-      const possiblyInDb =
+      possiblyInDb =
         knownSlugs.has(slug) ||
         knownSlugs.has(cleanSlug) ||
         knownSlugs.has(`${cleanSlug}_tr`) ||
@@ -143,8 +181,23 @@ export default async function TedaviDetayPage({
         }
       }
     }
-  } catch {
-    // DB hatası durumunda yerel veriye fallback
+  } catch (err) {
+    // ÖNEMLİ DÜZELTME: Bu kayıt zaten bilinen slug listesinde (possiblyInDb) ise,
+    // yani veritabanında olması gerektiğini biliyorsak, geçici bir bağlantı
+    // hatası (ör. Neon'un uyuyan veritabanının uyanırken zaman aşımına uğraması)
+    // yüzünden boş/yerel içeriğe DÜŞMÜYORUZ. Eskiden burada hata sessizce
+    // yutuluyor ve sayfa yerel örnek veriyle (ya da hiç yoksa 404 ile) yeniden
+    // oluşturulup ISR tarafından 24 saatliğine önbelleğe yazılıyordu — yani DB'de
+    // veri dururken sitede "kaybolmuş" gibi görünüyordu. Hatayı burada tekrar
+    // fırlatmak, Next.js'in bu statik sayfayı YENİDEN OLUŞTURMAMASINA ve bir
+    // önceki (doğru) önbelleğe alınmış sürümü göstermeye devam etmesine sebep
+    // olur; bir sonraki istekte veya kısa süre sonra tekrar denenir.
+    if (possiblyInDb) {
+      console.error(`[TedaviDetayPage] DB okuma hatası (slug: ${slug}):`, err);
+      throw err;
+    }
+    // possiblyInDb false ise (slug gerçekten DB'de yok) normal şekilde devam
+    // edip aşağıdaki yerel veri / notFound() akışına düşülür.
   }
 
   if (dbTreatment) {

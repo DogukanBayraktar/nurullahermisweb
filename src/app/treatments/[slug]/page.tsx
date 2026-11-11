@@ -2,7 +2,8 @@ import Page, { getAllTreatmentSlugs } from '../../tedaviler/[slug]/page';
 import { canonicalTreatmentSlug, localizeTreatmentSlug, loadTreatmentSlugMapFromDb } from '@/lib/routes';
 import { stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
 
-export const revalidate = 86400;
+// src/app/tedaviler/[slug]/page.tsx içindeki açıklamayla aynı sebepten 3600 yapıldı.
+export const revalidate = 3600;
 export const dynamic = 'force-static';
 export const dynamicParams = true;
 

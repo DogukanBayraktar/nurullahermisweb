@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 import { revalidatePath, revalidateTag } from 'next/cache';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { stripSlugSuffix, syncTreatmentPairSlugMap } from '@/lib/updateTreatmentSlugMap';
+import { stripSlugSuffix, syncTreatmentPairSlugMap, getTreatmentLanguage } from '@/lib/updateTreatmentSlugMap';
 import { mergePatientImages } from '@/lib/mergePatientImages';
 
 async function requireAdmin() {
@@ -237,10 +237,21 @@ export async function POST(req: NextRequest) {
       return { tr: savedTr, en: savedEn };
     });
 
-    // Slug eşleşmesini ve DB haritasını asenkron güncelle
+    // Slug eşleşmesini ve DB haritasını güncelle + karşı dil (pair) kaydını al.
+    // ÖNEMLİ DÜZELTME: Önceden sadece bu istekte GÖNDERİLEN dilin (tr/en) sayfası
+    // revalidate ediliyordu. Admin sadece TR sekmesini kaydettiğinde (ör. EN
+    // formu bu sayfada yüklenmemişse `en` payload'ı hiç gönderilmiyor) EN detay
+    // sayfasının statik cache'i ASLA temizlenmiyordu ve EN tarafı değişene kadar
+    // (24 saatlik revalidate süresine kadar) eski/bozuk haliyle kalabiliyordu.
+    // Bu da kullanıcıya "TR'yi yayınlayınca EN gitti" gibi görünüyordu.
+    // Artık karşı dil kaydı bulunursa onun sayfası da her zaman revalidate edilir.
     const primaryRecord = result.tr || result.en;
+    let pairRecord: { id: number; slug: string; lang?: string | null } | null = null;
     if (primaryRecord) {
-      await syncTreatmentPairSlugMap(primaryRecord).catch(console.error);
+      pairRecord = await syncTreatmentPairSlugMap(primaryRecord).catch((err) => {
+        console.error('[POST /api/admin/tedaviler/save] syncTreatmentPairSlugMap hatası:', err);
+        return null;
+      });
     }
 
     // Önbellek temizleme (Hem TR hem EN listeleri ve detayları)
@@ -249,14 +260,17 @@ export async function POST(req: NextRequest) {
     revalidatePath('/tedaviler');
     revalidatePath('/treatments');
 
-    if (result.tr) {
-      const trSlug = stripSlugSuffix(result.tr.slug);
-      revalidatePath(`/tedaviler/${trSlug}`);
+    const trRecord =
+      result.tr ?? (pairRecord && getTreatmentLanguage(pairRecord) === 'tr' ? pairRecord : null);
+    const enRecord =
+      result.en ?? (pairRecord && getTreatmentLanguage(pairRecord) === 'en' ? pairRecord : null);
+
+    if (trRecord) {
+      revalidatePath(`/tedaviler/${stripSlugSuffix(trRecord.slug)}`);
     }
 
-    if (result.en) {
-      const enSlug = stripSlugSuffix(result.en.slug);
-      revalidatePath(`/treatments/${enSlug}`);
+    if (enRecord) {
+      revalidatePath(`/treatments/${stripSlugSuffix(enRecord.slug)}`);
     }
 
     return NextResponse.json({
