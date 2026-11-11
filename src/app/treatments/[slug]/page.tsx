@@ -1,26 +1,13 @@
-import Page, { getAllTreatmentSlugs } from '../../tedaviler/[slug]/page';
-import { canonicalTreatmentSlug, localizeTreatmentSlug, loadTreatmentSlugMapFromDb } from '@/lib/routes';
-import { stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
+// src/app/treatments/[slug]/page.tsx
+// TR detay sayfasının İngilizce aynası. Veri katmanı (force-dynamic + DB'den
+// her istekte okuma) src/app/tedaviler/[slug]/page.tsx içinde tanımlıdır.
+// Burada da aynı route config'i tekrarlanır; aksi halde Next.js bu segmenti
+// statik olarak ön-render etmeye çalışır ve eski/yanlış içerik önbelleğe donar.
+import Page from '../../tedaviler/[slug]/page';
+import { canonicalTreatmentSlug } from '@/lib/routes';
 
-// src/app/tedaviler/[slug]/page.tsx içindeki açıklamayla aynı sebepten 3600 yapıldı.
-export const revalidate = 3600;
-export const dynamic = 'force-static';
+export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
-
-export async function generateStaticParams() {
-  try {
-    await loadTreatmentSlugMapFromDb();
-    const slugs = await getAllTreatmentSlugs();
-    const canonicalSlugs = new Set(
-      Array.from(slugs).map((slug) => stripSlugSuffix(slug))
-    );
-    return Array.from(canonicalSlugs).map((slug) => ({
-      slug: localizeTreatmentSlug(slug, 'en'),
-    }));
-  } catch {
-    return [];
-  }
-}
 
 export default async function EnglishTreatmentDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const resolved = await params;

@@ -92,10 +92,10 @@ export async function POST(req: NextRequest) {
         const canonicalSlug = stripSlugSuffix(tr.slug || tr.title);
 
         if (tr.id) {
-          // Mevcut kaydı önce oku — görsel alanları korumak için
+          // Mevcut kaydı önce oku — görsel alanları ve yayın durumunu korumak için
           const existing = await tx.treatment.findUnique({
             where: { id: tr.id },
-            select: { img: true, images: true },
+            select: { img: true, images: true, published: true },
           });
 
           // TR bu sayfada pair (karşı dil) ise kendi görseli asla ezilmez, sadece boşsa doldurulur.
@@ -125,7 +125,9 @@ export async function POST(req: NextRequest) {
               where: { id: tr.id },
               data: trData,
             });
-          } else if (sharedModified) {
+          } else if (sharedModified || existing?.published !== published) {
+            // Metin değişmedi ama görsel veya "Yayında" durumu değişti.
+            // Yayın durumu tek bir checkbox ile yönetildiği için iki dile de yansıtılır.
             savedTr = await tx.treatment.update({
               where: { id: tr.id },
               data: { img: resolvedImg, images: resolvedImages, published },
@@ -161,10 +163,10 @@ export async function POST(req: NextRequest) {
         const enSlug = `${cleanEnBase}_en`;
 
         if (en.id) {
-          // Mevcut kaydı önce oku — görsel alanları korumak için
+          // Mevcut kaydı önce oku — görselleri, yayın durumunu ve hasta verisini korumak için
           const existing = await tx.treatment.findUnique({
             where: { id: en.id },
-            select: { img: true, images: true },
+            select: { img: true, images: true, treatment: true, published: true },
           });
 
           // EN bu sayfada pair (karşı dil) ise kendi görseli asla ezilmez, sadece boşsa doldurulur.
@@ -176,6 +178,13 @@ export async function POST(req: NextRequest) {
             en.treatment ?? [],
             savedTr?.treatment as any[] ?? tr?.treatment ?? []
           );
+
+          // TR kaydı güncellendiğinde EN formunda metin değişikliği olmasa bile
+          // yeni hasta fotoğraflarını EN kaydına yaz. Aksi halde merge sonucu
+          // hesaplanıyor ancak en.isModified=false olduğu için DB'ye kaydedilmiyordu.
+          const patientImagesChanged =
+            JSON.stringify(existing?.treatment ?? []) !==
+            JSON.stringify(mergedEnTreatment);
 
           const enData = {
             title: en.title.trim(),
@@ -200,10 +209,17 @@ export async function POST(req: NextRequest) {
               where: { id: en.id },
               data: enData,
             });
-          } else if (sharedModified) {
+          } else if (sharedModified || patientImagesChanged || existing?.published !== published) {
+            // EN metinleri değişmedi; ama görsel, yayın durumu veya TR'den gelen
+            // hasta fotoğrafları değişmiş olabilir. Sadece ilgili alanları yaz.
             savedEn = await tx.treatment.update({
               where: { id: en.id },
-              data: { img: resolvedImg, images: resolvedImages, published },
+              data: {
+                img: resolvedImg,
+                images: resolvedImages,
+                published,
+                ...(patientImagesChanged ? { treatment: mergedEnTreatment } : {}),
+              },
             });
           } else {
             savedEn = await tx.treatment.findUnique({ where: { id: en.id } });
@@ -257,6 +273,7 @@ export async function POST(req: NextRequest) {
     // Önbellek temizleme (Hem TR hem EN listeleri ve detayları)
     revalidateTag('treatment-detail', { expire: 0 });
     revalidateTag('treatment-slug-allowlist', { expire: 0 });
+    revalidateTag('treatments-list', { expire: 0 });
     revalidatePath('/tedaviler');
     revalidatePath('/treatments');
 

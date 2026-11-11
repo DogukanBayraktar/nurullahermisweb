@@ -50,6 +50,7 @@ export async function PUT(req: NextRequest, { params }: IdContext) {
     // temizleniyor.
     revalidateTag('treatment-detail', { expire: 0 });
     revalidateTag('treatment-slug-allowlist', { expire: 0 });
+    revalidateTag('treatments-list', { expire: 0 });
     
     if (trSlug) revalidatePath(`/tedaviler/${trSlug}`);
     revalidatePath('/tedaviler');
@@ -74,6 +75,7 @@ export async function DELETE(_req: NextRequest, { params }: IdContext) {
 
     revalidateTag('treatment-detail', { expire: 0 });
     revalidateTag('treatment-slug-allowlist', { expire: 0 });
+    revalidateTag('treatments-list', { expire: 0 });
     revalidatePath('/tedaviler');
     revalidatePath('/treatments');
 

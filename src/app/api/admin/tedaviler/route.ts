@@ -40,6 +40,7 @@ export async function POST(req: NextRequest) {
     // Yeni tedavi eklenince allow-list ve ilgili liste sayfalarının cache'i
     // temizlenmeli, aksi halde yeni slug 24 saat boyunca 404 dönebilir.
     revalidateTag('treatment-slug-allowlist', { expire: 0 });
+    revalidateTag('treatments-list', { expire: 0 });
     revalidatePath('/tedaviler');
     revalidatePath('/treatments');
 

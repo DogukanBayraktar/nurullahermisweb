@@ -15,7 +15,7 @@ const getPublishedTreatments = unstable_cache(
     });
   },
   ['treatments-published'],
-  { revalidate: 86400 }
+  { revalidate: 86400, tags: ['treatments-list'] }
 );
 
 export default async function TedavilerPage({ language = 'tr' }: { language?: 'tr' | 'en' }) {

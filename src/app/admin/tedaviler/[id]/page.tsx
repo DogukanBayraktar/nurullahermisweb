@@ -48,7 +48,10 @@ export default async function EditTreatmentPage({ params }: { params: Promise<{ 
             symptoms: t.symptoms,
             treatment: t.treatment as any,
             faq: t.faq as { s: string; c: string }[],
-            published: t.published,
+            // "Yayında" tek bir checkbox ile yönetiliyor. İki kayıttan biri
+            // yayındaysa form bunu "yayında" gösterir; kaydedince iki dil de
+            // aynı duruma getirilir (TR'de yayınla → EN de yayınlanır).
+            published: t.published || Boolean(pair?.published),
             lang: isEn ? 'en' : 'tr',
             // Karşı dil
             pairId: pair?.id,
