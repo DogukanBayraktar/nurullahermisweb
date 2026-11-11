@@ -363,10 +363,16 @@ export default function TedaviDetayClient({
   treatment,
   isLocal,
   alternateSlug,
+  trSlug,
+  enSlug,
 }: {
   treatment: TreatmentDetail;
   isLocal: boolean;
   alternateSlug?: string | null;
+  // Sunucudan gelen KANONİK (slug haritasından geçmiş) adres parçaları.
+  // Dil değiştirme butonu bunları kullanır; ham DB slug'ı (`..._en`) kullanmaz.
+  trSlug?: string | null;
+  enSlug?: string | null;
 }) {
   const { t, i18n } = useTranslation();
 
@@ -442,24 +448,22 @@ export default function TedaviDetayClient({
   useEffect(() => {
     if (!translationContext) return;
     const { setAlternatePaths } = translationContext;
-    const currentLang = i18n.language.startsWith('en') ? 'en' : 'tr';
     const displaySlug = treatment.slug.replace(/_tr$/, '').replace(/_en$/, '');
     const altSlugClean = alternateSlug ? alternateSlug.replace(/_tr$/, '').replace(/_en$/, '') : null;
 
-    if (currentLang === 'en') {
-      setAlternatePaths({
-        tr: `/tedaviler/${altSlugClean || displaySlug}`,
-        en: `/treatments/${displaySlug}`,
-      });
-    } else {
-      setAlternatePaths({
-        tr: `/tedaviler/${displaySlug}`,
-        en: `/treatments/${altSlugClean || displaySlug}`,
-      });
-    }
+    // Öncelik: sunucudan gelen kanonik slug'lar. Örn. TR slug
+    // `skolyoz-kifoz-cerrahisi` iken EN karşılığı `scoliosis-kyphosis-surgery`
+    // olmalı; DB'deki iç slug (`skolyoz-kifoz-cerrahisi_en`) değil.
+    const resolvedTr = trSlug || displaySlug;
+    const resolvedEn = enSlug || altSlugClean || displaySlug;
+
+    setAlternatePaths({
+      tr: `/tedaviler/${resolvedTr}`,
+      en: `/treatments/${resolvedEn}`,
+    });
 
     return () => setAlternatePaths(null);
-  }, [treatment.slug, alternateSlug, i18n.language, translationContext?.setAlternatePaths]);
+  }, [treatment.slug, alternateSlug, trSlug, enSlug, i18n.language, translationContext?.setAlternatePaths]);
 
   return (
     <div className="min-h-screen bg-slate-50 py-20">

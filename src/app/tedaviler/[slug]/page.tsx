@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import { TREATMENTS_DATA } from '@/lib/treatments';
 import TedaviDetayClient from '@/components/tedaviler/TedaviDetayClient';
 import { hasDatabaseUrl, prisma } from '@/lib/prisma';
-import { loadTreatmentSlugMapFromDb } from '@/lib/routes';
+import { canonicalTreatmentSlug, loadTreatmentSlugMapFromDb, localizeTreatmentSlug } from '@/lib/routes';
 import { findTreatmentPair, stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
 import { syncPatientImages } from '@/lib/mergePatientImages';
 
@@ -127,6 +127,19 @@ export default async function TedaviDetayPage({
     if (language === 'en') trPair = pair;
   }
 
+  // Dil değiştirme butonunun gideceği KANONİK adresler.
+  // DB'deki EN kaydının slug'ı `skolyoz-kifoz-cerrahisi_en` gibi olabilir; bu,
+  // kullanıcıya gösterilen/SEO'da kullanılan `scoliosis-kyphosis-surgery`
+  // adresi DEĞİLDİR. Bu yüzden adresleri slug haritasından üretiyoruz.
+  // TR kaydının slug'ı her zaman temel (canonical) slug'dır.
+  const trSlug =
+    language === 'tr'
+      ? stripSlugSuffix(dbTreatment.slug)
+      : pair
+        ? stripSlugSuffix(pair.slug)
+        : canonicalTreatmentSlug(stripSlugSuffix(dbTreatment.slug));
+  const enSlug = localizeTreatmentSlug(trSlug, 'en');
+
   const treatment = {
     title: dbTreatment.title,
     slug: dbTreatment.slug,
@@ -145,7 +158,17 @@ export default async function TedaviDetayPage({
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <TedaviDetayClient treatment={treatment as any} isLocal={false} alternateSlug={alternateSlug} />;
+  const treatmentProp = treatment as any;
+
+  return (
+    <TedaviDetayClient
+      treatment={treatmentProp}
+      isLocal={false}
+      alternateSlug={alternateSlug}
+      trSlug={trSlug}
+      enSlug={enSlug}
+    />
+  );
 }
 
 /**
@@ -170,5 +193,15 @@ function renderLocal(slug: string) {
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  return <TedaviDetayClient treatment={treatment as any} isLocal={true} alternateSlug={null} />;
+  const treatmentProp = treatment as any;
+
+  return (
+    <TedaviDetayClient
+      treatment={treatmentProp}
+      isLocal={true}
+      alternateSlug={null}
+      trSlug={cleanSlug}
+      enSlug={localizeTreatmentSlug(cleanSlug, 'en')}
+    />
+  );
 }
