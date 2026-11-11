@@ -7,27 +7,32 @@ import { ArrowLeft, ArrowRight, ArrowUpRight, Images, Play, X, ZoomIn } from 'lu
 import { useTranslation } from 'react-i18next';
 import '@/lib/i18n';
 import { FadeIn } from '@/components/ui/fade-in';
-import { getLocalizedGalleryCategories, type GalleryCategory } from '@/lib/gallery';
+import { type GalleryCategoryGroup } from '@/lib/gallery';
 import { getLocalizedPath } from '@/lib/routes';
 
 export default function GaleriPageClient({ 
   initialCategories,
   language 
 }: { 
-  initialCategories: any[];
+  initialCategories: GalleryCategoryGroup[];
   language?: string;
 }) {
   const { t, i18n } = useTranslation();
-  
+
+  // Sunucudan gelen `language` prop'u varsa (ör. /gallery) onu kullan;
+  // yoksa i18n'in aktif diline düş. Linkler SSR'da da doğru üretilsin.
+  const activeLanguage = language ?? i18n.language;
+
   const categories = useMemo(() => {
-    const isEn = i18n.language.startsWith('en');
+    const isEn = activeLanguage.startsWith('en');
     return initialCategories.map(cat => ({
       slug: cat.slug,
       title: isEn ? (cat.title_en || cat.title_tr) : cat.title_tr,
       category: isEn ? (cat.category_en || cat.category_tr) : cat.category_tr,
-      images: cat.images
+      images: cat.images,
+      treatment_slug: cat.treatment_slug,
     }));
-  }, [initialCategories, i18n.language]);
+  }, [initialCategories, activeLanguage]);
 
   const [activeImage, setActiveImage] = useState<{ categorySlug: string; imageIndex: number } | null>(null);
 
@@ -160,19 +165,21 @@ export default function GaleriPageClient({
                       <span className="rounded-full border border-blue-100 bg-white px-4 py-2 text-sm font-semibold text-slate-600">
                         {t('galleryPage.imageCount', { count: item.images.length })}
                       </span>
-                      <Link
-                        href={getLocalizedPath('treatments', i18n.language, item.slug, 'treatment')}
-                        className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-blue-700"
-                      >
-                        {t('galleryPage.viewTreatment')}
-                        <ArrowUpRight className="h-4 w-4" />
-                      </Link>
+                      {item.treatment_slug ? (
+                        <Link
+                          href={getLocalizedPath('treatments', activeLanguage, item.treatment_slug, 'treatment')}
+                          className="inline-flex items-center gap-2 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white transition-all hover:bg-blue-700"
+                        >
+                          {t('galleryPage.viewTreatment')}
+                          <ArrowUpRight className="h-4 w-4" />
+                        </Link>
+                      ) : null}
                     </div>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 md:p-5 xl:grid-cols-3">
-                  {item.images.map((image: { url: string; type?: string }, imageIndex: number) => (
+                  {item.images.map((image, imageIndex) => (
                     <button
                       type="button"
                       key={`${item.slug}-${image.url}-${imageIndex}`}
@@ -183,6 +190,8 @@ export default function GaleriPageClient({
                         <video
                           src={image.url}
                           muted
+                          preload="metadata"
+                          playsInline
                           className="aspect-[4/3] h-full w-full object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                         />
                       ) : (
@@ -275,6 +284,7 @@ export default function GaleriPageClient({
                   src={activeImageSrc}
                   controls
                   autoPlay
+                  playsInline
                   className="max-h-[75vh] w-full object-contain"
                 />
               ) : (

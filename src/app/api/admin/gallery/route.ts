@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -34,6 +34,10 @@ export async function POST(req: NextRequest) {
     const item = await prisma.galleryItem.create({ data: body });
     revalidatePath('/galeri');
     revalidatePath('/gallery');
+    // `unstable_cache` veri cache'i revalidatePath ile temizlenmez;
+    // yeni kayıt 24 saate kadar eski haliyle görünmesin diye tag'leri de at.
+    revalidateTag('gallery-items-tr', { expire: 0 });
+    revalidateTag('gallery-items-en', { expire: 0 });
     return NextResponse.json(item, { status: 201 });
   } catch (e: unknown) {
     const msg = e instanceof Error ? e.message : 'Unknown error';

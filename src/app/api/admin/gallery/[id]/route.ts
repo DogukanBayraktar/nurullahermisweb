@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
-import { revalidatePath } from 'next/cache';
+import { revalidatePath, revalidateTag } from 'next/cache';
 
 async function requireAdmin() {
   const session = await getServerSession(authOptions);
@@ -21,6 +21,8 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
     });
     revalidatePath('/galeri');
     revalidatePath('/gallery');
+    revalidateTag('gallery-items-tr', { expire: 0 });
+    revalidateTag('gallery-items-en', { expire: 0 });
     return NextResponse.json(item);
   } catch (e) {
     if (e instanceof Error && e.message === 'Unauthorized') {
@@ -39,6 +41,8 @@ export async function DELETE(req: NextRequest, { params }: { params: Promise<{ i
     await prisma.galleryItem.delete({ where: { id } });
     revalidatePath('/galeri');
     revalidatePath('/gallery');
+    revalidateTag('gallery-items-tr', { expire: 0 });
+    revalidateTag('gallery-items-en', { expire: 0 });
     return NextResponse.json({ success: true });
   } catch (e) {
     if (e instanceof Error && e.message === 'Unauthorized') {

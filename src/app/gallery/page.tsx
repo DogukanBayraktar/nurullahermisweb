@@ -1,6 +1,8 @@
 import GaleriPageClient from '@/components/galeri/GaleriPageClient';
 import { prisma } from '@/lib/prisma';
 import { unstable_cache } from 'next/cache';
+import { galleryCategorySlug, isGalleryVideoUrl, type GalleryCategoryGroup } from '@/lib/gallery';
+import { getTreatmentLanguage, stripSlugSuffix } from '@/lib/updateTreatmentSlugMap';
 
 export const revalidate = 86400;
 
@@ -14,36 +16,66 @@ const getGalleryItems = unstable_cache(
     });
   },
   ['gallery-items-en'],
-  { revalidate: 86400 }
+  { revalidate: 86400, tags: ['gallery-items-en'] }
+);
+
+/**
+ * "Tedaviyi görüntüle" butonunun 404 vermemesi için, galeri kategorisinin
+ * gerçekten yayında olan bir TR tedavisi karşılığı olup olmadığını bilmemiz
+ * gerekiyor (ör. Hallux Valgus galeride var ama tedavi kaydı yok).
+ * EN linki bu TR slug'ından slug haritasıyla üretilir.
+ */
+const getPublishedTreatmentRows = unstable_cache(
+  async () => {
+    return await prisma.treatment.findMany({
+      where: { published: true },
+      select: { slug: true, lang: true },
+    });
+  },
+  ['gallery-treatment-slugs'],
+  { revalidate: 86400, tags: ['treatments-list'] }
 );
 
 export default async function GalleryPage() {
-  const items = await getGalleryItems();
+  const [items, treatmentRows] = await Promise.all([
+    getGalleryItems(),
+    getPublishedTreatmentRows(),
+  ]);
+
+  const trTreatmentSlugs = new Set(
+    treatmentRows
+      .filter((row) => getTreatmentLanguage(row) === 'tr')
+      .map((row) => stripSlugSuffix(row.slug))
+  );
 
   // Group by category to maintain the "topic-based" structure
-  const categoriesMap: Record<string, any> = {};
+  const categoriesMap: Record<string, GalleryCategoryGroup> = {};
 
   items.forEach(item => {
-    const slug = (item.category_en || item.category_tr).toLowerCase()
-      .replace(/&/g, '')
-      .replace(/\s+/g, '-')
-      .replace(/-+/g, '-')
-      .trim();
+    const slug = galleryCategorySlug(item.category_en || item.category_tr);
+    if (!slug) return;
 
     if (!categoriesMap[slug]) {
+      const trSlug = galleryCategorySlug(item.category_tr);
       categoriesMap[slug] = {
         slug: slug,
         title_tr: item.category_tr,
         title_en: item.category_en,
         category_tr: item.category_tr,
         category_en: item.category_en,
-        images: []
+        images: [],
+        treatment_slug: trTreatmentSlugs.has(trSlug) ? trSlug : null,
       };
     }
-    categoriesMap[slug].images.push({ url: item.img, type: 'image' });
+    // Video dosyaları `next/image` ile sunulamaz (optimizer 400 döner);
+    // bu yüzden türü uzantıdan belirliyoruz.
+    categoriesMap[slug].images.push({
+      url: item.img,
+      type: isGalleryVideoUrl(item.img) ? 'video' : 'image',
+    });
   });
 
-  const categories = Object.values(categoriesMap);
+  const categories: GalleryCategoryGroup[] = Object.values(categoriesMap);
 
-  return <GaleriPageClient initialCategories={categories as any} language="en" />;
+  return <GaleriPageClient initialCategories={categories} language="en" />;
 }
